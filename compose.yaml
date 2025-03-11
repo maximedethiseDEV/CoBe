@@ -1,0 +1,67 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgresql
+    environment:
+      POSTGRES_DB: beco
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - beco-network
+    restart: always
+
+  api:
+    image: beco-api
+    container_name: spring
+    build:
+      context: ./api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/beco
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - "9000:8080"
+    depends_on:
+      - db
+    networks:
+      - beco-network
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - beco-network
+    restart: always
+
+  # Nouveau service NGINX pour l'application Angular
+  spa:
+    build:
+      context: ./spa
+      dockerfile: Dockerfile
+    container_name: angular
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    networks:
+      - beco-network
+    restart: always
+
+networks:
+  beco-network:
+    driver: bridge
+
+volumes:
+  pg_data:
