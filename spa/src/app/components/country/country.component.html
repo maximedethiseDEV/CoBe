@@ -1,0 +1,12 @@
+<div *ngIf="countries.length > 0">
+    <h2>Countries</h2>
+    <p>Here is the list of countries</p>
+    <ul>
+      <li *ngFor="let country of countries">
+        {{ country.countryId }} - {{ country.countryName }}
+        <button (click)="viewCountry(country)">View</button>
+        <button (click)="editCountry(country)">Edit</button>
+        <button (click)="deleteCountry(country.id)">Delete</button>
+      </li>
+    </ul>
+  </div>

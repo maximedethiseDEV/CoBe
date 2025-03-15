@@ -20,5 +20,4 @@ public class ConstructionSite {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
-
 }
