@@ -15,6 +15,10 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/${dataType}`);
   }
 
+  getDataById(dataType: string, id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/${dataType}/${id}`);
+  }
+
   postData(dataType: string, data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/${dataType}`, data);
   }
@@ -26,11 +30,6 @@ export class ApiService {
   deleteData(dataType: string, id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${dataType}/${id}`);
   }
-
-  getOneData(dataType: string, id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${dataType}/${id}`);
-  }
-
 
 
   getFilterData(filter: string): Observable<any> {

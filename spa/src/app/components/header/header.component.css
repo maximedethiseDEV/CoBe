@@ -1,0 +1,90 @@
+/* Style général du header */
+header {
+    background-color: #2c3e50;
+    padding: 16px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Conteneur principal */
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  
+  /* Logo */
+  .logo a {
+    color: #ecf0f1;
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  /* Navigation */
+  nav {
+    display: flex;
+    gap: 16px;
+  }
+  
+  nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  nav a:hover,
+  nav a.active {
+    background-color: #34495e;
+  }
+  
+  /* Actions (boutons) */
+  .actions button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    margin-left: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .actions button:hover {
+    background-color: #2980b9;
+  }
+  
+  .actions button:nth-child(2) {
+    background-color: #e74c3c;
+  }
+  
+  .actions button:nth-child(2):hover {
+    background-color: #c0392b;
+  }
+  
+  /* Adaptation responsive */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    nav {
+      justify-content: center;
+    }
+  
+    .actions button {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  
