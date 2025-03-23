@@ -5,15 +5,11 @@
         <a routerLink="/">BeCo</a>
       </div>
 
-      <nav>
-        <a routerLink="/dashboard" routerLinkActive="active">Accueil</a>
-        <a routerLink="/order" routerLinkActive="active">Commande</a>
-        <a routerLink="/planning" routerLinkActive="active">Planning</a>
-      </nav>
+      <app-navbar />
 
       <div class="actions">
-        <button (click)="onLogin()">Login</button>
-        <button (click)="onSignUp()">Sign Up</button>
+        <button (click)="onLogin()">Se connecter</button>
+        <button (click)="onSignUp()">S'enregistrer</button>
       </div>
 
     </div>

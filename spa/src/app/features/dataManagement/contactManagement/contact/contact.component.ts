@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Contact } from '../../models/contact.model';
-import { ApiService } from '../../../core/services/api/api.service';
+import { Contact } from './contact.model';
+import { ApiService } from '../../../../core/services/api/api.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,7 +17,7 @@ export class ContactComponent implements OnInit {
   selectedContact: Contact | null = null;
   showAddContactForm: boolean = false;
   newContact: Contact = {
-    contactId: undefined, // Assurez-vous que l'ID n'est pas défini
+    contactId: undefined,
     lastName: '',
     firstName: '',
     email: '',
@@ -30,6 +30,7 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
     this.apiService.getData("contacts").subscribe(
       response => {
+        console.log('Contacts récupérés depuis l\'API :', response);
         this.contacts = response;
       },
       error => {

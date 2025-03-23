@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Importer FormsModule
 import { CommonModule } from '@angular/common'; // Importer CommonModule si nécessaire
-import { ApiService } from '../../services/api/api.service';
+import { ApiService } from '../../core/services/api/api.service';
 
 @Component({
   selector: 'app-register',
