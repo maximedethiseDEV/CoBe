@@ -1,0 +1,37 @@
+<div *ngIf="contacts.length > 0">
+  <h2>Liste des contacts <button class="add" (click)="showAddContactForm = !showAddContactForm">+</button></h2>
+  
+  <div *ngIf="showAddContactForm" class="add-contact-form">
+    <h3>Ajouter un contact</h3>
+    <form (ngSubmit)="addContact()">
+      <label for="lastName">Nom:</label>
+      <input type="text" id="lastName" [(ngModel)]="newContact.lastName" name="lastName" required>
+      
+      <label for="firstName">Prénom:</label>
+      <input type="text" id="firstName" [(ngModel)]="newContact.firstName" name="firstName" required>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="newContact.email" name="email" required>
+      
+      <label for="phone">Téléphone:</label>
+      <input type="text" id="phone" [(ngModel)]="newContact.phone" name="phone" required>
+      
+      <label for="role">Rôle:</label>
+      <input type="text" id="role" [(ngModel)]="newContact.role" name="role" required>
+      
+      <button class="add" type="submit">Ajouter</button>
+    </form>
+  </div>
+  
+  <ul>
+    <li *ngFor="let contact of contacts" (click)="toggleContactDetails(contact.contactId)" [class.selected]="selectedContactId === contact.contactId">
+      {{ contact.lastName }} {{ contact.firstName }} - {{ contact.role }}
+      <div *ngIf="selectedContactId === contact.contactId && selectedContact" class="contact-details">
+        <p><strong>Email:</strong> {{ selectedContact.email }}</p>
+        <p><strong>Téléphone:</strong> {{ selectedContact.phone }}</p>
+        <button class="edit" (click)="editContact(contact); $event.stopPropagation()">Edit</button>
+        <button class="delete" (click)="deleteContact(contact.contactId); $event.stopPropagation()">Delete</button>
+      </div>
+    </li>
+  </ul>
+</div>

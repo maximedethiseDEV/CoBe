@@ -1,10 +1,20 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { CountryComponent } from './components/country/country.component';
+import {RegisterComponent} from './components/register/register.component';
+import {LandingPageComponent} from './components/landing-page/landing-page.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
 
 
 export const appRoutes: Routes = [
-    { path: '', component: AppComponent },
-    { path: 'country', component: CountryComponent },
-    { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '',
+    title: 'Welcome',
+    component : LandingPageComponent
+  },
+  { path: 'register',
+    title: 'Sign up',
+    component: RegisterComponent
+  },
+  { path: 'dashboard',
+    title: 'Dashboard',
+    component: DashboardComponent
+  }
 ];

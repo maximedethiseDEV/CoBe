@@ -1,0 +1,170 @@
+/* Style global du conteneur */
+div {
+  background-color: #f4f4f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+/* Style du titre */
+h2 {
+  color: #2c3e50;
+  font-size: 24px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 8px;
+}
+
+/* Style du formulaire d'ajout de contact */
+.add-contact-form {
+  background-color: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+}
+
+.add-contact-form h3 {
+  margin-top: 0;
+}
+
+.add-contact-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.add-contact-form input {
+  width: calc(100% - 24px);
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-contact-form button {
+  background-color: #54b14f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-contact-form button:hover {
+  background-color: #1d9825;
+}
+
+/* Style du paragraphe */
+p {
+  color: #7f8c8d;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+/* Style de la liste */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background-color: #ffffff;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Style du contact sélectionné */
+li.selected {
+  background-color: #e0e0e0; /* Couleur légèrement plus foncée */
+}
+
+/* Style des boutons */
+button {
+  margin-left: 8px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+/* Style du bouton Edit */
+button.edit {
+  background-color: #f39c12;
+  color: white;
+}
+
+button.edit:hover {
+  background-color: #e67e22;
+}
+
+/* Style du bouton Delete */
+button.delete {
+  background-color: #e74c3c;
+  color: white;
+}
+
+button.delete:hover {
+  background-color: #c0392b;
+}
+
+/* Style du bouton Ajout */
+button.add {
+  background-color: #8fcb8b;
+  color: white;
+}
+
+button.add:hover {
+  background-color: #1d9825;
+}
+
+.add-contact-form {
+  background-color: #e0e0e0;
+}
+
+/* Style des détails du contact */
+.contact-details {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #ecf0f1;
+}
+
+/* Adaptation responsive */
+@media (max-width: 480px) {
+  div {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  li {
+    padding: 10px;
+  }
+
+  button {
+    padding: 4px 8px;
+  }
+}

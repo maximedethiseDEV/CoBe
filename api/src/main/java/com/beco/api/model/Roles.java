@@ -1,4 +1,9 @@
 package com.beco.api.model;
 
-public class Roles {
+public final class Roles {
+
+    public static final String USER = "USER";
+
+    private Roles() {
+    }
 }

@@ -103,12 +103,12 @@ INSERT INTO "company" ("name", "primary_contact_id", "address_id", "attachment_p
                                                                                                                  ('Constructions Urbaines', 10, 10, '/attachments/cu_docs.pdf', 'Client en croissance', TRUE);
 
 -- Insertion des utilisateurs
-INSERT INTO "user" ("username", "password_hash", "contact_id") VALUES
-                                                                   ('jdupont', '$2a$12$Qw5XJH0V1c.VCGlBGYV.a.9m0.RYUtLNb1k4HUOv1Tx2kp8CjAC4y', 1),
-                                                                   ('smartin', '$2a$12$ZXd89JkWeAj.HITpH5bfwua80FNqS9KHw9DHUzZE9rwQxwC49EjuK', 2),
-                                                                   ('pdubois', '$2a$12$dR5.HWdI3LCB.q01.QS7e.uY9aU5mVvZgLBGgQYe.gAAvr32gBX2a', 3),
-                                                                   ('mlambert', '$2a$12$kI8i3.1pj2dyUQcLG.qQbuNHBc9MaS2jXfD9L7Q5KpGo3UTZw9oty', 4),
-                                                                   ('tleroy', '$2a$12$YH2mLYK17szS8AH.3Ajcce0BLv.r3HsSv5zVSxBLZS8cjrKfR3ILK', 5);
+INSERT INTO "dbuser" ("username","password_hash", "contact_id","role") VALUES
+                                                                   ('jdupont', '$2a$12$Qw5XJH0V1c.VCGlBGYV.a.9m0.RYUtLNb1k4HUOv1Tx2kp8CjAC4y', 1, 'USER'),
+                                                                   ('smartin', '$2a$12$ZXd89JkWeAj.HITpH5bfwua80FNqS9KHw9DHUzZE9rwQxwC49EjuK', 2, 'USER'),
+                                                                   ('pdubois', '$2a$12$dR5.HWdI3LCB.q01.QS7e.uY9aU5mVvZgLBGgQYe.gAAvr32gBX2a', 3, 'USER'),
+                                                                   ('mlambert', '$2a$12$kI8i3.1pj2dyUQcLG.qQbuNHBc9MaS2jXfD9L7Q5KpGo3UTZw9oty', 4, 'USER'),
+                                                                   ('tleroy', '$2a$12$YH2mLYK17szS8AH.3Ajcce0BLv.r3HsSv5zVSxBLZS8cjrKfR3ILK', 5, 'USER');
 
 -- Insertion des fournisseurs de transport
 INSERT INTO "transport_supplier" ("company_id", "license_number") VALUES

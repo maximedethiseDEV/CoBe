@@ -4,7 +4,7 @@ header {
     padding: 16px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   /* Conteneur principal */
   .container {
     display: flex;
@@ -14,22 +14,21 @@ header {
     margin: 0 auto;
     padding: 0 16px;
   }
-  
+
   /* Logo */
   .logo a {
     color: #ecf0f1;
-    font-family: 'Arial', sans-serif;
     font-size: 24px;
     font-weight: bold;
     text-decoration: none;
   }
-  
+
   /* Navigation */
   nav {
     display: flex;
     gap: 16px;
   }
-  
+
   nav a {
     color: #ecf0f1;
     text-decoration: none;
@@ -39,12 +38,12 @@ header {
     border-radius: 6px;
     transition: background-color 0.2s ease-in-out;
   }
-  
+
   nav a:hover,
   nav a.active {
     background-color: #34495e;
   }
-  
+
   /* Actions (boutons) */
   .actions button {
     background-color: #3498db;
@@ -58,33 +57,32 @@ header {
     font-weight: 500;
     transition: background-color 0.2s ease-in-out;
   }
-  
+
   .actions button:hover {
     background-color: #2980b9;
   }
-  
+
   .actions button:nth-child(2) {
     background-color: #e74c3c;
   }
-  
+
   .actions button:nth-child(2):hover {
     background-color: #c0392b;
   }
-  
+
   /* Adaptation responsive */
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
       gap: 12px;
     }
-  
+
     nav {
       justify-content: center;
     }
-  
+
     .actions button {
       width: 100%;
       margin-left: 0;
     }
   }
-  

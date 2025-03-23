@@ -53,11 +53,12 @@ CREATE TABLE IF NOT EXISTS "company" (
 CREATE INDEX "idx_company_name" ON "company" ("name");
 
 -- User table (previously Utilisateur)
-CREATE TABLE IF NOT EXISTS "user" (
+CREATE TABLE IF NOT EXISTS "dbuser" (
                         "user_id" SERIAL PRIMARY KEY,
                         "username" VARCHAR(255) NOT NULL,
                         "password_hash" VARCHAR(255) NOT NULL,
                         "contact_id" INTEGER,
+                        "role" VARCHAR(50),
                         CONSTRAINT "uq_user_username" UNIQUE ("username"),
                         CONSTRAINT "fk_user_contact" FOREIGN KEY ("contact_id") REFERENCES "contact"("contact_id") ON DELETE SET NULL
 );

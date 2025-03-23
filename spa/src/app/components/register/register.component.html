@@ -1,0 +1,23 @@
+<div class="register-form">
+  <h2>Créer un compte</h2>
+  
+  <!-- Message de succès -->
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+  
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <form (ngSubmit)="registerUser()">
+    <label for="username">Nom d'utilisateur:</label>
+    <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required>
+
+    <label for="password">Mot de passe:</label>
+    <input type="password" id="password" [(ngModel)]="newUser.passwordHash" name="password" required>
+
+    <button type="submit">S'enregistrer</button>
+  </form>
+</div>
