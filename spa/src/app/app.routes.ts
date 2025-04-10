@@ -25,10 +25,12 @@ export const appRoutes: Routes = [
     title: 'Dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
+    data: { role: 'USER' },
   },
   { path: 'contact',
     title: 'Contact',
     component: ContactListComponent,
     canActivate: [AuthGuard],
+    data: { role: 'USER' },
   }
 ];

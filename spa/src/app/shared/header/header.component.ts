@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Router} from '@angular/router';
 import { RouterLink } from '@angular/router';
 import {NavbarComponent} from '../navbar/navbar.component';
+import { AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ import {NavbarComponent} from '../navbar/navbar.component';
 })
 export class HeaderComponent {
 
-  constructor(private router: Router) {
+  constructor(private authService: AuthService ,private router: Router) {
   }
 
   onLogin():void {
@@ -23,6 +24,11 @@ export class HeaderComponent {
 
   onSignUp():void {
     this.router.navigate(['/register']);
+  }
+
+  onLogout():void {
+    this.authService.logout();
+    this.router.navigateByUrl('login');
   }
 
 }
