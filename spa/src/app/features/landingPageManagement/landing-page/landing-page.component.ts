@@ -13,7 +13,10 @@ export class LandingPageComponent {
   }
 
   onSignUp():void {
-    this.router.navigate(['/register']);
+    this.router.navigateByUrl('register');
   }
 
+  onSignIn():void {
+    this.router.navigateByUrl('login');
+  }
 }

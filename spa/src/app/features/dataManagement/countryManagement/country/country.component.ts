@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Country } from '../country.model';
-import { ApiService } from '../../../../core/services/api/api.service';
+import { ApiService } from '../../../../api/api.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

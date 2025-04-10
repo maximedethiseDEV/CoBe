@@ -4,6 +4,7 @@ import {LandingPageComponent} from './features/landingPageManagement/landing-pag
 import {DashboardComponent} from './features/dashBoardManagement/dashboard/dashboard.component';
 import {ContactListComponent} from './features/dataManagement/contactManagement/contact-list/contact-list.component';
 import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './auth/auth-guard.service';
 
 
 export const appRoutes: Routes = [
@@ -12,20 +13,22 @@ export const appRoutes: Routes = [
     component : LandingPageComponent
   },
   { path: 'register',
-    title: 'Sign up',
+    title: "S'enregistrer",
     component: RegisterComponent
   },
   {
     path: 'login',
-    title: 'Sign in',
+    title: 'Se connecter',
     component: LoginComponent
   },
   { path: 'dashboard',
     title: 'Dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
   },
   { path: 'contact',
     title: 'Contact',
-    component: ContactListComponent
+    component: ContactListComponent,
+    canActivate: [AuthGuard],
   }
 ];

@@ -29,9 +29,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(user.getUsername(), user.getPasswordHash(), getGrantedAuthorities(user.getRole()));
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(String role) {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+    private List<GrantedAuthority> getGrantedAuthorities(String roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        String[] roleArray = roles.split(",");
+        for (String role : roleArray) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.trim()));
+        }
+
         return authorities;
     }
 }

@@ -7,28 +7,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.Collectors;
+
 @RestController
 public class LoginController {
 
-    private JWTService jwtService;
+    private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public LoginController(JWTService jwtService, AuthenticationManager authenticationManager) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
-
-    /*
-    @PostMapping("/login")
-    public String getToken(Authentication authentication) {
-        String token = jwtService.generateToken(authentication);
-        return token;
-    }
-    */
 
     @PostMapping("/login")
     public ResponseEntity<JWTResponse> getToken(@RequestBody LoginRequest loginRequest) {
@@ -41,8 +36,12 @@ public class LoginController {
 
         String token = jwtService.generateToken(authentication);
 
-        return ResponseEntity.ok(new JWTResponse(token));
+        // Récupérer les rôles de l'utilisateur
+        String roles = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        // Retourner le token et les rôles
+        return ResponseEntity.ok(new JWTResponse(token, roles));
     }
-
-
 }

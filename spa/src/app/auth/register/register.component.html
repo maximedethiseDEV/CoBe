@@ -11,13 +11,23 @@
     {{ errorMessage }}
   </div>
 
-  <form (ngSubmit)="registerUser()">
+  <form #registerForm="ngForm" (ngSubmit)="registerUser()" novalidate>
     <label for="username">Nom d'utilisateur:</label>
-    <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required>
+    <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required minlength="3" #username="ngModel"
+    />
+    <div *ngIf="username.invalid && username.touched" class="error-message">
+      <small *ngIf="username.errors?.['required']">Le nom d'utilisateur est requis.</small>
+      <small *ngIf="username.errors?.['minlength']">Le nom d'utilisateur doit contenir au moins 3 caractères.</small>
+    </div>
 
     <label for="password">Mot de passe:</label>
-    <input type="password" id="password" [(ngModel)]="newUser.passwordHash" name="password" required>
+    <input type="password" id="password" [(ngModel)]="newUser.passwordHash" name="password" required minlength="6" #password="ngModel"
+    />
+    <div *ngIf="password.invalid && password.touched" class="error-message">
+      <small *ngIf="password.errors?.['required']">Le mot de passe est requis.</small>
+      <small *ngIf="password.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères.</small>
+    </div>
 
-    <button type="submit">Valider</button>
+    <button type="submit" [disabled]="registerForm.invalid">S'enregistrer</button>
   </form>
 </div>

@@ -1,6 +1,8 @@
 package com.beco.api.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -13,9 +15,13 @@ public class DBUser {
     @Column(name = "user_id")
     private Long userId;
 
+    @NotBlank(message = "Le nom d'utilisateur est requis.")
+    @Size(min = 3, message = "Le nom d'utilisateur doit contenir au moins 3 caractères.")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @NotBlank(message = "Le mot de passe est requis.")
+    @Size(min = 6, message = "Le mot de passe doit contenir au moins 6 caractères.")
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 

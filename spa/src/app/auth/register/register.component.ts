@@ -1,54 +1,65 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Importer FormsModule
-import { CommonModule } from '@angular/common'; // Importer CommonModule si nécessaire
-import { ApiService } from '../../core/services/api/api.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ApiService } from '../../api/api.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule], // Ajouter FormsModule ici
+  imports: [CommonModule, FormsModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+
   newUser = {
     username: '',
     passwordHash: '',
-    role: 'USER',
+    role: null,
     contact: null
   };
 
-  successMessage: string | null = null; // Message de succès
-  errorMessage: string | null = null;   // Message d'erreur
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
   constructor(private apiService: ApiService) {}
 
   registerUser() {
-    this.successMessage = null; // Réinitialiser les messages
+    this.successMessage = null;
     this.errorMessage = null;
+
+    // Vérification supplémentaire côté frontend
+    if (!this.newUser.username || this.newUser.username.length < 3) {
+      this.errorMessage = 'Le nom d\'utilisateur doit contenir au moins 3 caractères.';
+      return;
+    }
+
+    if (!this.newUser.passwordHash || this.newUser.passwordHash.length < 6) {
+      this.errorMessage = 'Le mot de passe doit contenir au moins 6 caractères.';
+      return;
+    }
 
     this.apiService.postData('register', this.newUser).subscribe(
       response => {
-        // Vérifiez si la réponse contient les données attendues
-        if (response && response.data) {
-          console.log('Utilisateur enregistré avec succès', response);
-          this.successMessage = 'Utilisateur enregistré avec succès.';
-          this.newUser = {
-            username: '',
-            passwordHash: '',
-            role: 'USER',
-            contact: null
-          };
+        if (response && response.message) {
+          if (response.message.includes('succès')) {
+            this.successMessage = response.message;
+            this.newUser = {
+              username: '',
+              passwordHash: '',
+              role: null,
+              contact: null
+            };
+          } else {
+            this.errorMessage = response.message;
+          }
         } else {
-          // Si la réponse est inattendue, afficher un message d'erreur
-          console.error('Réponse inattendue de l\'API', response);
           this.errorMessage = 'Une erreur inattendue est survenue. Veuillez réessayer.';
         }
       },
       error => {
-        // Gérer les erreurs HTTP
         console.error('Erreur lors de l\'enregistrement de l\'utilisateur', error);
-        this.errorMessage = 'Erreur lors de l\'enregistrement de l\'utilisateur. Veuillez réessayer.';
+        this.errorMessage = error.error?.message || 'Erreur lors de l\'enregistrement de l\'utilisateur. Veuillez réessayer.';
       }
     );
   }
