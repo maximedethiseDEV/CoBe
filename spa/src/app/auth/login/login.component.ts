@@ -4,6 +4,23 @@ import { AuthService } from '../auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+/**
+ * The `LoginComponent` is a standalone Angular component designed for handling user login functionality.
+ * It interacts with an authentication service to validate user credentials and manages navigation upon successful login.
+ *
+ * This component uses Angular's `CommonModule` and `FormsModule` to support its template rendering and data-binding features.
+ *
+ * Features:
+ * - Provides input fields for `username` and `password`.
+ * - Makes an authentication request to the `AuthService` upon login.
+ * - Handles and displays error messages for failed login attempts.
+ * - Stores authentication token and roles in session storage upon successful login.
+ * - Navigates the user to the `dashboard` page after successful authentication.
+ *
+ * Dependencies:
+ * - `AuthService` for communicating with the backend authentication system.
+ * - `Router` for redirecting to different application routes.
+ */
 @Component({
   selector: 'app-login',
   standalone: true,
