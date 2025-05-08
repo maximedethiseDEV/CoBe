@@ -1,0 +1,25 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Amélioration de l'accessibilité */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Suppression des styles de liste par défaut */
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* Amélioration du rendu des images */
+img {
+  max-width: 100%;
+  display: block;
+}

@@ -1,0 +1,16 @@
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+h2 {
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: bold;
+}
