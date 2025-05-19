@@ -2,33 +2,35 @@ package com.beco.api.service;
 
 import com.beco.api.model.Contact;
 import com.beco.api.repository.ContactRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ContactService {
+public class ContactService implements CrudService<Contact, Long> {
 
-    private final ContactRepository contactRepository;
+    private final ContactRepository repository;
 
-    public ContactService(ContactRepository contactRepository) {
-        this.contactRepository = contactRepository;
+    public ContactService(ContactRepository repository) {
+        this.repository = repository;
     }
 
-    public List<Contact> getAllContacts() {
-        return contactRepository.findAll();
+    public List<Contact> findAll() {
+        return repository.findAll();
     }
 
-    public Optional<Contact> getContactById(Long id) {
-        return contactRepository.findById(id);
+    public Contact findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Contact n°" + id + " non trouvée"));
     }
 
-    public Contact saveContact(Contact contact) {
-        return contactRepository.save(contact);
+    public Contact save(Contact contact) {
+        return repository.save(contact);
     }
 
-    public void deleteContactById(Long id) {
-        contactRepository.deleteById(id);
+    public void deleteById(Long id) {
+        repository.deleteById(id);
     }
+
 }

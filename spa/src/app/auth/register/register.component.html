@@ -1,33 +1,54 @@
+
 <div class="register-form">
   <h2>Créer un compte</h2>
 
-  <!-- Message de succès -->
   <div *ngIf="successMessage" class="success-message">
     {{ successMessage }}
   </div>
 
-  <!-- Message d'erreur -->
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
-  <form #registerForm="ngForm" (ngSubmit)="registerUser()" novalidate>
-    <label for="username">Nom d'utilisateur:</label>
-    <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required minlength="3" #username="ngModel"
-    />
-    <div *ngIf="username.invalid && username.touched" class="error-message">
-      <small *ngIf="username.errors?.['required']">Le nom d'utilisateur est requis.</small>
-      <small *ngIf="username.errors?.['minlength']">Le nom d'utilisateur doit contenir au moins 3 caractères.</small>
+  <form (ngSubmit)="registerUser()" #registerForm="ngForm">
+    <div class="form-group">
+      <label for="username">Nom d'utilisateur:</label>
+      <input
+        type="text"
+        id="username"
+        [(ngModel)]="newUser.username"
+        name="username"
+        required
+        minlength="3"
+        #username="ngModel"
+        placeholder="Entrez votre nom d'utilisateur"
+      >
+      <div *ngIf="username.invalid && username.touched" class="validation-message">
+        <small *ngIf="username.errors?.['required']">Le nom d'utilisateur est requis.</small>
+        <small *ngIf="username.errors?.['minlength']">Le nom d'utilisateur doit contenir au moins 3 caractères.</small>
+      </div>
     </div>
 
-    <label for="password">Mot de passe:</label>
-    <input type="password" id="password" [(ngModel)]="newUser.passwordHash" name="password" required minlength="6" #password="ngModel"
-    />
-    <div *ngIf="password.invalid && password.touched" class="error-message">
-      <small *ngIf="password.errors?.['required']">Le mot de passe est requis.</small>
-      <small *ngIf="password.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères.</small>
+    <div class="form-group">
+      <label for="password">Mot de passe:</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="newUser.passwordHash"
+        name="password"
+        required
+        minlength="6"
+        #password="ngModel"
+        placeholder="Entrez votre mot de passe"
+      >
+      <div *ngIf="password.invalid && password.touched" class="validation-message">
+        <small *ngIf="password.errors?.['required']">Le mot de passe est requis.</small>
+        <small *ngIf="password.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères.</small>
+      </div>
     </div>
 
-    <button type="submit" [disabled]="registerForm.invalid">S'enregistrer</button>
+    <button type="submit" [disabled]="registerForm.invalid">
+      S'enregistrer
+    </button>
   </form>
 </div>

@@ -30,8 +30,8 @@ export class ApiService {
     return this.http.post(`${this.proxyApiUrl}/${dataType}`, data);
   }
 
-  putData(dataType: string, data: any): Observable<any> {
-    return this.http.put(`${this.proxyApiUrl}/${dataType}`, data);
+  putData(dataType: string, id: number, data: any): Observable<any> {
+    return this.http.put(`${this.proxyApiUrl}/${dataType}/${id}`, data);
   }
 
   deleteData(dataType: string, id: number): Observable<any> {

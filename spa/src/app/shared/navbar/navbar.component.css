@@ -1,20 +1,25 @@
-/* Navigation */
+
+/* Navbar Styles */
 nav {
   display: flex;
-  gap: 16px;
+  justify-content: space-around;
+  padding: 10px 0;
 }
 
 nav a {
-  color: #ecf0f1;
+  color: var(--color-text);
   text-decoration: none;
-  font-family: 'Arial', sans-serif;
+  padding: 10px 15px;
   font-size: 16px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: background-color 0.2s ease-in-out;
 }
 
-nav a:hover,
+nav a:hover {
+  color: var(--color-text-over);
+  background-color: #1abc9c; /* Couleur d'accent verte */
+  border-radius: 5px;
+}
+
 nav a.active {
-  background-color: #34495e;
+  font-weight: bold;
+  border-radius: 5px;
 }

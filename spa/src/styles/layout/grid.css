@@ -1,0 +1,83 @@
+/* Conteneur principal de la grille */
+.grid-container {
+  display: grid;
+  gap: 1rem; /* Espacement entre les éléments */
+  padding: 1rem;
+}
+
+/* Grilles responsive avec différentes colonnes */
+.grid-1 {
+  grid-template-columns: 1fr;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 1200px) {
+  .grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-3, .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Classes utilitaires pour l'alignement */
+.grid-center {
+  place-items: center;
+}
+
+.grid-stretch {
+  align-items: stretch;
+}
+
+/* Classes pour les espacements */
+.gap-sm {
+  gap: 0.5rem;
+}
+
+.gap-md {
+  gap: 1rem;
+}
+
+.gap-lg {
+  gap: 2rem;
+}
+
+/* Classes pour les éléments de la grille */
+.grid-item {
+  padding: 1rem;
+  min-width: 0; /* Évite le débordement */
+}
+
+/* Classes pour le positionnement des éléments */
+.span-2 {
+  grid-column: span 2;
+}
+
+.span-3 {
+  grid-column: span 3;
+}
+
+.span-full {
+  grid-column: 1 / -1;
+}

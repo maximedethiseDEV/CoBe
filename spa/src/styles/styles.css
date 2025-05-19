@@ -1,26 +1,8 @@
 /* Base */
-@import './base/variables.css';
-@import './base/typography.css';
+@import url("./base/variables.css");
+@import url("./base/reset.css");
+@import url("./base/typography.css");
 
 /* Components */
-@import './components/forms.css';
-@import './components/messages.css';
-
-/* Media Queries */
-@media (max-width: 768px) {
-  .flex-container {
-    flex-direction: column;
-  }
-
-  .nav-list {
-    flex-direction: column;
-  }
-
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.75rem; }
-  h3 { font-size: 1.5rem; }
-}
-
-* {
-  font-family: 'Arial', sans-serif;
-}
+@import url("./components/forms.css");
+@import url("./components/messages.css");

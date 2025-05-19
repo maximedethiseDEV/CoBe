@@ -3,10 +3,10 @@ package com.beco.api.service;
 import com.beco.api.model.Client;
 import com.beco.api.model.Order;
 import com.beco.api.repository.OrderRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -18,13 +18,14 @@ public class OrderService {
     }
 
     // Récupérer toutes les commandes
-    public List<Order> findAll() {
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
     // Récupérer une commande par ID
-    public Optional<Order> findById(Long id) {
-        return orderRepository.findById(id);
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Commande n°" + id + " non trouvée"));
     }
 
     // Créer ou mettre à jour une commande

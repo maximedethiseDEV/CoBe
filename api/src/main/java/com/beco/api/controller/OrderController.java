@@ -22,23 +22,29 @@ public class OrderController {
     // Récupérer toutes les commandes
     @GetMapping("orders")
     public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.findAll();
+        List<Order> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
     // Récupérer une commande par ID
     @GetMapping("/order/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        return orderService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Order order = orderService.getOrderById(id);
+        return ResponseEntity.ok(order);
     }
 
     // Créer ou mettre à jour une commande
     @PostMapping("/order")
-    public ResponseEntity<Order> createOrUpdateOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         Order savedOrder = orderService.saveOrder(order);
         return ResponseEntity.ok(savedOrder);
+    }
+
+    @PutMapping("/order/{id}")
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
+        order.setOrderId(id);
+        Order updatedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(updatedOrder);
     }
 
     // Supprimer une commande par ID

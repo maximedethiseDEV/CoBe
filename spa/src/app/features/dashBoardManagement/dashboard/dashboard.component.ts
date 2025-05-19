@@ -39,6 +39,14 @@ export class DashboardComponent implements OnInit {
       icon: '',
       route: '/planning',
       color: '#f39c12'
+    },
+    {
+      id: 'contact',
+      name: 'Contact',
+      description: '',
+      icon: '',
+      route: '/contact',
+      color: '#f39c12'
     }
   ];
 

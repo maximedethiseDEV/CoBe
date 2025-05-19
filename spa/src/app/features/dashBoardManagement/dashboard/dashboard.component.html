@@ -1,11 +1,11 @@
 <div class="dashboard-container">
     <h2>Tableau de bord</h2>
     <p>Bienvenue dans votre espace de gestion. Sélectionnez une fonctionnalité pour commencer.</p>
-    
+
     <div class="features-grid">
-      <div 
-        *ngFor="let feature of features" 
-        class="feature-card" 
+      <div
+        *ngFor="let feature of features"
+        class="feature-card"
         [ngStyle]="{'border-color': feature.color}"
         (click)="navigateTo(feature.route)">
         <div class="feature-icon" [ngStyle]="{'background-color': feature.color}">
