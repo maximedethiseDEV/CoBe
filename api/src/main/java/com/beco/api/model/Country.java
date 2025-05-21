@@ -1,9 +1,6 @@
 package com.beco.api.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -12,11 +9,13 @@ import lombok.Data;
 public class Country {
 
     @Id
-    @Column (name = "country_id")
-    private String countryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "country_id")
+    private Integer countryId;
+
+    @Column(name = "country_code", unique = true, nullable = false)
+    private String countryCode;
 
     @Column(name = "country_name", nullable = false)
     private String countryName;
-
-    // Getters and setters
 }

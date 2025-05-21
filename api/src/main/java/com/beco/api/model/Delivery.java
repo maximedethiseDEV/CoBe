@@ -14,7 +14,7 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "delivery_id")
-    private Long deliveryId;
+    private Integer deliveryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
@@ -34,8 +34,10 @@ public class Delivery {
     @Column(name = "actual_delivery_time")
     private LocalTime actualDeliveryTime;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private DeliveryStatus status;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id", nullable = false)
+    private DeliveryStatus status;
 }

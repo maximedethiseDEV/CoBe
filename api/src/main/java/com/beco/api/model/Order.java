@@ -3,11 +3,14 @@ package com.beco.api.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -15,21 +18,19 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
-    private Long orderId;
+    private Integer orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "billing_client_id", nullable = false)
-    private Client billingClient;
+    @JoinColumn(name = "billing_customer_id", nullable = false)
+    private Customer billingCustomer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery_client_id")
-    private Client deliveryClient;
+    @JoinColumn(name = "delivery_customer_id", referencedColumnName = "customer_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Customer deliveryCustomer;
 
-    @Column(name = "notes", columnDefinition = "TEXT")
-    private String notes;
-
-    @Column(name = "attachment_path", length = 255)
-    private String attachmentPath;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
     @Column(name = "requested_delivery_date")
     private LocalDate requestedDeliveryDate;
@@ -41,8 +42,8 @@ public class Order {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name = "quantity", nullable = false)
-    private Integer quantity;
-
-    // Getters and setters
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shared_details_id", referencedColumnName = "shared_details_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private SharedDetails sharedDetails;
 }

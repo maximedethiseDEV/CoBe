@@ -23,7 +23,7 @@ public class AddressController {
     }
 
     @GetMapping("/address/{id}")
-    public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
+    public ResponseEntity<Address> getAddressById(@PathVariable Integer id) {
         Optional<Address> address = addressService.getAddressById(id);
         return address.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -36,14 +36,14 @@ public class AddressController {
 
     // Mettre à jour une adresse
     @PutMapping("/address/{id}")
-    public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody Address addressDetails) {
+    public ResponseEntity<Address> updateAddress(@PathVariable Integer id, @RequestBody Address addressDetails) {
         Address updatedAddress = addressService.updateAddress(id, addressDetails);
         return updatedAddress != null ? ResponseEntity.ok(updatedAddress) : ResponseEntity.notFound().build();
     }
 
     // Supprimer une adresse
     @DeleteMapping("/address/{id}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAddress(@PathVariable Integer id) {
         addressService.deleteAddress(id);
         return ResponseEntity.noContent().build();
     }

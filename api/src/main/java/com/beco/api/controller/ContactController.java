@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/contact")
 @CrossOrigin(origins = "http://localhost:4200")
-public class ContactController extends AbstractCrudController<Contact, Long> {
+public class ContactController extends AbstractCrudController<Contact, Integer> {
 
     private final ContactService contactService;
 
@@ -17,7 +17,7 @@ public class ContactController extends AbstractCrudController<Contact, Long> {
     }
 
     @Override
-    protected CrudService<Contact, Long> getService() {
+    protected CrudService<Contact, Integer> getService() {
         return contactService;
     }
 

@@ -1,28 +1,28 @@
 package com.beco.api.service;
 
-import com.beco.api.model.Client;
-import com.beco.api.repository.ClientRepository;
+import com.beco.api.model.Customer;
+import com.beco.api.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClientService {
+public class CustomerService {
 
-    private final ClientRepository clientRepository;
+    private final CustomerRepository clientRepository;
 
-    public ClientService(ClientRepository clientRepository) {
+    public CustomerService(CustomerRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
     // Récupérer tous les clients
-    public List<Client> getAllClients() {
+    public List<Customer> getAllCustomers() {
         return clientRepository.findAll();
     }
 
     // Récupérer un client par ID
-    public Optional<Client> getClientById(Long id) {
+    public Optional<Customer> getCustomerById(Integer id) {
         return clientRepository.findById(id);
     }
 }

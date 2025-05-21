@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ContactService implements CrudService<Contact, Long> {
+public class ContactService implements CrudService<Contact, Integer> {
 
     private final ContactRepository repository;
 
@@ -20,7 +20,7 @@ public class ContactService implements CrudService<Contact, Long> {
         return repository.findAll();
     }
 
-    public Contact findById(Long id) {
+    public Contact findById(Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Contact n°" + id + " non trouvée"));
     }
@@ -29,7 +29,7 @@ public class ContactService implements CrudService<Contact, Long> {
         return repository.save(contact);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         repository.deleteById(id);
     }
 

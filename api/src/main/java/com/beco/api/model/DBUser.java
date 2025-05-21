@@ -2,6 +2,7 @@ package com.beco.api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -13,7 +14,7 @@ public class DBUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
+    private Integer userId;
 
     @NotBlank(message = "Le nom d'utilisateur est requis.")
     @Size(min = 3, message = "Le nom d'utilisateur doit contenir au moins 3 caractères.")
@@ -25,11 +26,11 @@ public class DBUser {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @Column(name = "role", nullable = false)
-    private String role;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "contact_id")
+    @NotNull(message = "Le contact est requis.")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_id", referencedColumnName = "contact_id")
     private Contact contact;
 
+    @Column(name = "permission", nullable = true)
+    private String permission;
 }

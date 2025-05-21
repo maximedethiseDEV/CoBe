@@ -9,8 +9,9 @@ import lombok.Data;
 public class DeliveryOrderNumber {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "delivery_order_number_id")
-    private String deliveryOrderNumberId;
+    private Integer deliveryOrderNumberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transport_supplier_id", nullable = false)
@@ -24,5 +25,6 @@ public class DeliveryOrderNumber {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    // Getters and setters
+    @Column(name = "unique_delivery_order_number", unique = true, nullable = false)
+    private String uniqueDeliveryOrderNumber;
 }

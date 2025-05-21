@@ -1,9 +1,13 @@
 package com.beco.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "construction_site")
 public class ConstructionSite {
@@ -11,13 +15,23 @@ public class ConstructionSite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "construction_site_id")
-    private Long constructionSiteId;
+    private Integer constructionSiteId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shared_details_id")
+    private SharedDetails sharedDetails;
+
+    @Column(name = "date_start")
+    private LocalDate dateStart;
+
+    @Column(name = "date_end")
+    private LocalDate dateEnd;
 }

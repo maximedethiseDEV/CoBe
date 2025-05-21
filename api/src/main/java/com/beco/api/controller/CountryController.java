@@ -24,7 +24,7 @@ public class CountryController {
     }
 
     @GetMapping("/country/{id}")
-    public ResponseEntity<Country> getCountryById(@PathVariable String id) {
+    public ResponseEntity<Country> getCountryById(@PathVariable Integer id) {
         return countryService.getCountryById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -37,7 +37,7 @@ public class CountryController {
     }
 
     @DeleteMapping("/country/{id}")
-    public ResponseEntity<Void> deleteCountry(@PathVariable String id) {
+    public ResponseEntity<Void> deleteCountry(@PathVariable Integer id) {
         countryService.deleteCountryById(id);
         return ResponseEntity.noContent().build();
     }

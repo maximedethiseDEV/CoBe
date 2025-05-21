@@ -1,19 +1,21 @@
 package com.beco.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "client")
-public class Client {
+@Table(name = "customer")
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "client_id")
-    private Long clientId;
+    @Column(name = "customer_id")
+    private Integer customerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
@@ -33,11 +35,16 @@ public class Client {
     @Column(name = "notes")
     private String notes;
 
-    @Column(name = "start_date")
-    private LocalDate startDate;
+    @Column(name = "date_start")
+    private LocalDate dateStart;
 
-    @Column(name = "end_date")
-    private LocalDate endDate;
+    @Column(name = "date_end")
+    private LocalDate dateEnd;
 
-    // Getters and setters
+    @Column(name = "is_solvent", nullable = false)
+    private Boolean isSolvent = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", referencedColumnName = "customer_id", foreignKey = @ForeignKey(name = "fk_customer_parent"))
+    private Customer parent;
 }

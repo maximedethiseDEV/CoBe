@@ -20,7 +20,7 @@ public class CountryService {
         return countryRepository.findAll();
     }
 
-    public Optional<Country> getCountryById(String id) {
+    public Optional<Country> getCountryById(Integer id) {
         return countryRepository.findById(id);
     }
 
@@ -28,7 +28,7 @@ public class CountryService {
         return countryRepository.save(country);
     }
 
-    public void deleteCountryById(String id) {
+    public void deleteCountryById(Integer id) {
         countryRepository.deleteById(id);
     }
 }

@@ -14,7 +14,7 @@ public class DeliveryArchive {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "delivery_archive_id")
-    private Long deliveryArchiveId;
+    private Integer deliveryArchiveId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -34,9 +34,7 @@ public class DeliveryArchive {
     @Column(name = "actual_delivery_time")
     private LocalTime actualDeliveryTime;
 
-    @Column(name = "status")
-    private String status;
-
-    // Getters and setters
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id", nullable = false)
+    private DeliveryStatus status;
 }
-

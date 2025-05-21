@@ -20,7 +20,7 @@ public class AddressService {
     }
 
     // Lire une adresse par son ID
-    public Optional<Address> getAddressById(Long id) {
+    public Optional<Address> getAddressById(Integer id) {
         return addressRepository.findById(id);
     }
 
@@ -30,7 +30,7 @@ public class AddressService {
     }
 
     // Mettre à jour une adresse
-    public Address updateAddress(Long id, Address addressDetails) {
+    public Address updateAddress(Integer id, Address addressDetails) {
         Optional<Address> addressOptional = addressRepository.findById(id);
         if (addressOptional.isPresent()) {
             Address address = addressOptional.get();
@@ -42,7 +42,7 @@ public class AddressService {
     }
 
     // Supprimer une adresse
-    public void deleteAddress(Long id) {
+    public void deleteAddress(Integer id) {
         addressRepository.deleteById(id);
     }
 }

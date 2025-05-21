@@ -1,6 +1,6 @@
 package com.beco.api.service;
 
-import com.beco.api.model.Client;
+import com.beco.api.model.Customer;
 import com.beco.api.model.Order;
 import com.beco.api.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -9,37 +9,33 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class OrderService {
+public class OrderService implements CrudService<Order, Integer>{
 
-    private final OrderRepository orderRepository;
+    private final OrderRepository repository;
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderService(OrderRepository repository) {
+        this.repository = repository;
     }
 
-    // Récupérer toutes les commandes
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public List<Order> findAll() {
+        return repository.findAll();
     }
 
-    // Récupérer une commande par ID
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id)
+    public Order findById(Integer id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Commande n°" + id + " non trouvée"));
     }
 
-    // Créer ou mettre à jour une commande
-    public Order saveOrder(Order order) {
-        return orderRepository.save(order);
+    public Order save(Order order) {
+        return repository.save(order);
     }
 
-    // Supprimer une commande par ID
-    public void deleteOrderById(Long id) {
-        orderRepository.deleteById(id);
+    public void deleteById(Integer id) {
+        repository.deleteById(id);
     }
 
     // Récupérer les commandes par client de facturation
-    public List<Order> findByBillingClient(Client billingClient) {
-        return orderRepository.findByBillingClient(billingClient);
+    public List<Order> findByBillingCustomer(Customer billingClient) {
+        return repository.findByBillingCustomer(billingClient);
     }
 }

@@ -11,7 +11,7 @@ public class TransportSupplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transport_supplier_id")
-    private Long transportSupplierId;
+    private Integer transportSupplierId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
@@ -19,6 +19,4 @@ public class TransportSupplier {
 
     @Column(name = "license_number")
     private String licenseNumber;
-
-    // Getters and setters
 }

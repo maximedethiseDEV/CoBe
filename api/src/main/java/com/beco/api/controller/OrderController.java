@@ -1,17 +1,18 @@
 package com.beco.api.controller;
 
-import com.beco.api.model.Client;
+import com.beco.api.model.Customer;
 import com.beco.api.model.Order;
 import com.beco.api.service.OrderService;
+import com.beco.api.service.CrudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/order")
 @CrossOrigin(origins = "http://localhost:4200")
-public class OrderController {
+public class OrderController extends AbstractCrudController<Order, Integer> {
 
     private final OrderService orderService;
 
@@ -19,47 +20,19 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    // Récupérer toutes les commandes
-    @GetMapping("orders")
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
+    @Override
+    protected CrudService<Order, Integer> getService() {
+        return orderService;
     }
 
-    // Récupérer une commande par ID
-    @GetMapping("/order/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Order order = orderService.getOrderById(id);
-        return ResponseEntity.ok(order);
-    }
-
-    // Créer ou mettre à jour une commande
-    @PostMapping("/order")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order savedOrder = orderService.saveOrder(order);
-        return ResponseEntity.ok(savedOrder);
-    }
-
-    @PutMapping("/order/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
-        order.setOrderId(id);
-        Order updatedOrder = orderService.saveOrder(order);
-        return ResponseEntity.ok(updatedOrder);
-    }
-
-    // Supprimer une commande par ID
-    @DeleteMapping("/order/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrderById(id);
-        return ResponseEntity.noContent().build();
-    }
 
     // Récupérer les commandes par client de facturation
-    @GetMapping("/orderedbyclient/{clientId}")
-    public ResponseEntity<List<Order>> getOrdersByBillingClient(@PathVariable Long clientId) {
-        Client client = new Client();
-        client.setClientId(clientId);
-        List<Order> orders = orderService.findByBillingClient(client);
+    @GetMapping("/byclient/{clientId}")
+    public ResponseEntity<List<Order>> getOrdersByBillingCustomer(@PathVariable Integer clientId) {
+        Customer billingClient = new Customer();
+        billingClient.setCustomerId(clientId);
+        List<Order> orders = orderService.findByBillingCustomer(billingClient);
         return ResponseEntity.ok(orders);
     }
+
 }

@@ -1,22 +1,25 @@
 package com.beco.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "city")
 public class City {
 
     @Id
-    @Column (name = "city_id")
-    private String cityId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "city_id")
+    private Integer cityId;
+
+    @Column(name = "postal_code", nullable = false, unique = true)
+    private String postalCode;
 
     @Column(name = "city_name", nullable = false)
     private String cityName;
-
-    @Column(name = "destination_code")
-    private String destinationCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", nullable = false)

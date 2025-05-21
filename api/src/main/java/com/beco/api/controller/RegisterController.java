@@ -33,8 +33,8 @@ public class RegisterController {
 
         user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
 
-        if (user.getRole() == null || user.getRole().isEmpty()) {
-            user.setRole("USER");
+        if (user.getPermission() == null || user.getPermission().isEmpty()) {
+            user.setPermission("USER");
         }
 
         userRepository.save(user);
