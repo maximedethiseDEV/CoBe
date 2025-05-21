@@ -13,13 +13,13 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="beco@localhost" uuid="8c1bbb96-1ebe-433a-b5c3-bc4bf08939a8">
+    <data-source source="LOCAL" name="beco@localhost" uuid="80da4699-49b9-445c-8716-60a2a3e9c8c6">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
       <remarks>$PROJECT_DIR$/api/src/main/resources/application.properties</remarks>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/beco?serverTimeZone=UTC</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/beco</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
