@@ -1,44 +1,23 @@
 package com.beco.api.controller;
 
 import com.beco.api.model.Country;
-import com.beco.api.service.CountryService;
-import org.springframework.http.ResponseEntity;
+import com.beco.api.service.dto.CountryDtoService;
+import com.beco.api.service.CrudService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping
-public class CountryController {
+@RequestMapping("/countries")
+@CrossOrigin(origins = "http://localhost:4200")
+public class CountryController extends AbstractCrudController<Country, Integer> {
 
-    private final CountryService countryService;
+    private final CountryDtoService countryDtoService;
 
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
+    public CountryController(CountryDtoService countryDtoService) {
+        this.countryDtoService = countryDtoService;
     }
 
-    @GetMapping("/countries")
-    public ResponseEntity<List<Country>> getAllCountries() {
-        List<Country> countries = countryService.getAllCountries();
-        return ResponseEntity.ok(countries);
-    }
-
-    @GetMapping("/country/{id}")
-    public ResponseEntity<Country> getCountryById(@PathVariable Integer id) {
-        return countryService.getCountryById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("/country")
-    public ResponseEntity<Country> createOrUpdateCountry(@RequestBody Country country) {
-        Country savedCountry = countryService.saveCountry(country);
-        return ResponseEntity.ok(savedCountry);
-    }
-
-    @DeleteMapping("/country/{id}")
-    public ResponseEntity<Void> deleteCountry(@PathVariable Integer id) {
-        countryService.deleteCountryById(id);
-        return ResponseEntity.noContent().build();
+    @Override
+    protected CrudService<Country, Integer> getService() {
+        return countryDtoService;
     }
 }

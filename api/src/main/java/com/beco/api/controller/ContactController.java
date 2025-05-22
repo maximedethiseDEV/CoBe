@@ -1,24 +1,29 @@
 package com.beco.api.controller;
 
 import com.beco.api.model.Contact;
-import com.beco.api.service.ContactService;
+import com.beco.api.service.dto.ContactDtoService;
 import com.beco.api.service.CrudService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/contact")
+@RequestMapping("/contacts")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ContactController extends AbstractCrudController<Contact, Integer> {
 
-    private final ContactService contactService;
+    private final ContactDtoService contactDtoService;
 
-    public ContactController(ContactService contactService) {
-        this.contactService = contactService;
+    public ContactController(ContactDtoService contactDtoService) {
+        this.contactDtoService = contactDtoService;
     }
 
     @Override
     protected CrudService<Contact, Integer> getService() {
-        return contactService;
+        return contactDtoService;
+    }
+
+    @GetMapping("byemail")
+    public Contact getContactByEmail(@RequestParam String email) {
+        return contactDtoService.findByEmail(email);
     }
 
 }

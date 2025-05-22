@@ -1,32 +1,23 @@
 package com.beco.api.controller;
 
 import com.beco.api.model.Customer;
-import com.beco.api.service.CustomerService;
-import org.springframework.http.ResponseEntity;
+import com.beco.api.service.dto.CustomerDtoService;
+import com.beco.api.service.CrudService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping
-public class CustomerController {
+@RequestMapping("/customers")
+@CrossOrigin(origins = "http://localhost:4200")
+public class CustomerController extends AbstractCrudController<Customer, Integer> {
 
-    private final CustomerService clientService;
+    private final CustomerDtoService customerDtoService;
 
-    public CustomerController(CustomerService clientService) {
-        this.clientService = clientService;
+    public CustomerController(CustomerDtoService customerDtoService) {
+        this.customerDtoService = customerDtoService;
     }
 
-    @GetMapping("/clients")
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> clients = clientService.getAllCustomers();
-        return ResponseEntity.ok(clients);
-    }
-
-    @GetMapping("/client/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Integer id) {
-        return clientService.getCustomerById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @Override
+    protected CrudService<Customer, Integer> getService() {
+        return customerDtoService;
     }
 }

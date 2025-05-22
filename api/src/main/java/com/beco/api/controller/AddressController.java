@@ -1,50 +1,23 @@
 package com.beco.api.controller;
 
 import com.beco.api.model.Address;
-import com.beco.api.service.AddressService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.beco.api.service.dto.AddressDtoService;
+import com.beco.api.service.CrudService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
-@RequestMapping
-public class AddressController {
+@RequestMapping("/addresses")
+@CrossOrigin(origins = "http://localhost:4200")
+public class AddressController extends AbstractCrudController<Address, Integer> {
 
-    @Autowired
-    private AddressService addressService;
+    private final AddressDtoService addressDtoService;
 
-    @PostMapping("/address")
-    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
-        Address createdAddress = addressService.createAddress(address);
-        return ResponseEntity.ok(createdAddress);
+    public AddressController(AddressDtoService addressDtoService) {
+        this.addressDtoService = addressDtoService;
     }
 
-    @GetMapping("/address/{id}")
-    public ResponseEntity<Address> getAddressById(@PathVariable Integer id) {
-        Optional<Address> address = addressService.getAddressById(id);
-        return address.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // Récupérer toutes les adresses
-    @GetMapping("/addresses")
-    public List<Address> getAllAddresses() {
-        return addressService.getAllAddresses();
-    }
-
-    // Mettre à jour une adresse
-    @PutMapping("/address/{id}")
-    public ResponseEntity<Address> updateAddress(@PathVariable Integer id, @RequestBody Address addressDetails) {
-        Address updatedAddress = addressService.updateAddress(id, addressDetails);
-        return updatedAddress != null ? ResponseEntity.ok(updatedAddress) : ResponseEntity.notFound().build();
-    }
-
-    // Supprimer une adresse
-    @DeleteMapping("/address/{id}")
-    public ResponseEntity<Void> deleteAddress(@PathVariable Integer id) {
-        addressService.deleteAddress(id);
-        return ResponseEntity.noContent().build();
+    @Override
+    protected CrudService<Address, Integer> getService() {
+        return addressDtoService;
     }
 }

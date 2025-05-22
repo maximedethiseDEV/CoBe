@@ -1,8 +1,8 @@
 package com.beco.api.controller;
 
 import com.beco.api.model.Customer;
-import com.beco.api.model.Order;
-import com.beco.api.service.OrderService;
+import com.beco.api.dto.OrderDto;
+import com.beco.api.service.dto.OrderDtoService;
 import com.beco.api.service.CrudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 @CrossOrigin(origins = "http://localhost:4200")
-public class OrderController extends AbstractCrudController<Order, Integer> {
+public class OrderController extends AbstractCrudController<OrderDto, Integer> {
 
-    private final OrderService orderService;
+    private final OrderDtoService orderDtoService;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    public OrderController(OrderDtoService orderDtoService) {
+        this.orderDtoService = orderDtoService;
     }
 
     @Override
-    protected CrudService<Order, Integer> getService() {
-        return orderService;
+    protected CrudService<OrderDto, Integer> getService() {
+        return orderDtoService;
     }
 
-
+    //TODO Refactoriser pour déplacer la logique métier dans le service
     // Récupérer les commandes par client de facturation
-    @GetMapping("/byclient/{clientId}")
-    public ResponseEntity<List<Order>> getOrdersByBillingCustomer(@PathVariable Integer clientId) {
+    @GetMapping("/customers/{clientId}")
+    public ResponseEntity<List<OrderDto>> getOrdersByBillingCustomer(@PathVariable Integer clientId) {
         Customer billingClient = new Customer();
         billingClient.setCustomerId(clientId);
-        List<Order> orders = orderService.findByBillingCustomer(billingClient);
+        List<OrderDto> orders = orderDtoService.findByBillingCustomer(billingClient);
         return ResponseEntity.ok(orders);
     }
 
