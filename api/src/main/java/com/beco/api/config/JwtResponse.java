@@ -1,13 +1,13 @@
-package com.beco.api.model;
+package com.beco.api.config;
 
 import lombok.Data;
 
 @Data
-public class JWTResponse {
+public class JwtResponse {
     private String token;
     private String roles;
 
-    public JWTResponse(String token, String roles) {
+    public JwtResponse(String token, String roles) {
         this.token = token;
         this.roles = roles;
     }

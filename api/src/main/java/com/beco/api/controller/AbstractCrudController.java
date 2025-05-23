@@ -29,38 +29,12 @@ public abstract class AbstractCrudController<DTO, ID> {
 
     @PutMapping("/{id}")
     public ResponseEntity<DTO> update(@PathVariable ID id, @RequestBody DTO entity) {
-        if (!assignIdToEntity(entity, id)) {
-            throw new IllegalArgumentException("Impossible de définir l'ID sur l'entité, vérifiez les annotations @Id.");
-        }
-        return ResponseEntity.ok(getService().update(id,entity));
+        return ResponseEntity.ok(getService().update(id, entity));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable ID id) {
         getService().deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    private boolean assignIdToEntity(DTO entity, ID id) {
-        Field idField = findIdField(entity.getClass());
-        if (idField == null) {
-            return false;
-        }
-        try {
-            idField.setAccessible(true);
-            idField.set(entity, id);
-            return true;
-        } catch (IllegalAccessException e) {
-            return false;
-        }
-    }
-
-    private Field findIdField(Class<?> entityClass) {
-        for (Field field : entityClass.getDeclaredFields()) {
-            if (field.isAnnotationPresent(Id.class)) {
-                return field;
-            }
-        }
-        return null;
     }
 }

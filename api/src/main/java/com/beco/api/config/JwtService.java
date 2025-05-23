@@ -1,4 +1,4 @@
-package com.beco.api.service;
+package com.beco.api.config;
 
 import java.time.Instant;
 import java.util.stream.Collectors;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class JWTService {
+public class JwtService {
 
     private JwtEncoder jwtEncoder;
 
-    public JWTService(JwtEncoder jwtEncoder) {
+    public JwtService(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }
 

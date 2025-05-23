@@ -1,78 +1,152 @@
-
-<h2>Liste des contacts <button class="add" (click)="showAddContactForm = !showAddContactForm">+</button></h2>
+<h2>
+  Liste des contacts
+  <button class="add" (click)="showAddContactForm = !showAddContactForm">+</button>
+</h2>
 
 <div *ngIf="contacts.length > 0">
-  <div *ngIf="showAddContactForm">
+  <!-- Formulaire pour ajouter un nouveau contact -->
+  <div *ngIf="showAddContactForm" class="add-contact-form">
     <h3>Ajouter un contact</h3>
     <form (ngSubmit)="addContact()">
-      <label for="lastName">Nom:</label>
-      <input type="text" id="lastName" [(ngModel)]="newContact.lastName" name="lastName" required>
+      <div>
+        <label for="lastName">Nom :</label>
+        <input
+          type="text"
+          id="lastName"
+          [(ngModel)]="newContact.lastName"
+          name="lastName"
+          required
+          placeholder="Nom"
+        />
+      </div>
 
-      <label for="firstName">Prénom:</label>
-      <input type="text" id="firstName" [(ngModel)]="newContact.firstName" name="firstName" required>
+      <div>
+        <label for="firstName">Prénom :</label>
+        <input
+          type="text"
+          id="firstName"
+          [(ngModel)]="newContact.firstName"
+          name="firstName"
+          required
+          placeholder="Prénom"
+        />
+      </div>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" [(ngModel)]="newContact.email" name="email" required>
+      <div>
+        <label for="email">Email :</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="newContact.email"
+          name="email"
+          required
+          placeholder="Email"
+        />
+      </div>
 
-      <label for="phone">Téléphone:</label>
-      <input type="text" id="phone" [(ngModel)]="newContact.phone" name="phone" required>
+      <div>
+        <label for="phone">Téléphone (optionnel) :</label>
+        <input
+          type="text"
+          id="phone"
+          [(ngModel)]="newContact.phone"
+          name="phone"
+          placeholder="Téléphone"
+        />
+      </div>
 
-      <label for="role">Rôle:</label>
-      <input type="text" id="role" [(ngModel)]="newContact.role" name="role" required>
+      <div>
+        <label for="role">Rôle (optionnel) :</label>
+        <input
+          type="text"
+          id="role"
+          [(ngModel)]="newContact.role"
+          name="role"
+          placeholder="Rôle"
+        />
+      </div>
 
       <button type="submit">Ajouter</button>
     </form>
   </div>
 
+  <!-- Liste des contacts -->
   <ul>
-    <li *ngFor="let contact of contacts" (click)="toggleSelectedContact(contact.contactId)" [class.selected]="selectedContactId === contact.contactId">
-      {{ contact.lastName }} {{ contact.firstName }} - {{ contact.role }}
+    <li
+      *ngFor="let contact of contacts"
+      (click)="toggleSelectedContact(contact.contactId)"
+      [class.selected]="selectedContactId === contact.contactId"
+    >
+      {{ contact.lastName }} {{ contact.firstName }} - {{ contact.role || 'Non spécifié' }}
       <div *ngIf="selectedContactId === contact.contactId && selectedContact" class="contact-details">
-        <p><strong>Email:</strong> {{ selectedContact.email }}</p>
-        <p><strong>Téléphone:</strong> {{ selectedContact.phone }}</p>
-        <button class="edit" (click)="editContact(selectedContactId, contact); $event.stopPropagation()">Edit</button>
-        <button class="delete" (click)="deleteContact(contact.contactId); $event.stopPropagation()">Delete</button>
+        <p><strong>Email :</strong> {{ selectedContact.email }}</p>
+        <p><strong>Téléphone :</strong> {{ selectedContact.phone || 'Non spécifié' }}</p>
+        <button
+          class="edit"
+          *ngIf="selectedContactId !== null && selectedContact"
+          (click)="editContact(selectedContactId!, selectedContact); $event.stopPropagation()"
+        >
+          Modifier
+        </button>
+        <button class="delete" (click)="deleteContact(contact.contactId); $event.stopPropagation()">Supprimer</button>
 
-        <!-- Formulaire d'édition -->
+        <!-- Formulaire pour éditer un contact -->
         <div *ngIf="selectedContactId && selectedContact" class="edit-contact-form">
           <h3>Modifier le contact</h3>
-          <!-- L'événement ngSubmit envoie les données via la méthode 'editContact' -->
-          <form (ngSubmit)="editContact(selectedContactId,selectedContact)" #editForm="ngForm">
+          <form (ngSubmit)="editContact(selectedContactId, selectedContact)" #editForm="ngForm">
             <div>
-              <label for="lastName">Nom :</label>
+              <label for="editLastName">Nom :</label>
               <input
-                id="lastName"
+                id="editLastName"
                 [(ngModel)]="selectedContact.lastName"
                 name="lastName"
                 required
+                placeholder="Nom"
               />
             </div>
+
             <div>
-              <label for="firstName">Prénom :</label>
+              <label for="editFirstName">Prénom :</label>
               <input
-                id="firstName"
+                id="editFirstName"
                 [(ngModel)]="selectedContact.firstName"
                 name="firstName"
                 required
+                placeholder="Prénom"
               />
             </div>
+
             <div>
-              <label for="email">Email :</label>
+              <label for="editEmail">Email :</label>
               <input
-                id="email"
+                id="editEmail"
                 [(ngModel)]="selectedContact.email"
                 name="email"
                 type="email"
                 required
+                placeholder="Email"
               />
             </div>
+
             <div>
-              <label for="phone">Téléphone :</label>
-              <input id="phone" [(ngModel)]="selectedContact.phone" name="phone" type="tel" />
+              <label for="editPhone">Téléphone (optionnel) :</label>
+              <input
+                id="editPhone"
+                [(ngModel)]="selectedContact.phone"
+                name="phone"
+                type="tel"
+                placeholder="Téléphone"
+              />
             </div>
+
             <div>
-              <label for="role">Rôle :</label>
-              <input id="role" [(ngModel)]="selectedContact.role" name="role" />
+              <label for="editRole">Rôle (optionnel) :</label>
+              <input
+                id="editRole"
+                [(ngModel)]="selectedContact.role"
+                name="role"
+                placeholder="Rôle"
+              />
             </div>
 
             <!-- Boutons pour soumettre ou annuler -->
@@ -80,7 +154,6 @@
             <button type="button" (click)="resetSelectedContact()">Annuler</button>
           </form>
         </div>
-
       </div>
     </li>
   </ul>

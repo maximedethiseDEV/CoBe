@@ -41,7 +41,7 @@ CREATE TABLE "contact"
     "last_name"  VARCHAR(255) NOT NULL,
     "first_name" VARCHAR(255),
     "phone"      VARCHAR(255),
-    "email"      VARCHAR(255),
+    "email"      VARCHAR(255) UNIQUE,
     "role"       VARCHAR(50)
 );
 

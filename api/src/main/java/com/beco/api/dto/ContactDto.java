@@ -1,35 +1,32 @@
-package com.beco.api.model;
+package com.beco.api.dto;
 
 import jakarta.persistence.*;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "contact")
-public class Contact {
+public class ContactDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "contact_id")
     private Integer contactId;
 
-    @Column(name = "last_name", nullable = false)
     @NotNull(message = " Le nom de famille est obligatoire")
     private String lastName;
 
-    @Column(name = "first_name")
     @NotNull(message = " Le prénom est obligatoire")
     private String firstName;
 
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "email", unique = true)
     @Email(message = "L'adresse e-mail doit être valide")
     private String email;
 
-    @Column(name = "role")
+    private String phone;
+
     private String role;
 }

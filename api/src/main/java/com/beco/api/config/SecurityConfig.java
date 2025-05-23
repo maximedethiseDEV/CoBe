@@ -57,7 +57,8 @@ public class SecurityConfig {
         http
                 .cors(Customizer.withDefaults()) // Active CORS
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "/register").permitAll()
+                        .requestMatchers("/login", "/register", "/docs/**", "/openapi/**", "/swagger-ui.html", "/swagger-ui/**"
+                        ).permitAll()
                         .anyRequest().authenticated() // Toutes les autres requêtes nécessitent une authentification
                 )
                 .csrf((csrf) -> csrf.ignoringRequestMatchers("/login", "/register")) // Désactive CSRF

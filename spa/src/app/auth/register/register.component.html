@@ -1,7 +1,7 @@
-
 <div class="register-form">
   <h2>Créer un compte</h2>
 
+  <!-- Messages de succès et d'erreur -->
   <div *ngIf="successMessage" class="success-message">
     {{ successMessage }}
   </div>
@@ -10,9 +10,11 @@
     {{ errorMessage }}
   </div>
 
+  <!-- Formulaire de création d'utilisateur -->
   <form (ngSubmit)="registerUser()" #registerForm="ngForm">
+    <!-- Section utilisateur -->
     <div class="form-group">
-      <label for="username">Nom d'utilisateur:</label>
+      <label for="username">Nom d'utilisateur :</label>
       <input
         type="text"
         id="username"
@@ -27,10 +29,11 @@
         <small *ngIf="username.errors?.['required']">Le nom d'utilisateur est requis.</small>
         <small *ngIf="username.errors?.['minlength']">Le nom d'utilisateur doit contenir au moins 3 caractères.</small>
       </div>
+
     </div>
 
     <div class="form-group">
-      <label for="password">Mot de passe:</label>
+      <label for="password">Mot de passe :</label>
       <input
         type="password"
         id="password"
@@ -47,6 +50,57 @@
       </div>
     </div>
 
+    <!-- Section Contact -->
+      <legend>Informations de contact</legend>
+
+      <div class="form-group">
+        <label for="lastName">Nom :</label>
+        <input
+          type="text"
+          id="lastName"
+          [(ngModel)]="newUser.contact.lastName"
+          name="lastName"
+          required
+          placeholder="Nom du contact"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">Prénom :</label>
+        <input
+          type="text"
+          id="firstName"
+          [(ngModel)]="newUser.contact.firstName"
+          name="firstName"
+          required
+          placeholder="Prénom du contact"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="newUser.contact.email"
+          name="email"
+          required
+          placeholder="Email du contact"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Téléphone (optionnel) :</label>
+        <input
+          type="text"
+          id="phone"
+          [(ngModel)]="newUser.contact.phone"
+          name="phone"
+          placeholder="Téléphone du contact"
+        />
+      </div>
+
+    <!-- Bouton d'envoi -->
     <button type="submit" [disabled]="registerForm.invalid">
       S'enregistrer
     </button>

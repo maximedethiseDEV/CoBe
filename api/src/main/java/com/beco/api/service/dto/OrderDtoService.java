@@ -49,7 +49,7 @@ public class OrderDtoService implements CrudService<OrderDto, Integer> {
     public OrderDto update(Integer id, OrderDto orderDto) {
         // Vérifier si la commande avec cet ID existe
         Order existingOrder = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found with ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Commande n°" + id + " introuvable"));
 
         // Mettre à jour les champs depuis le DTO, tout en conservant l'ID
         mapper.updateOrderFromDto(orderDto, existingOrder);

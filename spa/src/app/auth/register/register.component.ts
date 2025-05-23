@@ -3,37 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../api/api.service';
 
-/**
- * The RegisterComponent is responsible for handling user registration functionality.
- * It allows users to input their username and password to create a new account,
- * and interacts with the backend API for registration operations. The component
- * also provides feedback to the user through success and error messages.
- *
- * Component Annotations:
- * - Selector: 'app-register'
- * - Standalone: True
- * - Imports Required: CommonModule, FormsModule
- * - Template: './register.component.html'
- * - Styles: './register.component.css'
- *
- * Properties:
- * - newUser: Represents the user object with fields for username, hashed password,
- *   role, and contact information. It resets upon successful registration.
- * - successMessage: Displays a message to the user when registration is successful.
- * - errorMessage: Displays a message to the user when registration fails or validation errors occur.
- *
- * Constructor:
- * - Accepts an instance of ApiService to facilitate communication with the backend.
- *
- * Methods:
- * - registerUser(): Performs user input validation, sends registration data to the backend API,
- *   and handles the response. Updates successMessage or errorMessage based on the operation result.
- *
- * Key Features:
- * - Client-side validation for username and password before making the API request.
- * - Displays appropriate success or error messages to guide the user's experience.
- * - Communicates with a backend API endpoint (e.g., 'register') via the postData function of ApiService.
- */
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -43,11 +12,18 @@ import { ApiService } from '../../api/api.service';
 })
 export class RegisterComponent {
 
+  // Représentant un nouvel utilisateur avec ses données de contact
   newUser = {
     username: '',
     passwordHash: '',
     role: null,
-    contact: null
+    contact: {
+      lastName: '',
+      firstName: '',
+      email: '',
+      phone: '',  // Optionnel
+      role: ''    // Optionnel
+    }
   };
 
   successMessage: string | null = null;
@@ -59,28 +35,29 @@ export class RegisterComponent {
     this.successMessage = null;
     this.errorMessage = null;
 
-    // Vérification supplémentaire côté frontend
+    // Validation côté frontend pour l'utilisateur
     if (!this.newUser.username || this.newUser.username.length < 3) {
       this.errorMessage = 'Le nom d\'utilisateur doit contenir au moins 3 caractères.';
       return;
     }
-
     if (!this.newUser.passwordHash || this.newUser.passwordHash.length < 6) {
       this.errorMessage = 'Le mot de passe doit contenir au moins 6 caractères.';
       return;
     }
 
+    // Validation côté frontend pour les informations de contact
+    if (!this.newUser.contact.lastName || !this.newUser.contact.firstName || !this.newUser.contact.email) {
+      this.errorMessage = 'Les champs Nom, Prénom et Email pour le contact sont obligatoires.';
+      return;
+    }
+
+    // Appel à l'API pour enregistrer l'utilisateur avec ses données de contact
     this.apiService.postData('register', this.newUser).subscribe(
       response => {
         if (response && response.message) {
           if (response.message.includes('succès')) {
             this.successMessage = response.message;
-            this.newUser = {
-              username: '',
-              passwordHash: '',
-              role: null,
-              contact: null
-            };
+            this.resetForm();
           } else {
             this.errorMessage = response.message;
           }
@@ -93,5 +70,21 @@ export class RegisterComponent {
         this.errorMessage = error.error?.message || 'Erreur lors de l\'enregistrement de l\'utilisateur. Veuillez réessayer.';
       }
     );
+  }
+
+  // Réinitialisation du formulaire après succès
+  resetForm() {
+    this.newUser = {
+      username: '',
+      passwordHash: '',
+      role: null,
+      contact: {
+        lastName: '',
+        firstName: '',
+        email: '',
+        phone: '',
+        role: ''
+      }
+    };
   }
 }
