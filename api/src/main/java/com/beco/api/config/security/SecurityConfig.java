@@ -1,4 +1,4 @@
-package com.beco.api.config;
+package com.beco.api.config.security;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -57,11 +57,17 @@ public class SecurityConfig {
         http
                 .cors(Customizer.withDefaults()) // Active CORS
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "/register", "/docs/**", "/openapi/**", "/swagger-ui.html", "/swagger-ui/**"
+                        .requestMatchers(
+                                "/auth/**",
+                                "/register",
+                                "/docs/**",
+                                "/openapi/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**"
                         ).permitAll()
                         .anyRequest().authenticated() // Toutes les autres requêtes nécessitent une authentification
                 )
-                .csrf((csrf) -> csrf.ignoringRequestMatchers("/login", "/register")) // Désactive CSRF
+                .csrf((csrf) -> csrf.ignoringRequestMatchers("/auth/**", "/register")) // Désactive CSRF
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

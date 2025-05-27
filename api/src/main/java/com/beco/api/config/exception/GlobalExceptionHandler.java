@@ -1,4 +1,4 @@
-package com.beco.api.exception;
+package com.beco.api.config.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;

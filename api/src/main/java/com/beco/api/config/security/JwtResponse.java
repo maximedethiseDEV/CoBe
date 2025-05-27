@@ -1,4 +1,4 @@
-package com.beco.api.config;
+package com.beco.api.config.security;
 
 import lombok.Data;
 
