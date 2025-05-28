@@ -3,6 +3,8 @@
   <button class="add" (click)="showAddContactForm = !showAddContactForm">+</button>
 </h2>
 
+<app-notifications/>
+
 <div *ngIf="contacts.length > 0">
   <!-- Formulaire pour ajouter un nouveau contact -->
   <div *ngIf="showAddContactForm" class="add-contact-form">

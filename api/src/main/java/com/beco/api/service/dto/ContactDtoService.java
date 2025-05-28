@@ -6,6 +6,9 @@ import com.beco.api.model.Contact;
 import com.beco.api.repository.ContactRepository;
 import com.beco.api.service.CrudService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +26,7 @@ public class ContactDtoService implements CrudService<ContactDto, Integer> {
     }
 
     @Override
+    @Cacheable(value = "contacts")
     public List<ContactDto> findAll() {
         return repository.findAll()
                 .stream()
@@ -31,6 +35,8 @@ public class ContactDtoService implements CrudService<ContactDto, Integer> {
     }
 
     @Override
+    @Cacheable(value = "contacts", key = "#contactDto.contactId"
+    )
     public ContactDto findById(Integer id) {
         Contact contact = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Contact n°" + id + " introuvable"));
@@ -38,6 +44,7 @@ public class ContactDtoService implements CrudService<ContactDto, Integer> {
     }
 
     @Override
+    @CachePut(value = "contacts", key = "#result.contactId")
     public ContactDto create(ContactDto contactDto) {
         if (repository.findByEmail(contactDto.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Un contact avec cet email existe déjà !");
@@ -48,6 +55,7 @@ public class ContactDtoService implements CrudService<ContactDto, Integer> {
     }
 
     @Override
+    @CachePut(value = "contacts", key = "#contactDto.contactId")
     public ContactDto update(Integer id, ContactDto contactDto) {
         // Vérifier si le contact avec cet ID existe
         Contact existingContact = repository.findById(id)
@@ -62,6 +70,7 @@ public class ContactDtoService implements CrudService<ContactDto, Integer> {
     }
 
     @Override
+    @CacheEvict(value = "contacts", key = "#contactDto.contactId")
     public void deleteById(Integer id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException("Contact n°" + id + " introuvable");

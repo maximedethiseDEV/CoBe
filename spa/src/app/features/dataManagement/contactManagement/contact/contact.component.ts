@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../../api/api.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {NotificationsComponent} from '../../../../notifications/notifications.component';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NotificationsComponent],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
