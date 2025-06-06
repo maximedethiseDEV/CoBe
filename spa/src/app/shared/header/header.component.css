@@ -46,6 +46,10 @@ header .container {
   background: var(--color-primary-dark); /* Couleur plus sombre pour le survol */
 }
 
+.actions button:active {
+  background-color: var(--color-box);
+}
+
 .actions button:focus-visible {
   outline: 3px solid rgba(29, 140, 248, 0.4); /* Focus accessible */
 }

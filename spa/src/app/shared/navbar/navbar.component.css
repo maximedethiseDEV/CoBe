@@ -1,26 +1,31 @@
-nav {
+.bar {
   display: flex;
   justify-content: space-around;
 }
 
-nav a {
-  display: inline-block;
-  font-size: 1rem;        /* Même taille */
-  font-weight: 500;       /* Même poids */
-  border-radius: 5px;
-  color: var(--color-text);            /* Texte blanc comme les boutons */
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.3s ease;
+.bar a:hover {
+  transform: translateY(-2px);
 }
 
-nav a:hover {
+.bar a:active {
   background-color: var(--color-box);
-  color: var(--color-text-over);
 }
 
-nav a.active {
-  font-weight: 600;
-  background-color: var(--color-box-dark);
-  color: var(--color-text-over);
+.bar a img {
+  cursor: pointer;
+  height: 30px;
+  width: auto;
+}
+
+
+/* Animation fadeIn */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

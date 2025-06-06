@@ -6,6 +6,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth-guard.service';
 import {PlanningComponent} from './features/planningManagement/planning/planning.component';
 import {OrderComponent} from './features/orderManagement/order/order.component';
+import {CustomerformComponent} from './features/orderManagement/customerform/customerform.component';
 
 
 /**
@@ -55,6 +56,12 @@ export const appRoutes: Routes = [
   { path: 'planification',
     title: 'Planification',
     component: PlanningComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'USER' },
+  },
+  { path: 'customerform',
+    title: 'Ajouter un client',
+    component: CustomerformComponent,
     canActivate: [AuthGuard],
     data: { role: 'USER' },
   }
