@@ -1,0 +1,108 @@
+.contact-list {
+  width: 100%;
+  margin: var(--spacing-s);
+  padding: var(--spacing-xl);
+  background-color: white;
+  border-radius: var(--border-radius-l);
+  box-shadow: var(--box-shadow-default);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.contact-list h2 {
+  margin-bottom: var(--spacing-m);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.contact-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-list li {
+  padding: var(--spacing-m);
+  border: 2px solid var(--color-border);
+  border-radius: var(--border-radius-s);
+  margin-bottom: var(--spacing-s);
+  cursor: pointer;
+  background-color: var(--color-background-light);
+  transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+}
+
+.contact-list li:hover {
+  background-color: var(--color-background);
+}
+
+.contact-list li.selected {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.contact-list .actions {
+  display: flex;
+  gap: var(--spacing-s);
+  margin-top: var(--spacing-m);
+}
+
+.contact-list button {
+  flex: 0;
+  padding: var(--spacing-xs);
+  margin: var(--spacing-xs);
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-s);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.contact-list button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.contact-list button:disabled {
+  background-color: var(--color-border);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsivité */
+@media screen and (max-width: 480px) {
+  .contact-list {
+    width: 95%;
+    padding: var(--spacing-l);
+    margin: var(--spacing-l) auto;
+  }
+
+  .contact-list li {
+    padding: var(--spacing-s);
+  }
+
+  .contact-list button {
+    padding: var(--spacing-s);
+  }
+}
+
+/* Accessibilité focus */
+.contact-list li:focus-visible,
+.contact-list button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

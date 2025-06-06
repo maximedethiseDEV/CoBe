@@ -2,24 +2,24 @@
   <nav class="bar">
 
     <div class="menu-item">
-      <a routerLink="/order" routerLinkActive="active"><img class="trigger" src="assets/commande.png" alt="commande"></a>
+      <a routerLink="/order" routerLinkActive="active"><img class="trigger" src="assets/commande.png" alt="commande" title="Gérer les commandes"></a>
       <div class="sidebar">
         <ul>
-          <li><a (click)= "onCustomerClick()"><img src="assets/poignee-main.png" alt="poignee-main"></a></li>
-          <li><a href="#"><img src="assets/cone-chantier.png" alt="cone-chantier"></a></li>
-          <li><a href="#"><img src="assets/usine.png" alt="usine"></a></li>
-          <li><a href="#"><img src="assets/autoroute.png" alt="autoroute"></a></li>
-          <li><a href="#"><img src="assets/geolocalisation.png" alt="geolocalisation"></a></li>
-          <li><a href="#"><img src="assets/feu-circulation.png" alt="feu-circulation"></a></li>
+          <li><a (click)= "onCustomerClick()"><img src="assets/poignee-main.png" alt="poignee-main" title="Gérer les clients"></a></li>
+          <li><a href="#"><img src="assets/cone-chantier.png" alt="cone-chantier" title="Gérer les chantiers"></a></li>
+          <li><a href="#"><img src="assets/usine.png" alt="usine" title="Gérer les fournisseurs"></a></li>
+          <li><a href="#"><img src="assets/autoroute.png" alt="autoroute" title="Gérer les transporteurs"></a></li>
+          <li><a href="#"><img src="assets/geolocalisation.png" alt="geolocalisation" title=" Gérer les adresses de livraison"></a></li>
+          <li><a (click)= "onContactClick()"><img src="assets/feu-circulation.png" alt="feu-circulation" title="Gérer les contacts"></a></li>
         </ul>
       </div>
     </div>
 
     <div class="menu-item">
-      <a routerLink="/planification" routerLinkActive="active"><img class="trigger" src="assets/calendrier.png" alt="logo"></a>
+      <a routerLink="/planification" routerLinkActive="active"><img class="trigger" src="assets/calendrier.png" alt="logo" title="Planifier les transports"></a>
       <div class="sidebar">
         <ul>
-          <li><a href="#"><img src="assets/enveloppe.png" alt="enveloppe"></a></li>
+          <li><a href="#"><img src="assets/enveloppe.png" alt="enveloppe" title="Communiquer les livraisons"></a></li>
         </ul>
       </div>
     </div>

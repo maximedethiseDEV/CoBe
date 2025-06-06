@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.left {
+  flex: 1; /* 1 partie */
+  min-width: 0;
+}
+
+.right {
+  flex: 2; /* 2 parties */
+  min-width: 0;
+}
+
+/* Responsivité : en dessous de 768px, on empile les colonnes */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .left,
+  .right {
+    flex: unset; /* annule le flex pour qu'ils prennent toute la largeur */
+    width: 100%;
+  }
+}

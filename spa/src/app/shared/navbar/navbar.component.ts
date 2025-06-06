@@ -20,4 +20,9 @@ export class NavbarComponent {
     this.router.navigateByUrl('/customerform');
   }
 
+  onContactClick(): void {
+    this.router.navigateByUrl('/contact');
+  }
+
+
 }
