@@ -1,7 +1,7 @@
 package com.beco.api.mapper;
 
-import com.beco.api.dto.ContactDto;
-import com.beco.api.model.Contact;
+import com.beco.api.model.dto.ContactDto;
+import com.beco.api.model.entity.Contact;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")

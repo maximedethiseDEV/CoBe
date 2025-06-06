@@ -1,6 +1,6 @@
 /* Styles de base des formulaires */
 .form-base {
-  max-width: var(--form-max-width);
+  max-width: var(--form-max-width-md);
   margin: 0 auto;
   padding: var(--spacing-xl);
   background-color: var(--color-background-light);

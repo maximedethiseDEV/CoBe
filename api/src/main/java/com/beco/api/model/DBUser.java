@@ -1,5 +1,6 @@
 package com.beco.api.model;
 
+import com.beco.api.model.entity.Contact;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

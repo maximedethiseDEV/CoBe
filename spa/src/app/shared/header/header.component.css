@@ -1,6 +1,6 @@
 header {
-  background: #f8f9fa; /* Couleur de fond légèrement grise */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre douce */
+  background: var(--color-background-light); /* Couleur de fond légèrement grise */
+  box-shadow: 0 2px 4px var(--color-box-shadow); /* Ombre douce */
   padding: 1rem 0;
 }
 
@@ -16,13 +16,13 @@ header .container {
 .logo a {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333; /* Couleur principale pour le texte */
+  color: var(--color-text); /* Couleur principale pour le texte */
   text-decoration: none;
   letter-spacing: 0.05rem;
 }
 
 .logo a:hover {
-  color: #1d8cf8; /* Accentuation au survol */
+  color: var(--color-primary); /* Accentuation au survol */
 }
 
 .actions {
@@ -31,7 +31,7 @@ header .container {
 }
 
 .actions button {
-  background: #1d8cf8; /* Couleur principale */
+  background: var(--color-primary); /* Couleur principale */
   color: #fff;
   border: none;
   padding: 0.5rem 1.5rem;
@@ -43,7 +43,7 @@ header .container {
 }
 
 .actions button:hover {
-  background: #156db2; /* Couleur plus sombre pour le survol */
+  background: var(--color-primary-dark); /* Couleur plus sombre pour le survol */
 }
 
 .actions button:focus-visible {

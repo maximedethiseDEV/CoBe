@@ -1,0 +1,102 @@
+<div class="order-form">
+  <h2>Enregistrer une commande</h2>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill" [style.width.%]="progressPercent"></div>
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <form (ngSubmit)="step === totalSteps ? submitCommand() : nextStep()">
+
+    <!-- Étape 1 : Choix du client -->
+    <div *ngIf="step === 1">
+      <h3>Client à facturer</h3>
+      <div class="form-group">
+        <label for="clientFactNumero">N° Client</label>
+        <input type="text" id="clientFactNumero" [(ngModel)]="command.clientFacturation.numeroClient" name="clientFactNumero" required placeholder="N° Client">
+      </div>
+      <div class="form-group">
+        <label for="clientFactNom">Nom</label>
+        <input type="text" id="clientFactNom" [(ngModel)]="command.clientFacturation.nom" name="clientFactNom" required placeholder="Nom">
+      </div>
+      <div class="form-group">
+        <label for="clientFactVille">Ville</label>
+        <input type="text" id="clientFactVille" [(ngModel)]="command.clientFacturation.ville" name="clientFactVille" required placeholder="Ville">
+      </div>
+
+      <h3>Client à livrer</h3>
+      <div class="form-group">
+        <label for="clientLivNumero">N° Client</label>
+        <input type="text" id="clientLivNumero" [(ngModel)]="command.clientLivraison.numeroClient" name="clientLivNumero" required placeholder="N° Client">
+      </div>
+      <div class="form-group">
+        <label for="clientLivNom">Nom</label>
+        <input type="text" id="clientLivNom" [(ngModel)]="command.clientLivraison.nom" name="clientLivNom" required placeholder="Nom">
+      </div>
+      <div class="form-group">
+        <label for="clientLivVille">Ville</label>
+        <input type="text" id="clientLivVille" [(ngModel)]="command.clientLivraison.ville" name="clientLivVille" required placeholder="Ville">
+      </div>
+
+      <button type="submit">Suivant</button>
+    </div>
+
+    <!-- Étape 2 : Choix du produit -->
+    <div *ngIf="step === 2">
+      <h3>Produit</h3>
+      <div class="form-group">
+        <label for="codeProduit">Code Produit</label>
+        <input type="text" id="codeProduit" [(ngModel)]="command.produit.codeProduit" name="codeProduit" required placeholder="Code Produit">
+      </div>
+      <div class="form-group">
+        <label for="nomProduit">Nom</label>
+        <input type="text" id="nomProduit" [(ngModel)]="command.produit.nom" name="nomProduit" required placeholder="Nom du produit">
+      </div>
+      <div class="form-group">
+        <label for="fournisseur">Fournisseur</label>
+        <input type="text" id="fournisseur" [(ngModel)]="command.produit.fournisseur" name="fournisseur" required placeholder="Nom du fournisseur">
+      </div>
+      <div class="form-group">
+        <label for="quantite">Quantité</label>
+        <input type="number" id="quantite" [(ngModel)]="command.produit.quantite" name="quantite" required placeholder="Quantité">
+      </div>
+
+      <button type="button" (click)="previousStep()">Retour</button>
+      <button type="submit">Suivant</button>
+    </div>
+
+    <!-- Étape 3 : Détail de livraison -->
+    <div *ngIf="step === 3">
+      <h3>Détail de livraison</h3>
+      <div class="form-group">
+        <label for="dateDebut">Date de début</label>
+        <input type="date" id="dateDebut" [(ngModel)]="command.livraison.dateDebut" name="dateDebut" required>
+      </div>
+      <div class="form-group">
+        <label for="dateFin">Date de fin</label>
+        <input type="date" id="dateFin" [(ngModel)]="command.livraison.dateFin" name="dateFin" required>
+      </div>
+      <div class="form-group">
+        <label for="nomContact">Nom du contact</label>
+        <input type="text" id="nomContact" [(ngModel)]="command.livraison.nomContact" name="nomContact" required placeholder="Nom du contact">
+      </div>
+      <div class="form-group">
+        <label for="telephoneContact">Téléphone du contact</label>
+        <input type="tel" id="telephoneContact" [(ngModel)]="command.livraison.telephoneContact" name="telephoneContact" required placeholder="Téléphone du contact">
+      </div>
+      <div class="form-group">
+        <label for="remarque">Remarque</label>
+        <input type="text" id="remarque" [(ngModel)]="command.livraison.remarque" name="remarque" placeholder="Remarque">
+      </div>
+      <div class="form-group">
+        <label for="pieceJointe">Pièce jointe</label>
+        <input type="file" id="pieceJointe" name="pieceJointe" (change)="onFileSelected($event)">
+      </div>
+
+      <button type="button" (click)="previousStep()">Retour</button>
+      <button type="submit">Enregistrer</button>
+    </div>
+  </form>
+</div>

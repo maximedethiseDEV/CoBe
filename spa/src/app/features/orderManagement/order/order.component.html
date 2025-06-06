@@ -1,12 +1,2 @@
-<div *ngIf="orders.length > 0">
-    <h2>Gestion de planning</h2>
-    <p>Liste des commandes</p>
-    <ul>
-      <li *ngFor="let order of orders">
-        {{ order.orderId }} - {{ order.billingClientId }} - {{ order.deliveryClientId }} - {{ order.notes }} - {{ order.requestedDeliveryDate }} - {{ order.requestedDeliveryTime }} - {{ order.productId }} - {{ order.quantity }} To
-        <button (click)="viewOrder(order)">View</button>
-        <button (click)="editOrder(order)">Edit</button>
-        <button (click)="deleteOrder(order.orderId)">Delete</button>
-      </li>
-    </ul>
-  </div>
+<app-orderheader/>
+<app-orderform/>

@@ -1,13 +1,13 @@
 package com.beco.api.mapper;
 
-import com.beco.api.dto.ContactDto;
-import com.beco.api.model.Contact;
+import com.beco.api.model.dto.ContactDto;
+import com.beco.api.model.entity.Contact;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-28T14:50:14+0200",
+    date = "2025-06-05T22:42:20+0200",
     comments = "version: 1.6.3, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component

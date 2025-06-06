@@ -1,26 +1,26 @@
 package com.beco.api.mapper;
 
-import com.beco.api.dto.OrderDto;
-import com.beco.api.model.Customer;
-import com.beco.api.model.Order;
-import com.beco.api.model.Product;
-import com.beco.api.model.SharedDetails;
+import com.beco.api.model.dto.GetOrderDto;
+import com.beco.api.model.dto.PostOrderDto;
+import com.beco.api.model.entity.Customer;
+import com.beco.api.model.entity.Order;
+import com.beco.api.model.entity.Product;
+import com.beco.api.model.entity.SharedDetails;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-28T14:50:14+0200",
+    date = "2025-06-05T22:42:20+0200",
     comments = "version: 1.6.3, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
 
     @Override
-    public Order toEntity(OrderDto dto) {
+    public Order toEntity(PostOrderDto dto) {
         if ( dto == null ) {
             return null;
         }
@@ -30,48 +30,60 @@ public class OrderMapperImpl implements OrderMapper {
         order.setBillingCustomer( customerFromId( dto.getBillingCustomerId() ) );
         order.setDeliveryCustomer( customerFromId( dto.getDeliveryCustomerId() ) );
         order.setProduct( productFromId( dto.getProductId() ) );
-        order.setQuantity( dto.getQuantity() );
         order.setSharedDetails( sharedDetailsFromId( dto.getShareDetailsId() ) );
         order.setRequestedDeliveryDate( stringToDate( dto.getRequestedDeliveryDate() ) );
         order.setRequestedDeliveryTime( stringToTime( dto.getRequestedDeliveryTime() ) );
+        order.setQuantity( dto.getQuantity() );
 
         return order;
     }
 
     @Override
-    public OrderDto toDto(Order entity) {
+    public GetOrderDto toDto(Order entity) {
         if ( entity == null ) {
             return null;
         }
 
-        OrderDto orderDto = new OrderDto();
+        GetOrderDto getOrderDto = new GetOrderDto();
 
-        orderDto.setOrderDtoId( entity.getOrderId() );
-        orderDto.setBillingCustomerId( entityBillingCustomerCustomerId( entity ) );
-        orderDto.setDeliveryCustomerId( entityDeliveryCustomerCustomerId( entity ) );
-        orderDto.setProductId( entityProductProductId( entity ) );
-        orderDto.setQuantity( entity.getQuantity() );
-        orderDto.setShareDetailsId( entitySharedDetailsSharedDetailsId( entity ) );
-        orderDto.setRequestedDeliveryDate( dateToString( entity.getRequestedDeliveryDate() ) );
-        orderDto.setRequestedDeliveryTime( timeToString( entity.getRequestedDeliveryTime() ) );
+        getOrderDto.setOrderId( entity.getOrderId() );
+        getOrderDto.setBillingCustomerId( entityBillingCustomerCustomerId( entity ) );
+        getOrderDto.setDeliveryCustomerId( entityDeliveryCustomerCustomerId( entity ) );
+        getOrderDto.setProductId( entityProductProductId( entity ) );
+        getOrderDto.setShareDetailsId( entitySharedDetailsSharedDetailsId( entity ) );
+        getOrderDto.setRequestedDeliveryDate( dateToString( entity.getRequestedDeliveryDate() ) );
+        getOrderDto.setRequestedDeliveryTime( timeToString( entity.getRequestedDeliveryTime() ) );
+        getOrderDto.setQuantity( entity.getQuantity() );
 
-        return orderDto;
+        return getOrderDto;
     }
 
     @Override
-    public void updateOrderFromDto(OrderDto dto, Order order) {
+    public void updateOrderFromDto(PostOrderDto dto, Order order) {
         if ( dto == null ) {
             return;
         }
 
-        if ( dto.getQuantity() != null ) {
-            order.setQuantity( dto.getQuantity() );
+        if ( dto.getBillingCustomerId() != null ) {
+            order.setBillingCustomer( customerFromId( dto.getBillingCustomerId() ) );
+        }
+        if ( dto.getDeliveryCustomerId() != null ) {
+            order.setDeliveryCustomer( customerFromId( dto.getDeliveryCustomerId() ) );
+        }
+        if ( dto.getProductId() != null ) {
+            order.setProduct( productFromId( dto.getProductId() ) );
+        }
+        if ( dto.getShareDetailsId() != null ) {
+            order.setSharedDetails( sharedDetailsFromId( dto.getShareDetailsId() ) );
         }
         if ( dto.getRequestedDeliveryDate() != null ) {
-            order.setRequestedDeliveryDate( LocalDate.parse( dto.getRequestedDeliveryDate() ) );
+            order.setRequestedDeliveryDate( stringToDate( dto.getRequestedDeliveryDate() ) );
         }
         if ( dto.getRequestedDeliveryTime() != null ) {
-            order.setRequestedDeliveryTime( LocalTime.parse( dto.getRequestedDeliveryTime() ) );
+            order.setRequestedDeliveryTime( stringToTime( dto.getRequestedDeliveryTime() ) );
+        }
+        if ( dto.getQuantity() != null ) {
+            order.setQuantity( dto.getQuantity() );
         }
     }
 

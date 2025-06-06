@@ -1,6 +1,8 @@
 package com.beco.api.repository;
 
-import com.beco.api.model.*;
+import com.beco.api.model.entity.Delivery;
+import com.beco.api.model.entity.DeliveryStatus;
+import com.beco.api.model.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

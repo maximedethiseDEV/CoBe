@@ -1,17 +1,20 @@
 <header>
-    <div class="container">
-
-      <div class="logo">
-        <a routerLink="/">CoBe</a>
-      </div>
-
-      <app-navbar />
-
-      <div class="actions">
-        <button (click)="onLogin()">Se connecter</button>
-        <button (click)="onSignUp()">S'enregistrer</button>
-        <button (click)="onLogout()">Se déconnecter</button>
-      </div>
+  <div class="container">
+    <div class="logo">
+      <a href="#" (click)="onLogoClick($event)">CoBe</a>
 
     </div>
-  </header>
+
+    <!-- Navbar visible uniquement si connecté -->
+    <app-navbar *ngIf="isLoggedIn"></app-navbar>
+
+    <div class="actions">
+      <!-- Afficher connexion/inscription si déconnecté -->
+      <button *ngIf="!isLoggedIn" (click)="onLogin()">Se connecter</button>
+      <button *ngIf="!isLoggedIn" (click)="onSignUp()">S'enregistrer</button>
+
+      <!-- Afficher déconnexion si connecté -->
+      <button *ngIf="isLoggedIn" (click)="onLogout()">Se déconnecter</button>
+    </div>
+  </div>
+</header>

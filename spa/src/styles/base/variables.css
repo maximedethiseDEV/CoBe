@@ -1,15 +1,21 @@
 :root {
   /* Couleurs système */
-  --color-primary: #007bff;
-  --color-primary-dark: #0056b3;
+  --color-primary: #b30d58;
+  --color-primary-dark: #800036;
+  --color-primary-old: #1d8cf8;
+  --color-primary-dark-old: #0056b3;
   --color-success: #4CAF50;
   --color-success-dark: #45a049;
   --color-error: #dc3545;
   --color-background: #f5f5f5;
   --color-background-light: #f9f9f9;
+  --color-background-dark: #878787;
   --color-text: #333;
   --color-text-over: #f5f5f5;
-  --color-border: #ccc;
+  --color-border: #eee;
+  --color-box: #ccc;
+  --color-box-dark: #999;
+  --color-box-shadow: rgba(0, 0, 0, 0.1);
 
   /* Messages */
   --color-success-bg: #d4edda;
@@ -32,5 +38,8 @@
   --box-shadow-default: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   /* Largeurs */
-  --form-max-width: 400px;
+  --form-max-width-sm: 200px;
+  --form-max-width-md: 400px;
+  --form-max-width-lg: 700px;
+  --form-max-width-xl: 900px;
 }

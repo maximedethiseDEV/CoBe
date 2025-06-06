@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../../api/api.service';
-import { Order } from '../order.model';
+import { Order } from './order.model';
 import { CommonModule } from '@angular/common';
+import {OrderformComponent} from '../orderform/orderform.component';
+import {OrderheaderComponent} from '../orderheader/orderheader.component';
 
 @Component({
   selector: 'app-order',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, OrderformComponent, OrderheaderComponent],
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })

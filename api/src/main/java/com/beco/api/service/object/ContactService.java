@@ -1,0 +1,90 @@
+package com.beco.api.service.object;
+
+import com.beco.api.model.dto.ContactDto;
+import com.beco.api.mapper.ContactMapper;
+import com.beco.api.model.entity.Contact;
+import com.beco.api.repository.ContactRepository;
+import com.beco.api.service.AbstractCrudService;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.*;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+
+@Service
+@CacheConfig(cacheNames = "contacts")
+public class ContactService extends AbstractCrudService<Contact, ContactDto, ContactDto, Integer> {
+
+    private final ContactRepository repository;
+    private final ContactMapper mapper;
+
+    public ContactService(
+            ContactRepository repository,
+            CacheManager cacheManager,
+            ContactMapper mapper
+    ) {
+        super(
+                repository,
+                cacheManager,
+                mapper::toDto,
+                mapper::toEntity,
+                mapper::updateContactFromDto
+        );
+        this.repository = repository;
+        this.mapper = mapper;
+    }
+
+    @Override
+    @Cacheable(key = "'all'")
+    public List<ContactDto> findAll() {
+        return super.findAll();
+    }
+
+    @Override
+    @Cacheable(key = "#id")
+    public ContactDto findById(Integer id) {
+        return super.findById(id);
+    }
+
+    @Override
+    @CachePut(key = "#result.contactId")
+    @CacheEvict(value = "contacts", key = "'all'")
+    public ContactDto create(ContactDto contactDto) {
+        return super.create(contactDto);
+    }
+
+    @Override
+    @CachePut(key = "#id")
+    @CacheEvict(value = "contacts", key = "'all'")
+    public ContactDto update(Integer id, ContactDto contactDto) {
+        return super.update(id, contactDto);
+    }
+
+    @Override
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
+    public void deleteById(Integer id) {
+        super.deleteById(id);
+    }
+
+    @Override
+    protected boolean dataValidatorControl(ContactDto contactDto) {
+        return true;
+    }
+
+    @Override
+    protected String getEntityName() {
+        return "contact";
+    }
+
+    // Récupérer les contacts par email, exemple additionnel
+    public ContactDto findByEmail(String email) {
+        Contact contact = repository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Contact avec l'email " + email + " introuvable"));
+        return mapper.toDto(contact);
+    }
+}

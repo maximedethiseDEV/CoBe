@@ -1,25 +1,26 @@
-
-/* Navbar Styles */
 nav {
   display: flex;
   justify-content: space-around;
-  padding: 10px 0;
 }
 
 nav a {
-  color: var(--color-text);
+  display: inline-block;
+  font-size: 1rem;        /* Même taille */
+  font-weight: 500;       /* Même poids */
+  border-radius: 5px;
+  color: var(--color-text);            /* Texte blanc comme les boutons */
   text-decoration: none;
-  padding: 10px 15px;
-  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
 }
 
 nav a:hover {
+  background-color: var(--color-box);
   color: var(--color-text-over);
-  background-color: #1abc9c; /* Couleur d'accent verte */
-  border-radius: 5px;
 }
 
 nav a.active {
-  font-weight: bold;
-  border-radius: 5px;
+  font-weight: 600;
+  background-color: var(--color-box-dark);
+  color: var(--color-text-over);
 }

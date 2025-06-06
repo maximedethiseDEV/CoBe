@@ -12,7 +12,6 @@ import { ApiService } from '../../api/api.service';
 })
 export class RegisterComponent {
 
-  // Représentant un nouvel utilisateur avec ses données de contact
   newUser = {
     username: '',
     passwordHash: '',
@@ -21,21 +20,27 @@ export class RegisterComponent {
       lastName: '',
       firstName: '',
       email: '',
-      phone: '',  // Optionnel
-      role: ''    // Optionnel
+      phone: '',
+      role: ''
     }
   };
 
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
+  step: number = 1;
+  totalSteps: number = 2;  // Nombre total d'étapes (modifiable si besoin)
+
   constructor(private apiService: ApiService) {}
 
-  registerUser() {
-    this.successMessage = null;
+  // Calcule le pourcentage d'avancement (pour la barre de progression)
+  get progressPercent(): number {
+    return (this.step / this.totalSteps) * 100;
+  }
+
+  nextStep() {
     this.errorMessage = null;
 
-    // Validation côté frontend pour l'utilisateur
     if (!this.newUser.username || this.newUser.username.length < 3) {
       this.errorMessage = 'Le nom d\'utilisateur doit contenir au moins 3 caractères.';
       return;
@@ -44,14 +49,18 @@ export class RegisterComponent {
       this.errorMessage = 'Le mot de passe doit contenir au moins 6 caractères.';
       return;
     }
+    this.step = 2;
+  }
 
-    // Validation côté frontend pour les informations de contact
+  registerUser() {
+    this.successMessage = null;
+    this.errorMessage = null;
+
     if (!this.newUser.contact.lastName || !this.newUser.contact.firstName || !this.newUser.contact.email) {
       this.errorMessage = 'Les champs Nom, Prénom et Email pour le contact sont obligatoires.';
       return;
     }
 
-    // Appel à l'API pour enregistrer l'utilisateur avec ses données de contact
     this.apiService.postData('register', this.newUser).subscribe(
       response => {
         if (response && response.message) {
@@ -72,7 +81,11 @@ export class RegisterComponent {
     );
   }
 
-  // Réinitialisation du formulaire après succès
+  previousStep() {
+    this.errorMessage = null;
+    this.step = 1;
+  }
+
   resetForm() {
     this.newUser = {
       username: '',
@@ -86,5 +99,6 @@ export class RegisterComponent {
         role: ''
       }
     };
+    this.step = 1;
   }
 }

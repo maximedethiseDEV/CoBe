@@ -1,6 +1,6 @@
 package com.beco.api.repository;
 
-import com.beco.api.model.Country;
+import com.beco.api.model.entity.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

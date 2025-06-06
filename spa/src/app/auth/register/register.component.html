@@ -1,60 +1,60 @@
 <div class="register-form">
   <h2>Créer un compte</h2>
 
-  <!-- Messages de succès et d'erreur -->
-  <div *ngIf="successMessage" class="success-message">
-    {{ successMessage }}
+  <div class="progress-bar">
+    <div class="progress-bar-fill" [style.width.%]="progressPercent"></div>
   </div>
 
-  <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
-  </div>
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-  <!-- Formulaire de création d'utilisateur -->
-  <form (ngSubmit)="registerUser()" #registerForm="ngForm">
-    <!-- Section utilisateur -->
-    <div class="form-group">
-      <label for="username">Nom d'utilisateur :</label>
-      <input
-        type="text"
-        id="username"
-        [(ngModel)]="newUser.username"
-        name="username"
-        required
-        minlength="3"
-        #username="ngModel"
-        placeholder="Entrez votre nom d'utilisateur"
-      >
-      <div *ngIf="username.invalid && username.touched" class="validation-message">
-        <small *ngIf="username.errors?.['required']">Le nom d'utilisateur est requis.</small>
-        <small *ngIf="username.errors?.['minlength']">Le nom d'utilisateur doit contenir au moins 3 caractères.</small>
+  <form #registerForm="ngForm" (ngSubmit)="step === 1 ? nextStep() : registerUser()">
+    <!-- Étape 1 : nom utilisateur + mot de passe -->
+    <div *ngIf="step === 1">
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="newUser.username"
+          name="username"
+          required minlength="3"
+          #username="ngModel"
+          placeholder="Entrez votre nom d'utilisateur"
+        >
+        <div *ngIf="username.invalid && username.touched" class="validation-message">
+          <small *ngIf="username.errors?.['required']">Le nom d'utilisateur est requis.</small>
+          <small *ngIf="username.errors?.['minlength']">Le nom d'utilisateur doit contenir au moins 3 caractères.</small>
+        </div>
       </div>
-
-    </div>
-
-    <div class="form-group">
-      <label for="password">Mot de passe :</label>
-      <input
-        type="password"
-        id="password"
-        [(ngModel)]="newUser.passwordHash"
-        name="password"
-        required
-        minlength="6"
-        #password="ngModel"
-        placeholder="Entrez votre mot de passe"
-      >
-      <div *ngIf="password.invalid && password.touched" class="validation-message">
-        <small *ngIf="password.errors?.['required']">Le mot de passe est requis.</small>
-        <small *ngIf="password.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères.</small>
-      </div>
-    </div>
-
-    <!-- Section Contact -->
-      <legend>Informations de contact</legend>
 
       <div class="form-group">
-        <label for="lastName">Nom :</label>
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="newUser.passwordHash"
+          name="password"
+          required minlength="6"
+          #password="ngModel"
+          placeholder="Entrez votre mot de passe"
+        >
+        <div *ngIf="password.invalid && password.touched" class="validation-message">
+          <small *ngIf="password.errors?.['required']">Le mot de passe est requis.</small>
+          <small *ngIf="password.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères.</small>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="username.invalid || password.invalid">
+        Suivant
+      </button>
+    </div>
+
+    <!-- Étape 2 : coordonnées de contact -->
+    <div *ngIf="step === 2">
+
+      <div class="form-group">
+        <label for="lastName">Nom</label>
         <input
           type="text"
           id="lastName"
@@ -62,11 +62,12 @@
           name="lastName"
           required
           placeholder="Nom du contact"
+          #lastName="ngModel"
         />
       </div>
 
       <div class="form-group">
-        <label for="firstName">Prénom :</label>
+        <label for="firstName">Prénom</label>
         <input
           type="text"
           id="firstName"
@@ -74,11 +75,12 @@
           name="firstName"
           required
           placeholder="Prénom du contact"
+          #firstName="ngModel"
         />
       </div>
 
       <div class="form-group">
-        <label for="email">Email :</label>
+        <label for="email">Email</label>
         <input
           type="email"
           id="email"
@@ -86,11 +88,12 @@
           name="email"
           required
           placeholder="Email du contact"
+          #email="ngModel"
         />
       </div>
 
       <div class="form-group">
-        <label for="phone">Téléphone (optionnel) :</label>
+        <label for="phone">Téléphone (optionnel)</label>
         <input
           type="text"
           id="phone"
@@ -100,9 +103,10 @@
         />
       </div>
 
-    <!-- Bouton d'envoi -->
-    <button type="submit" [disabled]="registerForm.invalid">
-      S'enregistrer
-    </button>
+      <button type="button" (click)="previousStep()">Retour</button>
+      <button type="submit" [disabled]="lastName.invalid || firstName.invalid || email.invalid">
+        S'enregistrer
+      </button>
+    </div>
   </form>
 </div>

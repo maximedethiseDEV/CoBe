@@ -1,57 +1,76 @@
 package com.beco.api.config.sse;
 
+import com.beco.api.config.exception.SseExceptionHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class SseService {
 
-    private final ConcurrentHashMap<String, SseEmitter> emitters = new ConcurrentHashMap<>();
+    private final Map<String, CopyOnWriteArrayList<SseEmitter>> emittersPerEntity = new ConcurrentHashMap<>();
+    private final SseExceptionHandler sseExceptionHandler;
 
-    private SseEmitter emitter;
-    private Integer lastId = 0;
+    public SseService(SseExceptionHandler sseExceptionHandler) {
+        this.sseExceptionHandler = sseExceptionHandler;
+    }
 
-    // Associer un SseEmitter à un utilisateur
-    public SseEmitter createEmitter(String userId) {
+    // Ici on ne gère plus l'exception interne : si un problème survient à la création,
+    // l'exception doit remonter au contrôleur puis au SseExceptionHandler.
+    public SseEmitter subscribeToEntity(String entity) {
         SseEmitter emitter = new SseEmitter();
-        emitters.put(userId, emitter);
+        emittersPerEntity.computeIfAbsent(entity, key -> new CopyOnWriteArrayList<>()).add(emitter);
 
-        // Retirer l'emitter en cas de déconnexion
-        emitter.onCompletion(() -> emitters.remove(userId));
-        emitter.onTimeout(() -> emitters.remove(userId));
-        emitter.onError(e -> emitters.remove(userId));
+        emitter.onCompletion(() -> removeEmitter(entity, emitter));
+        emitter.onTimeout(() -> removeEmitter(entity, emitter));
+        emitter.onError((e) -> removeEmitter(entity, emitter));
 
         return emitter;
     }
 
-
-    public void sendHeartbeat(String userId) throws IOException {
-        SseEmitter emitter = emitters.get(userId);
-        if (emitter != null) {
-            sendMessageToUser(userId, "heartbeat");
+    private void removeEmitter(String entity, SseEmitter emitter) {
+        CopyOnWriteArrayList<SseEmitter> emitters = emittersPerEntity.get(entity);
+        if (emitters != null) {
+            emitters.remove(emitter);
         }
     }
 
-    // Envoyer un message spécifique à un utilisateur
-    public void sendMessageToUser(String userId, Object data) throws IOException {
-        SseEmitter emitter = emitters.get(userId);
-        if (emitter != null) {
-            emitter.send(SseEmitter.event().name("message").data(data));
-        }
-    }
+    // Ici, on continue à attraper les IOException lors de l'envoi, car
+    // c’est lié au transport réseau ou à la fermeture du client
+    public void broadcastToEntity(String entity, SseEventMessage message) {
+        CopyOnWriteArrayList<SseEmitter> emitters = emittersPerEntity.get(entity);
 
-    // Envoyer un message à tous les utilisateurs connectés
-    public void broadcastMessage(Object data) {
-        emitters.forEach((userId, emitter) -> {
-            try {
-                emitter.send(SseEmitter.event().name("message").data(data));
-            } catch (IOException e) {
-                emitters.remove(userId);
+        if (emitters != null) {
+            for (SseEmitter emitter : emitters) {
+                try {
+                    emitter.send(SseEmitter.event().name("update").data(message));
+                } catch (IOException e) {
+                    removeEmitter(entity, emitter);
+                }
             }
-        });
+        }
     }
 
+    public void sendHeartbeat(String entity) {
+        CopyOnWriteArrayList<SseEmitter> emitters = emittersPerEntity.get(entity);
+
+        if (emitters != null) {
+            for (SseEmitter emitter : emitters) {
+                try {
+                    emitter.send(
+                            SseEmitter.event()
+                                    .name("HEARTBEAT")
+                                    .data("ping")
+                                    .id(String.valueOf(System.currentTimeMillis()))
+                    );
+                } catch (IOException e) {
+                    removeEmitter(entity, emitter);
+                }
+            }
+        }
+    }
 }

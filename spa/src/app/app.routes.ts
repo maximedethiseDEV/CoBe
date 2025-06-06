@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import {RegisterComponent} from './auth/register/register.component';
-import {LandingPageComponent} from './features/landingPageManagement/landing-page/landing-page.component';
+import {LandingPageComponent} from './shared/landing-page/landing-page.component';
 import {DashboardComponent} from './features/dashBoardManagement/dashboard/dashboard.component';
-import {ContactListComponent} from './features/dataManagement/contactManagement/contact-list/contact-list.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth-guard.service';
+import {PlanningComponent} from './features/planningManagement/planning/planning.component';
+import {OrderComponent} from './features/orderManagement/order/order.component';
 
 
 /**
@@ -45,9 +46,15 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
     data: { role: 'USER' },
   },
-  { path: 'contact',
-    title: 'Contact',
-    component: ContactListComponent,
+  { path: 'order',
+    title: 'Commande',
+    component: OrderComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'USER' },
+  },
+  { path: 'planification',
+    title: 'Planification',
+    component: PlanningComponent,
     canActivate: [AuthGuard],
     data: { role: 'USER' },
   }
