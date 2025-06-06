@@ -1,4 +1,28 @@
-<nav class="bar">
-  <a routerLink="/order" routerLinkActive="active"><img class="logo" src="assets/commande.png" alt="logo"></a>
-  <a routerLink="/planification" routerLinkActive="active"><img class="logo" src="assets/calendrier.png" alt="logo"></a>
-</nav>
+<div class="menu-wrapper">
+  <nav class="bar">
+
+    <div class="menu-item">
+      <a routerLink="/order" routerLinkActive="active"><img class="trigger" src="assets/commande.png" alt="commande"></a>
+      <div class="sidebar">
+        <ul>
+          <li><a (click)= "onCustomerClick()"><img src="assets/poignee-main.png" alt="poignee-main"></a></li>
+          <li><a href="#"><img src="assets/cone-chantier.png" alt="cone-chantier"></a></li>
+          <li><a href="#"><img src="assets/usine.png" alt="usine"></a></li>
+          <li><a href="#"><img src="assets/autoroute.png" alt="autoroute"></a></li>
+          <li><a href="#"><img src="assets/geolocalisation.png" alt="geolocalisation"></a></li>
+          <li><a href="#"><img src="assets/feu-circulation.png" alt="feu-circulation"></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="menu-item">
+      <a routerLink="/planification" routerLinkActive="active"><img class="trigger" src="assets/calendrier.png" alt="logo"></a>
+      <div class="sidebar">
+        <ul>
+          <li><a href="#"><img src="assets/enveloppe.png" alt="enveloppe"></a></li>
+        </ul>
+      </div>
+    </div>
+
+  </nav>
+</div>

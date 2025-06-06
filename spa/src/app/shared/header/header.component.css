@@ -1,6 +1,6 @@
 header {
-  background: var(--color-background-light); /* Couleur de fond légèrement grise */
-  box-shadow: 0 2px 4px var(--color-box-shadow); /* Ombre douce */
+  background: var(--color-background-light);
+  box-shadow: 0 2px 4px var(--color-box-shadow);
   padding: 1rem 0;
 }
 
