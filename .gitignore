@@ -25,6 +25,10 @@
 hs_err_pid*
 replay_pid*
 
+# Maven/Gradle build folders
+target/
+build/
+
 ### Angular template
 ## Angular ##
 # compiled output
@@ -54,6 +58,18 @@ typings/
 e2e/*.js
 e2e/*.map
 
-# System Files
+### System Files
 .DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
 
+### Editors
+*.swp
+*~
+.vscode/
+.classpath
+.project
+.settings/
+*.iml
