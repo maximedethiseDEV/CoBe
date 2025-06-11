@@ -92,31 +92,32 @@ INSERT INTO "transport_supplier" ("company_id", "license_number")
 VALUES (2, 'TR-2023-45678'),
        (5, 'TR-2023-56789'),
        (8, 'TR-2023-67890');
--- Insertion des fournisseurs de matériaux
-INSERT INTO "material_supplier" ("company_id", "contact_id", "loading_address_id", "notes")
-VALUES (3, 3, 3, 'Spécialiste en béton'),
-       (6, 6, 6, 'Fournisseur de ciment'),
-       (11, 9, 9, 'Fournisseur');
--- Insertion des clients
-INSERT INTO "customer" ("company_id", "contact_id", "delivery_address_id", "attachment_path", "notes",
-                        "date_start", "date_end", "is_solvent", "parent_id")
-VALUES (1, 1, 1, '/attachments/customer1.pdf', 'Projet résidentiel', '2023-03-01', '2023-12-31', TRUE, NULL),
-       (4, 4, 4, '/attachments/customer4.pdf', 'Projet commercial', '2023-04-15', '2024-02-28', TRUE, NULL);
+-- Insertion des fournisseurs de matériaux (suppression de "notes")
+INSERT INTO "material_supplier" ("company_id", "contact_id", "loading_address_id", "shared_details_id")
+VALUES (3, 3, 3, 1),
+       (6, 6, 6, 2),
+       (11, 9, 9, NULL);
+
+-- Insertion des clients (suppression et ajustement de "shared_details", "notes")
+INSERT INTO "customer" ("company_id", "contact_id", "shared_details_id", "date_start", "date_end", "is_solvent", "parent_id")
+VALUES (1, 1, 1, '2023-03-01', '2023-12-31', TRUE, NULL),
+       (4, 4, 2, '2023-04-15', '2024-02-28', TRUE, NULL);
 -- Insertion dans la table "construction_site"
-INSERT INTO "construction_site" ("customer_id", "address_id", "date_start", "date_end")
-VALUES (1, 1, '2023-06-01', '2024-12-31'),
-       (2, 4, '2024-01-01', NULL);
+INSERT INTO "construction_site" ("address_id","customer_id","shared_details_id", "date_start", "date_end")
+VALUES (7, 1,NULL, '2023-06-01', '2024-12-31'),
+       (8, 2, NULL, '2024-01-01', NULL);
 
--- Insertion dans la table "product"
-INSERT INTO "product" ("product_id","product_code", "material_supplier_id", "notes")
-VALUES (60,'4/10', 11, 'Calibre élémentaire'),
-       (70,'6/20', 11, 'Généralement utilisé en centrale');
+-- Insertion dans la table "product" (suppression de "notes")
+INSERT INTO "product" ("product_code", "material_supplier_id", "shared_details_id")
+VALUES ('4/10', 1, NULL),
+       ('6/20', 1, NULL);
 
--- Insertion dans la table "orders"
-INSERT INTO "order" ("billing_customer_id", "delivery_customer_id", "product_id", "quantity",
-                      "requested_delivery_date")
-VALUES (1, 2, 1, 1000, '2024-05-01'),
-       (1, 2, 2, 500, '2024-05-15');
+-- Insertion dans la table "order"
+INSERT INTO "order" 
+    ("billing_customer_id", "delivery_customer_id", "construction_site_id", "product_id", "quantity_ordered", "requested_delivery_date", "requested_delivery_time", "shared_details_id")
+VALUES 
+    (1, 1, 2, 1, 1000, '2024-05-01', '10:00:00', NULL),
+    (2, NULL, NULL, 2, 500, '2024-05-15', '10:00:00', NULL);
 
 -- Insertion dans la table "delivery_order_number"
 INSERT INTO "delivery_order_number" ("transport_supplier_id", "city_id", "product_id", "unique_delivery_order_number")
@@ -124,6 +125,6 @@ VALUES (1, 1, 1, 'DELIVERY-001'),
        (2, 3, 2, 'DELIVERY-002');
 
 -- Insertion dans la table "delivery"
-INSERT INTO "delivery" ("order_id", "transport_supplier_id", "delivery_order_number_id", "quantity", "status_id")
-VALUES (1, 1, 1, 150, 1),
-       (2, 2, 2, 500, 2);
+INSERT INTO "delivery" ("order_id", "transport_supplier_id", "delivery_order_number_id", "actual_delivery_date","actual_delivery_time", "quantity", "status_id")
+VALUES (1, 1, 1,'2025-06-11','10:00:00', 150, 1),
+       (2, 2, 2,'2025-06-12','08:00:00', 50, 2);

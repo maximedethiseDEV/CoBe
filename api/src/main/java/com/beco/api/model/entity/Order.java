@@ -6,8 +6,10 @@ import lombok.Data;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -38,10 +40,11 @@ public class Order {
     private Integer quantityOrdered;
 
     @Column(name = "requested_delivery_date")
-    private LocalDate requestedDeliveryDate;
+    @Temporal(TemporalType.DATE)
+    private Date requestedDeliveryDate;
 
     @Column(name = "requested_delivery_time")
-    private LocalTime requestedDeliveryTime;
+    private Time requestedDeliveryTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)

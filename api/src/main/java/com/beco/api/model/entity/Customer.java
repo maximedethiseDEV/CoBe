@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -25,17 +26,17 @@ public class Customer {
     @JoinColumn(name = "contact_id")
     private Contact contact;
 
-    @Column(name = "attachment_path")
-    private String attachmentPath;
-
-    @Column(name = "notes")
-    private String notes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shared_details_id", referencedColumnName = "shared_details_id")
+    private SharedDetails sharedDetails;
 
     @Column(name = "date_start")
-    private LocalDate dateStart;
+    @Temporal(TemporalType.DATE)
+    private Date dateStart;
 
     @Column(name = "date_end")
-    private LocalDate dateEnd;
+    @Temporal(TemporalType.DATE)
+    private Date dateEnd;
 
     @Column(name = "is_solvent", nullable = false)
     private Boolean isSolvent = true;

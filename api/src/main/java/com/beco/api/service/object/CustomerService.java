@@ -1,9 +1,9 @@
 package com.beco.api.service.object;
 
-import com.beco.api.mapper.CityMapper;
-import com.beco.api.model.dto.CityDto;
-import com.beco.api.model.entity.City;
-import com.beco.api.repository.CityRepository;
+import com.beco.api.mapper.CustomerMapper;
+import com.beco.api.model.dto.CustomerDto;
+import com.beco.api.model.entity.Customer;
+import com.beco.api.repository.CustomerRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
@@ -15,23 +15,23 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@CacheConfig(cacheNames = "cities")
-public class CityService extends AbstractCrudService<City, CityDto, CityDto, Integer> {
+@CacheConfig(cacheNames = "customers")
+public class CustomerService extends AbstractCrudService<Customer, CustomerDto, CustomerDto, Integer> {
 
-    private final CityRepository repository;
-    private final CityMapper mapper;
+    private final CustomerRepository repository;
+    private final CustomerMapper mapper;
 
-    public CityService(
-            CityRepository repository,
+    public CustomerService(
+            CustomerRepository repository,
             CacheManager cacheManager,
-            CityMapper mapper
+            CustomerMapper mapper
     ) {
         super(
                 repository,
                 cacheManager,
                 mapper::toDto,
                 mapper::toEntity,
-                mapper::updateCityFromDto
+                mapper::updateCustomerFromDto
 
         );
         this.repository = repository;
@@ -40,25 +40,25 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, Int
 
     @Override
     @Cacheable(key = "'all'")
-    public List<CityDto> findAll() {
+    public List<CustomerDto> findAll() {
         return super.findAll();
     }
 
     @Override
     @Cacheable(key = "#id")
-    public CityDto findById(Integer id) {
+    public CustomerDto findById(Integer id) {
         return super.findById(id);
     }
 
     @Override
     @CachePut(key = "#result.id")
-    public CityDto create(CityDto dto) {
+    public CustomerDto create(CustomerDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
-    public CityDto update(Integer id, CityDto dto) {
+    public CustomerDto update(Integer id, CustomerDto dto) {
         return super.update(id, dto);
     }
 
@@ -69,7 +69,7 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, Int
     }
 
     @Override
-    protected boolean dataValidatorControl(CityDto countryDto) {
+    protected boolean dataValidatorControl(CustomerDto countryDto) {
         return true;
     }
 

@@ -16,7 +16,7 @@ public class Company {
     private Integer companyId;
 
     @Column(name = "name", nullable = false, unique = true)
-    private String name;
+    private String companyName;
 
     @Column(name = "commercially_active", nullable = false)
     private Boolean commerciallyActive = true;

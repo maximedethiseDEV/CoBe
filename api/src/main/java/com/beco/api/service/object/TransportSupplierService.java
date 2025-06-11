@@ -1,9 +1,9 @@
 package com.beco.api.service.object;
 
-import com.beco.api.mapper.CityMapper;
-import com.beco.api.model.dto.CityDto;
-import com.beco.api.model.entity.City;
-import com.beco.api.repository.CityRepository;
+import com.beco.api.mapper.TransportSupplierMapper;
+import com.beco.api.model.dto.TransportSupplierDto;
+import com.beco.api.model.entity.TransportSupplier;
+import com.beco.api.repository.TransportSupplierRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
@@ -15,24 +15,23 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@CacheConfig(cacheNames = "cities")
-public class CityService extends AbstractCrudService<City, CityDto, CityDto, Integer> {
+@CacheConfig(cacheNames = "transport-suppliers")
+public class TransportSupplierService extends AbstractCrudService<TransportSupplier, TransportSupplierDto, TransportSupplierDto, Integer> {
 
-    private final CityRepository repository;
-    private final CityMapper mapper;
+    private final TransportSupplierRepository repository;
+    private final TransportSupplierMapper mapper;
 
-    public CityService(
-            CityRepository repository,
+    public TransportSupplierService(
+            TransportSupplierRepository repository,
             CacheManager cacheManager,
-            CityMapper mapper
+            TransportSupplierMapper mapper
     ) {
         super(
                 repository,
                 cacheManager,
                 mapper::toDto,
                 mapper::toEntity,
-                mapper::updateCityFromDto
-
+                mapper::updateTransportSupplierFromDto
         );
         this.repository = repository;
         this.mapper = mapper;
@@ -40,25 +39,25 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, Int
 
     @Override
     @Cacheable(key = "'all'")
-    public List<CityDto> findAll() {
+    public List<TransportSupplierDto> findAll() {
         return super.findAll();
     }
 
     @Override
     @Cacheable(key = "#id")
-    public CityDto findById(Integer id) {
+    public TransportSupplierDto findById(Integer id) {
         return super.findById(id);
     }
 
     @Override
     @CachePut(key = "#result.id")
-    public CityDto create(CityDto dto) {
+    public TransportSupplierDto create(TransportSupplierDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
-    public CityDto update(Integer id, CityDto dto) {
+    public TransportSupplierDto update(Integer id, TransportSupplierDto dto) {
         return super.update(id, dto);
     }
 
@@ -69,12 +68,10 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, Int
     }
 
     @Override
-    protected boolean dataValidatorControl(CityDto countryDto) {
-        return true;
-    }
+    protected boolean dataValidatorControl(TransportSupplierDto postTransportSupplierDto) { return true; }
 
     @Override
     protected String getEntityName() {
-        return "country";
+        return "address";
     }
 }

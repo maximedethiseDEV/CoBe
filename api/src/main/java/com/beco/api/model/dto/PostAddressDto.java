@@ -7,7 +7,7 @@ public class PostAddressDto {
 
     private Integer addressId;
 
-    private Integer cityId;
-
     private String street;
+
+    private CityDto city;
 }

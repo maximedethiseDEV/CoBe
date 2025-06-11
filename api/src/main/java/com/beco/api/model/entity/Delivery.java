@@ -3,8 +3,10 @@ package com.beco.api.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -29,10 +31,11 @@ public class Delivery {
     private DeliveryOrderNumber deliveryOrderNumberId;
 
     @Column(name = "actual_delivery_date")
-    private LocalDate actualDeliveryDate;
+    @Temporal(TemporalType.DATE)
+    private Date actualDeliveryDate;
 
     @Column(name = "actual_delivery_time")
-    private LocalTime actualDeliveryTime;
+    private Time actualDeliveryTime;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;

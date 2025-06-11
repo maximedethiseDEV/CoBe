@@ -23,11 +23,6 @@ services:
     networks:
       - beco-network
     restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   api:
     image: beco-api
@@ -44,8 +39,7 @@ services:
     volumes:
       - ./api/logs:/logs
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     networks:
       - beco-network
     restart: always

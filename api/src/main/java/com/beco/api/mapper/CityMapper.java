@@ -7,7 +7,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {CountryMapper.class})
 public interface CityMapper {
 
-    @Mapping(target = "cityId", ignore = true)
+    @Mapping(target = "cityId", source = "cityId")
     @Mapping(target = "postalCode", source = "postalCode")
     @Mapping(target = "cityName", source = "cityName")
     @Mapping(target = "country.countryId", ignore = true)

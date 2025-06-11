@@ -3,34 +3,23 @@ package com.beco.api.mapper;
 import com.beco.api.model.dto.GetAddressDto;
 import com.beco.api.model.dto.PostAddressDto;
 import com.beco.api.model.entity.Address;
-import com.beco.api.model.entity.City;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {CityMapper.class})
 public interface AddressMapper {
 
-    @Mapping(target = "addressId", ignore = true)
-    @Mapping(target = "city", source = "cityId", qualifiedByName = "cityFromId")
-    @Mapping(target = "street", source = "street")
-    Address toEntity(PostAddressDto dto);
-
     @Mapping(target = "addressId", source = "addressId")
-    @Mapping(target = "cityName", source = "city.cityName")
     @Mapping(target = "street", source = "street")
+    @Mapping(target = "cityName", source = "city.cityName")
+    @Mapping(target = "countryCode", source = "city.country.countryCode")
     GetAddressDto toDto(Address entity);
 
-    /** Met à jour une entité Address existante depuis un addressDto sans écraser les champs null **/
+    @Mapping(target = "addressId", ignore = true)
+    @Mapping(target = "street", source = "street")
+    @Mapping(target = "city", source = "city")
+    Address toEntity(PostAddressDto dto);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "addressId", ignore = true)
     void updateAddressFromDto(PostAddressDto dto, @MappingTarget Address address);
-
-    @Named("cityFromId")
-    default City cityFromId(Integer id) {
-        if (id == null) {
-            return null;
-        }
-        City city = new City();
-        city.setCityId(id);
-        return city;
-    }
 }

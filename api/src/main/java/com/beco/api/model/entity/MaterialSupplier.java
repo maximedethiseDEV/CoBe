@@ -29,6 +29,7 @@ public class MaterialSupplier {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Address loadingAddress;
 
-    @Column(name = "notes", columnDefinition = "TEXT")
-    private String notes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shared_details_id", referencedColumnName = "shared_details_id")
+    private SharedDetails sharedDetails;
 }

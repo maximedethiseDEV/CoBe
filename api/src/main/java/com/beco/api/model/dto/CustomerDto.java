@@ -1,0 +1,29 @@
+package com.beco.api.model.dto;
+
+import com.beco.api.model.entity.SharedDetails;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
+public class CustomerDto {
+
+    private Integer customerId;
+
+    private CompanyDto company;
+
+    private ContactDto contact;
+
+    private SharedDetails sharedDetails;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dateStart;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dateEnd;
+
+    private Boolean isSolvent = true;
+
+    private CustomerDto parent;
+}

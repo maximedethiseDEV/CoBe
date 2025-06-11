@@ -7,7 +7,9 @@ public class GetAddressDto {
 
     private Integer addressId;
 
+    private String street;
+
     private String cityName;
 
-    private String street;
+    private String countryCode;
 }

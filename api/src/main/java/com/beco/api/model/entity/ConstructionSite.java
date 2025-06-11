@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -30,8 +31,10 @@ public class ConstructionSite {
     private SharedDetails sharedDetails;
 
     @Column(name = "date_start")
-    private LocalDate dateStart;
+    @Temporal(TemporalType.DATE)
+    private Date dateStart;
 
     @Column(name = "date_end")
-    private LocalDate dateEnd;
+    @Temporal(TemporalType.DATE)
+    private Date dateEnd;
 }
