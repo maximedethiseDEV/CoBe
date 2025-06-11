@@ -26,5 +26,7 @@ Ce logiciel vise à simplifier la gestion du planning des livraisons pour les af
 - **Frontend** : Angular (Standalone Components)
 - **Base de données** : PostgreSQL
 - **Conteneurisation** : Docker
+- ** Lucide** : Icons
+  Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part of Feather (MIT). All other copyright (c) for Lucide are held by Lucide Contributors 2022.
 
 ## 🚀 Installation

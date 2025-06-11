@@ -27,7 +27,8 @@
               }
             ],
             "styles": [
-              "src/styles/styles.css"
+              "primeicons/primeicons.css",
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -37,7 +38,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -57,9 +58,6 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "proxyConfig": "proxy.conf.json"
-          },
           "configurations": {
             "production": {
               "buildTarget": "spa:build:production"
@@ -67,6 +65,9 @@
             "development": {
               "buildTarget": "spa:build:development"
             }
+          },
+          "options": {
+            "proxyConfig": "proxy.conf.json"
           },
           "defaultConfiguration": "development"
         },
@@ -88,7 +89,7 @@
               }
             ],
             "styles": [
-              "src/styles/styles.css"
+              "src/styles.css"
             ],
             "scripts": []
           }

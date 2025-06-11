@@ -1,0 +1,185 @@
+<div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8 h-full overflow-y-auto">
+  <div class="sm:mx-auto sm:w-full sm:max-w-2xl">
+    <h2 class="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
+      Enregistrer une commande
+    </h2>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-2xl">
+    <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div class="h-2 bg-indigo-600 transition-all duration-500" [style.width.%]="progressPercent"></div>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-2xl">
+    <div *ngIf="successMessage" class="text-green-600 text-sm">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="text-red-500 text-sm">
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-2xl">
+    <form class="space-y-6" (ngSubmit)="step === totalSteps ? submitCommand() : nextStep()">
+      <!-- Étape 1 -->
+      <div *ngIf="step === 1" class="space-y-4">
+        <h3 class="text-lg font-semibold text-gray-900">Client à facturer</h3>
+
+        <div>
+          <label for="clientFactNumero" class="block text-sm font-medium text-gray-700">N° Client</label>
+          <input type="text" id="clientFactNumero" name="clientFactNumero" [(ngModel)]="command.clientFacturation.numeroClient" required
+                 placeholder="N° Client"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="clientFactNom" class="block text-sm font-medium text-gray-700">Nom</label>
+          <input type="text" id="clientFactNom" name="clientFactNom" [(ngModel)]="command.clientFacturation.nom" required
+                 placeholder="Nom"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="clientFactVille" class="block text-sm font-medium text-gray-700">Ville</label>
+          <input type="text" id="clientFactVille" name="clientFactVille" [(ngModel)]="command.clientFacturation.ville" required
+                 placeholder="Ville"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <h3 class="text-lg font-semibold text-gray-900 mt-6">Client à livrer</h3>
+
+        <div>
+          <label for="clientLivNumero" class="block text-sm font-medium text-gray-700">N° Client</label>
+          <input type="text" id="clientLivNumero" name="clientLivNumero" [(ngModel)]="command.clientLivraison.numeroClient" required
+                 placeholder="N° Client"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="clientLivNom" class="block text-sm font-medium text-gray-700">Nom</label>
+          <input type="text" id="clientLivNom" name="clientLivNom" [(ngModel)]="command.clientLivraison.nom" required
+                 placeholder="Nom"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="clientLivVille" class="block text-sm font-medium text-gray-700">Ville</label>
+          <input type="text" id="clientLivVille" name="clientLivVille" [(ngModel)]="command.clientLivraison.ville" required
+                 placeholder="Ville"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div class="flex justify-end">
+          <button type="submit"
+                  class="mt-4 rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold shadow hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Suivant
+          </button>
+        </div>
+      </div>
+
+      <!-- Étape 2 -->
+      <div *ngIf="step === 2" class="space-y-4">
+        <h3 class="text-lg font-semibold text-gray-900">Produit</h3>
+
+        <div>
+          <label for="codeProduit" class="block text-sm font-medium text-gray-700">Code Produit</label>
+          <input type="text" id="codeProduit" name="codeProduit" [(ngModel)]="command.produit.codeProduit" required
+                 placeholder="Code Produit"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="nomProduit" class="block text-sm font-medium text-gray-700">Nom</label>
+          <input type="text" id="nomProduit" name="nomProduit" [(ngModel)]="command.produit.nom" required
+                 placeholder="Nom du produit"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="fournisseur" class="block text-sm font-medium text-gray-700">Fournisseur</label>
+          <input type="text" id="fournisseur" name="fournisseur" [(ngModel)]="command.produit.fournisseur" required
+                 placeholder="Nom du fournisseur"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="quantite" class="block text-sm font-medium text-gray-700">Quantité</label>
+          <input type="number" id="quantite" name="quantite" [(ngModel)]="command.produit.quantite" required
+                 placeholder="Quantité"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div class="flex justify-between">
+          <button type="button"
+                  (click)="previousStep()"
+                  class="rounded-md bg-gray-300 px-4 py-2 text-gray-700 font-semibold shadow hover:bg-gray-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
+            Retour
+          </button>
+          <button type="submit"
+                  class="rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold shadow hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Suivant
+          </button>
+        </div>
+      </div>
+
+      <!-- Étape 3 -->
+      <div *ngIf="step === 3" class="space-y-4">
+        <h3 class="text-lg font-semibold text-gray-900">Détail de livraison</h3>
+
+        <div>
+          <label for="dateDebut" class="block text-sm font-medium text-gray-700">Date de début</label>
+          <input type="date" id="dateDebut" name="dateDebut" [(ngModel)]="command.livraison.dateDebut" required
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="dateFin" class="block text-sm font-medium text-gray-700">Date de fin</label>
+          <input type="date" id="dateFin" name="dateFin" [(ngModel)]="command.livraison.dateFin" required
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="nomContact" class="block text-sm font-medium text-gray-700">Nom du contact</label>
+          <input type="text" id="nomContact" name="nomContact" [(ngModel)]="command.livraison.nomContact" required
+                 placeholder="Nom du contact"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="telephoneContact" class="block text-sm font-medium text-gray-700">Téléphone du contact</label>
+          <input type="tel" id="telephoneContact" name="telephoneContact" [(ngModel)]="command.livraison.telephoneContact" required
+                 placeholder="Téléphone du contact"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="remarque" class="block text-sm font-medium text-gray-700">Remarque</label>
+          <input type="text" id="remarque" name="remarque" [(ngModel)]="command.livraison.remarque"
+                 placeholder="Remarque"
+                 class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div>
+          <label for="pieceJointe" class="block text-sm font-medium text-gray-700">Pièce jointe</label>
+          <input type="file" id="pieceJointe" name="pieceJointe" (change)="onFileSelected($event)"
+                 class="mt-1 block w-full text-sm text-gray-900 file:mr-4 file:rounded-md file:border-0 file:bg-indigo-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-indigo-500 focus:outline-2 focus:outline-indigo-600" />
+        </div>
+
+        <div class="flex justify-between">
+          <button type="button"
+                  (click)="previousStep()"
+                  class="rounded-md bg-gray-300 px-4 py-2 text-gray-700 font-semibold shadow hover:bg-gray-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
+            Retour
+          </button>
+          <button type="submit"
+                  class="rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold shadow hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

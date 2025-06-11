@@ -2,13 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-/**
- * ApiService provides methods to interact with a backend API.
- * It is designed to handle common HTTP operations such as GET, POST, PUT, and DELETE
- * for specific data types and resource endpoints.
- * This service is intended to work with an API proxied to the '/api' endpoint.
- * It uses Angular's HttpClient module for HTTP requests.
- */
 @Injectable({
   providedIn: 'root'
 })

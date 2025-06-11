@@ -1,20 +1,26 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
-/**
- * Represents the main configuration object for the application.
- *
- * This variable defines the core settings and providers required
- * to configure the application's behavior, such as zone change
- * detection settings and routing setup.
- *
- * @type {ApplicationConfig}
- */
+import { routes } from './app.routes';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import {ApiService} from './api/api.service';
+import {AuthInterceptor} from './auth/auth.interceptor';
+
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes)
+      provideHttpClient(withInterceptors([AuthInterceptor])),
+      ApiService,
+      provideZoneChangeDetection({ eventCoalescing: true }),
+      provideRouter(routes),
+      provideAnimationsAsync(),
+      providePrimeNG({
+        theme: {
+          preset: Aura
+        }
+      })
   ]
 };

@@ -19,8 +19,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<any> {
-    const loginData = { username, password };
-    return this.apiService.postData('auth/token', loginData);
+    return this.apiService.postData('auth/token', { username, password } );
   }
 
   logout(): void {

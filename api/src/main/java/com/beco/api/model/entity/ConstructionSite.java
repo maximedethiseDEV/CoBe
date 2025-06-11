@@ -18,12 +18,12 @@ public class ConstructionSite {
     private Integer constructionSiteId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @JoinColumn(name = "customer_id")
+    private Customer constructionSiteCustomerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", nullable = false)
-    private Address address;
+    private Address constructionSiteAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shared_details_id")

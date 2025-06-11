@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "orders")
+@Table(name = "order")
 public class Order {
 
     @Id
@@ -29,8 +29,13 @@ public class Order {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Customer deliveryCustomer;
 
-    @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "construction_site_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Address constructionSiteId;
+
+    @Column(name = "quantity_ordered", nullable = false)
+    private Integer quantityOrdered;
 
     @Column(name = "requested_delivery_date")
     private LocalDate requestedDeliveryDate;

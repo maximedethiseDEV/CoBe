@@ -15,8 +15,8 @@ public class Product {
     @Column(name = "product_id")
     private Integer productId;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "product_code", nullable = false, unique = true)
+    private String productCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "material_supplier_id", referencedColumnName = "material_supplier_id")

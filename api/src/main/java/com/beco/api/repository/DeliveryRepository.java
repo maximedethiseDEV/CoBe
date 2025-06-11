@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
-    List<Delivery> findByOrder(Order orderId);
+    List<Delivery> findByOrderId(Order orderId);
 
     @Query("SELECT d FROM Delivery d WHERE d.status = :status")
     List<Delivery> findByStatusCustom(@Param("status") DeliveryStatus status);

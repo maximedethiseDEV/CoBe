@@ -25,10 +25,6 @@ public class Customer {
     @JoinColumn(name = "contact_id")
     private Contact contact;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery_address_id")
-    private Address deliveryAddress;
-
     @Column(name = "attachment_path")
     private String attachmentPath;
 

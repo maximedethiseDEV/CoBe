@@ -16,15 +16,18 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
     volumes:
       - pg_data:/var/lib/postgresql/data
-      - ./init-scripts:/docker-entrypoint-initdb.d
     ports:
       - "5432:5432"
     networks:
       - beco-network
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   api:
     image: beco-api
@@ -41,7 +44,8 @@ services:
     volumes:
       - ./api/logs:/logs
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - beco-network
     restart: always
