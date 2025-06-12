@@ -1,111 +1,69 @@
-import { Component, OnInit } from '@angular/core';
-import { Table } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectModule } from 'primeng/select';
-import { CommonModule } from '@angular/common';
-import { TableModule } from 'primeng/table';
-import { ProgressBar } from 'primeng/progressbar';
-import { ButtonModule } from 'primeng/button';
-import {FormsModule} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {Table, TableModule} from 'primeng/table';
+import { DeliveryService } from '../../features/deliveries/deliveries.service';
+import { Delivery } from '../../models/delivery.model';
+import { FormsModule } from '@angular/forms';
+import { MultiSelect } from 'primeng/multiselect';
+import { Tag } from 'primeng/tag';
+import { Button } from 'primeng/button';
+import {DatePipe} from '@angular/common';
+import {DatePicker} from 'primeng/datepicker';
+import { DeliveryStatus } from '../../models/delivery-status.model';
 
 @Component({
   selector: 'app-schedule',
+  standalone: true,
+  templateUrl: './schedule.component.html',
   imports: [
     TableModule,
-    CommonModule,
-    InputTextModule,
-    TagModule,
-    SelectModule,
-    MultiSelectModule,
-    /*ProgressBar,*/
-    ButtonModule,
-    IconFieldModule,
-    InputIconModule,
-    FormsModule
+    FormsModule,
+    MultiSelect,
+    DatePicker,
+    Button,
+    DatePipe,
   ],
-  templateUrl: './schedule.component.html',
-  styleUrl: './schedule.component.css'
+  styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
+  @ViewChild('dt') dt!: Table;
 
-
-  ngOnInit() {
-  }
-
-  /*
- customers!: Customer[];
-
-  representatives!: Representative[];
-
-  statuses!: any[];
-
+  deliveries: Delivery[] = [];
+  statuses: DeliveryStatus[] = []; // Modification ici pour typage correct
+  actualDeliveryDateFilter?: Date;
+  statusFilter?: string[];
   loading: boolean = true;
 
-  activityValues: number[] = [0, 100];
+  constructor(private deliveryService: DeliveryService) {}
 
-  searchValue: string | undefined;
+  ngOnInit(): void {
+    this.fetchDeliveries();
 
-  constructor(private customerService: CustomerService) {}
-
-  ngOnInit() {
-
-    this.customerService.getCustomersLarge().then((customers) => {
-      this.customers = customers;
-      this.loading = false;
-
-      this.customers.forEach((customer) => (customer.date = new Date(<Date>customer.date)));
-    });
-
-    this.representatives = [
-      { name: 'Amy Elsner', image: 'amyelsner.png' },
-      { name: 'Anna Fali', image: 'annafali.png' },
-      { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
-      { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
-      { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
-      { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
-      { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
-      { name: 'Onyama Limba', image: 'onyamalimba.png' },
-      { name: 'Stephen Shaw', image: 'stephenshaw.png' },
-      { name: 'Xuxue Feng', image: 'xuxuefeng.png' }
-    ];
-
-    this.statuses = [
-      { label: 'Unqualified', value: 'unqualified' },
-      { label: 'Qualified', value: 'qualified' },
-      { label: 'New', value: 'new' },
-      { label: 'Negotiation', value: 'negotiation' },
-      { label: 'Renewal', value: 'renewal' },
-      { label: 'Proposal', value: 'proposal' }
-    ];
+    // Récupération des statuts à partir de l'énum
+    this.statuses = ['NEW', 'SCHEDULED', 'DISPATCHED', 'LOADED'];
   }
 
-  clear(table: Table) {
+  fetchDeliveries(): void {
+    this.loading = true;
+    this.deliveryService.getAllDeliveries().subscribe(
+      (data) => {
+        this.deliveries = data;
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des livraisons', error);
+        this.loading = false;
+      }
+    );
+  }
+
+  clear(table: Table): void {
     table.clear();
-    this.searchValue = ''
+    this.actualDeliveryDateFilter = undefined;
+    this.statusFilter = undefined;
   }
 
-  getSeverity(status: string) {
-    switch (status.toLowerCase()) {
-      case 'unqualified':
-        return 'danger';
-
-      case 'qualified':
-        return 'success';
-
-      case 'new':
-        return 'info';
-
-      case 'negotiation':
-        return 'warn';
-
-      case 'renewal':
-        return null;
-    }
+  applyGlobalFilter(event: Event): void {
+    const inputValue = (event.target as HTMLInputElement)?.value || '';
+    this.dt.filterGlobal(inputValue, 'contains');
   }
-
-   */
 }

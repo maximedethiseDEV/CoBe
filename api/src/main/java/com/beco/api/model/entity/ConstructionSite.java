@@ -20,7 +20,7 @@ public class ConstructionSite {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
-    private Customer constructionSiteCustomerId;
+    private Customer constructionSiteCustomer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", nullable = false)

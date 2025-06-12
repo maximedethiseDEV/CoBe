@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 public class TransportSupplierController extends AbstractCrudController<TransportSupplier, TransportSupplierDto, TransportSupplierDto, Integer> {
 
-    private final TransportSupplierService addressService;
+    private final TransportSupplierService service;
 
     public TransportSupplierController(
-            TransportSupplierService addressService,
+            TransportSupplierService service,
             SseService sseService
     ) {
         super(sseService);
-        this.addressService = addressService;
+        this.service = service;
     }
 
     @Override
     protected AbstractCrudService<TransportSupplier, TransportSupplierDto, TransportSupplierDto, Integer> getService() {
 
-        return addressService;
+        return service;
     }
 }

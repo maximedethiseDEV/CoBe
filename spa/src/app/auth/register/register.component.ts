@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {ApiService} from '../../api/api.service';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent {
   newUser = {
     username: '',
     passwordHash: '',
-    role: null,
+    permission: null,
     contact: {
       lastName: '',
       firstName: '',
@@ -32,7 +33,7 @@ export class RegisterComponent {
   step: number = 1;
   totalSteps: number = 2;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   get progressPercent(): number {
     return (this.step / this.totalSteps) * 100;
@@ -61,6 +62,7 @@ export class RegisterComponent {
         next: (response) => {
           this.successMessage = response.message || 'Inscription réussie.';
           this.resetForm();
+          this.router.navigateByUrl('');
         },
         error: (error) => {
           this.errorMessage = error.error?.message || 'Une erreur est survenue.';
@@ -76,7 +78,7 @@ export class RegisterComponent {
     this.newUser = {
       username: '',
       passwordHash: '',
-      role: null,
+      permission: null,
       contact: {
         lastName: '',
         firstName: '',

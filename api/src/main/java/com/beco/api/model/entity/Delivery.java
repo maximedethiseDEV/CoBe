@@ -20,15 +20,15 @@ public class Delivery {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
-    private Order orderId;
+    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transport_supplier_id", nullable = false)
-    private TransportSupplier transportSupplierId;
+    private TransportSupplier transportSupplier;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_order_number_id", nullable = false)
-    private DeliveryOrderNumber deliveryOrderNumberId;
+    private DeliveryOrderNumber deliveryOrderNumber;
 
     @Column(name = "actual_delivery_date")
     @Temporal(TemporalType.DATE)

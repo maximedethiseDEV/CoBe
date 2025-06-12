@@ -113,8 +113,8 @@ VALUES ('4/10', 1, NULL),
        ('6/20', 1, NULL);
 
 -- Insertion dans la table "order"
-INSERT INTO "order" 
-    ("billing_customer_id", "delivery_customer_id", "construction_site_id", "product_id", "quantity_ordered", "requested_delivery_date", "requested_delivery_time", "shared_details_id")
+INSERT INTO "purchase_order"
+    ("billing_customer_id", "delivery_customer_id", "construction_site_id", "product_id", "quantity", "requested_delivery_date", "requested_delivery_time", "shared_details_id")
 VALUES 
     (1, 1, 2, 1, 1000, '2024-05-01', '10:00:00', NULL),
     (2, NULL, NULL, 2, 500, '2024-05-15', '10:00:00', NULL);

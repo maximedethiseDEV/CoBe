@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
-@Table(name = "order")
+@Table(name = "purchase_order")
 public class Order {
 
     @Id
@@ -36,7 +36,7 @@ public class Order {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Address constructionSiteId;
 
-    @Column(name = "quantity_ordered", nullable = false)
+    @Column(name = "quantity", nullable = false)
     private Integer quantityOrdered;
 
     @Column(name = "requested_delivery_date")

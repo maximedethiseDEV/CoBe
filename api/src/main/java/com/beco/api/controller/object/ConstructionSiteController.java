@@ -2,23 +2,23 @@ package com.beco.api.controller.object;
 
 import com.beco.api.config.sse.SseService;
 import com.beco.api.controller.AbstractCrudController;
-import com.beco.api.model.dto.CompanyDto;
-import com.beco.api.model.entity.Company;
+import com.beco.api.model.dto.ConstructionSiteDto;
+import com.beco.api.model.entity.ConstructionSite;
 import com.beco.api.service.AbstractCrudService;
-import com.beco.api.service.object.CompanyService;
+import com.beco.api.service.object.ConstructionSiteService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/companies")
+@RequestMapping("/construction-sites")
 @CrossOrigin(origins = "http://localhost:4200")
-public class CompanyController extends AbstractCrudController<Company, CompanyDto, CompanyDto, Integer> {
+public class ConstructionSiteController extends AbstractCrudController<ConstructionSite, ConstructionSiteDto, ConstructionSiteDto, Integer> {
 
-    private final CompanyService service;
+    private final ConstructionSiteService service;
 
-    public CompanyController(
-            CompanyService service,
+    public ConstructionSiteController(
+            ConstructionSiteService service,
             SseService sseService
     ) {
         super(sseService);
@@ -26,7 +26,7 @@ public class CompanyController extends AbstractCrudController<Company, CompanyDt
     }
 
     @Override
-    protected AbstractCrudService<Company, CompanyDto, CompanyDto, Integer> getService() {
+    protected AbstractCrudService<ConstructionSite, ConstructionSiteDto, ConstructionSiteDto, Integer> getService() {
 
         return service;
     }

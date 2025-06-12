@@ -30,5 +30,6 @@ public interface CustomerMapper {
     Customer toEntity(CustomerDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "customerId", ignore = true)
     void updateCustomerFromDto(CustomerDto dto, @MappingTarget Customer entity);
 }

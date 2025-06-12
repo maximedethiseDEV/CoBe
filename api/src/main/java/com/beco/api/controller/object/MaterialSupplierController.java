@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 public class MaterialSupplierController extends AbstractCrudController<MaterialSupplier, MaterialSupplierDto, MaterialSupplierDto, Integer> {
 
-    private final MaterialSupplierService addressService;
+    private final MaterialSupplierService service;
 
     public MaterialSupplierController(
-            MaterialSupplierService addressService,
+            MaterialSupplierService service,
             SseService sseService
     ) {
         super(sseService);
-        this.addressService = addressService;
+        this.service = service;
     }
 
     @Override
     protected AbstractCrudService<MaterialSupplier, MaterialSupplierDto, MaterialSupplierDto, Integer> getService() {
 
-        return addressService;
+        return service;
     }
 }

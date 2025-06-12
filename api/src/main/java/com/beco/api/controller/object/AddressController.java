@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200")
 public class AddressController extends AbstractCrudController<Address, GetAddressDto, PostAddressDto, Integer> {
 
-    private final AddressService addressService;
+    private final AddressService service;
 
     public AddressController(
-            AddressService addressService,
+            AddressService service,
             SseService sseService
     ) {
         super(sseService);
-        this.addressService = addressService;
+        this.service = service;
     }
 
     @Override
     protected AbstractCrudService<Address, GetAddressDto, PostAddressDto, Integer> getService() {
 
-        return addressService;
+        return service;
     }
 }

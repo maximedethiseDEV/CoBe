@@ -13,24 +13,24 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200")
 public class ContactController extends AbstractCrudController<Contact, ContactDto, ContactDto, Integer> {
 
-    private final ContactService contactService;
+    private final ContactService service;
 
     public ContactController(
-            ContactService contactService,
+            ContactService service,
             SseService sseService
     ) {
         super(sseService);
-        this.contactService = contactService;
+        this.service = service;
     }
     @Override
     protected AbstractCrudService<Contact, ContactDto, ContactDto, Integer> getService() {
 
-        return contactService;
+        return service;
     }
 
     @GetMapping("byemail")
     public ContactDto getContactByEmail(@RequestParam String email) {
-        return contactService.findByEmail(email);
+        return service.findByEmail(email);
     }
 
 }

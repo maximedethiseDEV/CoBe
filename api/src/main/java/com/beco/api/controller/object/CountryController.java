@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:4200")
 public class CountryController extends AbstractCrudController<Country, CountryDto, CountryDto, Integer> {
 
-    private final CountryService countryService;
+    private final CountryService service;
 
     public CountryController(
-            CountryService countryService,
+            CountryService service,
             SseService sseService
     ) {
         super(sseService);
-        this.countryService = countryService;
+        this.service = service;
     }
 
     @Override
     protected AbstractCrudService<Country, CountryDto, CountryDto, Integer> getService() {
 
-        return countryService;
+        return service;
     }
 }

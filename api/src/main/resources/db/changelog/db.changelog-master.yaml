@@ -33,3 +33,12 @@ databaseChangeLog:
             path: add_trigger_check_parent_solvency.sql
             relativeToChangelogFile: true
             splitStatements: false
+
+  - changeSet:
+      id: 4
+      author: maxime
+      changes:
+        - sqlFile:
+            path: insert_init_random_data.sql
+            relativeToChangelogFile: true
+            splitStatements: false

@@ -1,3 +1,11 @@
+-- Description:
+-- Ce trigger vérifie que la quantité totale des livraisons d'une commande
+-- (existantes + nouvelle) ne dépasse pas la quantité initialement commandée.
+-- Il est déclenché avant INSERT ou UPDATE sur la table delivery
+-- et lève une exception si la limite est dépassée.
+--
+-- Date de création: 11/06/2025
+
 CREATE OR REPLACE FUNCTION check_total_delivery_quantity()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -13,7 +21,7 @@ BEGIN
     -- Récupérer la quantité demandée pour la commande
     SELECT quantity
     INTO orderRequestedQuantity
-    FROM orders
+    FROM purchase_order
     WHERE order_id = NEW.order_id;
 
     -- Vérifier si la quantité totale dépasse la limite demandée
