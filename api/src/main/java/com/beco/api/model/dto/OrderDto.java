@@ -1,14 +1,7 @@
 package com.beco.api.model.dto;
 
-import com.beco.api.model.entity.Address;
-import com.beco.api.model.entity.Customer;
-import com.beco.api.model.entity.Product;
-import com.beco.api.model.entity.SharedDetails;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Time;
 import java.util.Date;
@@ -33,5 +26,5 @@ public class OrderDto {
 
     private ProductDto product;
 
-    private SharedDetails sharedDetails;
+    private SharedDetailsDto sharedDetails;
 }

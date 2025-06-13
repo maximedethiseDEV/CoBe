@@ -69,7 +69,7 @@ public class AddressService extends AbstractCrudService<Address, GetAddressDto, 
     }
 
     @Override
-    protected boolean dataValidatorControl(PostAddressDto postAddressDto) { return true; }
+    protected boolean dataValidatorControl(PostAddressDto dto) { return true; }
 
     @Override
     protected String getEntityName() {

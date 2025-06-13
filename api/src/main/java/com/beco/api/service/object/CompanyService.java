@@ -68,10 +68,10 @@ public class CompanyService extends AbstractCrudService<Company, CompanyDto, Com
     }
 
     @Override
-    protected boolean dataValidatorControl(CompanyDto postCompanyDto) { return true; }
+    protected boolean dataValidatorControl(CompanyDto dto) { return true; }
 
     @Override
     protected String getEntityName() {
-        return "address";
+        return "company";
     }
 }

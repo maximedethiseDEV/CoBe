@@ -1,6 +1,5 @@
 package com.beco.api.model.dto;
 
-import com.beco.api.model.entity.SharedDetails;
 import lombok.Data;
 
 @Data
@@ -14,6 +13,6 @@ public class MaterialSupplierDto {
 
     private GetAddressDto loadingAddress;
 
-    private SharedDetails sharedDetails;
+    private SharedDetailsDto sharedDetails;
 
 }

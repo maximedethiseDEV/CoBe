@@ -69,7 +69,7 @@ public class CountryService extends AbstractCrudService<Country, CountryDto, Cou
     }
 
     @Override
-    protected boolean dataValidatorControl(CountryDto countryDto) {
+    protected boolean dataValidatorControl(CountryDto dto) {
         return true;
     }
 

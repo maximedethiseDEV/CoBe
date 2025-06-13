@@ -72,7 +72,7 @@ public class ContactService extends AbstractCrudService<Contact, ContactDto, Con
     }
 
     @Override
-    protected boolean dataValidatorControl(ContactDto contactDto) {
+    protected boolean dataValidatorControl(ContactDto dto) {
         return true;
     }
 
@@ -81,7 +81,7 @@ public class ContactService extends AbstractCrudService<Contact, ContactDto, Con
         return "contact";
     }
 
-    // Récupérer les contacts par email, exemple additionnel
+    // Récupérer les contacts par email
     public ContactDto findByEmail(String email) {
         Contact contact = repository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Contact avec l'email " + email + " introuvable"));

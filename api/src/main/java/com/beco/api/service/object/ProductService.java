@@ -69,12 +69,12 @@ public class ProductService extends AbstractCrudService<Product, ProductDto, Pro
     }
 
     @Override
-    protected boolean dataValidatorControl(ProductDto countryDto) {
+    protected boolean dataValidatorControl(ProductDto dto) {
         return true;
     }
 
     @Override
     protected String getEntityName() {
-        return "country";
+        return "product";
     }
 }

@@ -15,4 +15,20 @@ public class DeliveryStatus {
 
     @Column(name = "status", nullable = false, unique = true)
     private String status;
+
+    /**
+     * Obtenir l'Enum correspondant au statut stocké.
+     */
+    public DeliveryStatusEnum toEnum() {
+        return DeliveryStatusEnum.fromStatus(status);
+    }
+
+    /**
+     * Associer un Enum à cette entité.
+     */
+    public void fromEnum(DeliveryStatusEnum statusEnum) {
+        this.statusId = statusEnum.getId();
+        this.status = statusEnum.getStatus();
+    }
+
 }

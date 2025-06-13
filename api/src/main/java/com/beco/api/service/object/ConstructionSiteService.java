@@ -69,12 +69,12 @@ public class ConstructionSiteService extends AbstractCrudService<ConstructionSit
     }
 
     @Override
-    protected boolean dataValidatorControl(ConstructionSiteDto countryDto) {
+    protected boolean dataValidatorControl(ConstructionSiteDto dto) {
         return true;
     }
 
     @Override
     protected String getEntityName() {
-        return "country";
+        return "construction-site";
     }
 }

@@ -1,11 +1,11 @@
 <div class="card">
+  <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
   <p-table
     #dt
     [value]="deliveries"
-    [paginator]="true"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [loading]="loading"
+    [columns]="columns"
+    [rows]="100"
+    [rowsPerPageOptions]="[100, 250, 500]"
     [globalFilterFields]="[
       'deliveryId',
       'order.product.productCode',
@@ -13,10 +13,20 @@
       'transportSupplier.company.name',
       'actualDeliveryDate',
       'quantityDelivery',
-      'status.status'
     ]"
+    [loading]="loading"
+    stripedRows
+    selectionMode="multiple"
+    [(selection)]="selectedDeliveries"
+    [metaKeySelection]="metaKey"
+    dataKey="deliveryId"
+    paginator="true"
     responsiveLayout="scroll"
+    [tableStyle]="{'min-width':'0rem'}"
+    [size]="selectedSize"
   >
+
+
 
     <!-- Zone pour filtres -->
     <ng-template pTemplate="caption">
@@ -49,26 +59,32 @@
     <!-- En-tête du tableau -->
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="deliveryId">ID Livraison <p-sortIcon field="deliveryId"></p-sortIcon></th>
+        <th *ngFor="let col of columns" pSortableColumn="{{ col.header }}" >
+          {{ col.header }}
+          <p-sortIcon field="{{ col.header }}"></p-sortIcon>
+        </th>
+
+
+        <th pSortableColumn="deliveryId">ID <p-sortIcon field="deliveryId"></p-sortIcon></th>
         <th pSortableColumn="order.product.productCode">Code Produit <p-sortIcon field="order.product.productCode"></p-sortIcon></th>
         <th pSortableColumn="order.quantityOrdered">Quantité Commandée <p-sortIcon field="order.quantityOrdered"></p-sortIcon></th>
         <th pSortableColumn="actualDeliveryDate">Date de Livraison <p-sortIcon field="actualDeliveryDate"></p-sortIcon></th>
         <th pSortableColumn="transportSupplier.company.companyName">Transporteur <p-sortIcon field="transportSupplier.company.companyName"></p-sortIcon></th>
         <th pSortableColumn="quantity">Quantité Livrée <p-sortIcon field="quantity"></p-sortIcon></th>
         <th pSortableColumn="status.status">Statut <p-sortIcon field="status.status"></p-sortIcon></th>
+
       </tr>
     </ng-template>
 
     <!-- Corps du tableau -->
-    <ng-template pTemplate="body" let-delivery>
-      <tr>
+    <ng-template pTemplate="body" let-delivery let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="delivery" [pSelectableRowIndex]="rowIndex">
         <td>{{ delivery.deliveryId }}</td>
-        <td>{{ delivery.order?.product?.productCode }}</td>
-        <td>{{ delivery.order?.quantityOrdered }}</td>
-        <td>{{ delivery.actualDeliveryDate | date: 'yyyy-MM-dd' }}</td>
-        <td>{{ delivery.transportSupplier?.company?.companyName }}</td>
-        <td>{{ delivery.quantity }}</td>
-        <!-- Exemple colonne pour le nom du statut -->
+        <td>{{ delivery?.order?.product?.productCode }}</td>
+        <td>{{ delivery?.order?.quantityOrdered }}</td>
+        <td>{{ delivery?.actualDeliveryDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ delivery?.transportSupplier?.company?.companyName }}</td>
+        <td>{{ delivery?.quantity }}</td>
         <td>{{ delivery.status?.status }}</td>
       </tr>
     </ng-template>
@@ -76,7 +92,7 @@
     <!-- Message tableau vide -->
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="7" class="text-center">Aucune livraison trouvée.</td>
+        <td colspan="9" class="text-center">Aucune livraison trouvée.</td>
       </tr>
     </ng-template>
 

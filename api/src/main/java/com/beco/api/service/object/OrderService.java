@@ -1,10 +1,13 @@
 package com.beco.api.service.object;
 
 import com.beco.api.mapper.OrderMapper;
+import com.beco.api.model.dto.DeliveryDto;
+import com.beco.api.model.dto.DeliveryStatusDto;
 import com.beco.api.model.dto.OrderDto;
 import com.beco.api.model.entity.Order;
 import com.beco.api.repository.OrderRepository;
 import com.beco.api.service.AbstractCrudService;
+import jakarta.transaction.Transactional;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -21,11 +24,12 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final DeliveryService deliveryService;
 
     public OrderService(
             OrderRepository orderRepository,
             CacheManager cacheManager,
-            OrderMapper orderMapper
+            OrderMapper orderMapper, DeliveryService deliveryService
     ) {
         super(
                 orderRepository,
@@ -37,6 +41,7 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         );
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
+        this.deliveryService = deliveryService;
     }
 
     @Override
@@ -52,9 +57,29 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
     }
 
     @Override
-    @CachePut(key = "#result.id")
+    @Transactional // Assure la transactionnalité entre la commande et la livraison
+    @CachePut(key = "#result.orderId")
     public OrderDto create(OrderDto dto) {
-        return super.create(dto);
+        // Étape 1 : Créer la commande en utilisant la logique existante
+        OrderDto savedOrderDto = super.create(dto);
+
+        // Étape 2 : Générer une livraison à partir de la commande créée
+        DeliveryDto deliveryDto = new DeliveryDto();
+
+        deliveryDto.setOrder(savedOrderDto); // Associer la commande à la livraison
+        deliveryDto.setQuantity(savedOrderDto.getQuantityOrdered());
+        deliveryDto.setActualDeliveryDate(savedOrderDto.getRequestedDeliveryDate());
+        deliveryDto.setActualDeliveryTime(savedOrderDto.getRequestedDeliveryTime());
+
+        // Créer le statut à "NEW" et l'affecter à la livraison
+        deliveryDto.setStatus(createNewStatus());
+
+
+        // Sauvegarder la livraison via DeliveryService
+        deliveryService.create(deliveryDto);
+
+        // Étape 3 : Retourner le DTO de la commande
+        return savedOrderDto;
     }
 
     @Override
@@ -70,13 +95,17 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
     }
 
     @Override
-    protected boolean dataValidatorControl(OrderDto countryDto) {
-        return true;
+    protected boolean dataValidatorControl(OrderDto dto) {
+        Boolean isValid = true;
+
+
+
+        return isValid;
     }
 
     @Override
     protected String getEntityName() {
-        return "country";
+        return "order";
     }
 
     public List<OrderDto> findOrdersByCustomer(Integer customerId) {
@@ -84,6 +113,13 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         return orders.stream()
                 .map(orderMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    private DeliveryStatusDto createNewStatus() {
+        DeliveryStatusDto status = new DeliveryStatusDto();
+        status.setStatusId(1); // Correspond au statut "NEW"
+        status.setStatus("NEW");
+        return status;
     }
 
 }

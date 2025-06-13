@@ -1,6 +1,5 @@
 package com.beco.api.model.dto;
 
-import com.beco.api.model.entity.SharedDetails;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -15,7 +14,7 @@ public class ConstructionSiteDto {
 
     private GetAddressDto constructionSiteAddress;
 
-    private SharedDetails sharedDetails;
+    private SharedDetailsDto sharedDetails;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateStart;

@@ -14,7 +14,7 @@ export const routes: Routes = [
 
   { path: 'login', title: "Se connecter", component: LoginComponent },
   { path: 'register', title: "S'enregistrer", component: RegisterComponent },
-  { path: '', title: 'Bienvenue', component: HomeComponent },
+  { path: '', title: 'Accueil', component: HomeComponent },
 
   {
     path: 'app',
@@ -22,9 +22,9 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: 'USER' },
     children: [
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'schedule', component: ScheduleComponent},
-      { path: 'order-form', component: OrderFormComponent},
+      { path: 'dashboard', title:'Tableau de bord', component: DashboardComponent },
+      { path: 'schedule', title:'Planification', component: ScheduleComponent},
+      { path: 'order-form', title:'Nouvelle commande', component: OrderFormComponent},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full'},
     ]

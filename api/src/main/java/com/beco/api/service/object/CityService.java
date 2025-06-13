@@ -69,12 +69,12 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, Int
     }
 
     @Override
-    protected boolean dataValidatorControl(CityDto countryDto) {
+    protected boolean dataValidatorControl(CityDto dto) {
         return true;
     }
 
     @Override
     protected String getEntityName() {
-        return "country";
+        return "cities";
     }
 }

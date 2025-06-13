@@ -69,7 +69,7 @@ public class DeliveryService extends AbstractCrudService<Delivery, DeliveryDto, 
     }
 
     @Override
-    protected boolean dataValidatorControl(DeliveryDto deliveryDto) {
+    protected boolean dataValidatorControl(DeliveryDto dto) {
         return true;
     }
 

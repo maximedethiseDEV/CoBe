@@ -68,10 +68,10 @@ public class TransportSupplierService extends AbstractCrudService<TransportSuppl
     }
 
     @Override
-    protected boolean dataValidatorControl(TransportSupplierDto postTransportSupplierDto) { return true; }
+    protected boolean dataValidatorControl(TransportSupplierDto dto) { return true; }
 
     @Override
     protected String getEntityName() {
-        return "address";
+        return "material-supplier";
     }
 }

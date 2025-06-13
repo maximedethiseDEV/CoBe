@@ -6,9 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
 import { Tag } from 'primeng/tag';
 import { Button } from 'primeng/button';
-import {DatePipe} from '@angular/common';
+import {DatePipe, NgForOf} from '@angular/common';
 import {DatePicker} from 'primeng/datepicker';
 import { DeliveryStatus } from '../../models/delivery-status.model';
+import {SelectButton} from 'primeng/selectbutton';
 
 @Component({
   selector: 'app-schedule',
@@ -21,17 +22,35 @@ import { DeliveryStatus } from '../../models/delivery-status.model';
     DatePicker,
     Button,
     DatePipe,
+    NgForOf,
+    SelectButton,
   ],
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
 
+
   deliveries: Delivery[] = [];
-  statuses: DeliveryStatus[] = []; // Modification ici pour typage correct
+  statuses: DeliveryStatus[] = [];
+  selectedDeliveries: Delivery[] = [];
+  metaKey: boolean = true;
   actualDeliveryDateFilter?: Date;
   statusFilter?: string[];
+  sizes!: any[];
+  selectedSize: any = undefined;
   loading: boolean = true;
+
+  // Colonnes du tableau
+  columns: { field: string; header: string }[] = [
+    {field: 'delivery.deliveryId', header: 'ID'},
+    {field: 'delivery?.order?.product?.productCode', header: 'Code Produit'},
+    {field: 'delivery?.order?.quantityOrdered', header: 'Quantité commandée'},
+    {field: 'delivery?.actualDeliveryDate | date: \'yyyy-MM-dd\'', header: 'Date de livraison effective'},
+    {field: 'delivery?.transportSupplier?.company?.companyName', header: 'Transporteur'},
+    {field: 'delivery?.quantity', header: 'Quantité livrée'},
+    {field: 'delivery.status?.status', header: 'Statut'}
+  ];
 
   constructor(private deliveryService: DeliveryService) {}
 
@@ -40,12 +59,17 @@ export class ScheduleComponent implements OnInit {
 
     // Récupération des statuts à partir de l'énum
     this.statuses = ['NEW', 'SCHEDULED', 'DISPATCHED', 'LOADED'];
+
+    this.sizes = [
+      { name: 'Small', value: 'small' },
+      { name: 'Normal', value: undefined },
+      { name: 'Large', value: 'large' }
+    ];
   }
 
   fetchDeliveries(): void {
     this.loading = true;
-    this.deliveryService.getAllDeliveries().subscribe(
-      (data) => {
+    this.deliveryService.getAllDeliveries().subscribe((data: Delivery[]) => {
         this.deliveries = data;
         this.loading = false;
       },
