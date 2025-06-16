@@ -9,10 +9,12 @@ import com.beco.api.service.AbstractCrudService;
 import com.beco.api.service.object.AddressService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/addresses")
 @CrossOrigin(origins = "http://localhost:4200")
-public class AddressController extends AbstractCrudController<Address, GetAddressDto, PostAddressDto, Integer> {
+public class AddressController extends AbstractCrudController<Address, GetAddressDto, PostAddressDto, UUID> {
 
     private final AddressService service;
 
@@ -25,7 +27,7 @@ public class AddressController extends AbstractCrudController<Address, GetAddres
     }
 
     @Override
-    protected AbstractCrudService<Address, GetAddressDto, PostAddressDto, Integer> getService() {
+    protected AbstractCrudService<Address, GetAddressDto, PostAddressDto, UUID> getService() {
 
         return service;
     }

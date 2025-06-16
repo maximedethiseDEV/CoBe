@@ -14,6 +14,8 @@ public interface ContactMapper {
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "email", source = "email")
     @Mapping(target = "role", source = "role")
+    @Mapping(target = "createdDate", source = "createdDate")
+    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     Contact toEntity(ContactDto dto);
 
     /** Convertit une entité Contact en DTO **/
@@ -23,6 +25,8 @@ public interface ContactMapper {
     @Mapping(target = "phone", source = "phone")
     @Mapping(target = "email", source = "email")
     @Mapping(target = "role", source = "role")
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     ContactDto toDto(Contact entity);
 
     /** Met à jour une entité Contact existante depuis un ContactDto sans écraser les champs null **/

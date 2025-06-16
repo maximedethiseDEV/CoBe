@@ -17,6 +17,8 @@ public interface CustomerMapper {
     @Mapping(target = "isSolvent", source = "isSolvent")
     @Mapping(target = "parent", source = "parent")
     @Mapping(target = "sharedDetails", ignore = true)
+    @Mapping(target = "createdDate", source = "createdDate")
+    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     CustomerDto toDto(Customer entity);
 
     @Mapping(target = "customerId", ignore = true)
@@ -27,6 +29,8 @@ public interface CustomerMapper {
     @Mapping(target = "isSolvent", source = "isSolvent")
     @Mapping(target = "parent", source = "parent")
     @Mapping(target = "sharedDetails", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     Customer toEntity(CustomerDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

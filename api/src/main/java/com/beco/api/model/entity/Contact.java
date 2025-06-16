@@ -4,16 +4,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.UUID;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "contact")
-public class Contact {
+public class Contact extends AbstractAuditingEntity<UUID> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "contact_id")
-    private Integer contactId;
+    private UUID contactId;
 
     @Column(name = "last_name", nullable = false)
     @NotNull(message = " Le nom de famille est obligatoire")

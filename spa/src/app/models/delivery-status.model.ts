@@ -1,1 +1,7 @@
-export type DeliveryStatus = 'NEW' | 'SCHEDULED' | 'DISPATCHED' | 'LOADED';
+export type DeliveryStatus =
+    'Supprimé' |
+    'Non affrété' |
+    'Planifié' |
+    'Affrété' |
+    'Chargé' |
+    'Livré';

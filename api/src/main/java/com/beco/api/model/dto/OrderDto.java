@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.sql.Time;
+import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 public class OrderDto {
 
-    private Integer orderId;
+    private UUID orderId;
 
     private CustomerDto billingCustomer;
 
@@ -27,4 +29,8 @@ public class OrderDto {
     private ProductDto product;
 
     private SharedDetailsDto sharedDetails;
+
+    private Instant createdDate;
+
+    private Instant lastModifiedDate;
 }

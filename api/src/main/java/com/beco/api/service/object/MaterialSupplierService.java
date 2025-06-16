@@ -13,10 +13,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "material-suppliers")
-public class MaterialSupplierService extends AbstractCrudService<MaterialSupplier, MaterialSupplierDto, MaterialSupplierDto, Integer> {
+public class MaterialSupplierService extends AbstractCrudService<MaterialSupplier, MaterialSupplierDto, MaterialSupplierDto, UUID> {
 
     private final MaterialSupplierRepository repository;
     private final MaterialSupplierMapper mapper;
@@ -45,25 +46,25 @@ public class MaterialSupplierService extends AbstractCrudService<MaterialSupplie
 
     @Override
     @Cacheable(key = "#id")
-    public MaterialSupplierDto findById(Integer id) {
+    public MaterialSupplierDto findById(UUID id) {
         return super.findById(id);
     }
 
     @Override
-    @CachePut(key = "#result.id")
+    @CachePut(key = "#result.materialSupplierId")
     public MaterialSupplierDto create(MaterialSupplierDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
-    public MaterialSupplierDto update(Integer id, MaterialSupplierDto dto) {
+    public MaterialSupplierDto update(UUID id, MaterialSupplierDto dto) {
         return super.update(id, dto);
     }
 
     @Override
     @CacheEvict(key = "#id")
-    public void deleteById(Integer id) {
+    public void deleteById(UUID id) {
         super.deleteById(id);
     }
 

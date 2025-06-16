@@ -13,6 +13,8 @@ public interface CompanyMapper {
     @Mapping(target = "primaryContact", source = "primaryContact")
     @Mapping(target = "address", source = "address")
     @Mapping(target = "sharedDetails", ignore = true)
+    @Mapping(target = "createdDate", source = "createdDate")
+    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     CompanyDto toDto(Company entity);
 
     @Mapping(target = "companyId", ignore = true)
@@ -21,6 +23,8 @@ public interface CompanyMapper {
     @Mapping(target = "primaryContact", source = "primaryContact")
     @Mapping(target = "address", source = "address")
     @Mapping(target = "sharedDetails", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     Company toEntity(CompanyDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

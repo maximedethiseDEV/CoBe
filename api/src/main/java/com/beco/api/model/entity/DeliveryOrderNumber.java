@@ -3,15 +3,17 @@ package com.beco.api.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Entity
 @Table(name = "delivery_order_number")
 public class DeliveryOrderNumber {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "delivery_order_number_id")
-    private Integer deliveryOrderNumberId;
+    private UUID deliveryOrderNumberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transport_supplier_id", nullable = false)

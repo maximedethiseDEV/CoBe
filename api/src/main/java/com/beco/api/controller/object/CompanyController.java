@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/companies")
 @CrossOrigin(origins = "http://localhost:4200")
-public class CompanyController extends AbstractCrudController<Company, CompanyDto, CompanyDto, Integer> {
+public class CompanyController extends AbstractCrudController<Company, CompanyDto, CompanyDto, UUID> {
 
     private final CompanyService service;
 
@@ -26,7 +28,7 @@ public class CompanyController extends AbstractCrudController<Company, CompanyDt
     }
 
     @Override
-    protected AbstractCrudService<Company, CompanyDto, CompanyDto, Integer> getService() {
+    protected AbstractCrudService<Company, CompanyDto, CompanyDto, UUID> getService() {
 
         return service;
     }

@@ -13,10 +13,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "cities")
-public class SharedDetailsService extends AbstractCrudService<SharedDetails, SharedDetailsDto, SharedDetailsDto, Integer> {
+public class SharedDetailsService extends AbstractCrudService<SharedDetails, SharedDetailsDto, SharedDetailsDto, UUID> {
 
     private final SharedDetailsRepository repository;
     private final SharedDetailsMapper mapper;
@@ -46,25 +47,25 @@ public class SharedDetailsService extends AbstractCrudService<SharedDetails, Sha
 
     @Override
     @Cacheable(key = "#id")
-    public SharedDetailsDto findById(Integer id) {
+    public SharedDetailsDto findById(UUID id) {
         return super.findById(id);
     }
 
     @Override
-    @CachePut(key = "#result.id")
+    @CachePut(key = "#result.sharedDetailsId")
     public SharedDetailsDto create(SharedDetailsDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
-    public SharedDetailsDto update(Integer id, SharedDetailsDto dto) {
+    public SharedDetailsDto update(UUID id, SharedDetailsDto dto) {
         return super.update(id, dto);
     }
 
     @Override
     @CacheEvict(key = "#id")
-    public void deleteById(Integer id) {
+    public void deleteById(UUID id) {
         super.deleteById(id);
     }
 

@@ -13,10 +13,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "customers")
-public class CustomerService extends AbstractCrudService<Customer, CustomerDto, CustomerDto, Integer> {
+public class CustomerService extends AbstractCrudService<Customer, CustomerDto, CustomerDto, UUID> {
 
     private final CustomerRepository repository;
     private final CustomerMapper mapper;
@@ -46,25 +47,25 @@ public class CustomerService extends AbstractCrudService<Customer, CustomerDto, 
 
     @Override
     @Cacheable(key = "#id")
-    public CustomerDto findById(Integer id) {
+    public CustomerDto findById(UUID id) {
         return super.findById(id);
     }
 
     @Override
-    @CachePut(key = "#result.id")
+    @CachePut(key = "#result.customerId")
     public CustomerDto create(CustomerDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
-    public CustomerDto update(Integer id, CustomerDto dto) {
+    public CustomerDto update(UUID id, CustomerDto dto) {
         return super.update(id, dto);
     }
 
     @Override
     @CacheEvict(key = "#id")
-    public void deleteById(Integer id) {
+    public void deleteById(UUID id) {
         super.deleteById(id);
     }
 

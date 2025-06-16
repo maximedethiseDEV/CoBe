@@ -11,12 +11,16 @@ public interface ProductMapper {
     @Mapping(target = "productCode", source = "productCode")
     @Mapping(target = "materialSupplier", source = "materialSupplier")
     @Mapping(target = "sharedDetails", source = "sharedDetails")
+    @Mapping(target = "createdDate", source = "createdDate")
+    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     ProductDto toDto(Product entity);
 
     @Mapping(target = "productId", ignore = true)
     @Mapping(target = "productCode", source = "productCode")
     @Mapping(target = "materialSupplier", source = "materialSupplier")
     @Mapping(target = "sharedDetails", source = "sharedDetails")
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     Product toEntity(ProductDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

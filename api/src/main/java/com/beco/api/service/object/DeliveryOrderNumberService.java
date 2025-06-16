@@ -13,10 +13,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "unique-delivery-numbers")
-public class DeliveryOrderNumberService extends AbstractCrudService<DeliveryOrderNumber, DeliveryOrderNumberDto, DeliveryOrderNumberDto, Integer> {
+public class DeliveryOrderNumberService extends AbstractCrudService<DeliveryOrderNumber, DeliveryOrderNumberDto, DeliveryOrderNumberDto, UUID> {
 
     private final DeliveryOrderNumberRepository repository;
     private final DeliveryOrderNumberMapper mapper;
@@ -46,25 +47,25 @@ public class DeliveryOrderNumberService extends AbstractCrudService<DeliveryOrde
 
     @Override
     @Cacheable(key = "#id")
-    public DeliveryOrderNumberDto findById(Integer id) {
+    public DeliveryOrderNumberDto findById(UUID id) {
         return super.findById(id);
     }
 
     @Override
-    @CachePut(key = "#result.id")
+    @CachePut(key = "#result.deliveryOrderNumberId")
     public DeliveryOrderNumberDto create(DeliveryOrderNumberDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
-    public DeliveryOrderNumberDto update(Integer id, DeliveryOrderNumberDto dto) {
+    public DeliveryOrderNumberDto update(UUID id, DeliveryOrderNumberDto dto) {
         return super.update(id, dto);
     }
 
     @Override
     @CacheEvict(key = "#id")
-    public void deleteById(Integer id) {
+    public void deleteById(UUID id) {
         super.deleteById(id);
     }
 

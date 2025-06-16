@@ -22,13 +22,13 @@ import {SelectButton} from 'primeng/selectbutton';
     DatePicker,
     Button,
     DatePipe,
-    NgForOf,
     SelectButton,
   ],
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
   @ViewChild('dt') dt!: Table;
+
 
 
   deliveries: Delivery[] = [];
@@ -40,6 +40,18 @@ export class ScheduleComponent implements OnInit {
   sizes!: any[];
   selectedSize: any = undefined;
   loading: boolean = true;
+
+  readonly SCROLL_HEIGHT = '400rem';
+  readonly TABLE_STYLE = { 'min-width': '0rem' };
+  readonly rowsPerPageOptions = [100, 250, 500];
+  globalFilterFields: string[] = [
+    'deliveryId',
+    'order.product.productCode',
+    'order.quantityOrdered',
+    'transportSupplier.company.companyName',
+    'actualDeliveryDate',
+    'quantityDelivered',
+  ];
 
   // Colonnes du tableau
   columns: { field: string; header: string }[] = [
@@ -58,7 +70,7 @@ export class ScheduleComponent implements OnInit {
     this.fetchDeliveries();
 
     // Récupération des statuts à partir de l'énum
-    this.statuses = ['NEW', 'SCHEDULED', 'DISPATCHED', 'LOADED'];
+    this.statuses = ['Supprimé', 'Non affrété', 'Planifié', 'Affrété', 'Chargé', 'Livré'];
 
     this.sizes = [
       { name: 'Small', value: 'small' },
@@ -90,4 +102,5 @@ export class ScheduleComponent implements OnInit {
     const inputValue = (event.target as HTMLInputElement)?.value || '';
     this.dt.filterGlobal(inputValue, 'contains');
   }
+
 }

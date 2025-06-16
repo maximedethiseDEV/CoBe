@@ -15,6 +15,8 @@ public interface DeliveryMapper {
     @Mapping(target = "actualDeliveryTime", source = "actualDeliveryTime")
     @Mapping(target = "quantity", source = "quantity")
     @Mapping(target = "status", source = "status")
+    @Mapping(target = "createdDate", source = "createdDate")
+    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     DeliveryDto toDto(Delivery entity);
 
     @Mapping(target = "deliveryId", ignore = true)
@@ -25,6 +27,8 @@ public interface DeliveryMapper {
     @Mapping(target = "actualDeliveryTime", source = "actualDeliveryTime")
     @Mapping(target = "quantity", source = "quantity")
     @Mapping(target = "status", source = "status")
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     Delivery toEntity(DeliveryDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -4,6 +4,7 @@ import com.beco.api.mapper.OrderMapper;
 import com.beco.api.model.dto.DeliveryDto;
 import com.beco.api.model.dto.DeliveryStatusDto;
 import com.beco.api.model.dto.OrderDto;
+import com.beco.api.model.entity.DeliveryStatusEnum;
 import com.beco.api.model.entity.Order;
 import com.beco.api.repository.OrderRepository;
 import com.beco.api.service.AbstractCrudService;
@@ -16,11 +17,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @CacheConfig(cacheNames = "orders")
-public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto, Integer> {
+public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto, UUID> {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
@@ -52,12 +54,12 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
 
     @Override
     @Cacheable(key = "#id")
-    public OrderDto findById(Integer id) {
+    public OrderDto findById(UUID id) {
         return super.findById(id);
     }
 
     @Override
-    @Transactional // Assure la transactionnalité entre la commande et la livraison
+    @Transactional
     @CachePut(key = "#result.orderId")
     public OrderDto create(OrderDto dto) {
         // Étape 1 : Créer la commande en utilisant la logique existante
@@ -84,13 +86,13 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
 
     @Override
     @CachePut(key = "#id")
-    public OrderDto update(Integer id, OrderDto dto) {
+    public OrderDto update(UUID id, OrderDto dto) {
         return super.update(id, dto);
     }
 
     @Override
     @CacheEvict(key = "#id")
-    public void deleteById(Integer id) {
+    public void deleteById(UUID id) {
         super.deleteById(id);
     }
 
@@ -108,7 +110,7 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         return "order";
     }
 
-    public List<OrderDto> findOrdersByCustomer(Integer customerId) {
+    public List<OrderDto> findOrdersByCustomer(UUID customerId) {
         List<Order> orders = orderRepository.findByBillingCustomerCustomerId(customerId);
         return orders.stream()
                 .map(orderMapper::toDto)
@@ -117,8 +119,11 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
 
     private DeliveryStatusDto createNewStatus() {
         DeliveryStatusDto status = new DeliveryStatusDto();
-        status.setStatusId(1); // Correspond au statut "NEW"
-        status.setStatus("NEW");
+
+        DeliveryStatusEnum newEnum = DeliveryStatusEnum.NEW;
+        
+        status.setStatusId(newEnum.getId());
+        status.setStatus(newEnum.getStatus());
         return status;
     }
 

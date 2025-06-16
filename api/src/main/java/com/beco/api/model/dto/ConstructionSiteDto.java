@@ -3,12 +3,14 @@ package com.beco.api.model.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 public class ConstructionSiteDto {
 
-    private Integer constructionSiteId;
+    private UUID constructionSiteId;
 
     private CustomerDto constructionSiteCustomer;
 
@@ -21,4 +23,8 @@ public class ConstructionSiteDto {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateEnd;
+
+    private Instant createdDate;
+
+    private Instant lastModifiedDate;
 }

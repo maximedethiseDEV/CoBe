@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/products")
 @CrossOrigin(origins = "http://localhost:4200")
-public class ProductController extends AbstractCrudController<Product, ProductDto, ProductDto, Integer> {
+public class ProductController extends AbstractCrudController<Product, ProductDto, ProductDto, UUID> {
 
     private final ProductService service;
 
@@ -26,7 +28,7 @@ public class ProductController extends AbstractCrudController<Product, ProductDt
     }
 
     @Override
-    protected AbstractCrudService<Product, ProductDto, ProductDto, Integer> getService() {
+    protected AbstractCrudService<Product, ProductDto, ProductDto, UUID> getService() {
 
         return service;
     }

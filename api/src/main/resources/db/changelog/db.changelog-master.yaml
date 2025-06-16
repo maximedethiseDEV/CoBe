@@ -21,7 +21,7 @@ databaseChangeLog:
       author: maxime
       changes:
         - sqlFile:
-            path: add_trigger_check_total_delivery_quantity.sql
+            path: insert_delivery_status.sql
             relativeToChangelogFile: true
             splitStatements: false
 
@@ -30,7 +30,7 @@ databaseChangeLog:
       author: maxime
       changes:
         - sqlFile:
-            path: add_trigger_check_parent_solvency.sql
+            path: add_trigger_check_total_delivery_quantity.sql
             relativeToChangelogFile: true
             splitStatements: false
 
@@ -39,6 +39,6 @@ databaseChangeLog:
       author: maxime
       changes:
         - sqlFile:
-            path: insert_init_random_data.sql
+            path: add_trigger_check_parent_solvency.sql
             relativeToChangelogFile: true
             splitStatements: false

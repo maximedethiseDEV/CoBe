@@ -1,6 +1,6 @@
 package com.beco.api.service;
 
-import com.beco.api.model.DBUser;
+import com.beco.api.model.entity.DBUser;
 import com.beco.api.repository.DBUserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;

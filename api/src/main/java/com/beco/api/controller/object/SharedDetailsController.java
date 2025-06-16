@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/shared-details")
 @CrossOrigin(origins = "http://localhost:4200")
-public class SharedDetailsController extends AbstractCrudController<SharedDetails, SharedDetailsDto, SharedDetailsDto, Integer> {
+public class SharedDetailsController extends AbstractCrudController<SharedDetails, SharedDetailsDto, SharedDetailsDto, UUID> {
 
     private final SharedDetailsService service;
 
@@ -26,7 +28,7 @@ public class SharedDetailsController extends AbstractCrudController<SharedDetail
     }
 
     @Override
-    protected AbstractCrudService<SharedDetails, SharedDetailsDto, SharedDetailsDto, Integer> getService() {
+    protected AbstractCrudService<SharedDetails, SharedDetailsDto, SharedDetailsDto, UUID> getService() {
 
         return service;
     }

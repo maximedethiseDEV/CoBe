@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRequest_DTO, ID> {
+public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRequest_DTO, UUID> {
 
     private final SseService sseService;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
@@ -22,7 +22,7 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
         this.sseService = sseService;
     }
 
-    protected abstract AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutRequest_DTO, ID> getService();
+    protected abstract AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutRequest_DTO, UUID> getService();
 
     @GetMapping
     public ResponseEntity<List<GetRequest_DTO>> getAll() {
@@ -30,7 +30,7 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetRequest_DTO> getById(@PathVariable ID id) {
+    public ResponseEntity<GetRequest_DTO> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(getService().findById(id));
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GetRequest_DTO> update(@PathVariable ID id, @RequestBody PostOrPutRequest_DTO entity) {
+    public ResponseEntity<GetRequest_DTO> update(@PathVariable UUID id, @RequestBody PostOrPutRequest_DTO entity) {
         GetRequest_DTO updatedEntity = getService().update(id, entity);
 
         String entityPath = getEntityPath();
@@ -56,7 +56,7 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable ID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         try {
             getService().deleteById(id);
             String entityPath = getEntityPath();

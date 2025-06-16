@@ -3,12 +3,14 @@ package com.beco.api.model.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 public class CustomerDto {
 
-    private Integer customerId;
+    private UUID customerId;
 
     private CompanyDto company;
 
@@ -25,4 +27,8 @@ public class CustomerDto {
     private Boolean isSolvent = true;
 
     private CustomerDto parent;
+
+    private Instant createdDate;
+
+    private Instant lastModifiedDate;
 }

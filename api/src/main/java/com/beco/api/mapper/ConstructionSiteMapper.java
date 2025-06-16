@@ -13,6 +13,8 @@ public interface ConstructionSiteMapper {
     @Mapping(target = "sharedDetails", source = "sharedDetails")
     @Mapping(target = "dateStart", source = "dateStart")
     @Mapping(target = "dateEnd", source = "dateEnd")
+    @Mapping(target = "createdDate", source = "createdDate")
+    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     ConstructionSiteDto toDto(ConstructionSite entity);
 
     @Mapping(target = "constructionSiteId", ignore = true)
@@ -21,6 +23,8 @@ public interface ConstructionSiteMapper {
     @Mapping(target = "sharedDetails", source = "sharedDetails")
     @Mapping(target = "dateStart", source = "dateStart")
     @Mapping(target = "dateEnd", source = "dateEnd")
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     ConstructionSite toEntity(ConstructionSiteDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

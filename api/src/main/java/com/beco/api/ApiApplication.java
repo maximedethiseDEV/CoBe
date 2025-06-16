@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableCaching
+
 @SpringBootApplication
+@EnableCaching
+@EnableJpaAuditing
 public class ApiApplication {
     
     private static final Logger logger = LoggerFactory.getLogger(ApiApplication.class);

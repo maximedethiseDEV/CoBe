@@ -3,17 +3,21 @@ package com.beco.api.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.UUID;
 
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "company")
-public class Company {
+public class Company extends AbstractAuditingEntity<UUID> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "company_id")
-    private Integer companyId;
+    private UUID companyId;
 
     @Column(name = "name", nullable = false, unique = true)
     private String companyName;

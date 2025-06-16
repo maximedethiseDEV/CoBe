@@ -4,6 +4,8 @@ import com.beco.api.model.entity.DeliveryOrderNumber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public interface DeliveryOrderNumberRepository extends JpaRepository<DeliveryOrderNumber, Integer> {
+public interface DeliveryOrderNumberRepository extends JpaRepository<DeliveryOrderNumber, UUID> {
 }

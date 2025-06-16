@@ -2,10 +2,13 @@ package com.beco.api.model.dto;
 
 import lombok.Data;
 
+import java.time.Instant;
+import java.util.UUID;
+
 @Data
 public class CompanyDto {
 
-    private Integer companyId;
+    private UUID companyId;
 
     private String companyName;
 
@@ -16,5 +19,10 @@ public class CompanyDto {
     private GetAddressDto address;
 
     private SharedDetailsDto sharedDetails;
+
+    private Instant createdDate;
+
+    private Instant lastModifiedDate;
+
 
 }

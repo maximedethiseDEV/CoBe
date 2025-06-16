@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/unique-delivery-numbers")
 @CrossOrigin(origins = "http://localhost:4200")
-public class DeliveryOrderNumberController extends AbstractCrudController<DeliveryOrderNumber, DeliveryOrderNumberDto, DeliveryOrderNumberDto, Integer> {
+public class DeliveryOrderNumberController extends AbstractCrudController<DeliveryOrderNumber, DeliveryOrderNumberDto, DeliveryOrderNumberDto, UUID> {
 
     private final DeliveryOrderNumberService service;
 
@@ -26,7 +28,7 @@ public class DeliveryOrderNumberController extends AbstractCrudController<Delive
     }
 
     @Override
-    protected AbstractCrudService<DeliveryOrderNumber, DeliveryOrderNumberDto, DeliveryOrderNumberDto, Integer> getService() {
+    protected AbstractCrudService<DeliveryOrderNumber, DeliveryOrderNumberDto, DeliveryOrderNumberDto, UUID> getService() {
 
         return service;
     }

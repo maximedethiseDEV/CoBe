@@ -5,16 +5,10 @@
     [value]="deliveries"
     [columns]="columns"
     [rows]="100"
-    [rowsPerPageOptions]="[100, 250, 500]"
-    [globalFilterFields]="[
-      'deliveryId',
-      'order.product.productCode',
-      'order.quantityOrder',
-      'transportSupplier.company.name',
-      'actualDeliveryDate',
-      'quantityDelivery',
-    ]"
+    [rowsPerPageOptions]=rowsPerPageOptions
+    [globalFilterFields]=globalFilterFields
     [loading]="loading"
+    [scrollable]="true" scrollHeight=SCROLL_HEIGHT
     stripedRows
     selectionMode="multiple"
     [(selection)]="selectedDeliveries"
@@ -22,11 +16,9 @@
     dataKey="deliveryId"
     paginator="true"
     responsiveLayout="scroll"
-    [tableStyle]="{'min-width':'0rem'}"
+    [tableStyle]=TABLE_STYLE
     [size]="selectedSize"
   >
-
-
 
     <!-- Zone pour filtres -->
     <ng-template pTemplate="caption">
@@ -59,12 +51,6 @@
     <!-- En-tête du tableau -->
     <ng-template pTemplate="header">
       <tr>
-        <th *ngFor="let col of columns" pSortableColumn="{{ col.header }}" >
-          {{ col.header }}
-          <p-sortIcon field="{{ col.header }}"></p-sortIcon>
-        </th>
-
-
         <th pSortableColumn="deliveryId">ID <p-sortIcon field="deliveryId"></p-sortIcon></th>
         <th pSortableColumn="order.product.productCode">Code Produit <p-sortIcon field="order.product.productCode"></p-sortIcon></th>
         <th pSortableColumn="order.quantityOrdered">Quantité Commandée <p-sortIcon field="order.quantityOrdered"></p-sortIcon></th>
@@ -72,7 +58,6 @@
         <th pSortableColumn="transportSupplier.company.companyName">Transporteur <p-sortIcon field="transportSupplier.company.companyName"></p-sortIcon></th>
         <th pSortableColumn="quantity">Quantité Livrée <p-sortIcon field="quantity"></p-sortIcon></th>
         <th pSortableColumn="status.status">Statut <p-sortIcon field="status.status"></p-sortIcon></th>
-
       </tr>
     </ng-template>
 

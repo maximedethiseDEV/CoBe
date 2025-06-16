@@ -1,21 +1,22 @@
-package com.beco.api.model;
+package com.beco.api.model.entity;
 
-import com.beco.api.model.entity.Contact;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Entity
 @Table(name = "dbuser")
-public class DBUser {
+public class DBUser  extends AbstractAuditingEntity<UUID>  {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
-    private Integer userId;
+    private UUID userId;
 
     @NotBlank(message = "Le nom d'utilisateur est requis.")
     @Size(min = 3, message = "Le nom d'utilisateur doit contenir au moins 3 caractères.")

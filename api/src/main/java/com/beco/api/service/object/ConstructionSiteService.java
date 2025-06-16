@@ -13,10 +13,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "construction-sites")
-public class ConstructionSiteService extends AbstractCrudService<ConstructionSite, ConstructionSiteDto, ConstructionSiteDto, Integer> {
+public class ConstructionSiteService extends AbstractCrudService<ConstructionSite, ConstructionSiteDto, ConstructionSiteDto, UUID> {
 
     private final ConstructionSiteRepository repository;
     private final ConstructionSiteMapper mapper;
@@ -46,25 +47,25 @@ public class ConstructionSiteService extends AbstractCrudService<ConstructionSit
 
     @Override
     @Cacheable(key = "#id")
-    public ConstructionSiteDto findById(Integer id) {
+    public ConstructionSiteDto findById(UUID id) {
         return super.findById(id);
     }
 
     @Override
-    @CachePut(key = "#result.id")
+    @CachePut(key = "#result.constructionSiteId")
     public ConstructionSiteDto create(ConstructionSiteDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
-    public ConstructionSiteDto update(Integer id, ConstructionSiteDto dto) {
+    public ConstructionSiteDto update(UUID id, ConstructionSiteDto dto) {
         return super.update(id, dto);
     }
 
     @Override
     @CacheEvict(key = "#id")
-    public void deleteById(Integer id) {
+    public void deleteById(UUID id) {
         super.deleteById(id);
     }
 

@@ -9,9 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
+public interface DeliveryRepository extends JpaRepository<Delivery, UUID> {
     List<Delivery> findByOrder(Order orderId);
 
     @Query("SELECT d FROM Delivery d WHERE d.status = :status")

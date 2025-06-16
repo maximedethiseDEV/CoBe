@@ -11,11 +11,12 @@ import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
 @CacheConfig(cacheNames = "contacts")
-public class ContactService extends AbstractCrudService<Contact, ContactDto, ContactDto, Integer> {
+public class ContactService extends AbstractCrudService<Contact, ContactDto, ContactDto, UUID> {
 
     private final ContactRepository repository;
     private final ContactMapper mapper;
@@ -44,7 +45,7 @@ public class ContactService extends AbstractCrudService<Contact, ContactDto, Con
 
     @Override
     @Cacheable(key = "#id")
-    public ContactDto findById(Integer id) {
+    public ContactDto findById(UUID id) {
         return super.findById(id);
     }
 
@@ -58,7 +59,7 @@ public class ContactService extends AbstractCrudService<Contact, ContactDto, Con
     @Override
     @CachePut(key = "#id")
     @CacheEvict(value = "contacts", key = "'all'")
-    public ContactDto update(Integer id, ContactDto contactDto) {
+    public ContactDto update(UUID id, ContactDto contactDto) {
         return super.update(id, contactDto);
     }
 
@@ -67,7 +68,7 @@ public class ContactService extends AbstractCrudService<Contact, ContactDto, Con
             @CacheEvict(key = "#id"),
             @CacheEvict(key = "'all'")
     })
-    public void deleteById(Integer id) {
+    public void deleteById(UUID id) {
         super.deleteById(id);
     }
 

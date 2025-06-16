@@ -1,6 +1,6 @@
 package com.beco.api.controller;
 
-import com.beco.api.model.DBUser;
+import com.beco.api.model.entity.DBUser;
 import com.beco.api.service.RegisterService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

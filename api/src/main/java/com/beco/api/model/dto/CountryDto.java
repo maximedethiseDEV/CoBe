@@ -2,10 +2,12 @@ package com.beco.api.model.dto;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class CountryDto {
 
-    private Integer countryId;
+    private UUID countryId;
 
     private String countryName;
 

@@ -2,18 +2,22 @@ package com.beco.api.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.UUID;
+
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product extends AbstractAuditingEntity<UUID>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "product_id")
-    private Integer productId;
+    private UUID productId;
 
     @Column(name = "product_code", nullable = false, unique = true)
     private String productCode;

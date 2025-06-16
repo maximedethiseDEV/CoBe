@@ -1,6 +1,8 @@
 package com.beco.api.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,16 +12,16 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutRequest_DTO, ID> {
+public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutRequest_DTO, UUID> {
 
-    protected final JpaRepository<ENTITY, ID> repository;
+    protected final JpaRepository<ENTITY, UUID> repository;
     protected final CacheManager cacheManager;
     protected final Function<ENTITY, GetRequest_DTO> entityToDtoMapper;
     protected final Function<PostOrPutRequest_DTO, ENTITY> dtoToEntityMapper;
     protected final BiConsumer<PostOrPutRequest_DTO, ENTITY> updateEntityFromDto;
 
     public AbstractCrudService(
-            JpaRepository<ENTITY, ID> repository,
+            JpaRepository<ENTITY, UUID> repository,
             CacheManager cacheManager,
             Function<ENTITY, GetRequest_DTO> entityToDtoMapper,
             Function<PostOrPutRequest_DTO, ENTITY> dtoToEntityMapper,
@@ -43,7 +45,7 @@ public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutReque
                 .collect(Collectors.toList());
     }
 
-    public GetRequest_DTO findById(ID id) {
+    public GetRequest_DTO findById(UUID id) {
         Optional<ENTITY> entity = repository.findById(id);
         if (entity.isEmpty()) {
             throw new EntityNotFoundException(getEntityName() + " n°" + id + " non trouvée");
@@ -65,7 +67,7 @@ public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutReque
         }
     }
 
-    public GetRequest_DTO update(ID id, PostOrPutRequest_DTO dto) {
+    public GetRequest_DTO update(UUID id, PostOrPutRequest_DTO dto) {
         ENTITY existingEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(getEntityName() + " n°" + id + " introuvable"));
 
@@ -82,7 +84,7 @@ public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutReque
         }
     }
 
-    public void deleteById(ID id) {
+    public void deleteById(UUID id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException(getEntityName() + " n°" + id + " non trouvée");
         }

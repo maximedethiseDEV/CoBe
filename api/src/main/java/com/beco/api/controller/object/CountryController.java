@@ -8,10 +8,12 @@ import com.beco.api.service.AbstractCrudService;
 import com.beco.api.service.object.CountryService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/countries")
 @CrossOrigin(origins = "http://localhost:4200")
-public class CountryController extends AbstractCrudController<Country, CountryDto, CountryDto, Integer> {
+public class CountryController extends AbstractCrudController<Country, CountryDto, CountryDto, UUID> {
 
     private final CountryService service;
 
@@ -24,7 +26,7 @@ public class CountryController extends AbstractCrudController<Country, CountryDt
     }
 
     @Override
-    protected AbstractCrudService<Country, CountryDto, CountryDto, Integer> getService() {
+    protected AbstractCrudService<Country, CountryDto, CountryDto, UUID> getService() {
 
         return service;
     }

@@ -6,10 +6,12 @@ import com.beco.api.model.entity.TransportSupplier;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class DeliveryOrderNumberDto {
 
-    private Integer deliveryOrderNumberId;
+    private UUID deliveryOrderNumberId;
 
     private TransportSupplierDto transportSupplier;
 

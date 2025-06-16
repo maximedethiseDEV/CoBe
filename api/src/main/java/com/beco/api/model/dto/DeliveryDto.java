@@ -7,12 +7,14 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
 import java.sql.Time;
+import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 public class DeliveryDto {
 
-    private Integer deliveryId;
+    private UUID deliveryId;
 
     private OrderDto order;
 
@@ -28,4 +30,8 @@ public class DeliveryDto {
     private Integer quantity;
 
     private DeliveryStatusDto status;
+
+    private Instant createdDate;
+
+    private Instant lastModifiedDate;
 }

@@ -12,6 +12,8 @@ public interface MaterialSupplierMapper {
     @Mapping(target = "contact", source = "contact")
     @Mapping(target = "loadingAddress", source = "loadingAddress")
     @Mapping(target = "sharedDetails", ignore = true)
+    @Mapping(target = "createdDate", source = "createdDate")
+    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     MaterialSupplierDto toDto(MaterialSupplier entity);
 
     @Mapping(target = "materialSupplierId", ignore = true)
@@ -19,6 +21,8 @@ public interface MaterialSupplierMapper {
     @Mapping(target = "contact", source = "contact")
     @Mapping(target = "loadingAddress", source = "loadingAddress")
     @Mapping(target = "sharedDetails", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     MaterialSupplier toEntity(MaterialSupplierDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
