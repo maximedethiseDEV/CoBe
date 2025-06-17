@@ -15,6 +15,8 @@ public class DeliveryOrderNumberDto {
 
     private TransportSupplierDto transportSupplier;
 
+    private CustomerDto customer;
+
     private CityDto city;
 
     private ProductDto product;

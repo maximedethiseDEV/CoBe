@@ -26,17 +26,21 @@
     <form class="space-y-6" (ngSubmit)="step === totalSteps ? submitCommand() : nextStep()">
       <!-- Étape 1 -->
       <div *ngIf="step === 1" class="space-y-4">
-        <h3 class="text-lg font-semibold text-gray-900">Client à facturer</h3>
+        <h3 class="text-lg font-semibold text-gray-900">Donneur d'ordre</h3>
 
         <div>
-          <label for="clientFactNumero" class="block text-sm font-medium text-gray-700">N° Client</label>
+          <label for="clientFactNumero" class="block text-sm font-medium text-gray-700">
+            N° Donneur d'ordre
+          </label>
           <input type="text" id="clientFactNumero" name="clientFactNumero" [(ngModel)]="command.clientFacturation.numeroClient" required
-                 placeholder="N° Client"
+                 placeholder="N°"
                  class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />
         </div>
 
         <div>
-          <label for="clientFactNom" class="block text-sm font-medium text-gray-700">Nom</label>
+          <label for="clientFactNom" class="block text-sm font-medium text-gray-700">
+            Nom
+          </label>
           <input type="text" id="clientFactNom" name="clientFactNom" [(ngModel)]="command.clientFacturation.nom" required
                  placeholder="Nom"
                  class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600" />

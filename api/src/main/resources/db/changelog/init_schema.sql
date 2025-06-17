@@ -159,6 +159,7 @@ CREATE TABLE "delivery_order_number"
 (
     "delivery_order_number_id"      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     "transport_supplier_id"         UUID NOT NULL REFERENCES "transport_supplier" ("transport_supplier_id") ON DELETE RESTRICT,
+    "customer_id"                   UUID NOT NULL REFERENCES "customer" ("customer_id") ON DELETE RESTRICT,
     "city_id"                       UUID NOT NULL REFERENCES "city" ("city_id") ON DELETE RESTRICT,
     "product_id"                    UUID NOT NULL REFERENCES "product" ("product_id") ON DELETE RESTRICT,
     "unique_delivery_order_number" VARCHAR(20) UNIQUE NOT NULL

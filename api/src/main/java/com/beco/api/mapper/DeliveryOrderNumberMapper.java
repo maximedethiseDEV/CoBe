@@ -9,6 +9,7 @@ public interface DeliveryOrderNumberMapper {
 
     @Mapping(target = "deliveryOrderNumberId", source = "deliveryOrderNumberId")
     @Mapping(target = "transportSupplier", source = "transportSupplier")
+    @Mapping(target = "customer", source = "customer")
     @Mapping(target = "city", source = "city")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "uniqueDeliveryOrderNumber", source = "uniqueDeliveryOrderNumber")
@@ -16,6 +17,7 @@ public interface DeliveryOrderNumberMapper {
 
     @Mapping(target = "deliveryOrderNumberId", ignore = true)
     @Mapping(target = "transportSupplier", source = "transportSupplier")
+    @Mapping(target = "customer", source = "customer")
     @Mapping(target = "city", source = "city")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "uniqueDeliveryOrderNumber", source = "uniqueDeliveryOrderNumber")

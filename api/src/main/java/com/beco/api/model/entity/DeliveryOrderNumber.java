@@ -1,5 +1,6 @@
 package com.beco.api.model.entity;
 
+import com.beco.api.model.dto.CustomerDto;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,6 +19,10 @@ public class DeliveryOrderNumber {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transport_supplier_id", nullable = false)
     private TransportSupplier transportSupplier;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", nullable = false)

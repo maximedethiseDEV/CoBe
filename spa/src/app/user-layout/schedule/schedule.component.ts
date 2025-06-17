@@ -4,7 +4,6 @@ import { DeliveryService } from '../../features/deliveries/deliveries.service';
 import { Delivery } from '../../models/delivery.model';
 import { FormsModule } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
-import { Tag } from 'primeng/tag';
 import { Button } from 'primeng/button';
 import {DatePipe, NgForOf} from '@angular/common';
 import {DatePicker} from 'primeng/datepicker';
