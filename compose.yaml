@@ -38,6 +38,7 @@ services:
       - "9000:8080"
     volumes:
       - ./api/logs:/logs
+      - uploaded_files:/app/uploads
     depends_on:
       - db
     networks:
@@ -79,3 +80,4 @@ networks:
 
 volumes:
   pg_data:
+  uploaded_files:

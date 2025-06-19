@@ -1,8 +1,6 @@
 package com.beco.api.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -34,10 +32,6 @@ public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutReque
         this.updateEntityFromDto = updateEntityFromDto;
     }
 
-    /**
-     *  Test commentaire pour Swagger
-     * @return
-     */
     public List<GetRequest_DTO> findAll() {
         return repository.findAll()
                 .stream()

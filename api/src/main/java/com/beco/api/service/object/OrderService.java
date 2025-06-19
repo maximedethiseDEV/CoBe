@@ -4,18 +4,26 @@ import com.beco.api.mapper.OrderMapper;
 import com.beco.api.model.dto.DeliveryDto;
 import com.beco.api.model.dto.DeliveryStatusDto;
 import com.beco.api.model.dto.OrderDto;
+import com.beco.api.model.dto.SharedDetailsDto;
 import com.beco.api.model.entity.DeliveryStatusEnum;
 import com.beco.api.model.entity.Order;
 import com.beco.api.repository.OrderRepository;
 import com.beco.api.service.AbstractCrudService;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,11 +35,16 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final DeliveryService deliveryService;
+    private final SharedDetailsService sharedDetailsService;
+
+    @Value("${app.upload.dir:/app/uploads}")
+    private String uploadDir;
+
 
     public OrderService(
             OrderRepository orderRepository,
             CacheManager cacheManager,
-            OrderMapper orderMapper, DeliveryService deliveryService
+            OrderMapper orderMapper, DeliveryService deliveryService, SharedDetailsService sharedDetailsService
     ) {
         super(
                 orderRepository,
@@ -44,6 +57,7 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.deliveryService = deliveryService;
+        this.sharedDetailsService = sharedDetailsService;
     }
 
     @Override
@@ -58,17 +72,50 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         return super.findById(id);
     }
 
-    @Override
     @Transactional
     @CachePut(key = "#result.orderId")
-    public OrderDto create(OrderDto dto) {
-        // Étape 1 : Créer la commande en utilisant la logique existante
+    public OrderDto create(OrderDto dto, MultipartFile file) {
+        if (file != null && !file.isEmpty()) {
+            try {
+                String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path uploadPath = Paths.get(uploadDir, "orders");
+                Files.createDirectories(uploadPath);
+                Path filePath = uploadPath.resolve(filename);
+                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+                // Créer ou mettre à jour SharedDetails
+                SharedDetailsDto sharedDetailsDto = dto.getSharedDetails();
+                if (sharedDetailsDto == null) {
+                    sharedDetailsDto = new SharedDetailsDto();
+                }
+                sharedDetailsDto.setAttachmentPath("orders/" + filename);
+
+                // Si c'est un nouveau SharedDetails, le créer
+                if (sharedDetailsDto.getSharedDetailsId() == null) {
+                    sharedDetailsDto = sharedDetailsService.create(sharedDetailsDto);
+                } else {
+                    sharedDetailsDto = sharedDetailsService.update(
+                            sharedDetailsDto.getSharedDetailsId(),
+                            sharedDetailsDto
+                    );
+                }
+
+                // Mettre à jour le DTO de l'ordre avec le SharedDetails mis à jour
+                dto.setSharedDetails(sharedDetailsDto);
+
+            } catch (IOException e) {
+                throw new RuntimeException("Erreur lors du traitement du fichier", e);
+            }
+        }
+
+
         OrderDto savedOrderDto = super.create(dto);
 
-        // Étape 2 : Générer une livraison à partir de la commande créée
+        // Générer une livraison à partir de la commande créée
         DeliveryDto deliveryDto = new DeliveryDto();
 
-        deliveryDto.setOrder(savedOrderDto); // Associer la commande à la livraison
+        // Associer la commande à la livraison
+        deliveryDto.setOrder(savedOrderDto);
         deliveryDto.setQuantity(savedOrderDto.getQuantityOrdered());
         deliveryDto.setActualDeliveryDate(savedOrderDto.getRequestedDeliveryDate());
         deliveryDto.setActualDeliveryTime(savedOrderDto.getRequestedDeliveryTime());

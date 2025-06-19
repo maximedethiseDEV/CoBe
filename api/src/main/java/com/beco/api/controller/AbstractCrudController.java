@@ -14,7 +14,7 @@ import java.util.concurrent.*;
 
 public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRequest_DTO, UUID> {
 
-    private final SseService sseService;
+    protected final SseService sseService;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
     private final Map<String, ScheduledFuture<?>> heartbeatTasks = new ConcurrentHashMap<>();
 
@@ -107,7 +107,7 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
     }
 
 
-    private String getEntityPath() {
+    protected String getEntityPath() {
         RequestMapping annotation = this.getClass().getAnnotation(RequestMapping.class);
         if (annotation != null && annotation.value().length > 0) {
             return annotation.value()[0];
