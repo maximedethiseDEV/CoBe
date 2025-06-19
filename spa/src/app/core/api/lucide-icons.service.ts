@@ -8,7 +8,7 @@ import {
   MapPinPlusInside,
   CirclePlus,
   TrafficCone,
-  Truck
+  Truck, CircleX
 } from 'lucide-angular';
 
 @Injectable({
@@ -25,7 +25,8 @@ export class LucideIconsService {
     MapPinPlusInside: MapPinPlusInside,
     CirclePlus: CirclePlus,
     TrafficCone: TrafficCone,
-    Truck: Truck
+    Truck: Truck,
+    CircleX: CircleX
   }
 
   getIcon(iconName: keyof typeof this.lucideIcons) {

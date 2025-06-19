@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './auth/auth-guard.service';
+import { AuthGuard } from './core/auth/auth-guard.service';
 import {UserLayoutComponent} from './user-layout/user-layout.component';
 import {DashboardComponent} from './user-layout/dashboard/dashboard.component';
-import { LoginComponent } from './auth/login/login.component';
-import {RegisterComponent} from './auth/register/register.component';
+import { LoginComponent } from './core/auth/login/login.component';
+import {RegisterComponent} from './core/auth/register/register.component';
 import {HomeComponent} from './shared/home/home.component';
-import {OrderFormComponent} from './features/orders/order-form/order-form.component';
 import {ScheduleComponent} from './user-layout/schedule/schedule.component';
+import {OrderComponent} from './features/orders/order.component';
 
 export const routes: Routes = [
 
@@ -24,7 +24,7 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', title:'Tableau de bord', component: DashboardComponent },
       { path: 'schedule', title:'Planification', component: ScheduleComponent},
-      { path: 'order-form', title:'Nouvelle commande', component: OrderFormComponent},
+      { path: 'order-form', title:'Nouvelle commande', component: OrderComponent},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full'},
     ]

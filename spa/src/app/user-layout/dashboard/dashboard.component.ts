@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {LucideIconsService} from '../../api/lucide-icons.service';
+import {LucideIconsService} from '../../core/api/lucide-icons.service';
 import {LucideAngularModule} from 'lucide-angular';
 
 @Component({

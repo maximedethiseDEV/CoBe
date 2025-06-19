@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Delivery} from '../../models/delivery.model';
+import {DeliveryDto} from '../model/dto/delivery.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class DeliveryService {
 
   constructor(private http: HttpClient) {}
 
-  getAllDeliveries(): Observable<Delivery[]> {
-    return this.http.get<Delivery[]>(this.apiBaseUrl);
+  getAllDeliveries(): Observable<DeliveryDto[]> {
+    return this.http.get<DeliveryDto[]>(this.apiBaseUrl);
   }
 }

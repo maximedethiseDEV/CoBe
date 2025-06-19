@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
-import {LucideIconsService} from '../../../api/lucide-icons.service';
-import {TokenService} from '../../../auth/token.service';
-import {AuthService} from '../../../auth/auth.service';
+import {LucideIconsService} from '../../../core/api/lucide-icons.service';
+import {TokenService} from '../../../core/auth/token.service';
+import {AuthService} from '../../../core/auth/auth.service';
 import {Router, RouterLink} from '@angular/router';
 
 @Component({

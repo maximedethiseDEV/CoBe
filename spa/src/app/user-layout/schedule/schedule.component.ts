@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {Table, TableModule} from 'primeng/table';
-import { DeliveryService } from '../../features/deliveries/deliveries.service';
-import { Delivery } from '../../models/delivery.model';
+import { DeliveryService } from '../../core/service/deliveries.service';
 import { FormsModule } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
 import { Button } from 'primeng/button';
 import {DatePipe, NgForOf} from '@angular/common';
 import {DatePicker} from 'primeng/datepicker';
-import { DeliveryStatus } from '../../models/delivery-status.model';
+import { DeliveryStatus } from '../../core/model/delivery-status.model';
 import {SelectButton} from 'primeng/selectbutton';
+import {DeliveryDto} from '../../core/model/dto/delivery.dto';
 
 @Component({
   selector: 'app-schedule',
@@ -30,9 +30,9 @@ export class ScheduleComponent implements OnInit {
 
 
 
-  deliveries: Delivery[] = [];
+  deliveries: DeliveryDto[] = [];
   statuses: DeliveryStatus[] = [];
-  selectedDeliveries: Delivery[] = [];
+  selectedDeliveries: DeliveryDto[] = [];
   metaKey: boolean = true;
   actualDeliveryDateFilter?: Date;
   statusFilter?: string[];
@@ -80,7 +80,7 @@ export class ScheduleComponent implements OnInit {
 
   fetchDeliveries(): void {
     this.loading = true;
-    this.deliveryService.getAllDeliveries().subscribe((data: Delivery[]) => {
+    this.deliveryService.getAllDeliveries().subscribe((data: DeliveryDto[]) => {
         this.deliveries = data;
         this.loading = false;
       },

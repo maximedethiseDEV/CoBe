@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {LoginComponent} from '../../auth/login/login.component';
+import {LoginComponent} from '../../core/auth/login/login.component';
 
 @Component({
   selector: 'app-home',
