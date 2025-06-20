@@ -1,25 +1,30 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import {NgClass, NgIf} from '@angular/common';
-import {CircleX, LucideAngularModule} from 'lucide-angular';
-import {OrderController} from '../../../core/controller/order.controller';
-import {OrderDto} from '../../../core/model/dto/order.dto';
+import { CircleX, LucideAngularModule } from 'lucide-angular';
+import { OrderController } from '../../../core/controller/order.controller';
+import { OrderDto } from '../../../core/model/dto/order.dto';
+import {ProgressBarVerticalComponent} from '../../../shared/progress-bar-vertical/progress-bar-vertical.component';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-order-form',
   imports: [
-    FormsModule,
+    ReactiveFormsModule,
     NgIf,
-    NgClass,
     LucideAngularModule,
+    ProgressBarVerticalComponent,
+    NgClass,
   ],
   templateUrl: './order-form.component.html',
   styleUrl: './order-form.component.css'
 })
 export class OrderFormComponent implements OnInit {
 
-  @Input() order!: OrderDto | null | undefined;
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
+  orderForm!: FormGroup;
+  orderPreview$! : Observable<OrderDto>;
   @Output() ordersChange = new EventEmitter<OrderDto>();
 
   isDragging = false;
@@ -27,12 +32,79 @@ export class OrderFormComponent implements OnInit {
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
-  constructor(private orderController: OrderController) { }
+  get formData(): any {
+    return this.orderForm ? this.orderForm.value : null;
+  }
+  get excludedFields(): string[] {
+    return [];
+  }
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private orderController: OrderController
+  ) { }
 
   ngOnInit() {
+    this.initForm();
+    this.setNextValidDate();
+  }
+
+  private initForm() {
+    this.orderForm = this.formBuilder.group({
+      billingCustomer: this.formBuilder.group({
+        customerId: ['', Validators.required],
+        company: this.formBuilder.group({
+          companyName: ['', Validators.required],
+          address: this.formBuilder.group({
+            cityName: ['', Validators.required]
+          })
+        })
+      }),
+      deliveryCustomer: this.formBuilder.group({
+        customerId: ['', Validators.required],
+        company: this.formBuilder.group({
+          companyName: ['', Validators.required],
+          address: this.formBuilder.group({
+            cityName: ['', Validators.required]
+          })
+        })
+      }),
+      constructionSite: this.formBuilder.group({
+        constructionSiteCustomer: this.formBuilder.group({
+          company: this.formBuilder.group({
+            companyName: ['', Validators.required]
+          }),
+          contact: this.formBuilder.group({
+            firstName: ['', Validators.required],
+            phone: ['', Validators.required]
+          })
+        }),
+        constructionSiteAddress: this.formBuilder.group({
+          cityName: ['', Validators.required],
+          street: ['', Validators.required]
+        })
+      }),
+      product: this.formBuilder.group({
+        productId: ['', Validators.required],
+        productCode: ['', Validators.required],
+        materialSupplier: this.formBuilder.group({
+          company: this.formBuilder.group({
+            companyName: ['', Validators.required]
+          })
+        })
+      }),
+      quantityOrdered: ['', [Validators.required, Validators.min(1)]],
+      requestedDeliveryDate: ['', Validators.required],
+      requestedDeliveryTime: ['', Validators.required],
+      sharedDetails: this.formBuilder.group({
+        notes: ['']
+      })
+    });
+  }
+
+  private setNextValidDate() {
     const today = new Date();
     const nextValidDate = new Date(today);
-
     const day = today.getDay();
 
     if (day === 5) {
@@ -43,81 +115,51 @@ export class OrderFormComponent implements OnInit {
       nextValidDate.setDate(today.getDate() + 1);
     }
 
-    const formattedDate = nextValidDate.toISOString().split('T')[0]; // format YYYY-MM-DD
-
-    if (this.order) {
-      this.order.requestedDeliveryDate = formattedDate;
-    }
+    const formattedDate = nextValidDate.toISOString().split('T')[0];
+    this.orderForm.patchValue({
+      requestedDeliveryDate: formattedDate
+    });
   }
 
   get progressPercent(): number {
-    if (!this.order) return 0;
+    if (!this.orderForm) return 0;
 
-    // Calculer la progression basée sur le remplissage des champs
-    let filledFields = 0;
-    let totalFields = 0;
+    const controls = this.getAllControls(this.orderForm);
+    const totalControls = controls.length;
+    const filledControls = controls.filter(control =>
+      control.value !== null &&
+      control.value !== '' &&
+      !control.errors
+    ).length;
 
-    // Vérification des champs client facturation
-    if (this.order.billingCustomer) {
-      Object.values(this.order.billingCustomer).forEach(value => {
-        totalFields++;
-        if (value) filledFields++;
-      });
-    }
-
-    // Vérification des champs client livraison
-    if (this.order.deliveryCustomer) {
-      Object.values(this.order.deliveryCustomer).forEach(value => {
-        totalFields++;
-        if (value) filledFields++;
-      });
-    }
-
-    // Vérification des champs chantier
-    if (this.order.constructionSite) {
-      Object.values(this.order.constructionSite).forEach(value => {
-        totalFields++;
-        if (value) filledFields++;
-      });
-    }
-
-    // Vérification des champs de base de la commande
-    totalFields += 3; // quantityOrdered, requestedDeliveryDate, requestedDeliveryTime
-    if (this.order.quantityOrdered) filledFields++;
-    if (this.order.requestedDeliveryDate) filledFields++;
-    if (this.order.requestedDeliveryTime) filledFields++;
-
-    // Vérification des champs produit
-    if (this.order.product) {
-      Object.values(this.order.product).forEach(value => {
-        totalFields++;
-        if (value !== null && value !== '') filledFields++;
-      });
-    }
-
-    // Vérification des détails partagés
-    if (this.order.sharedDetails) {
-      Object.values(this.order.sharedDetails).forEach(value => {
-        if (value !== 'attachmentPath') { // On exclut le chemin du fichier
-          totalFields++;
-          if (value) filledFields++;
-        }
-      });
-    }
-
-    return (filledFields / totalFields) * 100;
+    return (filledControls / totalControls) * 100;
   }
-  submitCommand() {
-    if (!this.order) {
+
+  private getAllControls(form: FormGroup): any[] {
+    let controls: any[] = [];
+    Object.keys(form.controls).forEach(key => {
+      const control = form.get(key);
+      if (control instanceof FormGroup) {
+        controls = [...controls, ...this.getAllControls(control)];
+      } else {
+        controls.push(control);
+      }
+    });
+    return controls;
+  }
+
+  submitForm() {
+    if (this.orderForm.invalid) {
       this.errorMessage = 'Veuillez remplir tous les champs requis.';
       return;
     }
 
-    this.orderController.submitOrder(this.order, this.selectedFile!).subscribe({
+    const orderData: OrderDto = this.orderForm.value;
+    this.orderController.submitOrder(orderData, this.selectedFile!).subscribe({
       next: () => {
         this.successMessage = 'Commande enregistrée avec succès';
         this.errorMessage = '';
-        this.ordersChange.emit(this.order || undefined);
+        this.ordersChange.emit(orderData);
         this.resetForm();
       },
       error: (err) => {
@@ -128,8 +170,9 @@ export class OrderFormComponent implements OnInit {
   }
 
   resetForm() {
-    this.order = null;
+    this.orderForm.reset();
     this.selectedFile = null;
+    this.setNextValidDate();
   }
 
   onDragOver(event: DragEvent) {
@@ -138,16 +181,38 @@ export class OrderFormComponent implements OnInit {
   }
 
   onDragLeave(event: DragEvent) {
+    event.preventDefault();
     this.isDragging = false;
   }
 
   onFileDropped(event: DragEvent) {
     event.preventDefault();
     this.isDragging = false;
+
+    const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+    const allowedExtensions = ['.pdf', '.png', '.jpg', '.jpeg'];
+
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
-      this.setFile(files[0]);
+      const file = files[0];
+      const fileType = file.type;
+      const fileName = file.name.toLowerCase();
+
+      const isMimeAllowed = allowedTypes.includes(fileType);
+      const isExtensionAllowed = allowedExtensions.some(ext => fileName.endsWith(ext));
+
+      if (isMimeAllowed && isExtensionAllowed) {
+        this.setFile(file);
+        this.errorMessage = '';
+      } else {
+        this.errorMessage = 'Type de fichier non autorisé. Seuls les fichiers PDF ou image (.png, .jpg, .jpeg) sont acceptés.';
+        this.selectedFile = null;
+      }
     }
+  }
+
+  triggerFileInput() {
+    this.fileInputRef.nativeElement.click();
   }
 
   onFileSelected(event: Event) {

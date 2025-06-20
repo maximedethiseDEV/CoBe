@@ -1,20 +1,17 @@
 <div class="flex-1 h-screen overflow-y-auto pb-8">
-
-<div class="fixed top-0 w-1 h-screen bg-transparent rounded-full z-10">
-    <div class="absolute top-0 left-0 w-full transition-all duration-500 rounded-full"
-         [style.height.%]="progressPercent"
-         [style.backgroundColor]="'rgba(79, 70, 229,' + (0.3 + progressPercent / 100 * 0.7) + ')'" >
-    </div>
-  </div>
+  <!-- Barre de progression -->
+  <app-progress-bar-vertical
+    [data]="formData"
+    [excludeKeys]="excludedFields"
+  />
 
   <div class="flex-1 px-2">
     <div class="sm:mx-auto sm:w-full">
-      <h2 class=" text-center text-2xl font-bold tracking-tight text-gray-900">
+      <h2 class="text-center text-2xl font-bold tracking-tight text-gray-900">
         Enregistrer une commande
       </h2>
     </div>
 
-    <!-- Messages -->
     <div class="mt-4">
       <div *ngIf="successMessage" class="text-green-600 text-sm">
         {{ successMessage }}
@@ -25,152 +22,27 @@
     </div>
 
     <div class="mt-6 flex-1">
-      <form class="space-y-8" (ngSubmit)="submitCommand()">
+      <form [formGroup]="orderForm" class="space-y-8">
         <!-- Section Donneur d'ordre -->
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-gray-900">
-            Donneur d'ordre
-          </h3>
-
+        <div class="space-y-4" formGroupName="billingCustomer">
+          <h3 class="text-lg font-semibold text-gray-900">Donneur d'ordre</h3>
           <div class="grid grid-cols-3 gap-4">
             <div>
-              <label for="clientFactNumero" class="block text-sm font-medium text-gray-700">
-                N°
-              </label>
-              <input type="text" id="clientFactNumero" name="clientFactNumero"
-                     [(ngModel)]="order?.billingCustomer?.customerId" required
+              <label for="clientFactNumero" class="block text-sm font-medium text-gray-700">N°</label>
+              <input type="text" id="clientFactNumero" formControlName="customerId"
                      class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
             </div>
-
-            <div>
-              <label for="clientFactNom" class="block text-sm font-medium text-gray-700">
-                Nom
-              </label>
-              <input type="text" id="clientFactNom" name="clientFactNom"
-                     [(ngModel)]="order?.billingCustomer?.company?.companyName" required
+            <div formGroupName="company">
+              <label for="clientFactNom" class="block text-sm font-medium text-gray-700">Nom</label>
+              <input type="text" id="clientFactNom" formControlName="companyName"
                      class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
 
-            <div>
-              <label for="clientFactVille" class="block text-sm font-medium text-gray-700">
-                Ville
-              </label>
-              <input type="text" id="clientFactVille" name="clientFactVille"
-                     [(ngModel)]="order?.billingCustomer?.company?.address?.cityName" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Section Client à livrer -->
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-gray-900">Client à livrer</h3>
-
-          <div class="grid grid-cols-3 gap-4">
-            <div>
-              <label for="clientLivNumero" class="block text-sm font-medium text-gray-700">
-                N°
-              </label>
-              <input type="text" id="clientLivNumero" name="clientLivNumero"
-                     [(ngModel)]="order?.deliveryCustomer?.customerId" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="clientLivNom" class="block text-sm font-medium text-gray-700">
-                Nom
-              </label>
-              <input type="text" id="clientLivNom" name="clientLivNom"
-                     [(ngModel)]="order?.deliveryCustomer?.company?.companyName" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="clientLivVille" class="block text-sm font-medium text-gray-700">
-                Ville
-              </label>
-              <input type="text" id="clientLivVille" name="clientLivVille"
-                     [(ngModel)]="order?.deliveryCustomer?.company?.address?.cityName" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Section Chantier -->
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-gray-900">
-            Chantier
-          </h3>
-
-          <div class="grid grid-cols-3 gap-4">
-            <div>
-              <label for="clientChantierNom" class="block text-sm font-medium text-gray-700">
-                N°
-              </label>
-              <input type="text" id="clientChantierNom" name="clientChantierNom"
-                     [(ngModel)]="order?.constructionSite?.constructionSiteCustomer?.company?.companyName" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="clientChantierVille" class="block text-sm font-medium text-gray-700">
-                Ville
-              </label>
-              <input type="text" id="clientChantierVille" name="clientChantierVille"
-                     [(ngModel)]="order?.constructionSite?.constructionSiteAddress?.cityName" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="clientChantierAddresse" class="block text-sm font-medium text-gray-700">
-                Ville
-              </label>
-              <input type="text" id="clientChantierAddresse" name="clientChantierAddresse"
-                     [(ngModel)]="order?.constructionSite?.constructionSiteAddress?.street" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Section Produit -->
-        <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-gray-900">Produit</h3>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label for="codeProduit" class="block text-sm font-medium text-gray-700">
-                Code Produit
-              </label>
-              <input type="text" id="codeProduit" name="codeProduit"
-                     [(ngModel)]="order?.product?.productId" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="nomProduit" class="block text-sm font-medium text-gray-700">
-                Nom
-              </label>
-              <input type="text" id="nomProduit" name="nomProduit"
-                     [(ngModel)]="order?.product?.productCode" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="fournisseur" class="block text-sm font-medium text-gray-700">
-                Fournisseur
-              </label>
-              <input type="text" id="fournisseur" name="fournisseur"
-                     [(ngModel)]="order?.product?.materialSupplier?.company?.companyName" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="quantite" class="block text-sm font-medium text-gray-700">
-                Quantité
-              </label>
-              <input type="number" id="quantite" name="quantite"
-                     [(ngModel)]="order?.quantityOrdered" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+              <!-- Nested FormGroup: address -->
+              <div formGroupName="address" class="mt-4">
+                <label for="clientFactVille" class="block text-sm font-medium text-gray-700">Ville</label>
+                <input type="text" id="clientFactVille" formControlName="cityName"
+                       class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+              </div>
             </div>
           </div>
         </div>
@@ -178,71 +50,9 @@
         <!-- Section Détail de livraison -->
         <div class="space-y-4 mb-8">
           <h3 class="text-lg font-semibold text-gray-900">Détail de livraison</h3>
-
           <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label for="dateDebut" class="block text-sm font-medium text-gray-700">
-                Date de début
-              </label>
-              <input type="date" id="dateDebut" name="dateDebut"
-                     [(ngModel)]="order?.requestedDeliveryDate" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
 
-            <div>
-              <label for="heureDebut" class="block text-sm font-medium text-gray-700">
-                Heure de début
-              </label>
-              <input type="date" id="heureDebut" name="heureDebut"
-                     [(ngModel)]="order?.requestedDeliveryTime" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="dateFin" class="block text-sm font-medium text-gray-700">
-                Date de fin
-              </label>
-              <input type="date" id="dateFin" name="dateFin"
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="heureFin" class="block text-sm font-medium text-gray-700">
-                Heure de fin
-              </label>
-              <input type="date" id="heureFin" name="heureFin"
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="nomContact" class="block text-sm font-medium text-gray-700">
-                Nom du contact
-              </label>
-              <input type="text" id="nomContact" name="nomContact"
-                     [(ngModel)]="order?.constructionSite?.constructionSiteCustomer?.contact?.firstName" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div>
-              <label for="telephoneContact" class="block text-sm font-medium text-gray-700">
-                Téléphone du contact
-              </label>
-              <input type="tel" id="telephoneContact" name="telephoneContact"
-                     [(ngModel)]="order?.constructionSite?.constructionSiteCustomer?.contact?.phone" required
-                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
-            </div>
-
-            <div class="col-span-2">
-              <label for="remarque" class="block text-sm font-medium text-gray-700">
-                Remarque
-              </label>
-              <textarea id="remarque" name="remarque"
-                        [(ngModel)]="order?.sharedDetails?.notes"
-                        rows="2"
-                        class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300">
-              </textarea>
-            </div>
-
+            <!-- Zone de fichier -->
             <div
               class="col-span-2"
               (drop)="onFileDropped($event)"
@@ -263,18 +73,20 @@
               >
                 <p class="text-sm text-gray-500">
                   Glissez-déposez un fichier ici, ou
-                  <span class="text-indigo-600 font-semibold">cliquez pour en sélectionner un</span>.
+                  <span
+                    class="text-indigo-600 font-semibold hover:underline"
+                    (click)="triggerFileInput()"
+                  >
+                  cliquez pour en sélectionner un
+                  </span>.
                 </p>
+
                 <input
                   type="file"
-                  id="pieceJointe"
-                  name="pieceJointe"
-                  accept=".pdf, .png, .jpg, .jpeg"
+                  #fileInput
+                  hidden
                   (change)="onFileSelected($event)"
-                  class="mt-1 block w-full text-sm text-gray-900
-         file:mr-4 file:rounded-md file:border-0 file:bg-indigo-600
-         file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white
-         hover:file:bg-indigo-500"
+                  accept=".pdf,.png,.jpg,.jpeg"
                 />
               </div>
 
@@ -302,15 +114,15 @@
               </div>
 
             </div>
-
-
           </div>
         </div>
 
         <!-- Bouton de soumission -->
         <div class="flex justify-end">
           <button type="submit"
-                  class="mt-4 mr-2 rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold shadow hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  [disabled]="orderForm.invalid"
+                  (click)="submitForm()"
+                  class="mt-4 mr-2 rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold shadow hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed">
             Enregistrer la commande
           </button>
         </div>

@@ -31,4 +31,7 @@ export class ApiService {
     return this.http.delete(`${this.proxyApiUrl}/${dataType}/${id}`);
   }
 
+  subscribe(dataType: string): Observable<any> {
+    return this.http.get(`${this.proxyApiUrl}/${dataType}/subscribe`);
+  }
 }

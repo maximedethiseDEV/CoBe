@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { LucideAngularModule } from 'lucide-angular';
+import {LucideAngularModule, UserRoundPlus} from 'lucide-angular';
 import {LucideIconsService} from '../../../core/api/lucide-icons.service';
 import {TokenService} from '../../../core/auth/token.service';
 import {AuthService} from '../../../core/auth/auth.service';
@@ -52,4 +52,6 @@ export class MainMenuComponent implements OnInit {
     this.AuthService.logout();
     this.router.navigateByUrl('');
   }
+
+  protected readonly UserRoundPlus = UserRoundPlus;
 }

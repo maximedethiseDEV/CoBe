@@ -1,37 +1,75 @@
 <p-table
-  [value]="filteredOrders"
-  [tableStyle]="{ 'min-width': '0rem' }"
-  [scrollable]="true"
-  scrollHeight="calc(100vh - 2rem)"
-  [rowHover]="true"
-  (onRowSelect)="onOrderSelected($event?.data)"
-  selectionMode="single"
+  [value]="orders"
+  [columns]="columns"
+  [rows]="100"
+  [rowsPerPageOptions]=rowsPerPageOptions
+  [globalFilterFields]=globalFilterFields
+  [loading]="loading"
+  [scrollable]="true" scrollHeight=SCROLL_HEIGHT
+  stripedRows
+  selectionMode="multiple"
+  [(selection)]="selectedOrders"
+  [metaKeySelection]="metaKey"
+  dataKey="orderId"
+  paginator="true"
+  responsiveLayout="scroll"
+  [tableStyle]=TABLE_STYLE
 >
     <ng-template pTemplate="header">
       <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Client Facturation</th>
         <th>Client Livraison</th>
         <th>Produit</th>
         <th>Quantité</th>
         <th>Date livraison</th>
+        <th>Heure livraison</th>
       </tr>
     </ng-template>
+
+  <!-- En-tête du tableau -->
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="orderId">
+        ID
+        <p-sortIcon field="orderId"></p-sortIcon>
+      </th>
+      <th pSortableColumn="order.billingCustomer.company.companyName">
+        Donneur d'ordre
+        <p-sortIcon field="order.billingCustomer.company.companyName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="order.deliveryCustomer.company.companyName">
+        Client à livrer
+        <p-sortIcon field="order.deliveryCustomer.company.companyName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="order.product.productCode">
+        Produit
+        <p-sortIcon field="order.product.productCode"></p-sortIcon></th>
+      <th pSortableColumn="order.quantityOrdered">
+        Quantité <p-sortIcon field="order.quantityOrdered"></p-sortIcon>
+      </th>
+      <th pSortableColumn="order.requestedDeliveryDate">
+        Date de livraison
+        <p-sortIcon field="order.requestedDeliveryDate"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
     <ng-template pTemplate="body" let-order let-rowIndex="rowIndex">
-      <tr
-        [class.preview-row]="currentCommand?.orderId === order.orderId"
-        (click)="onOrderSelected(order)"
-        style="cursor: pointer;"
-      >
-        <td>{{rowIndex + 1}}</td>
+      <tr [pSelectableRow]="order" [pSelectableRowIndex]="rowIndex" style="cursor: pointer;">
         <td>{{order.orderId}}</td>
         <td>{{order.billingCustomer?.company?.companyName}}</td>
         <td>{{order.deliveryCustomer?.company?.companyName}}</td>
         <td>{{order.product?.productCode}}</td>
         <td>{{order.quantityOrdered}}</td>
         <td>{{order.requestedDeliveryDate}}</td>
-        <td>{{order.requestedDeliveryTime}}</td>
+      </tr>
+    </ng-template>
 
+    <!-- Message tableau vide -->
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9" class="text-center">Aucune livraison trouvée.</td>
       </tr>
     </ng-template>
   </p-table>

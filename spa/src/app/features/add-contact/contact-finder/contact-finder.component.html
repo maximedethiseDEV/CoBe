@@ -1,0 +1,101 @@
+<div class="h-full flex flex-col">
+<p-table
+  #dt
+  [value]="tableData"
+  [rows]="50"
+  [rowsPerPageOptions]=rowsPerPageOptions
+  [globalFilterFields]=globalFilterFields
+  [loading]="loading"
+  [scrollable]="true"
+  [scrollHeight]=SCROLL_HEIGHT
+  selectionMode="single"
+  [(selection)]="selectedContact"
+  [metaKeySelection]="metaKey"
+  dataKey="contactId"
+  paginator="true"
+  responsiveLayout="scroll"
+  [tableStyle]=TABLE_STYLE
+  (onRowSelect)="onRowSelect($event)"
+>
+
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-between">
+      <p-button icon="pi pi-filter-slash" (click)="clear(dt)"/>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="applyGlobalFilter($event)"
+          placeholder="Rechercher..."
+        />
+      </span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="firstName">
+        Prénom
+        <p-sortIcon field="firstName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="lastName">
+        Nom
+        <p-sortIcon field="lastName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="email">
+        Email
+        <p-sortIcon field="email"></p-sortIcon>
+      </th>
+      <th pSortableColumn="phone">
+        Téléphone
+        <p-sortIcon field="phone"></p-sortIcon>
+      </th>
+      <th pSortableColumn="role">
+        Poste
+        <p-sortIcon field="role"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-contact let-rowIndex="rowIndex">
+    <tr
+      [pSelectableRow]="contact"
+      [pSelectableRowIndex]="rowIndex"
+      class="transition-colors hover:bg-indigo-100"
+      [ngStyle]="{
+      'font-weight': rowIndex === 0 && previewContact$ ? 'bold' : 'normal',
+      'background-color': rowIndex === 0 && previewContact$ ? '#e3f2fd' : 'white'
+    }">
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.firstName }}</td>
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.lastName }}</td>
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis" [attr.title]="contact.email">{{ contact.email }}</td>
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.phone }}</td>
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.role }}</td>
+
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5" class="text-center p-4">
+        Aucun contact trouvé
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog
+  [(visible)]="displayDialog"
+  [style]="CARD_STYLE"
+  [modal]="true"
+  [closable]="true"
+>
+  <app-contact-summary
+    *ngIf="selectedContact"
+    [contact]="selectedContact"
+    (copyToForm)="copyContactToForm($event)"
+  ></app-contact-summary>
+</p-dialog>
+
+</div>

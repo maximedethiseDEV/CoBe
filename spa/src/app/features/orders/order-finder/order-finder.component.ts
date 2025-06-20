@@ -1,7 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {TableModule} from 'primeng/table';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Table, TableModule} from 'primeng/table';
 import {CommonModule} from '@angular/common';
 import {OrderDto} from '../../../core/model/dto/order.dto';
+import {DeliveryDto} from '../../../core/model/dto/delivery.dto';
+import {DeliveryStatus} from '../../../core/model/delivery-status.model';
+import {OrderService} from '../../../core/service/order.service';
 
 @Component({
   selector: 'app-order-finder',
@@ -10,49 +13,64 @@ import {OrderDto} from '../../../core/model/dto/order.dto';
   standalone: true,
   imports: [TableModule, CommonModule]
 })
-export class OrderFinderComponent {
-  @Input() currentCommand: OrderDto | null = null;
-  @Input() orders: OrderDto[] = [];
-  @Output() select = new EventEmitter<OrderDto>();
+export class OrderFinderComponent implements OnInit {
 
-  get filteredOrders(): OrderDto[] {
-    if (!this.currentCommand) return this.orders;
+  @ViewChild('dt') dt!: Table;
 
-    return this.orders.filter(order => {
-      const searchFilters: boolean[] = [];
+  orders!: OrderDto[];
+  selectedOrders!: OrderDto[];
+  metaKey: boolean = true;
+  loading: boolean = true;
 
-      // Filtre sur le client de facturation
-      if (this.currentCommand?.billingCustomer?.company?.companyName) {
-        searchFilters.push(
-          order.billingCustomer.company.companyName.toLowerCase()
-            .includes(this.currentCommand.billingCustomer.company.companyName.toLowerCase())
-        );
-      }
+  readonly SCROLL_HEIGHT = '400rem';
+  readonly TABLE_STYLE = { 'min-width': '0rem' };
+  readonly rowsPerPageOptions = [100, 250, 500];
 
-      // Filtre sur le client de livraison
-      if (this.currentCommand?.deliveryCustomer?.company?.companyName) {
-        const deliveryCustomerName = order.deliveryCustomer?.company?.companyName;
-        if (deliveryCustomerName) {
-          searchFilters.push(
-            deliveryCustomerName.toLowerCase()
-              .includes(this.currentCommand.deliveryCustomer.company.companyName.toLowerCase())
-          );
-        }
-      }
+  globalFilterFields: string[] = [
+    'orderId',
+    'order.billingCustomer.company.companyName',
+    'order.deliveryCustomer.company.companyName',
+    'order.product.productCode',
+    'order.quantityOrdered',
+    'order.requestedDeliveryDate',
+  ];
 
-      // Filtre sur le produit
-      if (this.currentCommand?.product?.productCode) {
-        searchFilters.push(
-          order.product.productCode.toLowerCase()
-            .includes(this.currentCommand.product.productCode.toLowerCase())
-        );
-      }
+  // Colonnes du tableau
+  columns: { field: string; header: string }[] = [
+    {field: 'order.orderId', header: 'ID'},
+    {field: 'order.billingCustomer?.company?.companyName', header: "Donneur d'ordre"},
+    {field: 'order.deliveryCustomer?.company?.companyName', header: 'Client Livraison'},
+    {field: 'order.product?.productCode', header: 'Produit'},
+    {field: 'order.quantityOrdered', header: 'Quantité'},
+    {field: 'order.requestedDeliveryDate', header: 'Date de livraison'},
+  ];
 
-      return searchFilters.length === 0 || searchFilters.every(f => f);
-    });
+  constructor(private ordersService: OrderService) { }
+
+  ngOnInit(): void {
+  this.fetchOrders();
   }
 
-  onOrderSelected(order: OrderDto): void {
-    this.select.emit(order);
+  fetchOrders(): void {
+    this.loading = true;
+    this.ordersService.getAllOrders().subscribe((data: OrderDto[]) => {
+        this.orders = data;
+        this.loading = false;
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des livraisons', error);
+        this.loading = false;
+      }
+    );
   }
+
+  clear(table: Table): void {
+    table.clear();
+  }
+
+  applyGlobalFilter(event: Event): void {
+    const inputValue = (event.target as HTMLInputElement)?.value || '';
+    this.dt.filterGlobal(inputValue, 'contains');
+  }
+
 }

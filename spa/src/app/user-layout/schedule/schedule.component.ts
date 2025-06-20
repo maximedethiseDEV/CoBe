@@ -4,11 +4,11 @@ import { DeliveryService } from '../../core/service/deliveries.service';
 import { FormsModule } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
 import { Button } from 'primeng/button';
-import {DatePipe, NgForOf} from '@angular/common';
-import {DatePicker} from 'primeng/datepicker';
+import { DatePipe } from '@angular/common';
+import { DatePicker } from 'primeng/datepicker';
 import { DeliveryStatus } from '../../core/model/delivery-status.model';
-import {SelectButton} from 'primeng/selectbutton';
-import {DeliveryDto} from '../../core/model/dto/delivery.dto';
+import { SelectButton } from 'primeng/selectbutton';
+import { DeliveryDto } from '../../core/model/dto/delivery.dto';
 
 @Component({
   selector: 'app-schedule',
@@ -26,13 +26,12 @@ import {DeliveryDto} from '../../core/model/dto/delivery.dto';
   styleUrls: ['./schedule.component.css']
 })
 export class ScheduleComponent implements OnInit {
+
   @ViewChild('dt') dt!: Table;
 
-
-
-  deliveries: DeliveryDto[] = [];
-  statuses: DeliveryStatus[] = [];
-  selectedDeliveries: DeliveryDto[] = [];
+  deliveries!: DeliveryDto[];
+  statuses!: DeliveryStatus[];
+  selectedDeliveries!: DeliveryDto[];
   metaKey: boolean = true;
   actualDeliveryDateFilter?: Date;
   statusFilter?: string[];

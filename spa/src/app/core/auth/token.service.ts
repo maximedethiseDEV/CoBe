@@ -14,7 +14,6 @@ export class TokenService {
 
   }
 
-  // Décode le token JWT
   decodeToken(): any {
     const token = this.getToken();
     if (token) {
@@ -28,7 +27,6 @@ export class TokenService {
     return null;
   }
 
-  // Obtenir une valeur spécifique dans les claims, comme le prénom
   getFirstName(): string {
     const decodedToken = this.decodeToken();
     return decodedToken?.sub || '';

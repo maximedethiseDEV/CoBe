@@ -17,9 +17,13 @@ import {catchError, throwError} from 'rxjs';
  * @returns {Observable<HttpEvent>} The transformed HTTP request or response, or an error observable in case of an error.
  */
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
-  // Injection des services nécessaires
+
   const router = inject(Router);
   const token = sessionStorage.getItem('app.token');
+
+  if (req.url.includes('subscribe')) {
+    return next(req);
+  }
 
   if (token) {
     req = req.clone({

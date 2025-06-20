@@ -7,6 +7,7 @@ import {RegisterComponent} from './core/auth/register/register.component';
 import {HomeComponent} from './shared/home/home.component';
 import {ScheduleComponent} from './user-layout/schedule/schedule.component';
 import {OrderComponent} from './features/orders/order.component';
+import {AddContactComponent} from './features/add-contact/add-contact.component';
 
 export const routes: Routes = [
 
@@ -24,7 +25,8 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', title:'Tableau de bord', component: DashboardComponent },
       { path: 'schedule', title:'Planification', component: ScheduleComponent},
-      { path: 'order-form', title:'Nouvelle commande', component: OrderComponent},
+      { path: 'order-form', title:'Ajouter une commande', component: OrderComponent},
+      { path: 'add-contact', title:'Ajouter un contact', component: AddContactComponent},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full'},
     ]

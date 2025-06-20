@@ -1,0 +1,24 @@
+<p-card>
+    <div class="col-4 font-bold">Nom:</div>
+    <div class="col-8">{{contact.lastName}}</div>
+
+    <div class="col-4 font-bold">Prénom:</div>
+    <div class="col-8">{{contact.firstName}}</div>
+
+    <div class="col-4 font-bold">Email:</div>
+    <div class="col-8">{{contact.email}}</div>
+
+    <div class="col-4 font-bold">Téléphone:</div>
+    <div class="col-8">{{contact.phone}}</div>
+
+    <div class="col-4 font-bold">Rôle:</div>
+    <div class="col-8">{{contact.role}}</div>
+
+  <div class="flex justify-content-center justify-end mt-4">
+    <p-button (onClick)="copyToForm.emit(contact)">
+      <i-lucide [img]="ClipboardCheck"></i-lucide>
+      Copier
+    </p-button>
+  </div>
+
+</p-card>

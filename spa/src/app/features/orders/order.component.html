@@ -1,15 +1,8 @@
 <div class="flex w-full overflow-x-hidden">
   <div class="w-1/3 min-w-0">
-    <app-order-form
-      [order]="selectedOrder"
-      (ordersChange)="onOrderChange($event)"
-    />
+    <app-order-form/>
   </div>
   <div class="w-2/3 min-w-0 overflow-x-hidden">
-    <app-order-finder
-      [orders]="orders"
-      [currentCommand]="selectedOrder"
-      (select)="onOrderSelected($event)"
-    />
+    <app-order-finder/>
   </div>
 </div>

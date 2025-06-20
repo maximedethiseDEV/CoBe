@@ -32,10 +32,6 @@ export class AuthService {
     return this.loggedInSubject.value;
   }
 
-  isLoggedIn$(): Observable<boolean> {
-    return this.loggedInSubject.asObservable();
-  }
-
   setToken(token: string): void {
     sessionStorage.setItem(this.TOKEN_KEY, token);
     this.loggedInSubject.next(true);
