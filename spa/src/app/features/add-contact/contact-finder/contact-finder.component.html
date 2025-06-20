@@ -2,9 +2,11 @@
 <p-table
   #dt
   [value]="tableData"
+  [frozenValue]="previewContact$ ? [previewContact$] : []"
   [rows]="50"
   [rowsPerPageOptions]=rowsPerPageOptions
   [globalFilterFields]=globalFilterFields
+  stripedRows
   [loading]="loading"
   [scrollable]="true"
   [scrollHeight]=SCROLL_HEIGHT
@@ -58,15 +60,26 @@
     </tr>
   </ng-template>
 
+  <ng-template pTemplate="frozenbody" let-contact let-rowIndex="rowIndex">
+    <tr
+      class="font-bold bg-blue-50 cursor-pointer"
+      [pSelectableRow]="contact"
+      [pSelectableRowIndex]="rowIndex"
+    >
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.firstName }}</td>
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.lastName }}</td>
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.email }}</td>
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.phone }}</td>
+      <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.role }}</td>
+    </tr>
+  </ng-template>
+
   <ng-template pTemplate="body" let-contact let-rowIndex="rowIndex">
     <tr
       [pSelectableRow]="contact"
       [pSelectableRowIndex]="rowIndex"
-      class="transition-colors hover:bg-indigo-100"
-      [ngStyle]="{
-      'font-weight': rowIndex === 0 && previewContact$ ? 'bold' : 'normal',
-      'background-color': rowIndex === 0 && previewContact$ ? '#e3f2fd' : 'white'
-    }">
+      class="cursor-pointer transition-colors hover:bg-indigo-100"
+    >
       <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.firstName }}</td>
       <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.lastName }}</td>
       <td class="whitespace-nowrap overflow-hidden text-ellipsis" [attr.title]="contact.email">{{ contact.email }}</td>
@@ -85,17 +98,11 @@
   </ng-template>
 </p-table>
 
-<p-dialog
-  [(visible)]="displayDialog"
-  [style]="CARD_STYLE"
-  [modal]="true"
-  [closable]="true"
->
   <app-contact-summary
     *ngIf="selectedContact"
     [contact]="selectedContact"
+    [(visible)]="displayDialog"
     (copyToForm)="copyContactToForm($event)"
   ></app-contact-summary>
-</p-dialog>
 
 </div>

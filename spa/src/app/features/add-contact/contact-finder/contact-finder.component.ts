@@ -131,7 +131,7 @@ export class ContactFinderComponent implements OnInit, OnDestroy {
   }
 
   get tableData(): ContactDto[] {
-    return this.previewContact$ ? [this.previewContact$, ...this.contacts] : this.contacts;
+    return this.contacts;
   }
 
 

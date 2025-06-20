@@ -1,24 +1,72 @@
-<p-card>
-    <div class="col-4 font-bold">Nom:</div>
-    <div class="col-8">{{contact.lastName}}</div>
+<p-toast/>
 
-    <div class="col-4 font-bold">Prénom:</div>
-    <div class="col-8">{{contact.firstName}}</div>
+<p-dialog
+  [(visible)]="visible"
+  [style]="CARD_STYLE"
+  [modal]="true"
+  [closable]="true"
+  (onHide)="closeDialog()"
+>
 
-    <div class="col-4 font-bold">Email:</div>
-    <div class="col-8">{{contact.email}}</div>
+  <ng-template pTemplate="header">
+    <div
+      class="flex items-center gap-3"
+    >
+      <i class="pi pi-user text-xl text-primary"></i>
+      <div>
+        <div
+          class="text-xl font-bold hover:cursor-pointer hover:rounded-md hover:bg-gray-50"
+          (click)="copyValue(contact.firstName + ' ' + contact.lastName)"
+        >
+          {{ contact.firstName }} {{ contact.lastName }}
+        </div>
+        <div
+          class="text-sm text-color-secondary hover:cursor-pointer hover:rounded-md hover:bg-gray-50"
+          (click)="copyValue(contact.role)"
+        >
+          {{ contact.role }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
 
-    <div class="col-4 font-bold">Téléphone:</div>
-    <div class="col-8">{{contact.phone}}</div>
+  <ng-template pTemplate="body">
+    <div class="space-y-4 px-4 py-2">
+      <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+        <div class="flex items-center gap-2 text-gray-500">
+          <i class="pi pi-envelope text-primary"></i>
+          <span class="font-medium">Email</span>
+        </div>
+        <div
+          class="text-right text-gray-800 font-semibold hover:cursor-pointer hover:rounded-md hover:bg-gray-50"
+          (click)="copyValue(contact.email)"
+        >
+          {{ contact.email }}
+        </div>
+      </div>
 
-    <div class="col-4 font-bold">Rôle:</div>
-    <div class="col-8">{{contact.role}}</div>
+      <div class="flex items-center justify-between border-b border-gray-200 pb-2">
+        <div class="flex items-center gap-2 text-gray-500">
+          <i class="pi pi-phone text-primary"></i>
+          <span class="font-medium">Téléphone</span>
+        </div>
+        <div
+          class="text-right text-gray-800 font-semibold hover:cursor-pointer hover:rounded-md hover:bg-gray-50"
+          (click)="copyValue(contact.phone)"
+        >
+          {{ contact.phone }}
+        </div>
+      </div>
+    </div>
+  </ng-template>
 
-  <div class="flex justify-content-center justify-end mt-4">
-    <p-button (onClick)="copyToForm.emit(contact)">
-      <i-lucide [img]="ClipboardCheck"></i-lucide>
-      Copier
-    </p-button>
-  </div>
 
-</p-card>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end mt-4">
+      <p-button (onClick)="onCopy()">
+        <i-lucide [img]="ClipboardCheck" class="size-5"></i-lucide>
+      </p-button>
+    </div>
+  </ng-template>
+
+</p-dialog>

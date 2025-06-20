@@ -4,7 +4,6 @@ import {ContactFinderComponent} from './contact-finder/contact-finder.component'
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {distinctUntilChanged, map, Observable} from 'rxjs';
 import {ContactDto} from '../../core/model/dto/contact.dto';
-import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-add-contact',
