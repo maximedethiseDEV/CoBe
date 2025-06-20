@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ContactFormComponent} from './contact-form/contact-form.component';
 import {ContactFinderComponent} from './contact-finder/contact-finder.component';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -15,7 +15,7 @@ import {AsyncPipe} from '@angular/common';
   templateUrl: './add-contact.component.html',
   styleUrl: './add-contact.component.css'
 })
-export class AddContactComponent implements OnInit {
+export class AddContactComponent implements OnInit, AfterViewInit {
 
   @ViewChild('contactFinder') contactFinder!: ContactFinderComponent;
 
@@ -34,7 +34,9 @@ export class AddContactComponent implements OnInit {
 
   ngOnInit() {
     this.contactPreview$ = this.contactForm.valueChanges;
+  }
 
+  ngAfterViewInit() {
     this.contactForm.valueChanges.pipe(
       distinctUntilChanged()
     ).subscribe(formValue => {
@@ -49,4 +51,5 @@ export class AddContactComponent implements OnInit {
       }
     });
   }
+
 }
