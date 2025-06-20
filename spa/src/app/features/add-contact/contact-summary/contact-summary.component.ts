@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {ContactDto} from '../../../core/model/dto/contact.dto';
 import {Button} from 'primeng/button';
 import {ClipboardCheck, LucideAngularModule} from 'lucide-angular';
 import {Dialog} from 'primeng/dialog';
 import { PrimeTemplate, MessageService } from 'primeng/api';
 import {Toast} from 'primeng/toast';
+import {ClipboardService} from '../../../core/service/clipboard.service';
 
 
 @Component({
@@ -25,8 +26,8 @@ export class ContactSummaryComponent {
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() copyToForm = new EventEmitter<ContactDto>();
   protected readonly ClipboardCheck = ClipboardCheck;
-
   readonly CARD_STYLE = { width: '30%', height: '60%' };
+  private clipboardService = inject(ClipboardService);
 
   constructor(
     private messageService: MessageService
@@ -48,13 +49,6 @@ export class ContactSummaryComponent {
   }
 
   copyValue(value: string, label?: string) {
-    navigator.clipboard.writeText(value).then(() => {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Copié',
-        detail: `${label ?? 'Valeur'} copiée dans le presse-papiers`,
-        life: 2000
-      });
-    });
+    this.clipboardService.copy(value, label);
   }
 }
