@@ -1,11 +1,6 @@
 import { MenuItem } from './menu-item';
 import {
-  Settings,
-  CalendarClock,
-  Handshake,
-  ChartLine,
-  CirclePlus,
-  UserRoundPlus
+  CalendarClock, Handshake, ChartLine, UserRoundPlus, Earth, Building2, MapPin, TextSearch
 } from 'lucide-angular';
 
 export const MENU_LIST: MenuItem[] = [
@@ -15,21 +10,34 @@ export const MENU_LIST: MenuItem[] = [
     link: '/app/schedule'
   },
   {
-    label: 'Ajouter',
-    icon: CirclePlus,
+    label: 'Données',
+    icon: TextSearch,
     link: '/app/add',
     children: [
       {
         label: 'Commande',
         icon: Handshake,
         link: '/app/add-order',
-        children: []
       },
       {
         label: 'Contact',
         icon: UserRoundPlus,
         link: '/app/add-contact',
-        children: []
+      },
+      {
+        label: 'Pays',
+        icon: Earth,
+        link: '/app/add-country',
+      },
+      {
+        label: 'Ville',
+        icon: Building2,
+        link: '/app/add-country',
+      },
+      {
+        label: 'Adresse',
+        icon: MapPin,
+        link: '/app/add-address',
       }
     ]
   },

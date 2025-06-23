@@ -6,7 +6,7 @@
 
     @if(activeMenuItem?.children?.length) {
       <div
-        class="absolute top-0 left-16 w-64 h-full bg-white border-e border-gray-100 shadow-lg z-40 transition-all duration-300">
+        class="absolute top-0 left-16 w-64 h-full  border-e border-gray-100 bg-white shadow-lg z-40">
       <app-side-menu-test
         [menuItems]="activeMenuItem.children || []"
         [parentLabel]="activeMenuItem.label"

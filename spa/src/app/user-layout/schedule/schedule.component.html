@@ -1,5 +1,4 @@
 <div class="card">
-  <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
   <p-table
     #dt
     [value]="deliveries"
@@ -45,6 +44,8 @@
             placeholder="Rechercher..."
           />
         </span>
+
+        <p-selectbutton [options]="sizes" [(ngModel)]="selectedSize" [multiple]="false" optionLabel="name" optionValue="value" />
       </div>
     </ng-template>
 
@@ -73,13 +74,5 @@
         <td>{{ delivery.status?.status }}</td>
       </tr>
     </ng-template>
-
-    <!-- Message tableau vide -->
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="9" class="text-center">Aucune livraison trouvée.</td>
-      </tr>
-    </ng-template>
-
   </p-table>
 </div>

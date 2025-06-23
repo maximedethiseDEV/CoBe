@@ -9,6 +9,7 @@ import {ScheduleComponent} from './user-layout/schedule/schedule.component';
 import {OrderComponent} from './features/orders/order.component';
 import {AddContactComponent} from './features/add-contact/add-contact.component';
 import {ProfileSettingsComponent} from './features/profile-settings/profile-settings.component';
+import {AddCountryComponent} from './features/add-country/add-country.component';
 
 export const routes: Routes = [
 
@@ -28,6 +29,7 @@ export const routes: Routes = [
       { path: 'schedule', title:'Planification', component: ScheduleComponent},
       { path: 'add-order', title:'Ajouter une commande', component: OrderComponent},
       { path: 'add-contact', title:'Ajouter un contact', component: AddContactComponent},
+      { path: 'add-country', title: 'Ajouter un pays', component: AddCountryComponent},
       { path: 'settings', title: "Modifier les paramètres", component: ProfileSettingsComponent},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     ]
