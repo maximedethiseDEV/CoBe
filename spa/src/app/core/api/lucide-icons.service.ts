@@ -34,7 +34,4 @@ export class LucideIconsService {
   getIcon(iconName: keyof typeof this.lucideIcons) {
     return this.lucideIcons[iconName];
   }
-
-
-
 }

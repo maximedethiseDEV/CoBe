@@ -15,9 +15,7 @@ import {ContactSummaryComponent} from '../contact-summary/contact-summary.compon
   standalone: true,
   imports: [
     TableModule,
-    NgStyle,
     Button,
-    Dialog,
     NgIf,
     ContactSummaryComponent
   ],
@@ -36,9 +34,7 @@ export class ContactFinderComponent implements OnInit, OnDestroy {
   selectedContact!: ContactDto;
   loading: boolean = true;
   metaKey: boolean = true;
-  readonly SCROLL_HEIGHT = 'calc(100vh - 10rem)';
   readonly TABLE_STYLE = { width: '100%', height: '100%' };
-  readonly CARD_STYLE = { width: '30%', height: '60%' };
   readonly rowsPerPageOptions = [50, 100, 200];
   globalFilterFields: string[] = [
     'firstName',
@@ -47,7 +43,6 @@ export class ContactFinderComponent implements OnInit, OnDestroy {
     'phone',
     'role'
 ];
-
   displayDialog: boolean = false;
 
   @Input() contactForm!: FormGroup;
@@ -93,15 +88,14 @@ export class ContactFinderComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (event) => {
           if (event.eventType === 'CREATE') {
-            // Ajoute le nouveau contact à la liste
             this.contacts = [...this.contacts, event.payload];
-          } else if (event.eventType === 'UPDATE') {
-            // Met à jour le contact existant
+          }
+          else if (event.eventType === 'UPDATE') {
             this.contacts = this.contacts.map(contact =>
               contact.contactId === event.payload.contactId ? event.payload : contact
             );
-          } else if (event.eventType === 'DELETE') {
-            // Supprime le contact de la liste
+          }
+          else if (event.eventType === 'DELETE') {
             this.contacts = this.contacts.filter(contact =>
               contact.contactId !== event.payload.contactId
             );

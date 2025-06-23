@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {ProgressBarVerticalService} from '../../core/service/progress-bar-vertical.service';
+import {ProgressBarVerticalService} from './progress-bar-vertical.service';
 
 @Component({
   selector: 'app-progress-bar-vertical',

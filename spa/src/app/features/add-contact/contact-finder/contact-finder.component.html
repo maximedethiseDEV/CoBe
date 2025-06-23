@@ -9,7 +9,7 @@
   stripedRows
   [loading]="loading"
   [scrollable]="true"
-  [scrollHeight]=SCROLL_HEIGHT
+  scrollHeight="900px"
   selectionMode="single"
   [(selection)]="selectedContact"
   [metaKeySelection]="metaKey"
@@ -21,13 +21,18 @@
 >
 
   <ng-template pTemplate="caption">
-    <div class="flex justify-content-between">
+    <div class="flex justify-left items-center gap-2">
       <p-button icon="pi pi-filter-slash" (click)="clear(dt)"/>
+
       <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
+        <label for="globalFilter"><i class="pi pi-search"></i></label>
+
         <input
           pInputText
+          PSize="Large"
           type="text"
+          name="globalFilter"
+          id="globalFilter"
           (input)="applyGlobalFilter($event)"
           placeholder="Rechercher..."
         />
@@ -62,9 +67,9 @@
 
   <ng-template pTemplate="frozenbody" let-contact let-rowIndex="rowIndex">
     <tr
-      class="font-bold bg-blue-50 cursor-pointer"
       [pSelectableRow]="contact"
       [pSelectableRowIndex]="rowIndex"
+      class="font-bold bg-blue-50 cursor-pointer"
     >
       <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.firstName }}</td>
       <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.lastName }}</td>
@@ -78,7 +83,7 @@
     <tr
       [pSelectableRow]="contact"
       [pSelectableRowIndex]="rowIndex"
-      class="cursor-pointer transition-colors hover:bg-indigo-100"
+      class="transition-colors hover:bg-indigo-100 cursor-pointer"
     >
       <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.firstName }}</td>
       <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ contact.lastName }}</td>

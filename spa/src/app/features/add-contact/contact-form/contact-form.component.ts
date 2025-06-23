@@ -21,6 +21,8 @@ export class ContactFormComponent {
   @Input() contactPreview$!: Observable<ContactDto>;
   @Output() contactCreated = new EventEmitter<void>();
 
+  UserRoundPlus = UserRoundPlus;
+
   constructor(private contactService: ContactService) {
   }
 
@@ -48,6 +50,4 @@ export class ContactFormComponent {
   get excludedFields(): string[] {
     return [];
   }
-
-  protected readonly UserRoundPlus = UserRoundPlus;
 }
