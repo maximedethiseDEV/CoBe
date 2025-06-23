@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class SseEventMessage {
-    private String eventType; // ex: CREATE, UPDATE, DELETE
-    private String entity;    // ex: "User", "Order", etc.
-    private Object payload;   // Les données de l'entité modifiée
+    private String eventType;
+    private String entity;
+    private Object payload;
 
     public SseEventMessage(String eventType, String entity, Object payload) {
         this.eventType = eventType;

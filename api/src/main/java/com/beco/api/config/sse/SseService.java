@@ -19,10 +19,8 @@ public class SseService {
         this.sseExceptionHandler = sseExceptionHandler;
     }
 
-    // Ici on ne gère plus l'exception interne : si un problème survient à la création,
-    // l'exception doit remonter au contrôleur puis au SseExceptionHandler.
     public SseEmitter subscribeToEntity(String entity) {
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(0L);
         emittersPerEntity.computeIfAbsent(entity, key -> new CopyOnWriteArrayList<>()).add(emitter);
 
         emitter.onCompletion(() -> removeEmitter(entity, emitter));

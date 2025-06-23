@@ -3,6 +3,7 @@ package com.beco.api.controller;
 import com.beco.api.config.sse.SseEventMessage;
 import com.beco.api.config.sse.SseService;
 import com.beco.api.service.AbstractCrudService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +69,66 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
         }
     }
 
-    @GetMapping(value = "/subscribe", produces = "text/event-stream")
+    @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter subscribe(Authentication authentication) {
+        String userId = authentication.getName();
+        String entityPath = getEntityPath();
+
+        System.out.println("🔔 [SSE] Nouvelle souscription de l'utilisateur : " + userId + " sur l'entité : " + entityPath);
+
+        SseEmitter emitter = sseService.subscribeToEntity(entityPath);
+
+        ScheduledFuture<?> heartbeatTask = scheduler.scheduleAtFixedRate(
+                () -> {
+                    try {
+                        System.out.println("❤️ [SSE] Envoi du heartbeat à " + entityPath);
+                        sseService.sendHeartbeat(entityPath);
+                    } catch (Exception e) {
+                        System.err.println("❌ [SSE] Erreur lors de l'envoi du heartbeat : " + e.getMessage());
+                        // Optionnel : logger dans un fichier
+                    }
+                },
+                0,
+                30,
+                TimeUnit.SECONDS
+        );
+
+        String heartbeatKey = userId + ":" + entityPath;
+        heartbeatTasks.put(heartbeatKey, heartbeatTask);
+
+        emitter.onCompletion(() -> {
+            System.out.println("📴 [SSE] Connexion terminée normalement pour " + heartbeatKey);
+            cleanupHeartbeat(heartbeatKey);
+        });
+
+        emitter.onTimeout(() -> {
+            System.err.println("⏳ [SSE] Timeout détecté pour " + heartbeatKey);
+            cleanupHeartbeat(heartbeatKey);
+        });
+
+        emitter.onError((ex) -> {
+            System.err.println("⚠️ [SSE] Erreur sur la connexion SSE pour " + heartbeatKey + " : " + ex);
+            cleanupHeartbeat(heartbeatKey);
+            // On relance une exception pour qu’elle soit capturée
+            throw new RuntimeException("Erreur SSE sur la connexion", ex);
+        });
+
+        return emitter;
+    }
+
+    private void cleanupHeartbeat(String key) {
+        ScheduledFuture<?> task = heartbeatTasks.remove(key);
+        if (task != null) {
+            task.cancel(true);
+            System.out.println("🧹 [SSE] Tâche heartbeat annulée pour " + key);
+        } else {
+            System.out.println("ℹ️ [SSE] Aucune tâche heartbeat trouvée pour " + key);
+        }
+    }
+
+
+    /*
+    @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribe(Authentication authentication) {
         String userId = authentication.getName();
         String entityPath = getEntityPath();
@@ -97,7 +157,6 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
         return emitter;
     }
 
-
     private void cleanupHeartbeat(String key) {
         ScheduledFuture<?> task = heartbeatTasks.remove(key);
         if (task != null) {
@@ -105,6 +164,8 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
             System.out.println("Tâche heartbeat annulée pour " + key);
         }
     }
+
+     */
 
 
     protected String getEntityPath() {
@@ -115,3 +176,5 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
         throw new IllegalStateException("RequestMapping introuvable sur le contrôleur.");
     }
 }
+
+
