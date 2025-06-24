@@ -50,14 +50,14 @@ public class CountryService extends AbstractCrudService<Country, CountryDto, Cou
 
     @Override
     @CachePut(key = "#result.countryId")
-    @CacheEvict(value = "contacts", key = "'all'")
+    @CacheEvict(value = "countries", key = "'all'")
     public CountryDto create(CountryDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
-    @CacheEvict(value = "contacts", key = "'all'")
+    @CacheEvict(value = "countries", key = "'all'")
     public CountryDto update(UUID id, CountryDto dto) {
         return super.update(id, dto);
     }

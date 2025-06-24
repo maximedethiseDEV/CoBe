@@ -6,10 +6,7 @@ import com.beco.api.model.entity.Product;
 import com.beco.api.repository.ProductRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,18 +50,23 @@ public class ProductService extends AbstractCrudService<Product, ProductDto, Pro
 
     @Override
     @CachePut(key = "#result.productId")
+    @CacheEvict(value = "products", key = "'all'")
     public ProductDto create(ProductDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
+    @CacheEvict(value = "products", key = "'all'")
     public ProductDto update(UUID id, ProductDto dto) {
         return super.update(id, dto);
     }
 
     @Override
-    @CacheEvict(key = "#id")
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
     public void deleteById(UUID id) {
         super.deleteById(id);
     }

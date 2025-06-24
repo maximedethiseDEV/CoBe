@@ -7,10 +7,7 @@ import com.beco.api.model.entity.Address;
 import com.beco.api.repository.AddressRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,18 +50,23 @@ public class AddressService extends AbstractCrudService<Address, GetAddressDto, 
 
     @Override
     @CachePut(key = "#result.addressId")
+    @CacheEvict(value = "addresses", key = "'all'")
     public GetAddressDto create(PostAddressDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
+    @CacheEvict(value = "addresses", key = "'all'")
     public GetAddressDto update(UUID id, PostAddressDto dto) {
         return super.update(id, dto);
     }
 
     @Override
-    @CacheEvict(key = "#id")
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
     public void deleteById(UUID id) {
         super.deleteById(id);
     }

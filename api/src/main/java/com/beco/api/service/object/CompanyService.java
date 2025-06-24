@@ -6,10 +6,7 @@ import com.beco.api.model.entity.Company;
 import com.beco.api.repository.CompanyRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,18 +49,23 @@ public class CompanyService extends AbstractCrudService<Company, CompanyDto, Com
 
     @Override
     @CachePut(key = "#result.companyId")
+    @CacheEvict(value = "companies", key = "'all'")
     public CompanyDto create(CompanyDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
+    @CacheEvict(value = "companies", key = "'all'")
     public CompanyDto update(UUID id, CompanyDto dto) {
         return super.update(id, dto);
     }
 
     @Override
-    @CacheEvict(key = "#id")
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
     public void deleteById(UUID id) {
         super.deleteById(id);
     }

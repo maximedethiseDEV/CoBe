@@ -6,10 +6,7 @@ import com.beco.api.model.entity.TransportSupplier;
 import com.beco.api.repository.TransportSupplierRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,18 +49,23 @@ public class TransportSupplierService extends AbstractCrudService<TransportSuppl
 
     @Override
     @CachePut(key = "#result.transportSupplierId")
+    @CacheEvict(value = "transport-suppliers", key = "'all'")
     public TransportSupplierDto create(TransportSupplierDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
+    @CacheEvict(value = "transport-suppliers", key = "'all'")
     public TransportSupplierDto update(UUID id, TransportSupplierDto dto) {
         return super.update(id, dto);
     }
 
     @Override
-    @CacheEvict(key = "#id")
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
     public void deleteById(UUID id) {
         super.deleteById(id);
     }
@@ -73,6 +75,6 @@ public class TransportSupplierService extends AbstractCrudService<TransportSuppl
 
     @Override
     protected String getEntityName() {
-        return "material-supplier";
+        return "transport-supplier";
     }
 }

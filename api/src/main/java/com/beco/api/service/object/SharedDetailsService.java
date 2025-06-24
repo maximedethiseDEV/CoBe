@@ -6,17 +6,14 @@ import com.beco.api.model.entity.SharedDetails;
 import com.beco.api.repository.SharedDetailsRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@CacheConfig(cacheNames = "cities")
+@CacheConfig(cacheNames = "shared-details")
 public class SharedDetailsService extends AbstractCrudService<SharedDetails, SharedDetailsDto, SharedDetailsDto, UUID> {
 
     private final SharedDetailsRepository repository;
@@ -53,18 +50,23 @@ public class SharedDetailsService extends AbstractCrudService<SharedDetails, Sha
 
     @Override
     @CachePut(key = "#result.sharedDetailsId")
+    @CacheEvict(value = "shared-details", key = "'all'")
     public SharedDetailsDto create(SharedDetailsDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
+    @CacheEvict(value = "shared-details", key = "'all'")
     public SharedDetailsDto update(UUID id, SharedDetailsDto dto) {
         return super.update(id, dto);
     }
 
     @Override
-    @CacheEvict(key = "#id")
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
     public void deleteById(UUID id) {
         super.deleteById(id);
     }

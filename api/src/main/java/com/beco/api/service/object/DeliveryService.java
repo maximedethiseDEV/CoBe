@@ -6,10 +6,7 @@ import com.beco.api.model.entity.Delivery;
 import com.beco.api.repository.DeliveryRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,18 +50,23 @@ public class DeliveryService extends AbstractCrudService<Delivery, DeliveryDto, 
 
     @Override
     @CachePut(key = "#result.deliveryId")
+    @CacheEvict(value = "deliveries", key = "'all'")
     public DeliveryDto create(DeliveryDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
+    @CacheEvict(value = "deliveries", key = "'all'")
     public DeliveryDto update(UUID id, DeliveryDto dto) {
         return super.update(id, dto);
     }
 
     @Override
-    @CacheEvict(key = "#id")
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
     public void deleteById(UUID id) {
         super.deleteById(id);
     }

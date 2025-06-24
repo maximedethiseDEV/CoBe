@@ -12,10 +12,7 @@ import com.beco.api.service.AbstractCrudService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,6 +71,7 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
 
     @Transactional
     @CachePut(key = "#result.orderId")
+    @CacheEvict(value = "orders", key = "'all'")
     public OrderDto create(OrderDto dto, MultipartFile file) {
         if (file != null && !file.isEmpty()) {
             try {
@@ -133,12 +131,16 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
 
     @Override
     @CachePut(key = "#id")
+    @CacheEvict(value = "orders", key = "'all'")
     public OrderDto update(UUID id, OrderDto dto) {
         return super.update(id, dto);
     }
 
     @Override
-    @CacheEvict(key = "#id")
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
     public void deleteById(UUID id) {
         super.deleteById(id);
     }

@@ -6,10 +6,7 @@ import com.beco.api.model.entity.ConstructionSite;
 import com.beco.api.repository.ConstructionSiteRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,18 +50,23 @@ public class ConstructionSiteService extends AbstractCrudService<ConstructionSit
 
     @Override
     @CachePut(key = "#result.constructionSiteId")
+    @CacheEvict(value = "construction-sites", key = "'all'")
     public ConstructionSiteDto create(ConstructionSiteDto dto) {
         return super.create(dto);
     }
 
     @Override
     @CachePut(key = "#id")
+    @CacheEvict(value = "construction-sites", key = "'all'")
     public ConstructionSiteDto update(UUID id, ConstructionSiteDto dto) {
         return super.update(id, dto);
     }
 
     @Override
-    @CacheEvict(key = "#id")
+    @Caching(evict = {
+            @CacheEvict(key = "#id"),
+            @CacheEvict(key = "'all'")
+    })
     public void deleteById(UUID id) {
         super.deleteById(id);
     }
