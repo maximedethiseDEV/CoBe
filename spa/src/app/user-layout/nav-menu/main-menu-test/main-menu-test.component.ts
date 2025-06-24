@@ -1,11 +1,11 @@
-import {Component, EventEmitter, input, Input, OnInit, Output} from '@angular/core';
-import {LucideAngularModule, LogOut } from 'lucide-angular';
+import {Component, EventEmitter,OnInit, Output} from '@angular/core';
+import {LucideAngularModule} from 'lucide-angular';
 import {TokenService} from '../../../core/auth/token.service';
 import {AuthService} from '../../../core/auth/auth.service';
 import {Router, RouterLink} from '@angular/router';
-import {MENU_LIST} from '../menu-list';
 import {MenuItem} from '../menu-item';
-import {SideMenuTestComponent} from '../side-menu-test/side-menu-test.component';
+import {ICONS_LIST} from '../../../core/api/lucide-icons-list';
+import {MENU_LIST} from '../menu-list';
 
 @Component({
   selector: 'app-main-menu-test',
@@ -18,11 +18,11 @@ import {SideMenuTestComponent} from '../side-menu-test/side-menu-test.component'
   styleUrl: './main-menu-test.component.css'
 })
 export class MainMenuTestComponent implements OnInit {
-  firstName: string = '';
-  protected readonly LogOut = LogOut;
-  protected menuList = MENU_LIST;
-  protected activeMenuItem!: MenuItem;
 
+  firstName: string = '';
+  protected readonly ICONS_LIST = ICONS_LIST;
+  protected readonly MENU_LIST = MENU_LIST;
+  protected activeMenuItem!: MenuItem;
   @Output() menuSelected = new EventEmitter<MenuItem>();
 
   constructor(

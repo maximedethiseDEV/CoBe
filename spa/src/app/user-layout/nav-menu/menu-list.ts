@@ -1,49 +1,47 @@
 import { MenuItem } from './menu-item';
-import {
-  CalendarClock, Handshake, ChartLine, UserRoundPlus, Earth, Building2, MapPin, TextSearch
-} from 'lucide-angular';
+import {ICONS_LIST} from '../../core/api/lucide-icons-list';
 
 export const MENU_LIST: MenuItem[] = [
   {
     label: 'Planning',
-    icon: CalendarClock,
+    icon: ICONS_LIST.CalendarClock,
     link: '/app/schedule'
   },
   {
     label: 'Données',
-    icon: TextSearch,
+    icon: ICONS_LIST.TextSearch,
     link: '/app/add',
     children: [
       {
         label: 'Commande',
-        icon: Handshake,
+        icon: ICONS_LIST.Handshake,
         link: '/app/add-order',
       },
       {
         label: 'Contact',
-        icon: UserRoundPlus,
+        icon: ICONS_LIST.UserRoundPlus,
         link: '/app/add-contact',
       },
       {
         label: 'Pays',
-        icon: Earth,
+        icon: ICONS_LIST.Earth,
         link: '/app/add-country',
       },
       {
         label: 'Ville',
-        icon: Building2,
+        icon: ICONS_LIST.Building2,
         link: '/app/add-country',
       },
       {
         label: 'Adresse',
-        icon: MapPin,
+        icon: ICONS_LIST.MapPin,
         link: '/app/add-address',
       }
     ]
   },
   {
     label: 'Dashboard',
-    icon: ChartLine,
+    icon: ICONS_LIST.ChartLine,
     link: '/app/dashboard'
   }
 ];

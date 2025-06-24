@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {LucideIconsService} from '../../core/api/lucide-icons.service';
+import {ICONS_LIST} from '../../core/api/lucide-icons-list';
 import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
@@ -11,17 +11,6 @@ import {LucideAngularModule} from 'lucide-angular';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  TrafficCone;
-  Truck;
-  ChartLine;
-  CirclePlus;
 
-  constructor(
-    private lucideService: LucideIconsService,
-  ) {
-    this.TrafficCone = this.lucideService.getIcon('TrafficCone');
-    this.Truck = this.lucideService.getIcon('Truck');
-    this.ChartLine = this.lucideService.getIcon('ChartLine');
-    this.CirclePlus = this.lucideService.getIcon('CirclePlus');
-  }
+  protected readonly ICONS_LIST = ICONS_LIST;
 }

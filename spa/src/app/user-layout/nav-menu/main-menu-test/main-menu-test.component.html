@@ -2,10 +2,13 @@
   <div class="flex w-16 flex-col justify-between border-e border-gray-100 bg-white">
     <div>
       <div class="inline-flex size-16 items-center justify-center">
-        <a [routerLink]="['/app/settings']">
-          <span class="grid size-10 place-content-center rounded-lg bg-gray-100 text-xl text-gray-600 font-bold cursor-pointer hover:bg-gray-200 hover:font-extrabold">
+        <a
+          [routerLink]="['/app/settings']"
+          class="group relative"
+        >
+          <p class="grid size-10 place-content-center rounded-lg bg-gray-100 text-xl text-gray-600 font-bold cursor-pointer hover:bg-gray-200 hover:font-extrabold">
             {{ firstNameInitial }}
-          </span>
+          </p>
 
           <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50 shadow-lg">
             Profil
@@ -16,7 +19,7 @@
       <div class="border-t border-gray-100">
         <div class="px-2">
           <ul class="space-y-1 border-t border-gray-100 pt-4">
-            @for(menuItem of menuList; track menuItem.label) {
+            @for(menuItem of MENU_LIST; track menuItem.label) {
               <li>
                 <a
                   [routerLink]="[menuItem.link]"
@@ -45,7 +48,7 @@
         (click)="onLogout()"
         class="group relative flex justify-center rounded-sm px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700"
       >
-        <lucide-icon [name]="LogOut" class="size-5 opacity-75"></lucide-icon>
+        <lucide-icon [name]="ICONS_LIST.LogOut" class="size-5 opacity-75"></lucide-icon>
         <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
           Logout
         </span>
