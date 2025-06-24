@@ -1,10 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { distinctUntilChanged, Observable} from 'rxjs';
-import { ContactDto } from '../../../core/model/dto/contact.dto';
-import { ContactService } from '../../../core/service/contact.service';
+import { Observable} from 'rxjs';
 import {ProgressBarVerticalComponent} from '../../../shared/progress-bar-vertical/progress-bar-vertical.component';
-import {LucideAngularModule, UserRoundPlus} from 'lucide-angular';
+import {LucideAngularModule} from 'lucide-angular';
+import {ICONS_LIST} from '../../../core/lucide-icons-list';
+import {MessageService} from 'primeng/api';
+import {ContactDto} from '../../../core/model/dto/contact.dto';
+import {ContactService} from '../contact.service';
 
 @Component({
   selector: 'app-contact-form',
@@ -14,16 +16,19 @@ import {LucideAngularModule, UserRoundPlus} from 'lucide-angular';
     LucideAngularModule
   ],
   templateUrl: './contact-form.component.html',
-  styleUrl: './contact-form.component.css'
 })
 export class ContactFormComponent {
   @Input() contactForm!: FormGroup;
   @Input() contactPreview$!: Observable<ContactDto>;
   @Output() contactCreated = new EventEmitter<void>();
+  protected readonly ICONS_LIST = ICONS_LIST;
+  iconHeader = ICONS_LIST.CircleUserRound;
+  labelHeader = 'Nouveau contact';
 
-  UserRoundPlus = UserRoundPlus;
-
-  constructor(private contactService: ContactService) {
+  constructor(
+    private contactService: ContactService,
+    private messageService: MessageService
+  ) {
   }
 
   onSubmit() {
@@ -39,6 +44,12 @@ export class ContactFormComponent {
         }
       });
     }
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Enregistré',
+      detail: 'Contact enregistré',
+      life: 2000
+    });
   }
 
   /*

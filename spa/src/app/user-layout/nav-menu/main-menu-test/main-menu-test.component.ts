@@ -4,7 +4,7 @@ import {TokenService} from '../../../core/auth/token.service';
 import {AuthService} from '../../../core/auth/auth.service';
 import {Router, RouterLink} from '@angular/router';
 import {MenuItem} from '../menu-item';
-import {ICONS_LIST} from '../../../core/api/lucide-icons-list';
+import {ICONS_LIST} from '../../../core/lucide-icons-list';
 import {MENU_LIST} from '../menu-list';
 
 @Component({

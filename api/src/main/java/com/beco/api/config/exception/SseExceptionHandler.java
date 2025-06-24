@@ -3,6 +3,7 @@ package com.beco.api.config.exception;
 import com.beco.api.controller.AbstractCrudController;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
@@ -22,5 +23,9 @@ public class SseExceptionHandler {
             emitter.completeWithError(e);
         }
         return emitter;
+    }
+
+    @ExceptionHandler(AsyncRequestNotUsableException.class)
+    public void handleDisconnectedClient() {
     }
 }

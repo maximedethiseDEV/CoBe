@@ -1,14 +1,13 @@
 import {Component, Input, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {Table, TableModule} from 'primeng/table';
 import { FormGroup } from '@angular/forms';
-import { ContactDto } from '../../../core/model/dto/contact.dto';
 import {Observable, tap, Subscription, filter} from 'rxjs';
-import {NgIf, NgStyle} from '@angular/common';
-import { ContactService } from '../../../core/service/contact.service';
+import {NgIf} from '@angular/common';
 import {NavigationStart, Router} from '@angular/router';
 import {Button} from 'primeng/button';
-import {Dialog} from 'primeng/dialog';
-import {ContactSummaryComponent} from '../contact-summary/contact-summary.component';
+import {ContactDto} from '../../../core/model/dto/contact.dto';
+import {ContactService} from '../contact.service';
+import {ContactSummaryComponent} from "../contact-summary/contact-summary.component";
 
 @Component({
   selector: 'app-contact-finder',
@@ -17,10 +16,9 @@ import {ContactSummaryComponent} from '../contact-summary/contact-summary.compon
     TableModule,
     Button,
     NgIf,
-    ContactSummaryComponent
+    ContactSummaryComponent,
   ],
   templateUrl: './contact-finder.component.html',
-  styleUrl: './contact-finder.component.css'
 })
 export class ContactFinderComponent implements OnInit, OnDestroy {
 
@@ -50,7 +48,7 @@ export class ContactFinderComponent implements OnInit, OnDestroy {
 
   constructor(
     private contactService: ContactService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {

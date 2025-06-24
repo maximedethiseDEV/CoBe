@@ -1,11 +1,13 @@
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {ContactDto} from '../../../core/model/dto/contact.dto';
 import {Button} from 'primeng/button';
-import {ClipboardCheck, LucideAngularModule} from 'lucide-angular';
+import {LucideAngularModule} from 'lucide-angular';
 import {Dialog} from 'primeng/dialog';
 import { PrimeTemplate, MessageService } from 'primeng/api';
 import {Toast} from 'primeng/toast';
 import {ClipboardService} from '../../../core/service/clipboard.service';
+import {ICONS_LIST} from '../../../core/lucide-icons-list';
+import {ContactService} from '../contact.service';
+import {ContactDto} from '../../../core/model/dto/contact.dto';
 
 
 @Component({
@@ -17,35 +19,60 @@ import {ClipboardService} from '../../../core/service/clipboard.service';
     PrimeTemplate,
     Toast
   ],
-  templateUrl: './contact-summary.component.html',
-  styleUrl: './contact-summary.component.css'
+  templateUrl: './contact-summary.component.html'
 })
 export class ContactSummaryComponent {
   @Input() contact!: ContactDto;
   @Input() visible: boolean = false;
   @Output() visibleChange = new EventEmitter<boolean>();
   @Output() copyToForm = new EventEmitter<ContactDto>();
-  protected readonly ClipboardCheck = ClipboardCheck;
+  protected readonly ICONS_LIST = ICONS_LIST;
   readonly CARD_STYLE = { width: '30%', height: '60%' };
   private clipboardService = inject(ClipboardService);
 
   constructor(
-    private messageService: MessageService
+    private messageService: MessageService,
+    private contactService: ContactService
   ) {}
 
-  closeDialog() {
-    this.visibleChange.emit(false);
-  }
-
-  onCopy() {
+  onCopyIntoForm() {
     this.copyToForm.emit(this.contact);
     this.messageService.add({
-      severity: 'success',
+      severity: 'info',
       summary: 'Copié',
       detail: 'Contact copié vers le formulaire',
       life: 2000
     });
     this.closeDialog();
+  }
+
+  onEdit() {
+    this.onCopyIntoForm();
+    this.closeDialog();
+  }
+
+  onDelete() {
+    if (this.contact?.contactId) {
+      this.contactService.deleteContact(this.contact.contactId).subscribe({
+        next: () => {},
+        error: (err) => {
+          console.error('Erreur lors de la suppression du contact :', err);
+        }
+      });
+    } else {
+      console.warn('Aucun contact sélectionné pour la suppression');
+    }
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Supprimé',
+      detail: 'Contact supprimé',
+      life: 2000
+    });
+    this.closeDialog();
+  }
+
+  closeDialog() {
+    this.visibleChange.emit(false);
   }
 
   copyValue(value: string, label?: string) {

@@ -45,7 +45,7 @@ public class SseService {
         if (emitters != null) {
             for (SseEmitter emitter : emitters) {
                 try {
-                    emitter.send(SseEmitter.event().name("UPDATE").data(message));
+                    emitter.send(SseEmitter.event().name(message.getEventType()).data(message));
                 } catch (IOException e) {
                     removeEmitter(entity, emitter);
                 }

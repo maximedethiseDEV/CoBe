@@ -81,7 +81,6 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
         ScheduledFuture<?> heartbeatTask = scheduler.scheduleAtFixedRate(
                 () -> {
                     try {
-                        System.out.println("❤️ [SSE] Envoi du heartbeat à " + entityPath);
                         sseService.sendHeartbeat(entityPath);
                     } catch (Exception e) {
                         System.err.println("❌ [SSE] Erreur lors de l'envoi du heartbeat : " + e.getMessage());
@@ -125,48 +124,6 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
             System.out.println("ℹ️ [SSE] Aucune tâche heartbeat trouvée pour " + key);
         }
     }
-
-
-    /*
-    @GetMapping(value = "/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public SseEmitter subscribe(Authentication authentication) {
-        String userId = authentication.getName();
-        String entityPath = getEntityPath();
-
-        SseEmitter emitter = sseService.subscribeToEntity(entityPath);
-
-        ScheduledFuture<?> heartbeatTask = scheduler.scheduleAtFixedRate(
-                () -> {
-                    sseService.sendHeartbeat(entityPath); // Peut lever une exception
-                },
-                0,
-                30,
-                TimeUnit.SECONDS
-        );
-
-        heartbeatTasks.put(userId + ":" + entityPath, heartbeatTask);
-
-        emitter.onCompletion(() -> cleanupHeartbeat(userId + ":" + entityPath));
-        emitter.onTimeout(() -> cleanupHeartbeat(userId + ":" + entityPath));
-        emitter.onError((ex) -> {
-            cleanupHeartbeat(userId + ":" + entityPath);
-            // On relance une exception pour qu’elle soit capturée par @ExceptionHandler
-            throw new RuntimeException("Erreur SSE sur la connexion", ex);
-        });
-
-        return emitter;
-    }
-
-    private void cleanupHeartbeat(String key) {
-        ScheduledFuture<?> task = heartbeatTasks.remove(key);
-        if (task != null) {
-            task.cancel(true);
-            System.out.println("Tâche heartbeat annulée pour " + key);
-        }
-    }
-
-     */
-
 
     protected String getEntityPath() {
         RequestMapping annotation = this.getClass().getAnnotation(RequestMapping.class);

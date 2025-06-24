@@ -11,8 +11,7 @@ import {ContactDto} from '../../core/model/dto/contact.dto';
     ContactFormComponent,
     ContactFinderComponent,
   ],
-  templateUrl: './add-contact.component.html',
-  styleUrl: './add-contact.component.css'
+  templateUrl: './add-contact.component.html'
 })
 export class AddContactComponent implements OnInit, AfterViewInit {
 

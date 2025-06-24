@@ -1,0 +1,42 @@
+import {
+  Building2,
+  CalendarClock,
+  ChartLine, CirclePlus, CircleUserRound,
+  CircleX, ClipboardCheck, Delete,
+  Earth, Factory,
+  Handshake, Hash, LogOut, Mail,
+  MapPin, MapPinPlusInside, PackageCheck, PackageOpen, PackageSearch, Save, Settings, Sparkles, SquarePen,
+  TextSearch, TrafficCone, TrendingUpDown, Truck,
+  Wallet
+} from 'lucide-angular';
+
+export const ICONS_LIST = {
+  CalendarClock,
+  Handshake,
+  ChartLine,
+  CircleUserRound,
+  Earth,
+  Building2,
+  MapPin,
+  ClipboardCheck,
+  TextSearch,
+  Settings,
+  LogOut,
+  MapPinPlusInside,
+  CirclePlus,
+  TrafficCone,
+  Truck,
+  Factory,
+  CircleX,
+  Wallet,
+  PackageSearch,
+  PackageOpen,
+  PackageCheck,
+  Sparkles,
+  TrendingUpDown,
+  Hash,
+  Mail,
+  Delete,
+  SquarePen,
+  Save
+};
