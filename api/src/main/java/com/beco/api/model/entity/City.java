@@ -2,6 +2,7 @@ package com.beco.api.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.UUID;
@@ -25,6 +26,6 @@ public class City {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", nullable = false)
+    @NotNull(message = "Le pays est obligatoire")
     private Country country;
-
 }

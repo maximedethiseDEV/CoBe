@@ -6,7 +6,7 @@ import { PrimeTemplate, MessageService } from 'primeng/api';
 import {Toast} from 'primeng/toast';
 import {ClipboardService} from '../../../core/service/clipboard.service';
 import {ICONS_LIST} from '../../../core/lucide-icons-list';
-import {CountryService} from '../country.service';
+import {CountryService} from '../../../core/service/country.service';
 import {CountryDto} from '../../../core/model/dto/country.dto';
 
 

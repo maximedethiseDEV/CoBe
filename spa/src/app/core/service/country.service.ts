@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {SseService} from '../../core/service/sse.service';
-import {CountryDto} from '../../core/model/dto/country.dto';
+import {SseService} from './sse.service';
+import {CountryDto} from '../model/dto/country.dto';
 
 @Injectable({providedIn: 'root'})
 export class CountryService {

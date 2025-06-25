@@ -6,7 +6,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {ICONS_LIST} from '../../../core/lucide-icons-list';
 import {MessageService} from 'primeng/api';
 import {ContactDto} from '../../../core/model/dto/contact.dto';
-import {ContactService} from '../contact.service';
+import {ContactService} from '../../../core/service/contact.service';
 
 @Component({
   selector: 'app-contact-form',

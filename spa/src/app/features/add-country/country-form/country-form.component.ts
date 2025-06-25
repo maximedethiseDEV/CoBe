@@ -6,7 +6,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {ICONS_LIST} from '../../../core/lucide-icons-list';
 import {MessageService} from 'primeng/api';
 import {CountryDto} from "../../../core/model/dto/country.dto";
-import {CountryService} from "../country.service";
+import {CountryService} from "../../../core/service/country.service";
 
 @Component({
   selector: 'app-country-form',

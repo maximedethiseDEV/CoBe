@@ -1,9 +1,13 @@
 package com.beco.api.service.object;
 
 import com.beco.api.mapper.CityMapper;
+import com.beco.api.mapper.CountryMapper;
 import com.beco.api.model.dto.CityDto;
+import com.beco.api.model.dto.CountryDto;
 import com.beco.api.model.entity.City;
+import com.beco.api.model.entity.Country;
 import com.beco.api.repository.CityRepository;
+import com.beco.api.repository.CountryRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.*;
@@ -18,11 +22,14 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, UUI
 
     private final CityRepository repository;
     private final CityMapper mapper;
+    private final CountryRepository countryRepository;
+    private final CountryMapper countryMapper;
 
     public CityService(
             CityRepository repository,
             CacheManager cacheManager,
-            CityMapper mapper
+            CityMapper mapper,
+            CountryRepository countryRepository, CountryMapper countryMapper
     ) {
         super(
                 repository,
@@ -34,6 +41,8 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, UUI
         );
         this.repository = repository;
         this.mapper = mapper;
+        this.countryRepository = countryRepository;
+        this.countryMapper = countryMapper;
     }
 
     @Override
@@ -52,6 +61,10 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, UUI
     @CachePut(key = "#result.cityId")
     @CacheEvict(value = "cities", key = "'all'")
     public CityDto create(CityDto dto) {
+        Country country = countryRepository.findById(dto.getCountry().getCountryId())
+                .orElseThrow(() -> new RuntimeException());
+        CountryDto countryDto = countryMapper.toDto(country);
+        dto.setCountry(countryDto);
         return super.create(dto);
     }
 
@@ -81,3 +94,4 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, UUI
         return "cities";
     }
 }
+

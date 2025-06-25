@@ -6,7 +6,7 @@ import {NgIf} from '@angular/common';
 import {NavigationStart, Router} from '@angular/router';
 import {Button} from 'primeng/button';
 import {CountryDto} from '../../../core/model/dto/country.dto';
-import {CountryService} from '../country.service';
+import {CountryService} from '../../../core/service/country.service';
 import {CountrySummaryComponent} from '../country-summary/country-summary.component';
 
 @Component({

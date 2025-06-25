@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, tap} from 'rxjs';
-import {ContactDto} from '../../core/model/dto/contact.dto';
-import {SseService} from '../../core/service/sse.service';
+import {ContactDto} from '../model/dto/contact.dto';
+import {SseService} from './sse.service';
 
 @Injectable({providedIn: 'root'})
 export class ContactService {

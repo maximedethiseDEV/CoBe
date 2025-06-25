@@ -35,7 +35,7 @@ export const MENU_LIST: MenuItem[] = [
       {
         label: 'Ville',
         icon: ICONS_LIST.Building2,
-        link: '/app/add-country',
+        link: '/app/add-city',
       },
       {
         label: 'Adresse',
