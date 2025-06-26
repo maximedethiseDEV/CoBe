@@ -1,5 +1,4 @@
 import {CustomerDto} from './customer.dto';
-import {GetAddressDto} from './get-address.dto';
 import {ProductDto} from './product.dto';
 import {SharedDetailsDto} from './shared-details.dto';
 import {ConstructionSiteDto} from './construction-site.dto';

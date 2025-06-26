@@ -11,6 +11,8 @@ import {AddContactComponent} from './features/add-contact/add-contact.component'
 import {ProfileSettingsComponent} from './features/profile-settings/profile-settings.component';
 import {AddCountryComponent} from './features/add-country/add-country.component';
 import {AddCityComponent} from './features/add-city/add-city.component';
+import {AddressComponent} from './features/address/address.component';
+import {AddressFormComponent} from './features/address/address-form/address-form.component';
 
 export const routes: Routes = [
 
@@ -26,13 +28,24 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: 'USER' },
     children: [
-      { path: 'dashboard', title:'Tableau de bord', component: DashboardComponent },
-      { path: 'schedule', title:'Planification', component: ScheduleComponent},
-      { path: 'add-order', title:'Ajouter une commande', component: OrderComponent},
-      { path: 'add-contact', title:'Ajouter un contact', component: AddContactComponent},
-      { path: 'add-country', title: 'Ajouter un pays', component: AddCountryComponent},
-      { path: 'add-city', title: 'Ajouter une ville', component: AddCityComponent},
+
       { path: 'settings', title: "Modifier les paramètres", component: ProfileSettingsComponent},
+
+      { path: 'dashboard', title:'Tableau de bord', component: DashboardComponent },
+
+      { path: 'schedule', title:'Planification', component: ScheduleComponent},
+
+      { path: 'add-order', title:'Ajouter une commande', component: OrderComponent},
+
+      { path: 'add-contact', title:'Ajouter un contact', component: AddContactComponent},
+
+      { path: 'add-country', title: 'Ajouter un pays', component: AddCountryComponent},
+
+      { path: 'add-city', title: 'Ajouter une ville', component: AddCityComponent},
+
+      { path: 'read-address', title: 'Ajouter une adresse', component: AddressComponent},
+      { path: 'add-address', title: 'Ajouter une adresse', component: AddressFormComponent},
+
       { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     ]
   },

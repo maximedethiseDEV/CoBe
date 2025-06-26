@@ -47,10 +47,125 @@
           </div>
         </div>
 
+        <!-- Section Client à livrer -->
+        <div class="space-y-4" formGroupName="deliveryCustomer">
+          <h3 class="text-lg font-semibold text-gray-900">Client à livrer</h3>
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <label for="clientLivNumero" class="block text-sm font-medium text-gray-700">N°</label>
+              <input id="clientLivNumero" type="text" formControlName="customerId"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+
+            <div formGroupName="company">
+              <label for="clientLivNom" class="block text-sm font-medium text-gray-700">Nom</label>
+              <input id="clientLivNom" type="text" formControlName="companyName"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+
+              <div formGroupName="address" class="mt-4">
+                <label for="clientLivVille" class="block text-sm font-medium text-gray-700">Ville</label>
+                <input id="clientLivVille" type="text" formControlName="cityName"
+                       class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section Chantier -->
+        <div class="space-y-4" formGroupName="constructionSite">
+          <h3 class="text-lg font-semibold text-gray-900">Chantier</h3>
+          <div class="grid grid-cols-3 gap-4">
+            <div formGroupName="constructionSiteCustomer">
+              <div formGroupName="company">
+                <label for="clientChantierNom" class="block text-sm font-medium text-gray-700">N°</label>
+                <input id="clientChantierNom" type="text" formControlName="companyName"
+                       class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+              </div>
+            </div>
+
+            <div formGroupName="constructionSiteAddress">
+              <label for="clientChantierVille" class="block text-sm font-medium text-gray-700">Ville</label>
+              <input id="clientChantierVille" type="text" formControlName="cityName"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+
+              <label for="clientChantierAddresse" class="block text-sm font-medium text-gray-700 mt-4">Adresse</label>
+              <input id="clientChantierAddresse" type="text" formControlName="street"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Section Produit -->
+        <div class="space-y-4" formGroupName="product">
+          <h3 class="text-lg font-semibold text-gray-900">Produit</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="codeProduit" class="block text-sm font-medium text-gray-700">Code Produit</label>
+              <input id="codeProduit" type="text" formControlName="productId"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+            <div>
+              <label for="nomProduit" class="block text-sm font-medium text-gray-700">Nom</label>
+              <input id="nomProduit" type="text" formControlName="productCode"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+            <div formGroupName="materialSupplier">
+              <div formGroupName="company">
+                <label for="fournisseur" class="block text-sm font-medium text-gray-700">Fournisseur</label>
+                <input id="fournisseur" type="text" formControlName="companyName"
+                       class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+              </div>
+            </div>
+            <div>
+              <label for="quantite" class="block text-sm font-medium text-gray-700">Quantité</label>
+              <input id="quantite" type="number" formControlName="quantityOrdered"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+          </div>
+        </div>
+
         <!-- Section Détail de livraison -->
         <div class="space-y-4 mb-8">
           <h3 class="text-lg font-semibold text-gray-900">Détail de livraison</h3>
           <div class="grid grid-cols-2 gap-4">
+
+            <div>
+              <label for="dateDebut" class="block text-sm font-medium text-gray-700">Date de début</label>
+              <input id="dateDebut" type="date" formControlName="requestedDeliveryDate"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+            <div>
+              <label for="heureDebut" class="block text-sm font-medium text-gray-700">Heure de début</label>
+              <input id="heureDebut" type="time" formControlName="requestedDeliveryTime"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+            <div>
+              <label for="dateFin" class="block text-sm font-medium text-gray-700">Date de fin</label>
+              <input id="dateFin" type="date" formControlName="endDate"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+            <div>
+              <label for="heureFin" class="block text-sm font-medium text-gray-700">Heure de fin</label>
+              <input id="heureFin" type="time" formControlName="endTime"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+
+            <div formGroupName="contact">
+              <label for="nomContact" class="block text-sm font-medium text-gray-700">Nom du contact</label>
+              <input id="nomContact" type="text" formControlName="firstName"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+
+              <label for="telephoneContact" class="block text-sm font-medium text-gray-700 mt-4">Téléphone du contact</label>
+              <input id="telephoneContact" type="tel" formControlName="phone"
+                     class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300" />
+            </div>
+
+            <div class="col-span-2">
+              <label for="remarque" class="block text-sm font-medium text-gray-700">Remarque</label>
+              <textarea id="remarque" formControlName="notes" rows="2"
+                        class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300">
+        </textarea>
+            </div>
 
             <!-- Zone de fichier -->
             <div

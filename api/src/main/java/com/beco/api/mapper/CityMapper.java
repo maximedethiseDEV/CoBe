@@ -10,7 +10,7 @@ public interface CityMapper {
     @Mapping(target = "cityId", source = "cityId")
     @Mapping(target = "postalCode", source = "postalCode")
     @Mapping(target = "cityName", source = "cityName")
-    @Mapping(target = "country.countryId", ignore = true)
+    @Mapping(target = "country.countryId", source = "country.countryId")
     @Mapping(target = "country.countryName", source = "country.countryName")
     @Mapping(target = "country.countryCode", source = "country.countryCode")
     CityDto toDto(City city);

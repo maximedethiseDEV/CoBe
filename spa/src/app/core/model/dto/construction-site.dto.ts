@@ -1,11 +1,11 @@
 import { CustomerDto } from './customer.dto';
 import { SharedDetailsDto } from './shared-details.dto';
-import {GetAddressDto} from './get-address.dto';
+import {AddressDto} from './address.dto';
 
 export interface ConstructionSiteDto {
   constructionSiteId: string;
   constructionSiteCustomer: CustomerDto;
-  constructionSiteAddress: GetAddressDto;
+  constructionSiteAddress: AddressDto;
   sharedDetails: SharedDetailsDto;
   dateStart: string; // yyyy-MM-dd
   dateEnd: string;   // yyyy-MM-dd

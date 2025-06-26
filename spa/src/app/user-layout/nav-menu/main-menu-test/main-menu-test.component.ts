@@ -1,4 +1,4 @@
-import {Component, EventEmitter,OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {LucideAngularModule} from 'lucide-angular';
 import {TokenService} from '../../../core/auth/token.service';
 import {AuthService} from '../../../core/auth/auth.service';
@@ -19,17 +19,15 @@ import {MENU_LIST} from '../menu-list';
 })
 export class MainMenuTestComponent implements OnInit {
 
+  private tokenService = inject(TokenService);
+  private AuthService = inject(AuthService);
+  private router = inject(Router);
+
   firstName: string = '';
   protected readonly ICONS_LIST = ICONS_LIST;
   protected readonly MENU_LIST = MENU_LIST;
   protected activeMenuItem!: MenuItem;
   @Output() menuSelected = new EventEmitter<MenuItem>();
-
-  constructor(
-    private tokenService: TokenService,
-    private AuthService: AuthService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.firstName = this.tokenService.getFirstName();
@@ -40,8 +38,17 @@ export class MainMenuTestComponent implements OnInit {
   }
 
   onMenuItemClick(menuItem: MenuItem): void {
-    this.menuSelected.emit(menuItem);
+    this.activeMenuItem = menuItem;
+
+    if (!menuItem.children) {
+      if (menuItem.link) {
+        this.router.navigateByUrl(menuItem.link);
+      }
+    } else {
+      this.menuSelected.emit(menuItem);
+    }
   }
+
 
   onLogout() {
     this.AuthService.logout();

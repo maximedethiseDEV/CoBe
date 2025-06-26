@@ -22,17 +22,20 @@ export class AddCityComponent implements OnInit, AfterViewInit {
   cityForm: FormGroup;
   cityPreview$!: Observable<CityDto>;
   countries: CountryDto[] = [];
+  private filterMapFormToFinder: { [formKey: string]: string } = {
+    cityName: 'cityName',
+    postalCode: 'postalCode',
+    countryId: 'country.countryCode' // <- clé du champ filtré dans le Finder
+  };
 
   constructor(
-    private fb: FormBuilder,
+    private formGroup: FormBuilder,
     private countryService: CountryService
   ) {
-    this.cityForm = this.fb.group({
+    this.cityForm = this.formGroup.group({
       cityName: [''],
       postalCode: [''],
-      country: this.fb.group({
-        countryId: ['']
-      })
+      countryId: ['']
     });
   }
 
@@ -52,9 +55,11 @@ export class AddCityComponent implements OnInit, AfterViewInit {
       if (this.cityFinder && this.cityFinder.dt) {
         this.cityFinder.dt.filters = {};
 
-        Object.entries(formValue).forEach(([key, value]) => {
-          if (value && typeof value === 'string' && value.trim() !== '') {
-            this.cityFinder.dt.filter(value, key, 'contains');
+        Object.entries(formValue).forEach(([formKey, value]) => {
+          const tableKey = this.filterMapFormToFinder[formKey];
+          const isNotEmpty = value !== null && value !== undefined && value !== '';
+          if (tableKey && isNotEmpty) {
+            this.cityFinder.dt.filter(value, tableKey, 'contains');
           }
         });
       }

@@ -1,5 +1,5 @@
 export interface CountryDto {
-  countryId: string;
+  countryId?: string;
   countryName: string;
   countryCode: string;
 }

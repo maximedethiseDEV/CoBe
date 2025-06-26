@@ -37,7 +37,12 @@ export class CityFormComponent {
 
   onSubmit() {
     if (this.cityForm.valid) {
-      const cityData: CityDto = this.cityForm.value;
+      const formValue = this.cityForm.value;
+      const cityData: CityDto = {
+        cityName: formValue.cityName,
+        postalCode: formValue.postalCode,
+        country: this.countries.find(c => c.countryId === formValue.countryId)!
+      };
       this.cityService.createCity(cityData).subscribe({
         next: (response) => {
           this.cityForm.reset();

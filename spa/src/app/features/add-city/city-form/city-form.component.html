@@ -18,22 +18,6 @@
         <div class="space-y-4">
           <div class="grid grid-cols-3 gap-4">
             <label
-              for="cityName"
-              class="block text-sm font-medium text-gray-700"
-            >
-              Nom
-            </label>
-
-            <input
-              id="cityName"
-              type="text"
-              formControlName="cityName"
-              class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300"
-            >
-          </div>
-
-          <div class="grid grid-cols-3 gap-4">
-            <label
               for="postalCode"
               class="block text-sm font-medium text-gray-700"
             >
@@ -48,10 +32,34 @@
             >
           </div>
 
-          <div formGroupName="country">
-            <label for="countryId">Pays</label>
-            <select id="countryId" formControlName="countryId">
-              <option value="">Sélectionnez un pays</option>
+          <div class="grid grid-cols-3 gap-4">
+          <label
+            for="cityName"
+            class="block text-sm font-medium text-gray-700"
+          >
+            Nom
+          </label>
+
+          <input
+            id="cityName"
+            type="text"
+            formControlName="cityName"
+            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300"
+          >
+        </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <label
+              for="countryId"
+              class="block text-sm font-medium text-gray-700"
+            >
+              Pays
+            </label>
+            <select
+              id="countryId"
+              formControlName="countryId"
+              class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300"
+            >
               <option *ngFor="let country of countries" [value]="country.countryId">
                 {{ country.countryCode }}
               </option>

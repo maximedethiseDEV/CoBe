@@ -150,9 +150,7 @@ export class CityFinderComponent implements OnInit, OnDestroy {
       this.cityForm.patchValue({
         postalCode: city.postalCode,
         cityName: city.cityName,
-        country: {
-          countryId: city.country.countryId
-        }
+        countryId: city.country.countryId
       });
       this.displayDialog = false;
     }

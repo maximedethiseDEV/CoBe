@@ -1,7 +1,7 @@
 import { CountryDto } from './country.dto';
 
 export interface CityDto {
-  cityId: string;
+  cityId?: string;
   postalCode: string;
   cityName: string;
   country: CountryDto;
