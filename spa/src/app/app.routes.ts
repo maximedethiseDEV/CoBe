@@ -13,6 +13,8 @@ import {AddCountryComponent} from './features/add-country/add-country.component'
 import {AddCityComponent} from './features/add-city/add-city.component';
 import {AddressComponent} from './features/address/address.component';
 import {AddressFormComponent} from './features/address/address-form/address-form.component';
+import {CustomerComponent} from './features/customer/customer.component';
+import {CustomerFormComponent} from './features/customer/customer-form/customer-form.component';
 
 export const routes: Routes = [
 
@@ -43,8 +45,11 @@ export const routes: Routes = [
 
       { path: 'add-city', title: 'Ajouter une ville', component: AddCityComponent},
 
-      { path: 'read-address', title: 'Ajouter une adresse', component: AddressComponent},
+      { path: 'read-address', title: 'Adresse', component: AddressComponent},
       { path: 'add-address', title: 'Ajouter une adresse', component: AddressFormComponent},
+
+      { path: 'read-customer', title: 'Client', component: CustomerComponent},
+      { path: 'add-customer', title: 'Ajouter un client', component: CustomerFormComponent},
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
     ]

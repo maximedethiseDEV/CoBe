@@ -46,7 +46,7 @@ export class AddressFormComponent implements OnInit {
     };
 
     readonly ICONS_LIST = ICONS_LIST;
-    readonly iconHeader = ICONS_LIST.CircleUserRound;
+    readonly iconHeader = ICONS_LIST.MapPin;
     readonly labelHeader = AddressFormComponent.FORM_LABELS.HEADER;
 
     cities: CityDto[] = [];

@@ -25,47 +25,47 @@ export const MENU_LIST: MenuItem[] = [
       {
         label: 'Détails de livraison',
         icon: ICONS_LIST.PackageSearch,
-        link: '',
+        link: '/app/read-delivery-detail',
       },
       {
         label: 'Produit',
         icon: ICONS_LIST.PackageOpen,
-        link: '',
+        link: '/app/read-product',
       },
       {
         label: 'Livraison',
         icon: ICONS_LIST.PackageCheck,
-        link: '',
+        link: '/app/read-delivery',
       },
       {
         label: 'Entreprise',
         icon: ICONS_LIST.Wallet,
-        link: '',
+        link: '/app/read-company',
       },
       {
         label: 'Transporteur',
         icon: ICONS_LIST.Truck,
-        link: '',
+        link: '/app/read-transport-supplier',
       },
       {
         label: 'Fournisseur',
         icon: ICONS_LIST.Factory,
-        link: '',
+        link: '/app/read-material-supplier',
       },
       {
         label: 'Client',
         icon: ICONS_LIST.Sparkles,
-        link: '',
+        link: '/app/read-customer',
       },
       {
         label: 'Chantier',
         icon: ICONS_LIST.TrafficCone,
-        link: '',
+        link: '/app/read-construction-site',
       },
       {
         label: 'Numéro de commande',
         icon: ICONS_LIST.Hash,
-        link: '',
+        link: '/app/read-unique-order-number',
       },
       {
         label: 'Contact',
@@ -106,47 +106,47 @@ export const MENU_LIST: MenuItem[] = [
       {
         label: 'Détails de livraison',
         icon: ICONS_LIST.PackageSearch,
-        link: '',
+        link: '/app/add-delivery-detail',
       },
       {
         label: 'Produit',
         icon: ICONS_LIST.PackageOpen,
-        link: '',
+        link: '/app/add-product',
       },
       {
         label: 'Livraison',
         icon: ICONS_LIST.PackageCheck,
-        link: '',
+        link: '/app/add-delivery',
       },
       {
         label: 'Entreprise',
         icon: ICONS_LIST.Wallet,
-        link: '',
+        link: 'app/add-company',
       },
       {
         label: 'Transporteur',
         icon: ICONS_LIST.Truck,
-        link: '',
+        link: '/app/add-transport-supplier',
       },
       {
         label: 'Fournisseur',
         icon: ICONS_LIST.Factory,
-        link: '',
+        link: '/app/add-material-supplier',
       },
       {
         label: 'Client',
         icon: ICONS_LIST.Sparkles,
-        link: '',
+        link: '/app/add-customer',
       },
       {
         label: 'Chantier',
         icon: ICONS_LIST.TrafficCone,
-        link: '',
+        link: '/app/add-construction-site',
       },
       {
         label: 'Numéro de commande',
         icon: ICONS_LIST.Hash,
-        link: '',
+        link: '/app/add-unique-order-number',
       },
       {
         label: 'Contact',

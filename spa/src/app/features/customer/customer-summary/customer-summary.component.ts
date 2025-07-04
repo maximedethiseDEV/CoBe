@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
 
-
 @Component({
   selector: 'app-contact-summary',
   imports: [],
-  templateUrl: './address-summary.component.html'
+  templateUrl: './customer-summary.component.html'
 })
-export class AddressSummaryComponent {
+export class CustomerSummaryComponent {
 
 }
