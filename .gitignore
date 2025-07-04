@@ -1,0 +1,77 @@
+# === Compiled output ===
+dist/
+tmp/
+out-tsc/
+bazel-out/
+build/
+target/
+app/**/*.js
+app/**/*.js.map
+e2e/*.js
+e2e/*.map
+
+# === Dependencies ===
+node_modules/
+bower_components/
+
+# === Logs ===
+npm-debug.log
+yarn-error.log
+libpeerconnection.log
+testem.log
+/connect.lock
+/logs/
+*.log
+hs_err_pid*
+replay_pid*
+
+# === IDEs and Editors ===
+.idea/
+*.iml
+*.launch
+.project
+.classpath
+.settings/
+.c9/
+*.sublime-workspace
+*.swp
+*~
+.editorconfig
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# === System Files ===
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# === Miscellaneous ===
+.angular/
+.angular/cache/
+.sass-cache/
+typings/
+init-scripts/
+
+# === Java Artifacts ===
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+*.mtj.tmp/
