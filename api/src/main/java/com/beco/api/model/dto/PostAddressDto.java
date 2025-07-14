@@ -12,9 +12,5 @@ public class PostAddressDto {
 
     private String street;
 
-    private CityDto city;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
+    private UUID cityId;
 }

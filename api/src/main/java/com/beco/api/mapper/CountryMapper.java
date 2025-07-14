@@ -7,14 +7,14 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface CountryMapper {
 
+    @Mapping(target = "countryCode", source = "countryCode")
+    @Mapping(target = "countryName", source = "countryName")
+    CountryDto toDto(Country entity);
+
     @Mapping(target = "countryId", ignore = true)
     @Mapping(target = "countryCode", source = "countryCode")
     @Mapping(target = "countryName", source = "countryName")
     Country toEntity(CountryDto dto);
-
-    @Mapping(target = "countryCode", source = "countryCode")
-    @Mapping(target = "countryName", source = "countryName")
-    CountryDto toDto(Country entity);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "countryId", ignore = true)

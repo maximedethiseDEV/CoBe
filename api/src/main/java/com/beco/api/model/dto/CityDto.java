@@ -13,5 +13,5 @@ public class CityDto {
 
     private String cityName;
 
-    private CountryDto country;
+    private UUID countryId;
 }

@@ -60,13 +60,7 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, UUI
     @Override
     @CachePut(key = "#result.cityId")
     @CacheEvict(value = "cities", key = "'all'")
-    public CityDto create(CityDto dto) {
-        Country country = countryRepository.findById(dto.getCountry().getCountryId())
-                .orElseThrow(() -> new RuntimeException());
-        CountryDto countryDto = countryMapper.toDto(country);
-        dto.setCountry(countryDto);
-        return super.create(dto);
-    }
+    public CityDto create(CityDto dto) { return super.create(dto); }
 
     @Override
     @CachePut(key = "#id")
