@@ -89,11 +89,11 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
                 sharedDetailsDto.setAttachmentPath("orders/" + filename);
 
                 // Si c'est un nouveau SharedDetails, le créer
-                if (sharedDetailsDto.getSharedDetailsId() == null) {
+                if (sharedDetailsDto.getId() == null) {
                     sharedDetailsDto = sharedDetailsService.create(sharedDetailsDto);
                 } else {
                     sharedDetailsDto = sharedDetailsService.update(
-                            sharedDetailsDto.getSharedDetailsId(),
+                            sharedDetailsDto.getId(),
                             sharedDetailsDto
                     );
                 }
@@ -160,7 +160,7 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
     }
 
     public List<OrderDto> findOrdersByCustomer(UUID customerId) {
-        List<Order> orders = orderRepository.findByBillingCustomerCustomerId(customerId);
+        List<Order> orders = orderRepository.findByBillingCustomerId(customerId);
         return orders.stream()
                 .map(orderMapper::toDto)
                 .collect(Collectors.toList());
@@ -171,7 +171,7 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
 
         DeliveryStatusEnum newEnum = DeliveryStatusEnum.NEW;
         
-        status.setStatusId(newEnum.getId());
+        status.setId(newEnum.getId());
         status.setStatus(newEnum.getStatus());
         return status;
     }

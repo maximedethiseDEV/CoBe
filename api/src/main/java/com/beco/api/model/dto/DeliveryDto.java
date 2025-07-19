@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 public class DeliveryDto {
 
-    private UUID deliveryId;
+    private UUID id;
 
     private OrderDto order;
 

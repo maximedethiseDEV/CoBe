@@ -7,33 +7,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {CustomerMapper.class, ProductMapper.class, AddressMapper.class})
 public interface OrderMapper {
 
-    @Mapping(target = "orderId", source = "orderId")
-    @Mapping(target = "billingCustomer", source = "billingCustomer")
-    @Mapping(target = "deliveryCustomer", source = "deliveryCustomer")
-    @Mapping(target = "constructionSiteId", source = "constructionSiteId")
-    @Mapping(target = "quantityOrdered", source = "quantityOrdered")
-    @Mapping(target = "requestedDeliveryDate", source = "requestedDeliveryDate")
-    @Mapping(target = "requestedDeliveryTime", source = "requestedDeliveryTime")
-    @Mapping(target = "product", source = "product")
-    @Mapping(target = "sharedDetails", source = "sharedDetails")
-    @Mapping(target = "createdDate", source = "createdDate")
-    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     OrderDto toDto(Order entity);
 
-    @Mapping(target = "orderId", ignore = true)
-    @Mapping(target = "billingCustomer", source = "billingCustomer")
-    @Mapping(target = "deliveryCustomer", source = "deliveryCustomer")
-    @Mapping(target = "constructionSiteId", source = "constructionSiteId")
-    @Mapping(target = "quantityOrdered", source = "quantityOrdered")
-    @Mapping(target = "requestedDeliveryDate", source = "requestedDeliveryDate")
-    @Mapping(target = "requestedDeliveryTime", source = "requestedDeliveryTime")
-    @Mapping(target = "product", source = "product")
-    @Mapping(target = "sharedDetails", source = "sharedDetails")
-    @Mapping(target = "createdDate", ignore = true)
-    @Mapping(target = "lastModifiedDate", ignore = true)
     Order toEntity(OrderDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "orderId", ignore = true)
     void updateOrderFromDto(OrderDto dto, @MappingTarget Order entity);
 }

@@ -12,12 +12,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "company")
-public class Company extends AbstractAuditingEntity<UUID> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "company_id")
-    private UUID companyId;
+public class Company extends AbstractEntity {
 
     @Column(name = "name", nullable = false, unique = true)
     private String companyName;
@@ -26,14 +21,14 @@ public class Company extends AbstractAuditingEntity<UUID> {
     private Boolean commerciallyActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "primary_contact_id", referencedColumnName = "contact_id", foreignKey = @ForeignKey(name = "fk_company_contact"))
+    @JoinColumn(name = "primary_contact_id", foreignKey = @ForeignKey(name = "fk_company_contact"))
     private Contact primaryContact;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "address_id", foreignKey = @ForeignKey(name = "fk_company_address"))
+    @JoinColumn(name = "address_id", foreignKey = @ForeignKey(name = "fk_company_address"))
     private Address address;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shared_details_id", referencedColumnName = "shared_details_id")
+    @JoinColumn(name = "shared_details_id")
     private SharedDetails sharedDetails;
 }

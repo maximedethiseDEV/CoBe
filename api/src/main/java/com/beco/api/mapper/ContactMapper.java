@@ -11,8 +11,6 @@ public interface ContactMapper {
 
     ContactDto toDto(Contact entity);
 
-    /** Met à jour une entité Contact existante depuis un ContactDto sans écraser les champs null **/
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "contactId", ignore = true) // Empêche la mise à jour de l'ID
     void updateContactFromDto(ContactDto dto, @MappingTarget Contact contact);
 }

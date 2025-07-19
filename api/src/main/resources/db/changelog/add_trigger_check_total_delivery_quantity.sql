@@ -22,7 +22,7 @@ BEGIN
     SELECT quantity
     INTO orderRequestedQuantity
     FROM purchase_order
-    WHERE order_id = NEW.order_id;
+    WHERE id = NEW.order_id;
 
     -- Vérifier si la quantité totale dépasse la limite demandée
     IF (existingDeliveryQuantity + NEW.quantity) > orderRequestedQuantity THEN

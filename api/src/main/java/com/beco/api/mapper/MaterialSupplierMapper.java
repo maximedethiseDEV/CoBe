@@ -7,25 +7,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {CompanyMapper.class, ContactMapper.class, AddressMapper.class})
 public interface MaterialSupplierMapper {
 
-    @Mapping(target = "materialSupplierId", source = "materialSupplierId")
-    @Mapping(target = "company", source = "company")
-    @Mapping(target = "contact", source = "contact")
-    @Mapping(target = "loadingAddress", source = "loadingAddress")
-    @Mapping(target = "sharedDetails", ignore = true)
-    @Mapping(target = "createdDate", source = "createdDate")
-    @Mapping(target = "lastModifiedDate", source = "lastModifiedDate")
     MaterialSupplierDto toDto(MaterialSupplier entity);
 
-    @Mapping(target = "materialSupplierId", ignore = true)
-    @Mapping(target = "company", source = "company")
-    @Mapping(target = "contact", source = "contact")
-    @Mapping(target = "loadingAddress", source = "loadingAddress")
-    @Mapping(target = "sharedDetails", ignore = true)
-    @Mapping(target = "createdDate", ignore = true)
-    @Mapping(target = "lastModifiedDate", ignore = true)
     MaterialSupplier toEntity(MaterialSupplierDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "materialSupplierId", ignore = true)
     void updateMaterialSupplierFromDto(MaterialSupplierDto dto, @MappingTarget MaterialSupplier entity);
 }

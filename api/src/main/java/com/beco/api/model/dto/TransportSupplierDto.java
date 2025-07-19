@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 public class TransportSupplierDto {
 
-    private UUID transportSupplierId;
+    private UUID id;
 
     private CompanyDto company;
 

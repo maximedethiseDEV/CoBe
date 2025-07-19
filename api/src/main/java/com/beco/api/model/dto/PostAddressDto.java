@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 public class PostAddressDto {
 
-    private UUID addressId;
+    private UUID id;
 
     private String street;
 

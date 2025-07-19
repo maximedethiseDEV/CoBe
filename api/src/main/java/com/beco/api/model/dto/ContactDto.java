@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 public class ContactDto {
 
-    private UUID contactId;
+    private UUID id;
 
     @NotNull(message = " Le nom de famille est obligatoire")
     private String lastName;

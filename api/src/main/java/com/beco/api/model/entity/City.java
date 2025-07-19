@@ -11,12 +11,7 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "city")
-public class City {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "city_id")
-    private UUID cityId;
+public class City extends AbstractEntity {
 
     @Column(name = "postal_code", nullable = false, unique = true)
     private String postalCode;

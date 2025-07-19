@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 public class ConstructionSiteDto {
 
-    private UUID constructionSiteId;
+    private UUID id;
 
     private CustomerDto constructionSiteCustomer;
 

@@ -9,12 +9,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "delivery_order_number")
-public class DeliveryOrderNumber {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "delivery_order_number_id")
-    private UUID deliveryOrderNumberId;
+public class DeliveryOrderNumber extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transport_supplier_id", nullable = false)

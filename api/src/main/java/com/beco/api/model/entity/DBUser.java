@@ -11,12 +11,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "dbuser")
-public class DBUser  extends AbstractAuditingEntity<UUID>  {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "user_id")
-    private UUID userId;
+public class DBUser  extends AbstractEntity {
 
     @NotBlank(message = "Le nom d'utilisateur est requis.")
     @Size(min = 3, message = "Le nom d'utilisateur doit contenir au moins 3 caractères.")
@@ -30,7 +25,7 @@ public class DBUser  extends AbstractAuditingEntity<UUID>  {
 
     @NotNull(message = "Le contact est requis.")
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "contact_id", referencedColumnName = "contact_id")
+    @JoinColumn(name = "contact_id")
     private Contact contact;
 
     @Column(name = "permission", nullable = true)

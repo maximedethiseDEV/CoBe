@@ -10,12 +10,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "shared_details")
-public class SharedDetails extends AbstractAuditingEntity<UUID> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "shared_details_id")
-    private UUID sharedDetailsId;
+public class SharedDetails extends AbstractEntity {
 
     @Column(name = "attachment_path")
     private String attachmentPath;

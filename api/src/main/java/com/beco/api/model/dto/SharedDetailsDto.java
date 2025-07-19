@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 public class SharedDetailsDto {
 
-    private UUID sharedDetailsId;
+    private UUID id;
 
     private String attachmentPath;
 

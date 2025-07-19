@@ -10,12 +10,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "transport_supplier")
-public class TransportSupplier extends AbstractAuditingEntity<UUID> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "transport_supplier_id")
-    private UUID transportSupplierId;
+public class TransportSupplier extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)

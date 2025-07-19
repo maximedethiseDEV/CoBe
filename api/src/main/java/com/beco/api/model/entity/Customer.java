@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -14,12 +13,7 @@ import java.util.UUID;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "customer")
-public class Customer extends AbstractAuditingEntity<UUID> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "customer_id")
-    private UUID customerId;
+public class Customer extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
@@ -30,7 +24,7 @@ public class Customer extends AbstractAuditingEntity<UUID> {
     private Contact contact;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shared_details_id", referencedColumnName = "shared_details_id")
+    @JoinColumn(name = "shared_details_id")
     private SharedDetails sharedDetails;
 
     @Column(name = "date_start")
@@ -45,6 +39,6 @@ public class Customer extends AbstractAuditingEntity<UUID> {
     private Boolean isSolvent = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id", referencedColumnName = "customer_id", foreignKey = @ForeignKey(name = "fk_customer_parent"))
+    @JoinColumn(name = "parent_id", foreignKey = @ForeignKey(name = "fk_customer_parent"))
     private Customer parent;
 }

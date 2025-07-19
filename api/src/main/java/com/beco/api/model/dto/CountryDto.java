@@ -7,7 +7,7 @@ import java.util.UUID;
 @Data
 public class CountryDto {
 
-    private UUID countryId;
+    private UUID id;
 
     private String countryName;
 

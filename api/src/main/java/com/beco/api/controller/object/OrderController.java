@@ -50,9 +50,9 @@ public class OrderController extends AbstractCrudController<Order, OrderDto, Ord
         return orderService;
     }
 
-    @GetMapping("/customers/{customerId}")
-    public ResponseEntity<List<OrderDto>> getOrdersByCustomer(@PathVariable UUID customerId) {
-        List<OrderDto> orders = orderService.findOrdersByCustomer(customerId);
+    @GetMapping("/customers/{id}")
+    public ResponseEntity<List<OrderDto>> getOrdersByCustomer(@PathVariable UUID id) {
+        List<OrderDto> orders = orderService.findOrdersByCustomer(id);
         return ResponseEntity.ok(orders);
     }
 

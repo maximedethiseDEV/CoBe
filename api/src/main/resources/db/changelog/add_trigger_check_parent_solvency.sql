@@ -6,7 +6,7 @@ BEGIN
         IF NOT EXISTS (
             SELECT 1
             FROM customer
-            WHERE customer_id = NEW.parent_id AND is_solvent = TRUE
+            WHERE id = NEW.parent_id AND is_solvent = TRUE
         ) AND NEW.is_solvent = TRUE THEN
             RAISE EXCEPTION 'Customer is not solvent because parent is not solvent';
         END IF;

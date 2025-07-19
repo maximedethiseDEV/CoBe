@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class DeliveryStatusDto {
 
-    private Integer statusId;
+    private Integer id;
 
     private String status;
 }

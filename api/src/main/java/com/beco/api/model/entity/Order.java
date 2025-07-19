@@ -8,8 +8,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,19 +16,14 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "purchase_order")
-public class Order extends AbstractAuditingEntity<UUID> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "order_id")
-    private UUID orderId;
+public class Order extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "billing_customer_id", nullable = false)
     private Customer billingCustomer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery_customer_id", referencedColumnName = "customer_id")
+    @JoinColumn(name = "delivery_customer_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Customer deliveryCustomer;
 
@@ -54,7 +47,7 @@ public class Order extends AbstractAuditingEntity<UUID> {
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shared_details_id", referencedColumnName = "shared_details_id")
+    @JoinColumn(name = "shared_details_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private SharedDetails sharedDetails;
 }

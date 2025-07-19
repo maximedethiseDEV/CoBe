@@ -7,7 +7,7 @@ import java.util.UUID;
 @Data
 public class CityDto {
 
-    private UUID cityId;
+    private UUID id;
 
     private String postalCode;
 

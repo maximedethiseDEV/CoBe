@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 public class DeliveryOrderNumberDto {
 
-    private UUID deliveryOrderNumberId;
+    private UUID id;
 
     private TransportSupplierDto transportSupplier;
 

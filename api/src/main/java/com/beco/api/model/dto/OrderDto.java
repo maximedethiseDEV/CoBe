@@ -11,7 +11,7 @@ import java.util.UUID;
 @Data
 public class OrderDto {
 
-    private UUID orderId;
+    private UUID id;
 
     private CustomerDto billingCustomer;
 
