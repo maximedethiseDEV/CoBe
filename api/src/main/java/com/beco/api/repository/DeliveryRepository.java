@@ -13,9 +13,4 @@ import java.util.UUID;
 
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, UUID> {
-    List<Delivery> findByOrder(Order orderId);
-
-    @Query("SELECT d FROM Delivery d WHERE d.status = :status")
-    List<Delivery> findByStatusCustom(@Param("status") DeliveryStatus status);
-
 }

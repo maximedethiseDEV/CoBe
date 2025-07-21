@@ -17,5 +17,5 @@ public class TransportSupplier extends AbstractEntity {
     private Company company;
 
     @Column(name = "license_number")
-    private String licenseNumber;
+    private String license;
 }

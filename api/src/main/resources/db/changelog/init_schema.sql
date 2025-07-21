@@ -69,7 +69,7 @@ CREATE TABLE "company"
     "id"          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     "name"                VARCHAR(255) NOT NULL UNIQUE,
     "commercially_active" BOOLEAN      NOT NULL,
-    "primary_contact_id"  UUID         REFERENCES "contact" ("id") ON DELETE SET NULL,
+    "contact_id"  UUID         REFERENCES "contact" ("id") ON DELETE SET NULL,
     "address_id"          UUID         REFERENCES "address" ("id") ON DELETE SET NULL,
     "shared_details_id"   UUID         REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "created_date"          TIMESTAMPTZ DEFAULT NOW(),

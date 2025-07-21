@@ -6,15 +6,9 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class TransportSupplierDto {
+public class TransportSupplierDto extends AbstractDto {
 
-    private UUID id;
+    private UUID companyId;
 
-    private CompanyDto company;
-
-    private String licenseNumber;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
+    private String license;
 }

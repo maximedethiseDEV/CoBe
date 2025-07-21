@@ -8,15 +8,13 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
-public class CustomerDto {
+public class CustomerDto extends AbstractDto {
 
-    private UUID id;
+    private UUID companyId;
 
-    private CompanyDto company;
+    private UUID contactId;
 
-    private ContactDto contact;
-
-    private SharedDetailsDto sharedDetails;
+    private UUID sharedDetailsId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateStart;
@@ -26,9 +24,5 @@ public class CustomerDto {
 
     private Boolean isSolvent = true;
 
-    private CustomerDto parent;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
+    private UUID parentId;
 }

@@ -12,15 +12,15 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
-public class DeliveryDto {
+public class DeliveryDto extends AbstractDto {
 
-    private UUID id;
+    private UUID orderId;
 
-    private OrderDto order;
+    private UUID transportSupplierId;
 
-    private TransportSupplierDto transportSupplier;
+    private UUID deliveryOrderNumberId;
 
-    private DeliveryOrderNumberDto deliveryOrderNumber;
+    private Integer statusId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date actualDeliveryDate;
@@ -28,10 +28,4 @@ public class DeliveryDto {
     private Time actualDeliveryTime;
 
     private Integer quantity;
-
-    private DeliveryStatusDto status;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
 }

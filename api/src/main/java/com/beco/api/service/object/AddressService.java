@@ -37,41 +37,6 @@ public class AddressService extends AbstractCrudService<Address, GetAddressDto, 
     }
 
     @Override
-    @Cacheable(key = "'all'")
-    public List<GetAddressDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public GetAddressDto findById(UUID id) {
-        return super.findById(id);
-    }
-
-    @Override
-    @CachePut(key = "#result.addressId")
-    @CacheEvict(value = "addresses", key = "'all'")
-    public GetAddressDto create(PostAddressDto dto) {
-        return super.create(dto);
-    }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "addresses", key = "'all'")
-    public GetAddressDto update(UUID id, PostAddressDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
-    }
-
-    @Override
     protected boolean dataValidatorControl(PostAddressDto dto) { return true; }
 
     @Override

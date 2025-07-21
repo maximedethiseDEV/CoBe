@@ -7,8 +7,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {CompanyMapper.class})
 public interface TransportSupplierMapper {
 
+    @Mapping(source = "company.id", target = "companyId")
     TransportSupplierDto toDto(TransportSupplier entity);
 
+    @Mapping(source = "companyId", target = "company.id")
     TransportSupplier toEntity(TransportSupplierDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

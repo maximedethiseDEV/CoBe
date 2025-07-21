@@ -37,41 +37,6 @@ public class ConstructionSiteService extends AbstractCrudService<ConstructionSit
     }
 
     @Override
-    @Cacheable(key = "'all'")
-    public List<ConstructionSiteDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public ConstructionSiteDto findById(UUID id) {
-        return super.findById(id);
-    }
-
-    @Override
-    @CachePut(key = "#result.constructionSiteId")
-    @CacheEvict(value = "construction-sites", key = "'all'")
-    public ConstructionSiteDto create(ConstructionSiteDto dto) {
-        return super.create(dto);
-    }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "construction-sites", key = "'all'")
-    public ConstructionSiteDto update(UUID id, ConstructionSiteDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
-    }
-
-    @Override
     protected boolean dataValidatorControl(ConstructionSiteDto dto) {
         return true;
     }

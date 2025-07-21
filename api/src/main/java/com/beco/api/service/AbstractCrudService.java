@@ -2,6 +2,8 @@ package com.beco.api.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.cache.CacheManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -32,11 +34,8 @@ public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutReque
         this.updateEntityFromDto = updateEntityFromDto;
     }
 
-    public List<GetRequest_DTO> findAll() {
-        return repository.findAll()
-                .stream()
-                .map(entityToDtoMapper)
-                .collect(Collectors.toList());
+    public Page<GetRequest_DTO> findAll(Pageable pageable) {
+        return repository.findAll(pageable).map(entityToDtoMapper);
     }
 
     public GetRequest_DTO findById(UUID id) {

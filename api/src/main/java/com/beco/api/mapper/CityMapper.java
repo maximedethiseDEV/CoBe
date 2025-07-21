@@ -10,40 +10,12 @@ import java.util.UUID;
 @Mapper(componentModel = "spring", uses = {CountryMapper.class})
 public interface CityMapper {
 
-    @Mapping(source = "country", target = "countryId")
+    @Mapping(source = "country.id", target = "countryId")
     CityDto toDto(City city);
 
-    @Mapping(source = "countryId", target = "country")
+    @Mapping(source = "countryId", target = "country.id")
     City toEntity(CityDto cityDto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateCityFromDto(CityDto dto, @MappingTarget City city);
-
-    /**
-     * Convertit un UUID en entité Country
-     * @param countryId l'identifiant du pays
-     * @return une nouvelle instance de Country avec l'ID spécifié, ou null si l'ID est null
-     */
-    default Country map(UUID countryId) {
-        if (countryId == null) {
-            return null;
-        }
-        Country country = new Country();
-        country.setId(countryId);
-        return country;
-    }
-
-
-    /**
-     * Convertit une entité Country en UUID
-     * @param country l'entité Country à convertir
-     * @return l'UUID de l'entité Country, ou null si country est null
-     */
-    default UUID map(Country country) {
-        if (country == null) {
-            return null;
-        }
-        return country.getId();
-    }
-
 }

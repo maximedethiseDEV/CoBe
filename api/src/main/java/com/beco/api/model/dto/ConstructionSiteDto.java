@@ -8,23 +8,17 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
-public class ConstructionSiteDto {
+public class ConstructionSiteDto extends AbstractDto {
 
-    private UUID id;
+    private UUID customerId;
 
-    private CustomerDto constructionSiteCustomer;
+    private UUID addressId;
 
-    private GetAddressDto constructionSiteAddress;
-
-    private SharedDetailsDto sharedDetails;
+    private UUID sharedDetailsId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateStart;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateEnd;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
 }

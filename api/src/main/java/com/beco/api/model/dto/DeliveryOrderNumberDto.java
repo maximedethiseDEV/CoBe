@@ -9,17 +9,15 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class DeliveryOrderNumberDto {
+public class DeliveryOrderNumberDto extends AbstractDto {
 
-    private UUID id;
+    private UUID transportSupplierId;
 
-    private TransportSupplierDto transportSupplier;
+    private UUID customerId;
 
-    private CustomerDto customer;
+    private UUID cityId;
 
-    private CityDto city;
-
-    private ProductDto product;
+    private UUID productId;
 
     private String uniqueDeliveryOrderNumber;
 }

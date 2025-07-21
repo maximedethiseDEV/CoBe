@@ -6,7 +6,7 @@ export interface CompanyDto {
   companyId: string;
   companyName: string;
   commerciallyActive: boolean;
-  primaryContact: ContactDto;
+  contactId: ContactDto;
   address: AddressDto;
   sharedDetails: SharedDetailsDto;
   createdDate: string;

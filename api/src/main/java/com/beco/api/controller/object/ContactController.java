@@ -26,7 +26,6 @@ public class ContactController extends AbstractCrudController<Contact, ContactDt
     }
     @Override
     protected AbstractCrudService<Contact, ContactDto, ContactDto, UUID> getService() {
-
         return service;
     }
 

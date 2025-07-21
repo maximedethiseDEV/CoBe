@@ -26,6 +26,10 @@ public class Delivery extends AbstractEntity {
     @JoinColumn(name = "delivery_order_number_id", nullable = false)
     private DeliveryOrderNumber deliveryOrderNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id", nullable = false)
+    private DeliveryStatus status;
+
     @Column(name = "actual_delivery_date")
     @Temporal(TemporalType.DATE)
     private Date actualDeliveryDate;
@@ -35,8 +39,4 @@ public class Delivery extends AbstractEntity {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id", nullable = false)
-    private DeliveryStatus status;
 }

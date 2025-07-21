@@ -36,41 +36,6 @@ public class CompanyService extends AbstractCrudService<Company, CompanyDto, Com
     }
 
     @Override
-    @Cacheable(key = "'all'")
-    public List<CompanyDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public CompanyDto findById(UUID id) {
-        return super.findById(id);
-    }
-
-    @Override
-    @CachePut(key = "#result.companyId")
-    @CacheEvict(value = "companies", key = "'all'")
-    public CompanyDto create(CompanyDto dto) {
-        return super.create(dto);
-    }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "companies", key = "'all'")
-    public CompanyDto update(UUID id, CompanyDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
-    }
-
-    @Override
     protected boolean dataValidatorControl(CompanyDto dto) { return true; }
 
     @Override

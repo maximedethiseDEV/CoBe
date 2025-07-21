@@ -6,15 +6,9 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class SharedDetailsDto {
-
-    private UUID id;
+public class SharedDetailsDto extends AbstractDto {
 
     private String attachmentPath;
 
     private String notes;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
 }

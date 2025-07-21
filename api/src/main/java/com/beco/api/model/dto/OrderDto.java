@@ -9,28 +9,22 @@ import java.util.Date;
 import java.util.UUID;
 
 @Data
-public class OrderDto {
+public class OrderDto extends AbstractDto {
 
-    private UUID id;
+    private UUID billingCustomerId;
 
-    private CustomerDto billingCustomer;
+    private UUID deliveryCustomerId;
 
-    private CustomerDto deliveryCustomer;
+    private UUID constructionSiteId;
 
-    private GetAddressDto constructionSiteId;
+    private UUID productId;
 
-    private Integer quantityOrdered;
+    private UUID sharedDetailsId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date requestedDeliveryDate;
 
     private Time requestedDeliveryTime;
 
-    private ProductDto product;
-
-    private SharedDetailsDto sharedDetails;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
+    private Integer quantityOrdered;
 }

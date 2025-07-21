@@ -5,9 +5,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class CountryDto {
-
-    private UUID id;
+public class CountryDto extends AbstractDto {
 
     private String countryName;
 

@@ -30,7 +30,16 @@ public class Order extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "construction_site_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    private Address constructionSiteId;
+    private Address constructionSite;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shared_details_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private SharedDetails sharedDetails;
 
     @Column(name = "quantity", nullable = false)
     private Integer quantityOrdered;
@@ -41,13 +50,4 @@ public class Order extends AbstractEntity {
 
     @Column(name = "requested_delivery_time")
     private Time requestedDeliveryTime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shared_details_id")
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    private SharedDetails sharedDetails;
 }

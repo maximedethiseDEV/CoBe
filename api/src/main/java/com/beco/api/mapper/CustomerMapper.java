@@ -9,8 +9,16 @@ import java.time.LocalDate;
 @Mapper(componentModel = "spring", uses = {CompanyMapper.class, ContactMapper.class})
 public interface CustomerMapper {
 
+    @Mapping(source = "company.id", target = "companyId")
+    @Mapping(source = "contact.id", target = "contactId")
+    @Mapping(source = "sharedDetails.id", target = "sharedDetailsId")
+    @Mapping(source = "parent.id", target = "parentId")
     CustomerDto toDto(Customer entity);
 
+    @Mapping(source = "companyId", target = "company.id")
+    @Mapping(source = "contactId", target = "contact.id")
+    @Mapping(source = "sharedDetailsId", target = "sharedDetails.id")
+    @Mapping(source = "parentId", target = "parent.id")
     Customer toEntity(CustomerDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

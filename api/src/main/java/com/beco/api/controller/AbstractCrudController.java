@@ -3,13 +3,14 @@ package com.beco.api.controller;
 import com.beco.api.config.sse.SseEventMessage;
 import com.beco.api.config.sse.SseService;
 import com.beco.api.service.AbstractCrudService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
@@ -26,8 +27,8 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
     protected abstract AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutRequest_DTO, UUID> getService();
 
     @GetMapping
-    public ResponseEntity<List<GetRequest_DTO>> getAll() {
-        return ResponseEntity.ok(getService().findAll());
+    public ResponseEntity<Page<GetRequest_DTO>> getAll(Pageable pageable) {
+        return ResponseEntity.ok(getService().findAll(pageable));
     }
 
     @GetMapping("/{id}")

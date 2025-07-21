@@ -37,41 +37,6 @@ public class ProductService extends AbstractCrudService<Product, ProductDto, Pro
     }
 
     @Override
-    @Cacheable(key = "'all'")
-    public List<ProductDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public ProductDto findById(UUID id) {
-        return super.findById(id);
-    }
-
-    @Override
-    @CachePut(key = "#result.productId")
-    @CacheEvict(value = "products", key = "'all'")
-    public ProductDto create(ProductDto dto) {
-        return super.create(dto);
-    }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "products", key = "'all'")
-    public ProductDto update(UUID id, ProductDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
-    }
-
-    @Override
     protected boolean dataValidatorControl(ProductDto dto) {
         return true;
     }

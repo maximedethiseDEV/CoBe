@@ -46,39 +46,6 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, UUI
     }
 
     @Override
-    @Cacheable(key = "'all'")
-    public List<CityDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public CityDto findById(UUID id) {
-        return super.findById(id);
-    }
-
-    @Override
-    @CachePut(key = "#result.cityId")
-    @CacheEvict(value = "cities", key = "'all'")
-    public CityDto create(CityDto dto) { return super.create(dto); }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "cities", key = "'all'")
-    public CityDto update(UUID id, CityDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
-    }
-
-    @Override
     protected boolean dataValidatorControl(CityDto dto) {
         return true;
     }

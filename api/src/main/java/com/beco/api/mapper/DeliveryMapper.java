@@ -7,8 +7,16 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {OrderMapper.class, TransportSupplierMapper.class, DeliveryOrderNumberMapper.class, DeliveryStatusMapper.class})
 public interface DeliveryMapper {
 
+    @Mapping(source = "order.id", target = "orderId")
+    @Mapping(source = "transportSupplier.id", target = "transportSupplierId")
+    @Mapping(source = "deliveryOrderNumber.id", target = "deliveryOrderNumberId")
+    @Mapping(source = "status.id", target = "statusId")
     DeliveryDto toDto(Delivery entity);
 
+    @Mapping(source = "orderId", target = "order.id")
+    @Mapping(source = "transportSupplierId", target = "transportSupplier.id")
+    @Mapping(source = "deliveryOrderNumberId", target = "deliveryOrderNumber.id")
+    @Mapping(source = "statusId", target = "status.id")
     Delivery toEntity(DeliveryDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

@@ -37,41 +37,6 @@ public class DeliveryOrderNumberService extends AbstractCrudService<DeliveryOrde
     }
 
     @Override
-    @Cacheable(key = "'all'")
-    public List<DeliveryOrderNumberDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public DeliveryOrderNumberDto findById(UUID id) {
-        return super.findById(id);
-    }
-
-    @Override
-    @CachePut(key = "#result.deliveryOrderNumberId")
-    @CacheEvict(value = "unique-delivery-numbers", key = "'all'")
-    public DeliveryOrderNumberDto create(DeliveryOrderNumberDto dto) {
-        return super.create(dto);
-    }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "unique-delivery-numbers", key = "'all'")
-    public DeliveryOrderNumberDto update(UUID id, DeliveryOrderNumberDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
-    }
-
-    @Override
     protected boolean dataValidatorControl(DeliveryOrderNumberDto dto) {
         return true;
     }

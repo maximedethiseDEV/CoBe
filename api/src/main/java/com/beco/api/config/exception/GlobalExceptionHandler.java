@@ -52,18 +52,6 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI());
     }
 
-
-    /*
-    // Gestion des erreurs génériques
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, HttpServletRequest request) {
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Une erreur inattendue s'est produite", request.getRequestURI());
-    }
-
-
-     */
-
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGenericException(Exception ex, HttpServletRequest request) {
         String contentType = request.getHeader("Accept");

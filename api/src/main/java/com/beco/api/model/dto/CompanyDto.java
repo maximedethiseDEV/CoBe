@@ -6,23 +6,16 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class CompanyDto {
-
-    private UUID id;
+public class CompanyDto extends AbstractDto {
 
     private String companyName;
 
     private Boolean commerciallyActive = true;
 
-    private ContactDto primaryContact;
+    private UUID contactId;
 
-    private GetAddressDto address;
+    private UUID addressId;
 
-    private SharedDetailsDto sharedDetails;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
-
+    private UUID sharedDetailsId;
 
 }

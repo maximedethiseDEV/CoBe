@@ -37,41 +37,6 @@ public class SharedDetailsService extends AbstractCrudService<SharedDetails, Sha
     }
 
     @Override
-    @Cacheable(key = "'all'")
-    public List<SharedDetailsDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public SharedDetailsDto findById(UUID id) {
-        return super.findById(id);
-    }
-
-    @Override
-    @CachePut(key = "#result.sharedDetailsId")
-    @CacheEvict(value = "shared-details", key = "'all'")
-    public SharedDetailsDto create(SharedDetailsDto dto) {
-        return super.create(dto);
-    }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "shared-details", key = "'all'")
-    public SharedDetailsDto update(UUID id, SharedDetailsDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
-    }
-
-    @Override
     protected boolean dataValidatorControl(SharedDetailsDto dto) {
         return true;
     }

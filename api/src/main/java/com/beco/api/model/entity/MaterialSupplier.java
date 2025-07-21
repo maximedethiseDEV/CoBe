@@ -26,7 +26,7 @@ public class MaterialSupplier extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loading_address_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    private Address loadingAddress;
+    private Address address;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shared_details_id")

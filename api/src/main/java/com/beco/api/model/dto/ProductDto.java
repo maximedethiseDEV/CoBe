@@ -6,17 +6,11 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class ProductDto {
+public class ProductDto extends AbstractDto{
 
-    private UUID id;
+    private UUID materialSupplierId;
+
+    private UUID sharedDetailsId;
 
     private String productCode;
-
-    private MaterialSupplierDto materialSupplier;
-
-    private SharedDetailsDto sharedDetails;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
 }

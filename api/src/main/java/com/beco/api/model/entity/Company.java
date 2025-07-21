@@ -21,8 +21,8 @@ public class Company extends AbstractEntity {
     private Boolean commerciallyActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "primary_contact_id", foreignKey = @ForeignKey(name = "fk_company_contact"))
-    private Contact primaryContact;
+    @JoinColumn(name = "contact_id", foreignKey = @ForeignKey(name = "fk_company_contact"))
+    private Contact contact;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", foreignKey = @ForeignKey(name = "fk_company_address"))

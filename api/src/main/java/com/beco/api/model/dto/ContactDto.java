@@ -8,9 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class ContactDto {
-
-    private UUID id;
+public class ContactDto extends AbstractDto {
 
     @NotNull(message = " Le nom de famille est obligatoire")
     private String lastName;
@@ -24,8 +22,4 @@ public class ContactDto {
     private String phone;
 
     private String role;
-
-    private Instant createdDate;
-
-    private Instant lastModifiedDate;
 }

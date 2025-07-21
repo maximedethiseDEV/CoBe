@@ -33,9 +33,7 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
     private final OrderMapper orderMapper;
     private final DeliveryService deliveryService;
     private final SharedDetailsService sharedDetailsService;
-
-    @Value("${app.upload.dir:/app/uploads}")
-    private String uploadDir;
+    private final String uploadDir = "${app.upload.dir:/app/uploads}";
 
 
     public OrderService(
@@ -57,55 +55,8 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         this.sharedDetailsService = sharedDetailsService;
     }
 
-    @Override
-    @Cacheable(key = "'all'")
-    public List<OrderDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public OrderDto findById(UUID id) {
-        return super.findById(id);
-    }
-
     @Transactional
-    @CachePut(key = "#result.orderId")
-    @CacheEvict(value = "orders", key = "'all'")
     public OrderDto create(OrderDto dto, MultipartFile file) {
-        if (file != null && !file.isEmpty()) {
-            try {
-                String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-                Path uploadPath = Paths.get(uploadDir, "orders");
-                Files.createDirectories(uploadPath);
-                Path filePath = uploadPath.resolve(filename);
-                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-                // Créer ou mettre à jour SharedDetails
-                SharedDetailsDto sharedDetailsDto = dto.getSharedDetails();
-                if (sharedDetailsDto == null) {
-                    sharedDetailsDto = new SharedDetailsDto();
-                }
-                sharedDetailsDto.setAttachmentPath("orders/" + filename);
-
-                // Si c'est un nouveau SharedDetails, le créer
-                if (sharedDetailsDto.getId() == null) {
-                    sharedDetailsDto = sharedDetailsService.create(sharedDetailsDto);
-                } else {
-                    sharedDetailsDto = sharedDetailsService.update(
-                            sharedDetailsDto.getId(),
-                            sharedDetailsDto
-                    );
-                }
-
-                // Mettre à jour le DTO de l'ordre avec le SharedDetails mis à jour
-                dto.setSharedDetails(sharedDetailsDto);
-
-            } catch (IOException e) {
-                throw new RuntimeException("Erreur lors du traitement du fichier", e);
-            }
-        }
-
 
         OrderDto savedOrderDto = super.create(dto);
 
@@ -113,36 +64,19 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         DeliveryDto deliveryDto = new DeliveryDto();
 
         // Associer la commande à la livraison
-        deliveryDto.setOrder(savedOrderDto);
+        deliveryDto.setOrderId(savedOrderDto.getId());
         deliveryDto.setQuantity(savedOrderDto.getQuantityOrdered());
         deliveryDto.setActualDeliveryDate(savedOrderDto.getRequestedDeliveryDate());
         deliveryDto.setActualDeliveryTime(savedOrderDto.getRequestedDeliveryTime());
 
-        // Créer le statut à "NEW" et l'affecter à la livraison
-        deliveryDto.setStatus(createNewStatus());
-
+        // Définir le statut à "NEW"
+        deliveryDto.setStatusId(createNewStatus().getId());
 
         // Sauvegarder la livraison via DeliveryService
         deliveryService.create(deliveryDto);
 
         // Étape 3 : Retourner le DTO de la commande
         return savedOrderDto;
-    }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "orders", key = "'all'")
-    public OrderDto update(UUID id, OrderDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
     }
 
     @Override

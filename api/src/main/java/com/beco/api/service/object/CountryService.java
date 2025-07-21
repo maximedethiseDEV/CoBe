@@ -37,41 +37,6 @@ public class CountryService extends AbstractCrudService<Country, CountryDto, Cou
     }
 
     @Override
-    @Cacheable(key = "'all'")
-    public List<CountryDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    @Cacheable(key = "#id")
-    public CountryDto findById(UUID id) {
-        return super.findById(id);
-    }
-
-    @Override
-    @CachePut(key = "#result.countryId")
-    @CacheEvict(value = "countries", key = "'all'")
-    public CountryDto create(CountryDto dto) {
-        return super.create(dto);
-    }
-
-    @Override
-    @CachePut(key = "#id")
-    @CacheEvict(value = "countries", key = "'all'")
-    public CountryDto update(UUID id, CountryDto dto) {
-        return super.update(id, dto);
-    }
-
-    @Override
-    @Caching(evict = {
-            @CacheEvict(key = "#id"),
-            @CacheEvict(key = "'all'")
-    })
-    public void deleteById(UUID id) {
-        super.deleteById(id);
-    }
-
-    @Override
     protected boolean dataValidatorControl(CountryDto dto) {
         return true;
     }
