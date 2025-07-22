@@ -170,23 +170,19 @@ INSERT INTO "purchase_order" (
     "delivery_customer_id",
     "construction_site_id",
     "product_id",
-    "quantity",
-    "requested_delivery_date",
-    "requested_delivery_time"
+    "quantity"
 )
 SELECT
     bc.id as billing_customer_id,
     dc.id as delivery_customer_id,
     cs.id as construction_site_id,
     p.id as product_id,
-    v.quantity,
-    CAST(v.req_date AS date),
-    CAST(v.req_time AS time)
+    v.quantity
 FROM (
          VALUES
-             ('Alpha Construction', 'Bravo Logistics', '12 Rue Lafayette', 'PROD-A', 100, '2025-10-15', '08:30:00'),
-             ('Bravo Logistics', 'Charlie Materials', '5th Avenue', 'PROD-B', 150, '2025-11-01', '09:00:00')
-     ) as v(billing_company, delivery_company, site_street, product_code, quantity, req_date, req_time)
+             ('Alpha Construction', 'Bravo Logistics', '12 Rue Lafayette', 'PROD-A', 100),
+             ('Bravo Logistics', 'Charlie Materials', '5th Avenue', 'PROD-B', 150)
+     ) as v(billing_company, delivery_company, site_street, product_code, quantity)
          JOIN "company" bc_comp ON bc_comp.name = v.billing_company
          JOIN "customer" bc ON bc.company_id = bc_comp.id
          JOIN "company" dc_comp ON dc_comp.name = v.delivery_company
@@ -226,8 +222,6 @@ INSERT INTO "delivery" (
     "order_id",
     "transport_supplier_id",
     "delivery_order_number_id",
-    "actual_delivery_date",
-    "actual_delivery_time",
     "quantity",
     "status_id"
 )
@@ -235,15 +229,13 @@ SELECT
     po.id as order_id,
     ts.id as transport_supplier_id,
     don.id as delivery_order_number_id,
-    CAST(v.actual_date AS date),
-    CAST(v.actual_time AS time),
     v.quantity,
     ds.id as status_id
 FROM (
          VALUES
-             ('Alpha Construction', 'PROD-A', 'Bravo Logistics', 'DELIVERY-1001', '2025-10-16', '10:00:00', 50, 'NEW'),
-             ('Bravo Logistics', 'PROD-B', 'Delta Supplies', 'DELIVERY-1002', '2025-11-02', '14:30:00', 75, 'IN_PROGRESS')
-     ) as v(customer_company, product_code, transport_company, delivery_number, actual_date, actual_time, quantity, status)
+             ('Alpha Construction', 'PROD-A', 'Bravo Logistics', 'DELIVERY-1001',  50, 'Non affrété'),
+             ('Bravo Logistics', 'PROD-B', 'Delta Supplies', 'DELIVERY-1002',  75, 'Planifié')
+     ) as v(customer_company, product_code, transport_company, delivery_number, quantity, status)
          JOIN "company" cc ON cc.name = v.customer_company
          JOIN "customer" cust ON cust.company_id = cc.id
          JOIN "product" p ON p.product_code = v.product_code

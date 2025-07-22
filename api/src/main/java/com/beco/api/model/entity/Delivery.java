@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.sql.Time;
+import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
@@ -30,13 +31,12 @@ public class Delivery extends AbstractEntity {
     @JoinColumn(name = "status_id", nullable = false)
     private DeliveryStatus status;
 
-    @Column(name = "actual_delivery_date")
-    @Temporal(TemporalType.DATE)
-    private Date actualDeliveryDate;
-
-    @Column(name = "actual_delivery_time")
-    private Time actualDeliveryTime;
-
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @Column(name = "actual_delivery_begin")
+    private Instant actualDeliveryBegin;
+
+    @Column(name = "actual_delivery_end")
+    private Instant actualDeliveryEnd;
 }

@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Time;
+import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
@@ -44,10 +45,9 @@ public class Order extends AbstractEntity {
     @Column(name = "quantity", nullable = false)
     private Integer quantityOrdered;
 
-    @Column(name = "requested_delivery_date")
-    @Temporal(TemporalType.DATE)
-    private Date requestedDeliveryDate;
+    @Column(name = "requested_delivery_begin")
+    private Instant requestedDeliveryBegin;
 
-    @Column(name = "requested_delivery_time")
-    private Time requestedDeliveryTime;
+    @Column(name = "requested_delivery_end")
+    private Instant requestedDeliveryEnd;
 }

@@ -21,10 +21,9 @@ public class OrderDto extends AbstractDto {
 
     private UUID sharedDetailsId;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date requestedDeliveryDate;
+    private Instant requestedDeliveryBegin;
 
-    private Time requestedDeliveryTime;
+    private Instant requestedDeliveryEnd;
 
     private Integer quantityOrdered;
 }
