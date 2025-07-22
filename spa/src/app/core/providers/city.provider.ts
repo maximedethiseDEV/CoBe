@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
 import {City} from '@core/models';
+import {PaginatedResponse} from '@core/models/paginated-response.model';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,7 @@ import {City} from '@core/models';
 export class CityProvider {
     private http: HttpClient = inject(HttpClient);
 
-    public getAll(params?: any): Observable<City[]> {
+    public getAll(params?: any): Observable<PaginatedResponse<City>> {
         return this.http.get(`${environment.url.api}/cities`, {params}).pipe(
             map((response: any) => response)
         );

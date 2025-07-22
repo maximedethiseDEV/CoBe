@@ -16,14 +16,17 @@ export abstract class BaseTableComponent implements OnDestroy {
     abstract entityName: string;
     abstract filterFields: string[];
     abstract tableColumns: TableColumn[];
+
     protected subscriptionCollection: SubscriptionCollection = new SubscriptionCollection();
     protected route: ActivatedRoute = inject(ActivatedRoute);
     protected router: Router = inject(Router);
     protected sseService: SseService = inject(SseService);
     protected messageService: MessageService = inject(MessageService);
+
     protected entities: EntityModel[] = [];
-    protected rowsPerPageOptions: number[] = [50, 100, 200];
+    protected totalRecords: number = 0;
     protected loading: boolean = true;
+    protected rowsPerPageOptions: number[] = [50, 100, 200];
     protected tableStyle: {
         width: string,
         height: string
@@ -36,6 +39,10 @@ export abstract class BaseTableComponent implements OnDestroy {
         'update',
         'delete'
     ];
+
+    // Paramètres de pagination
+    protected currentPage: number = 0;
+    protected pageSize: number = this.rowsPerPageOptions[0];
 
     constructor() {}
 
@@ -51,7 +58,13 @@ export abstract class BaseTableComponent implements OnDestroy {
         return this.tableActions.includes(action);
     }
 
-    abstract loadEntities(): void;
+    abstract loadEntities(page?: number, size?: number): void;
+
+    protected onPageChange(event: any): void {
+        this.currentPage = event.first / event.rows;
+        this.pageSize = event.rows;
+        this.loadEntities(this.currentPage, this.pageSize);
+    }
 
     protected createEntity(): void {
         this.router.navigate(['create'], {relativeTo: this.route});

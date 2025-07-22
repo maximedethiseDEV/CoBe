@@ -3,8 +3,9 @@ import {BaseTableComponent} from '@core/components';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {ContactProvider} from '@core/providers';
-import {Contact} from '@core/models';
+import {City, Contact} from '@core/models';
 import {TableColumn} from '@core/types';
+import {PaginatedResponse} from '@core/models/paginated-response.model';
 
 @Component({
     selector: 'app-contact-table',
@@ -56,17 +57,21 @@ export class ContactTableComponent extends BaseTableComponent implements OnInit 
         this.setupSseConnection('contacts');
     }
 
-    public loadEntities(): void {
+    public loadEntities(page: number = 0, size: number = this.pageSize): void {
         this.loading = true;
 
         this.contactProvider.getAll().subscribe({
-            next: (contacts: Contact[]) => {
-                this.entities = contacts;
+            next: (response: PaginatedResponse<Contact>) => {
+                this.entities = response.content;
+                this.totalRecords = response.totalElements;
+                this.loading = false;
             },
-            error: (error: Error) => {
-                console.error('Erreur lors du chargement des contacts:', error);
-            },
-            complete: () => {
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les données'
+                });
                 this.loading = false;
             }
         })

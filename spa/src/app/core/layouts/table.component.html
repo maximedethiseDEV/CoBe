@@ -1,15 +1,20 @@
 <div class="h-full flex flex-col">
     <p-table #dt
         [value]="tableData"
-        [rows]="50"
-        [rowsPerPageOptions]=rowsPerPageOptions
-        [globalFilterFields]=filterFields
-        stripedRows
+        [lazy]="true"
+        [paginator]="true"
+        [rows]="pageSize"
+        [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="rowsPerPageOptions"
         [loading]="loading"
+        (onLazyLoad)="onPageChange($event)"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} éléments"
+        [globalFilterFields]="filterFields"
+        stripedRows
         [scrollable]="true"
         scrollHeight="900px"
         paginator="true"
-        responsiveLayout="scroll"
         [tableStyle]=tableStyle>
         <ng-template #caption>
             <div class="flex justify-left items-center gap-2">

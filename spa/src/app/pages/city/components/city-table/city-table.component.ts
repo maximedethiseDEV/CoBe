@@ -5,6 +5,7 @@ import {Button} from 'primeng/button';
 import {CityProvider, CountryProvider} from '@core/providers';
 import {City, Country} from '@core/models';
 import {TableColumn} from '@core/types';
+import {PaginatedResponse} from "@core/models/paginated-response.model";
 
 @Component({
     selector: 'app-city-table',
@@ -41,29 +42,40 @@ export class CityTableComponent extends BaseTableComponent implements OnInit {
         this.setupSseConnection('cities');
     }
 
-    private loadCountries(): void {
+    private loadCountries(page: number = 0, size: number = this.pageSize): void {
         this.countryProvider.getAll().subscribe({
-            next: (countries: Country[]) => {
-
+            next: (response: PaginatedResponse<Country>) => {
+                this.entities = response.content;
+                this.totalRecords = response.totalElements;
+                this.loading = false;
             },
-            error: (error: Error) => {},
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les données'
+                });
+                this.loading = false;
+            },
             complete: () => {}
         });
     }
 
-    public loadEntities(): void {
+    public loadEntities(page: number = 0, size: number = this.pageSize): void {
         this.loading = true;
 
         this.cityProvider.getAll().subscribe({
-            next: (cities: City[]) => {
-                this.entities = cities;
-
-                this.loadCountries();
+            next: (response: PaginatedResponse<City>) => {
+                this.entities = response.content;
+                this.totalRecords = response.totalElements;
+                this.loading = false;
             },
-            error: (error: Error) => {
-                console.error('Erreur lors du chargement des contacts:', error);
-            },
-            complete: () => {
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les données'
+                });
                 this.loading = false;
             }
         })

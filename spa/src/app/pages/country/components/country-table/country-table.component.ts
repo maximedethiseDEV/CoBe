@@ -5,6 +5,7 @@ import {Button} from 'primeng/button';
 import {CountryProvider} from '@core/providers';
 import {Country} from '@core/models';
 import {TableColumn} from '@core/types';
+import {PaginatedResponse} from '@core/models/paginated-response.model';
 
 @Component({
     selector: 'app-country-table',
@@ -40,17 +41,21 @@ export class CountryTableComponent extends BaseTableComponent implements OnInit 
         this.setupSseConnection('countries');
     }
 
-    public loadEntities(): void {
+    public loadEntities(page: number = 0, size: number = this.pageSize): void {
         this.loading = true;
 
         this.countryProvider.getAll().subscribe({
-            next: (countries: Country[]) => {
-                this.entities = countries;
+            next: (response: PaginatedResponse<Country>) => {
+                this.entities = response.content;
+                this.totalRecords = response.totalElements;
+                this.loading = false;
             },
-            error: (error: Error) => {
-                console.error('Erreur lors du chargement des pays:', error);
-            },
-            complete: () => {
+            error: (error) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les données'
+                });
                 this.loading = false;
             }
         })
