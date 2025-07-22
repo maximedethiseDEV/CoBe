@@ -6,7 +6,7 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - beco-network
+      - cobe-network
     restart: always
 
   db:
@@ -21,11 +21,11 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - beco-network
+      - cobe-network
     restart: always
 
   api:
-    image: beco-api
+    image: cobe-api
     container_name: spring
     build:
       context: ./api
@@ -42,7 +42,7 @@ services:
     depends_on:
       - db
     networks:
-      - beco-network
+      - cobe-network
     restart: always
 
   pgadmin:
@@ -57,7 +57,7 @@ services:
     depends_on:
       - db
     networks:
-      - beco-network
+      - cobe-network
     restart: always
 
   # Nouveau service NGINX pour l'application Angular
@@ -71,11 +71,11 @@ services:
     depends_on:
       - api
     networks:
-      - beco-network
+      - cobe-network
     restart: always
 
 networks:
-  beco-network:
+  cobe-network:
     driver: bridge
 
 volumes:

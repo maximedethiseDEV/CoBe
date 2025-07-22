@@ -1,0 +1,88 @@
+<div class="h-full flex flex-col">
+    <p-table #dt
+        [value]="tableData"
+        [rows]="50"
+        [rowsPerPageOptions]=rowsPerPageOptions
+        [globalFilterFields]=filterFields
+        stripedRows
+        [loading]="loading"
+        [scrollable]="true"
+        scrollHeight="900px"
+        paginator="true"
+        responsiveLayout="scroll"
+        [tableStyle]=tableStyle>
+        <ng-template #caption>
+            <div class="flex justify-left items-center gap-2">
+                @if (hasTableAction('create')) {
+                    <p-button label="Créer" icon="pi pi-plus" class="mr-2" (onClick)="createEntity()" />
+                }
+
+                <p-button severity="secondary" icon="pi pi-filter-slash" class="mr-2" (click)="clear()" />
+
+                <span class="p-input-icon-left">
+                    <label for="globalFilter" class="mr-2">
+                        <i class="pi pi-search"></i>
+                    </label>
+
+                    <input
+                        pInputText
+                        PSize="Large"
+                        type="text"
+                        name="globalFilter"
+                        id="globalFilter"
+                        (input)="search($event)"
+                        placeholder="Rechercher..."
+                    />
+                </span>
+            </div>
+        </ng-template>
+
+        <ng-template #header>
+            <tr>
+                @for (column of tableColumns; track column.key) {
+                    <th [pSortableColumn]="column.sort ? column.key : undefined">
+                        {{ column.translate }}
+
+                        @if (column.sort) {
+                            <p-sortIcon [field]="column.key"></p-sortIcon>
+                        }
+                    </th>
+                }
+
+                @if (hasTableAction('update') || hasTableAction('delete')) {
+                    <th>
+                        Actions
+                    </th>
+                }
+            </tr>
+        </ng-template>
+
+        <ng-template #body let-entity let-rowIndex= "rowIndex">
+            <tr [pSelectableRow]="entity" [pSelectableRowIndex]="rowIndex" class="transition-colors">
+                @for (column of tableColumns; track column.key) {
+                    <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ entity[column.key] }}</td>
+                }
+
+                @if (hasTableAction('update') || hasTableAction('delete')) {
+                    <td>
+                        @if (hasTableAction('update')) {
+                            <p-button icon="pi pi-pencil" severity="secondary" class="mr-2" [rounded]="true" (click)="updateEntity(entity)" />
+                        }
+
+                        @if (hasTableAction('delete')) {
+                            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteEntity(entity)" />
+                        }
+                    </td>
+                }
+            </tr>
+        </ng-template>
+
+        <ng-template #emptymessage>
+            <tr>
+                <td colspan="5" class="text-center p-4">
+                    Aucun {{ entityName }} trouvé
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
