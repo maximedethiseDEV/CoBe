@@ -1,21 +1,11 @@
 <div class="h-full flex flex-col">
     <p-table #dt
-        [value]="tableData"
-        [lazy]="true"
-        [paginator]="true"
-        [rows]="pageSize"
-        [totalRecords]="totalRecords"
-        [rowsPerPageOptions]="rowsPerPageOptions"
-        [loading]="loading"
-        (onLazyLoad)="onPageChange($event)"
-        [showCurrentPageReport]="true"
-        currentPageReportTemplate="Affichage de {first} à {last} sur {totalRecords} éléments"
-        [globalFilterFields]="filterFields"
-        stripedRows
-        [scrollable]="true"
-        scrollHeight="900px"
-        paginator="true"
-        [tableStyle]=tableStyle>
+             [value]="tableData" [rows]="20" [paginator]="true" [lazy]="true"
+             [globalFilterFields]=filterFields [totalRecords]="totalElements" [loading]="loading"
+             [scrollable]="true" [tableStyle]=tableStyle (onLazyLoad)="onPageChange($event)"
+             stripedRows
+             scrollHeight="900px"
+             responsiveLayout="scroll">
         <ng-template #caption>
             <div class="flex justify-left items-center gap-2">
                 @if (hasTableAction('create')) {

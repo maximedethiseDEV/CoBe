@@ -4,4 +4,5 @@ export interface City extends EntityModel {
     cityName: string;
     postalCode: string;
     countryId: string;
+    countryName: string;
 }

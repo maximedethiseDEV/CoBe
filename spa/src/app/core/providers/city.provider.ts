@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
 import {City} from '@core/models';
-import {PaginatedResponse} from '@core/models/paginated-response.model';
+import {Pagination} from '@core/types/pagination.type';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,7 @@ import {PaginatedResponse} from '@core/models/paginated-response.model';
 export class CityProvider {
     private http: HttpClient = inject(HttpClient);
 
-    public getAll(params?: any): Observable<PaginatedResponse<City>> {
+    public getAll(params?: any): Observable<Pagination<City>> {
         return this.http.get(`${environment.url.api}/cities`, {params}).pipe(
             map((response: any) => response)
         );
@@ -30,7 +30,7 @@ export class CityProvider {
         );
     }
 
-    public update(city: Partial<City>): Observable<City> {
+    public update(city: Partial<City>): Observable<Pagination<City>> {
         return this.http.put(`${environment.url.api}/cities/${city.id}`, city).pipe(
             map((response: any) => response)
         );

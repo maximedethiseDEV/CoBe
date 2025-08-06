@@ -1,35 +1,14 @@
-import {ChangeDetectorRef, Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {LucideAngularModule} from 'lucide-angular';
 import {LucideIconsList} from '@core/lists';
 import {ChartModule} from 'primeng/chart';
-import {isPlatformBrowser} from '@angular/common';
-import {CountryProvider, CityProvider} from '@core/providers';
-import {Country, City, PaginatedResponse} from '@core/models';
+import {ChartData, ChartOptions, Pagination} from '@core/types';
 import {forkJoin} from 'rxjs';
-
-interface ChartData {
-    labels: string[];
-    datasets: {
-        data: number[];
-        backgroundColor: string[];
-        hoverBackgroundColor: string[];
-    }[];
-}
-
-interface ChartOptions {
-    cutout: string;
-    plugins: {
-        legend: {
-            labels: {
-                color: string;
-            };
-        };
-    };
-}
+import {CityProvider, CountryProvider} from '@core/providers';
+import {Country, City} from '@core/models';
 
 @Component({
     selector: 'app-dashboard',
-    standalone: true,
     imports: [
         LucideAngularModule,
         ChartModule
@@ -38,76 +17,62 @@ interface ChartOptions {
     styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
-    public readonly iconsList = LucideIconsList;
+    private countryProvider: CountryProvider = inject(CountryProvider);
+    private cityProvider: CityProvider = inject(CityProvider);
+    public readonly iconsList: any = LucideIconsList;
+    public data!: ChartData;
+    public options!: ChartOptions;
 
-    data!: ChartData;
-    options!: ChartOptions;
-
-    platformId = inject(PLATFORM_ID);
-    private countryProvider = inject(CountryProvider);
-    private cityProvider = inject(CityProvider);
-
-    constructor(private cd: ChangeDetectorRef) {}
-
-    ngOnInit() {
-        this.loadData();
+    ngOnInit(): void {
+        this.computeData();
     }
 
-    private loadData() {
+    private computeData(): void {
         forkJoin({
             countries: this.countryProvider.getAll(),
             cities: this.cityProvider.getAll()
-        }).subscribe(({countries, cities}) => {
-            this.initChart(countries, cities);
+        }).subscribe((response: {countries: Pagination<Country>; cities: Pagination<City>}) => {
+            this.computeChart(response.countries.content, response.cities.content);
         });
     }
 
-    private initChart(countries: PaginatedResponse<Country>, cities: PaginatedResponse<City>) {
-        if (isPlatformBrowser(this.platformId)) {
-            const documentStyle = getComputedStyle(document.documentElement);
-            const textColor = documentStyle.getPropertyValue('--text-color');
+    private computeChart(countries: Country[], cities: City[]): void {
+        countries.sort((previousCountry: Country, nextCountry: Country) => previousCountry.countryName.localeCompare(nextCountry.countryName));
 
-            // Créer un Map pour compter les villes par pays
-            const citiesPerCountry = new Map<string, number>();
-            countries.content.forEach(country => {
-                const cityCount = cities.content.filter(city => city.countryId === country.id).length;
-                citiesPerCountry.set(country.countryName, cityCount);
-            });
+        const labels: string[] = countries.map((country: Country) => country.countryName);
+        const cityCounts: number[] = [];
+        for (const country of countries) {
+            const count: number = cities.filter((city: City) => city.countryId === country.id)?.length || 0;
+            cityCounts.push(count);
+        }
 
-            const labels = Array.from(citiesPerCountry.keys());
-            const cityCounts = Array.from(citiesPerCountry.values());
+        const backgroundColors: any = labels.map((_: string, index: number) =>
+            `hsl(${(index * 360) / labels.length}, 70%, 50%)`
+        );
+        const hoverBackgroundColors: any = labels.map((_: string, index: number) =>
+            `hsl(${(index * 360) / labels.length}, 70%, 60%)`
+        );
 
-            // Générer des couleurs dynamiques
-            const backgroundColors = labels.map((_, index) =>
-                `hsl(${(index * 360) / labels.length}, 70%, 50%)`
-            );
-            const hoverBackgroundColors = labels.map((_, index) =>
-                `hsl(${(index * 360) / labels.length}, 70%, 60%)`
-            );
+        this.data = {
+            labels: labels,
+            datasets: [
+                {
+                    data: cityCounts,
+                    backgroundColor: backgroundColors,
+                    hoverBackgroundColor: hoverBackgroundColors
+                }
+            ]
+        };
 
-            this.data = {
-                labels: labels,
-                datasets: [
-                    {
-                        data: cityCounts,
-                        backgroundColor: backgroundColors,
-                        hoverBackgroundColor: hoverBackgroundColors
-                    }
-                ]
-            };
-
-            this.options = {
-                cutout: '60%',
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: textColor
-                        }
+        this.options = {
+            cutout: '60%',
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#000'
                     }
                 }
-            };
-
-            this.cd.markForCheck();
-        }
+            }
+        };
     }
 }

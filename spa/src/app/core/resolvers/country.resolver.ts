@@ -1,16 +1,18 @@
 import {inject} from '@angular/core';
-import {ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot} from '@angular/router';
-import {Observable} from 'rxjs';
+import {ActivatedRouteSnapshot, ResolveFn} from '@angular/router';
+import {map, Observable} from 'rxjs';
 import {Country} from '@core/models';
 import {CountryProvider} from '@core/providers';
-import {PaginatedResponse} from '@core/models/paginated-response.model';
+import {Pagination} from '@core/types';
 
 export const CountryResolver: ResolveFn<Country> = (route: ActivatedRouteSnapshot): Observable<Country> => {
     const countryProvider: CountryProvider = inject(CountryProvider);
     return countryProvider.get(route.params['entityId']);
 };
 
-export const CountriesResolver: ResolveFn<PaginatedResponse<Country>> = (): Observable<PaginatedResponse<Country>> => {
+export const CountriesResolver: ResolveFn<Country[]> = (): Observable<Country[]> => {
     const countryProvider: CountryProvider = inject(CountryProvider);
-    return countryProvider.getAll();
+    return countryProvider.getAll().pipe(
+        map((response: Pagination<Country>)=> response.content)
+    );
 };

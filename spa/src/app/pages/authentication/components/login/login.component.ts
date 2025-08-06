@@ -1,5 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {NgIf} from '@angular/common';
 import {Router, RouterLink} from '@angular/router';
 import {AuthenticationService} from '@core/services';
 
@@ -7,6 +8,7 @@ import {AuthenticationService} from '@core/services';
     selector: 'app-login',
     imports: [
         FormsModule,
+        NgIf,
         RouterLink
     ],
     templateUrl: './login.component.html',

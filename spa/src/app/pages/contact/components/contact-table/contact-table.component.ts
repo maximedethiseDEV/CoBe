@@ -3,9 +3,8 @@ import {BaseTableComponent} from '@core/components';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {ContactProvider} from '@core/providers';
-import {City, Contact} from '@core/models';
-import {TableColumn} from '@core/types';
-import {PaginatedResponse} from '@core/models/paginated-response.model';
+import {Contact} from '@core/models';
+import {Pagination, TableColumn} from '@core/types';
 
 @Component({
     selector: 'app-contact-table',
@@ -17,7 +16,6 @@ import {PaginatedResponse} from '@core/models/paginated-response.model';
 })
 export class ContactTableComponent extends BaseTableComponent implements OnInit {
     private contactProvider: ContactProvider = inject(ContactProvider);
-    public entityIdentifier: string = 'id';
     public entityName: string = 'contact';
     public filterFields: string[] = [
         'firstName',
@@ -53,25 +51,22 @@ export class ContactTableComponent extends BaseTableComponent implements OnInit 
     ];
 
     ngOnInit(): void {
-        this.loadEntities();
         this.setupSseConnection('contacts');
     }
 
-    public loadEntities(page: number = 0, size: number = this.pageSize): void {
+    public loadEntities(params?: {page: number}): void {
         this.loading = true;
 
-        this.contactProvider.getAll().subscribe({
-            next: (response: PaginatedResponse<Contact>) => {
+        this.contactProvider.getAll(params).subscribe({
+            next: (response: Pagination<Contact>) => {
                 this.entities = response.content;
-                this.totalRecords = response.totalElements;
+                this.totalElements = response.totalElements;
+            },
+            error: (error: Error) => {
+                console.error('Erreur lors du chargement des contacts:', error);
                 this.loading = false;
             },
-            error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les données'
-                });
+            complete: () => {
                 this.loading = false;
             }
         })

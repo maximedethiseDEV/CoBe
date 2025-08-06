@@ -26,8 +26,7 @@ export class CityCreateComponent extends BaseCreateComponent {
     public override generateForm(): FormGroup {
         return new FormGroup({
             cityName: new FormControl(),
-            postalCode: new FormControl(),
-            countryId: new FormControl()
+            postalCode: new FormControl()
         });
     }
 
@@ -48,7 +47,7 @@ export class CityCreateComponent extends BaseCreateComponent {
                     this.back();
                 },
                 error: (error: Error) => {
-                    console.error('Erreur lors de la création de la ville:', error);
+                    console.error('Erreur lors de la création du contact:', error);
                 }
             });
         }

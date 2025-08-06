@@ -20,7 +20,7 @@ export class CountryUpdateComponent extends BaseUpdateComponent {
 
     public override generateForm(): FormGroup {
         return new FormGroup({
-            countryId: new FormControl(),
+            id: new FormControl(),
             countryName: new FormControl('', [Validators.required, Validators.maxLength(200)]),
             countryCode: new FormControl('', [Validators.required, Validators.maxLength(3)])
         });

@@ -12,21 +12,18 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export abstract class BaseTableComponent implements OnDestroy {
     @ViewChild('dt') dt!: Table;
-    abstract entityIdentifier: string;
     abstract entityName: string;
     abstract filterFields: string[];
     abstract tableColumns: TableColumn[];
-
     protected subscriptionCollection: SubscriptionCollection = new SubscriptionCollection();
     protected route: ActivatedRoute = inject(ActivatedRoute);
     protected router: Router = inject(Router);
     protected sseService: SseService = inject(SseService);
     protected messageService: MessageService = inject(MessageService);
-
     protected entities: EntityModel[] = [];
-    protected totalRecords: number = 0;
+    protected totalElements: number = 0;
+    protected currentPage: number = 1;
     protected loading: boolean = true;
-    protected rowsPerPageOptions: number[] = [50, 100, 200];
     protected tableStyle: {
         width: string,
         height: string
@@ -39,10 +36,6 @@ export abstract class BaseTableComponent implements OnDestroy {
         'update',
         'delete'
     ];
-
-    // Paramètres de pagination
-    protected currentPage: number = 0;
-    protected pageSize: number = this.rowsPerPageOptions[0];
 
     constructor() {}
 
@@ -58,13 +51,7 @@ export abstract class BaseTableComponent implements OnDestroy {
         return this.tableActions.includes(action);
     }
 
-    abstract loadEntities(page?: number, size?: number): void;
-
-    protected onPageChange(event: any): void {
-        this.currentPage = event.first / event.rows;
-        this.pageSize = event.rows;
-        this.loadEntities(this.currentPage, this.pageSize);
-    }
+    abstract loadEntities(params?: {page: number}): void;
 
     protected createEntity(): void {
         this.router.navigate(['create'], {relativeTo: this.route});
@@ -72,14 +59,14 @@ export abstract class BaseTableComponent implements OnDestroy {
 
     protected updateEntity(entity: EntityModel): void {
         // @ts-ignore
-        this.router.navigate(['update', entity[this.entityIdentifier]], {relativeTo: this.route});
+        this.router.navigate(['update', entity.id], {relativeTo: this.route});
     }
 
     protected deleteEntity(entity: EntityModel): void {}
 
     protected removeEntity(entityId: string): void {
         // @ts-ignore
-        const index: number = this.entities.findIndex((entity: EntityModel) => entity[this.entityIdentifier] === entityId);
+        const index: number = this.entities.findIndex((entity: EntityModel) => entity.id === entityId);
 
         if (index > -1) {
             this.entities.splice(index, 1);
@@ -95,6 +82,13 @@ export abstract class BaseTableComponent implements OnDestroy {
         this.dt.filterGlobal(inputValue, 'contains');
     }
 
+    protected onPageChange(event: any): void {
+        const pageIndex: number = event.first / event.rows;
+        this.currentPage = pageIndex + 1;
+
+        this.loadEntities({page: this.currentPage - 1});
+    }
+
     protected setupSseConnection(entityName: string): void {
         this.subscriptionCollection.subscribe = this.sseService.getServerSentEvents(entityName).subscribe({
             next: (event: any) => {
@@ -102,10 +96,10 @@ export abstract class BaseTableComponent implements OnDestroy {
                     this.entities = [...this.entities, event.payload];
                 } else if (event.eventType === 'UPDATE') {
                     // @ts-ignore
-                    this.entities = this.entities.map((entity: EntityModel) => entity[this.entityIdentifier] === event.payload[this.entityIdentifier] ? event.payload : entity);
+                    this.entities = this.entities.map((entity: EntityModel) => entity.id === event.payload.id ? event.payload : entity);
                 } else if (event.eventType === 'DELETE') {
                     // @ts-ignore
-                    const index: number = this.entities.findIndex((entity: EntityModel) => entity[this.entityIdentifier] === event.payload);
+                    const index: number = this.entities.findIndex((entity: EntityModel) => entity.id === event.payload);
 
                     if (index > -1) {
                         this.entities.splice(index, 1);

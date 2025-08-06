@@ -1,4 +1,4 @@
-export interface PaginatedResponse<T> {
+export type Pagination<T> = {
     content: T[];
     totalElements: number;
     totalPages: number;

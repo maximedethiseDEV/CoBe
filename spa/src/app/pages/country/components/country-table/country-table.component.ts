@@ -4,8 +4,7 @@ import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {CountryProvider} from '@core/providers';
 import {Country} from '@core/models';
-import {TableColumn} from '@core/types';
-import {PaginatedResponse} from '@core/models/paginated-response.model';
+import {Pagination, TableColumn} from '@core/types';
 
 @Component({
     selector: 'app-country-table',
@@ -17,7 +16,6 @@ import {PaginatedResponse} from '@core/models/paginated-response.model';
 })
 export class CountryTableComponent extends BaseTableComponent implements OnInit {
     private countryProvider: CountryProvider = inject(CountryProvider);
-    public entityIdentifier: string = 'id';
     public entityName: string = 'country';
     public filterFields: string[] = [
         'countryName',
@@ -37,25 +35,22 @@ export class CountryTableComponent extends BaseTableComponent implements OnInit 
     ];
 
     ngOnInit(): void {
-        this.loadEntities();
         this.setupSseConnection('countries');
     }
 
-    public loadEntities(page: number = 0, size: number = this.pageSize): void {
+    public loadEntities(params?: {page: number}): void {
         this.loading = true;
 
-        this.countryProvider.getAll().subscribe({
-            next: (response: PaginatedResponse<Country>) => {
+        this.countryProvider.getAll(params).subscribe({
+            next: (response: Pagination<Country>) => {
                 this.entities = response.content;
-                this.totalRecords = response.totalElements;
+                this.totalElements = response.totalElements;
+            },
+            error: (error: Error) => {
+                console.error('Erreur lors du chargement des pays:', error);
                 this.loading = false;
             },
-            error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les données'
-                });
+            complete: () => {
                 this.loading = false;
             }
         })

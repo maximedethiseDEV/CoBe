@@ -4,8 +4,7 @@ import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {CityProvider, CountryProvider} from '@core/providers';
 import {City, Country} from '@core/models';
-import {TableColumn} from '@core/types';
-import {PaginatedResponse} from "@core/models/paginated-response.model";
+import {Pagination, TableColumn} from '@core/types';
 
 @Component({
     selector: 'app-city-table',
@@ -18,11 +17,12 @@ import {PaginatedResponse} from "@core/models/paginated-response.model";
 export class CityTableComponent extends BaseTableComponent implements OnInit {
     private cityProvider: CityProvider = inject(CityProvider);
     private countryProvider: CountryProvider = inject(CountryProvider);
-    public entityIdentifier: string = 'id';
+    private countries: Country[] = [];
     public entityName: string = 'city';
     public filterFields: string[] = [
         'cityName',
-        'postalCode'
+        'postalCode',
+        'countryName'
     ];
     public tableColumns: TableColumn[] = [
         {
@@ -34,48 +34,47 @@ export class CityTableComponent extends BaseTableComponent implements OnInit {
             key: 'postalCode',
             translate: 'Code postal',
             sort: true
+        },
+        {
+            key: 'countryName',
+            translate: 'Pays'
         }
     ];
 
     ngOnInit(): void {
-        this.loadEntities();
         this.setupSseConnection('cities');
     }
 
-    private loadCountries(page: number = 0, size: number = this.pageSize): void {
+    private loadCountries(): void {
         this.countryProvider.getAll().subscribe({
-            next: (response: PaginatedResponse<Country>) => {
-                this.entities = response.content;
-                this.totalRecords = response.totalElements;
-                this.loading = false;
+            next: (response: Pagination<Country>) => {
+                this.countries = response.content;
+
+                for (const city of this.entities as City[]) {
+                    const country: Country|undefined = this.countries.find((country: Country) => country.id === city.countryId);
+                    city.countryName = country?.countryName || '';
+                }
             },
-            error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les données'
-                });
-                this.loading = false;
-            },
+            error: (error: Error) => {},
             complete: () => {}
         });
     }
 
-    public loadEntities(page: number = 0, size: number = this.pageSize): void {
+    public loadEntities(params?: {page: number}): void {
         this.loading = true;
 
-        this.cityProvider.getAll().subscribe({
-            next: (response: PaginatedResponse<City>) => {
+        this.cityProvider.getAll(params).subscribe({
+            next: (response: Pagination<City>) => {
                 this.entities = response.content;
-                this.totalRecords = response.totalElements;
+                this.totalElements = response.totalElements;
+
+                this.loadCountries();
+            },
+            error: (error: Error) => {
+                console.error('Erreur lors du chargement des contacts:', error);
                 this.loading = false;
             },
-            error: (error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les données'
-                });
+            complete: () => {
                 this.loading = false;
             }
         })
