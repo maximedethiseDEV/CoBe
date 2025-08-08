@@ -38,6 +38,12 @@ public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutReque
         return repository.findAll(pageable).map(entityToDtoMapper);
     }
 
+    public List<GetRequest_DTO> findAllWithDetails() {
+        return repository.findAll().stream()
+                .map(entityToDtoMapper)
+                .collect(Collectors.toList());
+    };
+
     public GetRequest_DTO findById(UUID id) {
         Optional<ENTITY> entity = repository.findById(id);
         if (entity.isEmpty()) {

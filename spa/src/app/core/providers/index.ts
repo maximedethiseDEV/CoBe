@@ -1,3 +1,4 @@
+export * from './address.provider'
 export * from './authentication.provider';
 export * from './city.provider';
 export * from './contact.provider';

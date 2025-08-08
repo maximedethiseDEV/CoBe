@@ -45,21 +45,6 @@ export class CityTableComponent extends BaseTableComponent implements OnInit {
         this.setupSseConnection('cities');
     }
 
-    private loadCountries(): void {
-        this.countryProvider.getAll().subscribe({
-            next: (response: Pagination<Country>) => {
-                this.countries = response.content;
-
-                for (const city of this.entities as City[]) {
-                    const country: Country|undefined = this.countries.find((country: Country) => country.id === city.countryId);
-                    city.countryName = country?.countryName || '';
-                }
-            },
-            error: (error: Error) => {},
-            complete: () => {}
-        });
-    }
-
     public loadEntities(params?: {page: number}): void {
         this.loading = true;
 
@@ -78,6 +63,21 @@ export class CityTableComponent extends BaseTableComponent implements OnInit {
                 this.loading = false;
             }
         })
+    }
+
+    private loadCountries(): void {
+        this.countryProvider.getAll().subscribe({
+            next: (response: Pagination<Country>) => {
+                this.countries = response.content;
+
+                for (const city of this.entities as City[]) {
+                    const country: Country|undefined = this.countries.find((country: Country) => country.id === city.countryId);
+                    city.countryName = country?.countryName || '';
+                }
+            },
+            error: (error: Error) => {},
+            complete: () => {}
+        });
     }
 
     protected override deleteEntity(city: City): void {

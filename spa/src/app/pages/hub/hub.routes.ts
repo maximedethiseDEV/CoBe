@@ -3,6 +3,7 @@ import {AuthenticationGuard} from '@core/guards';
 import {contactRoutes} from '@pages/contact/contact.routes';
 import {countryRoutes} from '@pages/country/country.routes';
 import {cityRoutes} from '@pages/city/city.routes';
+import {addressRoutes} from '@pages/address/address.routes';
 
 export const hubRoutes: Routes = [
     {
@@ -25,7 +26,8 @@ export const hubRoutes: Routes = [
             },
             ...contactRoutes,
             ...countryRoutes,
-            ...cityRoutes
+            ...cityRoutes,
+            ...addressRoutes
         ]
     }
 ];

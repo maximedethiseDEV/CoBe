@@ -1,9 +1,9 @@
 import {EntityModel} from '@core/models/entity.model';
 
-export interface City extends EntityModel {
+export interface Address extends EntityModel {
+    street: string;
+    cityId: string;
     cityName: string;
     postalCode: string;
-    countryId: string;
-    countryName: string;
     countryCode: string;
 }

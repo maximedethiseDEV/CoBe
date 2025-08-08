@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {LucideIconsList} from '@core/lists';
@@ -17,7 +17,7 @@ export abstract class BaseCreateComponent {
     protected queryParams: Params;
     public form: FormGroup = new FormGroup({});
     public readonly iconsList: any = LucideIconsList;
-    public readonly iconHeader: any= this.iconsList.CircleUserRound;
+    public readonly iconHeader: any= this.iconsList.CirclePlus;
 
     constructor() {
         this.params = this.route.snapshot.params;

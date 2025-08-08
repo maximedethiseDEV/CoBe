@@ -9,8 +9,7 @@ import {MainMenuComponent, SideMenuComponent} from '@core/components';
         MainMenuComponent,
         SideMenuComponent
     ],
-    templateUrl: './hub.component.html',
-    styleUrl: './hub.component.scss'
+    templateUrl: './hub.component.html'
 })
 export class HubComponent {
     private isSubMenuVisible: boolean = false;

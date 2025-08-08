@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
@@ -29,6 +30,11 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
     @GetMapping
     public ResponseEntity<Page<GetRequest_DTO>> getAll(Pageable pageable) {
         return ResponseEntity.ok(getService().findAll(pageable));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<GetRequest_DTO>> getAllWithDetails() {
+        return ResponseEntity.ok(getService().findAllWithDetails());
     }
 
     @GetMapping("/{id}")

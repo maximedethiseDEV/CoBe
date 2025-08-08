@@ -1,3 +1,4 @@
+export * from './address.model'
 export * from './entity.model';
 export * from './city.model';
 export * from './contact.model';
