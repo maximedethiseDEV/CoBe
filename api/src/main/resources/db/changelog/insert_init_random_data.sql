@@ -54,13 +54,13 @@ FROM (
          JOIN "city" c ON c.city_name = v.city_name;
 
 -- Insertion dans la table "shared_details"
-INSERT INTO "shared_details" ("attachment_path", "notes")
+INSERT INTO "shared_details" ("file_name", "notes")
 VALUES
-    ('/files/shared1.pdf', 'Détails partagés 1'),
-    ('/files/shared2.pdf', 'Détails partagés 2'),
-    ('/files/shared3.pdf', 'Détails partagés 3'),
-    ('/files/shared4.pdf', 'Détails partagés 4'),
-    ('/files/shared5.pdf', 'Détails partagés 5');
+    ('shared1.pdf', 'Détails partagés 1'),
+    ('shared2.pdf', 'Détails partagés 2'),
+    ('shared3.pdf', 'Détails partagés 3'),
+    ('shared4.pdf', 'Détails partagés 4'),
+    ('shared5.pdf', 'Détails partagés 5');
 
 -- Insertion dans la table "contact"
 INSERT INTO "contact" ("last_name", "first_name", "phone", "email", "role")

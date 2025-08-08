@@ -33,7 +33,7 @@ CREATE TABLE "address"
 CREATE TABLE "shared_details"
 (
     "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "attachment_path"   VARCHAR(255),
+    "file_name"   VARCHAR(100),
     "notes"             TEXT,
     "created_date"        TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"        TIMESTAMPTZ DEFAULT NOW()

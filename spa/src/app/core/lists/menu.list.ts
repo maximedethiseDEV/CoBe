@@ -24,7 +24,7 @@ export const MenuList: MenuItem[] = [
             {
                 label: 'Détails de livraison',
                 icon: LucideIconsList.PackageSearch,
-                link: ''
+                link: 'shared-details'
             },
             {
                 label: 'Produits',

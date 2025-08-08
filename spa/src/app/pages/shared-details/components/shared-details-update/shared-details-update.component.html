@@ -1,0 +1,46 @@
+<div class="flex-1 h-screen overflow-y-auto">
+    <div class="flex-1 px-2">
+        <div class="sm:mx-auto sm:w-full">
+            <h2 class="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight text-gray-900">
+                <i-lucide [img]="iconHeader" class="size-8"></i-lucide>
+                {{ labelHeader }}
+            </h2>
+        </div>
+
+        <div class="mt-6 flex-1">
+            <form [formGroup]="form" class="space-y-8" (ngSubmit)="update()">
+                <div class="space-y-4">
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="notes" class="block text-sm font-medium text-gray-700">Remarque</label>
+                        <textarea
+                            id="notes"
+                            rows="3"
+                            formControlName="notes"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300"
+                        ></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Pièce jointe</label>
+                        <app-file-uploader
+                            (fileSelected)="onAttachmentSelected($event)"
+                            [allowedTypes]="['application/pdf', 'image/png', 'image/jpeg']"
+                            class="col-span-2"
+                        ></app-file-uploader>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button
+                            type="submit"
+                            [disabled]="form.invalid"
+                            class="mt-4 mr-2 rounded-md bg-green-600 px-4 py-2 text-white font-semibold shadow hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 disabled:opacity-50 cursor-pointer"
+                        >
+                            <i-lucide [img]="iconsList.Save" class="size-6"></i-lucide>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

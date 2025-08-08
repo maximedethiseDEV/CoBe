@@ -8,7 +8,7 @@ import java.util.UUID;
 @Data
 public class SharedDetailsDto extends AbstractDto {
 
-    private String attachmentPath;
+    private String fileName;
 
     private String notes;
 }

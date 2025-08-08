@@ -6,3 +6,5 @@ export * from './main-menu/main-menu.component';
 export * from './side-menu/side-menu.component';
 
 export * from './wrapper/wrapper.component';
+
+export * from '@core/components/file-uploader/file-uploader.component'

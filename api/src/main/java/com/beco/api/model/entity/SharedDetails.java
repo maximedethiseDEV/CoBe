@@ -12,8 +12,8 @@ import java.util.UUID;
 @Table(name = "shared_details")
 public class SharedDetails extends AbstractEntity {
 
-    @Column(name = "attachment_path")
-    private String attachmentPath;
+    @Column(name = "file_name")
+    private String fileName;
 
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;

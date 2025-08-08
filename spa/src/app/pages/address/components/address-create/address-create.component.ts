@@ -1,5 +1,5 @@
 import {Component, inject, Input} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {Address, City, Country} from '@core/models';
@@ -26,7 +26,7 @@ export class AddressCreateComponent extends BaseCreateComponent {
 
     public override generateForm(): FormGroup {
         return new FormGroup({
-            street: new FormControl()
+            street: new FormControl(Validators.required)
         });
     }
 

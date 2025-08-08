@@ -1,0 +1,49 @@
+<div
+    class="relative border-2 border-dashed rounded-md p-4 text-center cursor-pointer transition-all"
+    [ngClass]="{
+    'border-indigo-600 bg-indigo-50': isDragging || selectedFile,
+    'border-gray-300 hover:border-indigo-600': !selectedFile
+  }"
+    (click)="triggerFileInput()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+>
+    <p class="text-sm text-gray-500">
+        Glissez-déposez un fichier ici, ou
+        <span class="text-indigo-600 font-semibold hover:underline">
+      cliquez pour choisir
+    </span>.
+    </p>
+
+    <input
+        type="file"
+        #fileInput
+        hidden
+        (change)="onFileSelected($event)"
+        [attr.accept]="allowedTypes.join(',')"
+    />
+</div>
+
+@if (selectedFile) {
+    <div class="mt-2 flex items-center justify-between bg-gray-100 p-2 rounded-md">
+        <div class="flex items-center gap-2">
+            <button
+                type="button"
+                class="text-red-500 hover:text-red-700 cursor-pointer"
+                aria-label="Supprimer la pièce jointe"
+                (click)="removeFile()"
+            >
+                <i-lucide [img]="iconsList.CircleX" class="size-5 opacity-75"></i-lucide>
+            </button>
+            <span class="text-sm text-gray-700 truncate max-w-[200px]">{{ selectedFile.name }}</span>
+        </div>
+        <button
+            type="button"
+            class="text-sm text-indigo-600 hover:text-indigo-800 font-semibold"
+            (click)="previewFile()"
+        >
+            Prévisualiser
+        </button>
+    </div>
+}
