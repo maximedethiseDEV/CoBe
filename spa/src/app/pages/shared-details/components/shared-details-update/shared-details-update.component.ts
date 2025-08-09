@@ -16,7 +16,7 @@ import {FileUploaderComponent, BaseUpdateComponent} from '@core/components';
 export class SharedDetailsUpdateComponent extends BaseUpdateComponent {
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
     public featurePath: string = 'shared-details';
-    public labelHeader: string = 'Nouveau détail';
+    public labelHeader: string = 'Mettre à jour le détail de livraison';
 
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 

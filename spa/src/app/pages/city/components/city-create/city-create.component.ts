@@ -1,5 +1,5 @@
 import {Component, inject, Input} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {City, Country} from '@core/models';
@@ -21,19 +21,18 @@ export class CityCreateComponent extends BaseCreateComponent {
     private cityProvider: CityProvider = inject(CityProvider);
     public featurePath: string = 'cities';
     public labelHeader: string = 'Nouvelle ville';
-    public selectedCountry!: Country;
 
     public override generateForm(): FormGroup {
         return new FormGroup({
-            cityName: new FormControl(),
-            postalCode: new FormControl()
+            cityName: new FormControl("",Validators.required),
+            postalCode: new FormControl("",Validators.required),
+            countryId: new FormControl("",Validators.required)
         });
     }
 
     public create(): void {
-        if (this.form.valid && this.selectedCountry) {
+        if (this.form.valid) {
             const city: City = this.form.getRawValue();
-            city.countryId = this.selectedCountry.id;
 
             this.cityProvider.create(city).subscribe({
                 next: () => {
@@ -47,7 +46,7 @@ export class CityCreateComponent extends BaseCreateComponent {
                     this.back();
                 },
                 error: (error: Error) => {
-                    console.error('Erreur lors de la création du contact:', error);
+                    console.error('Erreur lors de la création de la ville:', error);
                 }
             });
         }

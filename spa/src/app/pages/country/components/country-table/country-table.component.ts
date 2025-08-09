@@ -46,8 +46,12 @@ export class CountryTableComponent extends BaseTableComponent implements OnInit 
                 this.entities = response.content;
                 this.totalElements = response.totalElements;
             },
-            error: (error: Error) => {
-                console.error('Erreur lors du chargement des pays:', error);
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les données'
+                });
                 this.loading = false;
             },
             complete: () => {

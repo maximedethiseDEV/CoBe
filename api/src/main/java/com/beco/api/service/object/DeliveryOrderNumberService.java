@@ -2,6 +2,7 @@ package com.beco.api.service.object;
 
 import com.beco.api.mapper.DeliveryOrderNumberMapper;
 import com.beco.api.model.dto.DeliveryOrderNumberDto;
+import com.beco.api.model.dto.PostDeliveryOrderNumberDto;
 import com.beco.api.model.entity.DeliveryOrderNumber;
 import com.beco.api.repository.DeliveryOrderNumberRepository;
 import com.beco.api.service.AbstractCrudService;
@@ -9,12 +10,11 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "unique-delivery-numbers")
-public class DeliveryOrderNumberService extends AbstractCrudService<DeliveryOrderNumber, DeliveryOrderNumberDto, DeliveryOrderNumberDto, UUID> {
+public class DeliveryOrderNumberService extends AbstractCrudService<DeliveryOrderNumber, DeliveryOrderNumberDto, PostDeliveryOrderNumberDto, UUID> {
 
     private final DeliveryOrderNumberRepository repository;
     private final DeliveryOrderNumberMapper mapper;
@@ -37,7 +37,7 @@ public class DeliveryOrderNumberService extends AbstractCrudService<DeliveryOrde
     }
 
     @Override
-    protected boolean dataValidatorControl(DeliveryOrderNumberDto dto) {
+    protected boolean dataValidatorControl(PostDeliveryOrderNumberDto dto) {
         return true;
     }
 

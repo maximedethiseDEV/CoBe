@@ -39,7 +39,7 @@ export const MenuList: MenuItem[] = [
             {
                 label: 'Entreprises',
                 icon: LucideIconsList.Wallet,
-                link: ''
+                link: 'companies'
             },
             {
                 label: 'Transporteurs',

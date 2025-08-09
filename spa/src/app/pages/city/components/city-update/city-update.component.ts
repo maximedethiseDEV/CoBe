@@ -1,45 +1,37 @@
-import {Component, inject, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {Component, inject, Input} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {City, Country} from '@core/models';
 import {CityProvider} from '@core/providers';
-import {Select} from 'primeng/select';
 
 @Component({
     selector: 'app-city-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        Select,
         FormsModule
     ],
     templateUrl: './city-update.component.html'
 })
-export class CityUpdateComponent extends BaseUpdateComponent implements OnInit {
+export class CityUpdateComponent extends BaseUpdateComponent {
     @Input() countries: Country[] = [];
     private cityProvider: CityProvider = inject(CityProvider);
     public featurePath: string = 'cities';
-    public labelHeader: string = 'Mettre à jour le contact';
-    public selectedCountry!: Country|undefined;
-
-    ngOnInit(): void {
-        this.selectedCountry = this.countries.find((country: Country) => country.id === this.entity.countryId);
-    }
+    public labelHeader: string = 'Mettre à jour la ville';
 
     public override generateForm(): FormGroup {
         return new FormGroup({
             id: new FormControl(),
-            cityName: new FormControl(),
-            postalCode: new FormControl(),
-            countryId: new FormControl()
+            cityName: new FormControl("",Validators.required),
+            postalCode: new FormControl("",Validators.required),
+            countryId: new FormControl("",Validators.required)
         });
     }
 
     public update(): void {
         if (this.form.valid) {
             const city: City = this.form.getRawValue();
-            city.countryId = this.selectedCountry?.id || this.entity.countryId;
 
             this.cityProvider.update(city).subscribe({
                 next: () => {

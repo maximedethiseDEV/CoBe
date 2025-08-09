@@ -2,9 +2,8 @@ import {Component, inject, Input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
-import {Address, City, Country} from '@core/models';
 import {AddressProvider} from '@core/providers';
-import {SelectCityFromAddressPipe} from '@core/pipe/select-city-from-address.pipe';
+import {Address, City} from '@core/models';
 
 @Component({
     selector: 'app-address-create',
@@ -12,28 +11,25 @@ import {SelectCityFromAddressPipe} from '@core/pipe/select-city-from-address.pip
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
-        SelectCityFromAddressPipe
     ],
     templateUrl: './address-create.component.html'
 })
 export class AddressCreateComponent extends BaseCreateComponent {
     @Input() cities: City[] = [];
-    @Input() countries: Country[] = [];
     private addressProvider: AddressProvider = inject(AddressProvider);
     public featurePath: string = 'addresses';
-    public labelHeader: string = 'Nouvelle addresse';
-    public selectedCity!: City;
+    public labelHeader: string = 'Nouvelle adresse';
 
     public override generateForm(): FormGroup {
         return new FormGroup({
-            street: new FormControl(Validators.required)
+            street: new FormControl("",Validators.required),
+            cityId: new FormControl("",Validators.required)
         });
     }
 
     public create(): void {
-        if (this.form.valid && this.selectedCity) {
-            const address: Address = this.form.getRawValue();
-            address.cityId = this.selectedCity.id;
+        if (this.form.valid ) {
+            const address : Address = this.form.getRawValue();
 
             this.addressProvider.create(address).subscribe({
                 next: () => {

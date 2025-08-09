@@ -4,6 +4,7 @@ import com.beco.api.config.sse.SseEventMessage;
 import com.beco.api.config.sse.SseService;
 import com.beco.api.controller.AbstractCrudController;
 import com.beco.api.model.dto.OrderDto;
+import com.beco.api.model.dto.PostOrderDto;
 import com.beco.api.model.entity.Order;
 import com.beco.api.service.AbstractCrudService;
 import com.beco.api.service.object.OrderService;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/orders")
 @CrossOrigin(origins = "http://localhost:4200")
-public class OrderController extends AbstractCrudController<Order, OrderDto, OrderDto, UUID> {
+public class OrderController extends AbstractCrudController<Order, OrderDto, PostOrderDto, UUID> {
 
     private final OrderService orderService;
 
@@ -29,6 +30,7 @@ public class OrderController extends AbstractCrudController<Order, OrderDto, Ord
         this.orderService = orderService;
     }
 
+    /*
     @PostMapping(value = "/with-file", consumes = "multipart/form-data")
     public ResponseEntity<OrderDto> createWithFile(
             @RequestPart("order") OrderDto orderDto,
@@ -43,9 +45,11 @@ public class OrderController extends AbstractCrudController<Order, OrderDto, Ord
         return ResponseEntity.ok(createdOrder);
     }
 
+     */
+
 
     @Override
-    protected AbstractCrudService<Order, OrderDto, OrderDto, UUID> getService() {
+    protected AbstractCrudService<Order, OrderDto, PostOrderDto, UUID> getService() {
 
         return orderService;
     }

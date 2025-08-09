@@ -3,6 +3,7 @@ package com.beco.api.controller.object;
 import com.beco.api.config.sse.SseService;
 import com.beco.api.controller.AbstractCrudController;
 import com.beco.api.model.dto.CompanyDto;
+import com.beco.api.model.dto.PostCompanyDto;
 import com.beco.api.model.entity.Company;
 import com.beco.api.service.AbstractCrudService;
 import com.beco.api.service.object.CompanyService;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/companies")
 @CrossOrigin(origins = "http://localhost:4200")
-public class CompanyController extends AbstractCrudController<Company, CompanyDto, CompanyDto, UUID> {
+public class CompanyController extends AbstractCrudController<Company, CompanyDto, PostCompanyDto, UUID> {
 
     private final CompanyService service;
 
@@ -28,7 +29,7 @@ public class CompanyController extends AbstractCrudController<Company, CompanyDt
     }
 
     @Override
-    protected AbstractCrudService<Company, CompanyDto, CompanyDto, UUID> getService() {
+    protected AbstractCrudService<Company, CompanyDto, PostCompanyDto, UUID> getService() {
 
         return service;
     }

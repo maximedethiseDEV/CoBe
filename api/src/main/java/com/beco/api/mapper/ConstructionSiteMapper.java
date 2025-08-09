@@ -1,6 +1,7 @@
 package com.beco.api.mapper;
 
 import com.beco.api.model.dto.ConstructionSiteDto;
+import com.beco.api.model.dto.PostConstructionSiteDto;
 import com.beco.api.model.entity.ConstructionSite;
 import org.mapstruct.*;
 
@@ -15,8 +16,8 @@ public interface ConstructionSiteMapper {
     @Mapping(source = "customerId", target = "customer.id")
     @Mapping(source = "addressId", target = "address.id")
     @Mapping(source = "sharedDetailsId", target = "sharedDetails.id")
-    ConstructionSite toEntity(ConstructionSiteDto dto);
+    ConstructionSite toEntity(PostConstructionSiteDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateConstructionSiteFromDto(ConstructionSiteDto dto, @MappingTarget ConstructionSite entity);
+    void updateConstructionSiteFromDto(PostConstructionSiteDto dto, @MappingTarget ConstructionSite entity);
 }

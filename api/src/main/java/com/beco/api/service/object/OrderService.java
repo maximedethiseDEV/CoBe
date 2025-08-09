@@ -1,9 +1,7 @@
 package com.beco.api.service.object;
 
 import com.beco.api.mapper.OrderMapper;
-import com.beco.api.model.dto.DeliveryDto;
-import com.beco.api.model.dto.DeliveryStatusDto;
-import com.beco.api.model.dto.OrderDto;
+import com.beco.api.model.dto.*;
 import com.beco.api.model.entity.DeliveryStatusEnum;
 import com.beco.api.model.entity.Order;
 import com.beco.api.repository.OrderRepository;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @CacheConfig(cacheNames = "orders")
-public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto, UUID> {
+public class OrderService extends AbstractCrudService<Order, OrderDto, PostOrderDto, UUID> {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
@@ -44,13 +42,15 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         this.deliveryService = deliveryService;
     }
 
+    // TODO Refactoring
+    /*
     @Transactional
-    public OrderDto create(OrderDto dto, MultipartFile file) {
+    public OrderDto create(PostOrderDto dto, MultipartFile file) {
 
-        OrderDto savedOrderDto = super.create(dto);
+        PostOrderDto savedOrderDto = super.create(dto);
 
         // Générer une livraison à partir de la commande créée
-        DeliveryDto deliveryDto = new DeliveryDto();
+        PostDeliveryDto deliveryDto = new PostDeliveryDto();
 
         // Associer la commande à la livraison
         deliveryDto.setOrderId(savedOrderDto.getId());
@@ -68,8 +68,10 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, OrderDto,
         return savedOrderDto;
     }
 
+     */
+
     @Override
-    protected boolean dataValidatorControl(OrderDto dto) {
+    protected boolean dataValidatorControl(PostOrderDto dto) {
         Boolean isValid = true;
 
 

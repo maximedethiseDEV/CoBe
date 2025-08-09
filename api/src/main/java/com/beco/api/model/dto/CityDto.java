@@ -7,9 +7,9 @@ import java.util.UUID;
 @Data
 public class CityDto extends AbstractDto {
 
+    private String cityName;
     private String postalCode;
 
-    private String cityName;
-
     private UUID countryId;
+    private String countryCode;
 }

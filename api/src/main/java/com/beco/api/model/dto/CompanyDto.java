@@ -2,7 +2,6 @@ package com.beco.api.model.dto;
 
 import lombok.Data;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Data
@@ -15,6 +14,9 @@ public class CompanyDto extends AbstractDto {
     private UUID contactId;
 
     private UUID addressId;
+    private String cityName;
+    private String postalCode;
+    private String countryCode;
 
     private UUID sharedDetailsId;
 

@@ -2,6 +2,7 @@ package com.beco.api.service.object;
 
 import com.beco.api.mapper.MaterialSupplierMapper;
 import com.beco.api.model.dto.MaterialSupplierDto;
+import com.beco.api.model.dto.PostMaterialSupplierDto;
 import com.beco.api.model.entity.MaterialSupplier;
 import com.beco.api.repository.MaterialSupplierRepository;
 import com.beco.api.service.AbstractCrudService;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "material-suppliers")
-public class MaterialSupplierService extends AbstractCrudService<MaterialSupplier, MaterialSupplierDto, MaterialSupplierDto, UUID> {
+public class MaterialSupplierService extends AbstractCrudService<MaterialSupplier, MaterialSupplierDto, PostMaterialSupplierDto, UUID> {
 
     private final MaterialSupplierRepository repository;
     private final MaterialSupplierMapper mapper;
@@ -35,7 +36,7 @@ public class MaterialSupplierService extends AbstractCrudService<MaterialSupplie
     }
 
     @Override
-    protected boolean dataValidatorControl(MaterialSupplierDto dto) { return true; }
+    protected boolean dataValidatorControl(PostMaterialSupplierDto dto) { return true; }
 
     @Override
     protected String getEntityName() {

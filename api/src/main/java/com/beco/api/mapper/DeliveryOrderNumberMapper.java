@@ -1,6 +1,7 @@
 package com.beco.api.mapper;
 
 import com.beco.api.model.dto.DeliveryOrderNumberDto;
+import com.beco.api.model.dto.PostDeliveryOrderNumberDto;
 import com.beco.api.model.entity.DeliveryOrderNumber;
 import org.mapstruct.*;
 
@@ -17,8 +18,8 @@ public interface DeliveryOrderNumberMapper {
     @Mapping(source = "customerId", target = "customer.id")
     @Mapping(source = "cityId", target = "city.id")
     @Mapping(source = "productId", target = "product.id")
-    DeliveryOrderNumber toEntity(DeliveryOrderNumberDto dto);
+    DeliveryOrderNumber toEntity(PostDeliveryOrderNumberDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateDeliveryOrderNumberFromDto(DeliveryOrderNumberDto dto, @MappingTarget DeliveryOrderNumber entity);
+    void updateDeliveryOrderNumberFromDto(PostDeliveryOrderNumberDto dto, @MappingTarget DeliveryOrderNumber entity);
 }

@@ -1,21 +1,54 @@
 package com.beco.api.mapper;
 
 import com.beco.api.model.dto.CompanyDto;
+import com.beco.api.model.dto.PostCompanyDto;
+import com.beco.api.model.entity.Address;
 import com.beco.api.model.entity.Company;
+import com.beco.api.model.entity.Contact;
+import com.beco.api.model.entity.SharedDetails;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", uses = {ContactMapper.class, AddressMapper.class})
+import java.util.UUID;
+
+@Mapper(componentModel = "spring", uses = {ContactMapper.class, AddressMapper.class, SharedDetailsMapper.class})
 public interface CompanyMapper {
     @Mapping(source = "contact.id", target = "contactId")
     @Mapping(source = "address.id", target = "addressId")
+    @Mapping(source = "address.city.cityName", target = "cityName")
+    @Mapping(source = "address.city.postalCode", target = "postalCode")
+    @Mapping(source = "address.city.country.countryCode", target = "countryCode")
     @Mapping(source = "sharedDetails.id", target = "sharedDetailsId")
     CompanyDto toDto(Company entity);
 
-    @Mapping(source = "contactId", target = "contact.id")
-    @Mapping(source = "addressId", target = "address.id")
-    @Mapping(source = "sharedDetailsId", target = "sharedDetails.id")
-    Company toEntity(CompanyDto dto);
+    @Mapping(source = "contactId", target = "contact", qualifiedByName = "mapContactIdToContact")
+    @Mapping(source = "addressId", target = "address", qualifiedByName = "mapAddressIdToAddress")
+    @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
+    Company toEntity(PostCompanyDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateCompanyFromDto(CompanyDto dto, @MappingTarget Company entity);
+    void updateCompanyFromDto(PostCompanyDto dto, @MappingTarget Company company);
+
+    @Named("mapContactIdToContact")
+    default Contact mapContactIdToContact(UUID id) {
+        if (id == null) return null;
+        Contact c = new Contact();
+        c.setId(id);
+        return c;
+    }
+
+    @Named("mapAddressIdToAddress")
+    default Address mapAddressIdToAddress(UUID id) {
+        if (id == null) return null;
+        Address a = new Address();
+        a.setId(id);
+        return a;
+    }
+
+    @Named("mapSharedDetailsIdToSharedDetails")
+    default SharedDetails mapSharedDetailsIdToSharedDetails(UUID id) {
+        if (id == null) return null;
+        SharedDetails s = new SharedDetails();
+        s.setId(id);
+        return s;
+    }
 }

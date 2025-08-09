@@ -12,10 +12,10 @@ import java.util.UUID;
 @Table(name = "address")
 public class Address extends AbstractEntity {
 
+    @Column(name = "street", nullable = false)
+    private String street;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
-
-    @Column(name = "street", nullable = false)
-    private String street;
 }

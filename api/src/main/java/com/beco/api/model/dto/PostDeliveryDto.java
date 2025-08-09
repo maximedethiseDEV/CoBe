@@ -1,0 +1,24 @@
+package com.beco.api.model.dto;
+
+import lombok.Data;
+
+import java.time.Instant;
+import java.util.UUID;
+
+@Data
+public class PostDeliveryDto extends AbstractDto {
+
+    private UUID orderId;
+
+    private UUID transportSupplierId;
+
+    private UUID deliveryOrderNumberId;
+
+    private Integer statusId;
+
+    private Integer quantity;
+
+    private Instant actualDeliveryBegin;
+
+    private Instant actualDeliveryEnd;
+}

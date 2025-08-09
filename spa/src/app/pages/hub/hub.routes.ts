@@ -5,6 +5,7 @@ import {countryRoutes} from '@pages/country/country.routes';
 import {cityRoutes} from '@pages/city/city.routes';
 import {addressRoutes} from '@pages/address/address.routes';
 import {sharedDetailsRoutes} from '@pages/shared-details/shared-details.routes';
+import {companyRoutes} from '@pages/company/company.routes';
 
 export const hubRoutes: Routes = [
     {
@@ -29,7 +30,8 @@ export const hubRoutes: Routes = [
             ...countryRoutes,
             ...cityRoutes,
             ...addressRoutes,
-            ...sharedDetailsRoutes
+            ...sharedDetailsRoutes,
+            ...companyRoutes,
         ]
     }
 ];

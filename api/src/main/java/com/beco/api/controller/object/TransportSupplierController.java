@@ -2,6 +2,7 @@ package com.beco.api.controller.object;
 
 import com.beco.api.config.sse.SseService;
 import com.beco.api.controller.AbstractCrudController;
+import com.beco.api.model.dto.PostTransportSupplierDto;
 import com.beco.api.model.dto.TransportSupplierDto;
 import com.beco.api.model.entity.TransportSupplier;
 import com.beco.api.service.AbstractCrudService;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/transport-suppliers")
 @CrossOrigin(origins = "http://localhost:4200")
-public class TransportSupplierController extends AbstractCrudController<TransportSupplier, TransportSupplierDto, TransportSupplierDto, UUID> {
+public class TransportSupplierController extends AbstractCrudController<TransportSupplier, TransportSupplierDto, PostTransportSupplierDto, UUID> {
 
     private final TransportSupplierService service;
 
@@ -28,7 +29,7 @@ public class TransportSupplierController extends AbstractCrudController<Transpor
     }
 
     @Override
-    protected AbstractCrudService<TransportSupplier, TransportSupplierDto, TransportSupplierDto, UUID> getService() {
+    protected AbstractCrudService<TransportSupplier, TransportSupplierDto, PostTransportSupplierDto, UUID> getService() {
 
         return service;
     }

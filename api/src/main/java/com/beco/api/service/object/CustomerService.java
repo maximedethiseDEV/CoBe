@@ -2,6 +2,7 @@ package com.beco.api.service.object;
 
 import com.beco.api.mapper.CustomerMapper;
 import com.beco.api.model.dto.CustomerDto;
+import com.beco.api.model.dto.PostCustomerDto;
 import com.beco.api.model.entity.Customer;
 import com.beco.api.repository.CustomerRepository;
 import com.beco.api.service.AbstractCrudService;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "customers")
-public class CustomerService extends AbstractCrudService<Customer, CustomerDto, CustomerDto, UUID> {
+public class CustomerService extends AbstractCrudService<Customer, CustomerDto, PostCustomerDto, UUID> {
 
     private final CustomerRepository repository;
     private final CustomerMapper mapper;
@@ -37,7 +38,7 @@ public class CustomerService extends AbstractCrudService<Customer, CustomerDto, 
     }
 
     @Override
-    protected boolean dataValidatorControl(CustomerDto dto) {
+    protected boolean dataValidatorControl(PostCustomerDto dto) {
         return true;
     }
 

@@ -1,6 +1,7 @@
 package com.beco.api.mapper;
 
 import com.beco.api.model.dto.MaterialSupplierDto;
+import com.beco.api.model.dto.PostMaterialSupplierDto;
 import com.beco.api.model.entity.MaterialSupplier;
 import org.mapstruct.*;
 
@@ -17,8 +18,8 @@ public interface MaterialSupplierMapper {
     @Mapping(source = "contactId", target = "contact.id")
     @Mapping(source = "addressId", target = "address.id")
     @Mapping(source = "sharedDetailsId", target = "sharedDetails.id")
-    MaterialSupplier toEntity(MaterialSupplierDto dto);
+    MaterialSupplier toEntity(PostMaterialSupplierDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateMaterialSupplierFromDto(MaterialSupplierDto dto, @MappingTarget MaterialSupplier entity);
+    void updateMaterialSupplierFromDto(PostMaterialSupplierDto dto, @MappingTarget MaterialSupplier entity);
 }

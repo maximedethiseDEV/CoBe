@@ -1,10 +1,9 @@
 package com.beco.api.mapper;
 
 import com.beco.api.model.dto.CustomerDto;
+import com.beco.api.model.dto.PostCustomerDto;
 import com.beco.api.model.entity.Customer;
 import org.mapstruct.*;
-
-import java.time.LocalDate;
 
 @Mapper(componentModel = "spring", uses = {CompanyMapper.class, ContactMapper.class})
 public interface CustomerMapper {
@@ -19,8 +18,8 @@ public interface CustomerMapper {
     @Mapping(source = "contactId", target = "contact.id")
     @Mapping(source = "sharedDetailsId", target = "sharedDetails.id")
     @Mapping(source = "parentId", target = "parent.id")
-    Customer toEntity(CustomerDto dto);
+    Customer toEntity(PostCustomerDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateCustomerFromDto(CustomerDto dto, @MappingTarget Customer entity);
+    void updateCustomerFromDto(PostCustomerDto dto, @MappingTarget Customer entity);
 }

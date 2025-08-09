@@ -62,8 +62,12 @@ export class ContactTableComponent extends BaseTableComponent implements OnInit 
                 this.entities = response.content;
                 this.totalElements = response.totalElements;
             },
-            error: (error: Error) => {
-                console.error('Erreur lors du chargement des contacts:', error);
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les données'
+                });
                 this.loading = false;
             },
             complete: () => {
@@ -83,8 +87,12 @@ export class ContactTableComponent extends BaseTableComponent implements OnInit 
                     life: 2000
                 });
             },
-            error: (error: Error) => {
-                console.error('Erreur lors de la suppression du contact :', error);
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de supprimer les données'
+                });
             }
         });
     }

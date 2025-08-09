@@ -1,5 +1,12 @@
 import {Component, ElementRef, inject, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+    AbstractControl,
+    FormControl,
+    FormGroup,
+    ReactiveFormsModule,
+    ValidationErrors, ValidatorFn,
+    Validators
+} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {FileUploaderComponent, BaseCreateComponent} from '@core/components';
 import {SharedDetailsProvider} from '@core/providers';
@@ -16,16 +23,21 @@ import {SharedDetailsProvider} from '@core/providers';
 export class SharedDetailsCreateComponent extends BaseCreateComponent {
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
     public featurePath: string = 'shared-details';
-    public labelHeader: string = 'Nouveau détail';
+    public labelHeader: string = 'Nouveau détail de livraison';
 
     @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
     public override generateForm(): FormGroup {
-        return new FormGroup({
+        return new FormGroup(
+            {
             id: new FormControl(),
             fileName: new FormControl<File | null>(null),
             notes: new FormControl('', [Validators.maxLength(250)])
-        });
+            },
+            {
+            validators: this.atLeastOneRequiredValidator('fileName', 'notes')
+            }
+        );
     }
 
     public create(): void {
@@ -56,5 +68,18 @@ export class SharedDetailsCreateComponent extends BaseCreateComponent {
 
     onAttachmentSelected(file: File | null) {
         this.form.get('fileName')?.setValue(file);
+    }
+
+    atLeastOneRequiredValidator(field1: string, field2: string): ValidatorFn {
+        return (group: AbstractControl): ValidationErrors | null => {
+            const value1 = group.get(field1)?.value;
+            const value2 = group.get(field2)?.value;
+
+            if ((value1 && value1 !== '') || (value2 && value2 !== '')) {
+                return null; // valide
+            }
+
+            return { atLeastOneRequired: true };
+        };
     }
 }

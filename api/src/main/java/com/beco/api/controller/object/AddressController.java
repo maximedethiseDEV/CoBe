@@ -2,7 +2,7 @@ package com.beco.api.controller.object;
 
 import com.beco.api.config.sse.SseService;
 import com.beco.api.controller.AbstractCrudController;
-import com.beco.api.model.dto.GetAddressDto;
+import com.beco.api.model.dto.AddressDto;
 import com.beco.api.model.dto.PostAddressDto;
 import com.beco.api.model.entity.Address;
 import com.beco.api.service.AbstractCrudService;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/addresses")
 @CrossOrigin(origins = "http://localhost:4200")
-public class AddressController extends AbstractCrudController<Address, GetAddressDto, PostAddressDto, UUID> {
+public class AddressController extends AbstractCrudController<Address, AddressDto, PostAddressDto, UUID> {
 
     private final AddressService service;
 
@@ -27,7 +27,7 @@ public class AddressController extends AbstractCrudController<Address, GetAddres
     }
 
     @Override
-    protected AbstractCrudService<Address, GetAddressDto, PostAddressDto, UUID> getService() {
+    protected AbstractCrudService<Address, AddressDto, PostAddressDto, UUID> getService() {
 
         return service;
     }

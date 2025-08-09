@@ -1,6 +1,7 @@
 package com.beco.api.service.object;
 
 import com.beco.api.mapper.TransportSupplierMapper;
+import com.beco.api.model.dto.PostTransportSupplierDto;
 import com.beco.api.model.dto.TransportSupplierDto;
 import com.beco.api.model.entity.TransportSupplier;
 import com.beco.api.repository.TransportSupplierRepository;
@@ -9,12 +10,11 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "transport-suppliers")
-public class TransportSupplierService extends AbstractCrudService<TransportSupplier, TransportSupplierDto, TransportSupplierDto, UUID> {
+public class TransportSupplierService extends AbstractCrudService<TransportSupplier, TransportSupplierDto, PostTransportSupplierDto, UUID> {
 
     private final TransportSupplierRepository repository;
     private final TransportSupplierMapper mapper;
@@ -36,7 +36,7 @@ public class TransportSupplierService extends AbstractCrudService<TransportSuppl
     }
 
     @Override
-    protected boolean dataValidatorControl(TransportSupplierDto dto) { return true; }
+    protected boolean dataValidatorControl(PostTransportSupplierDto dto) { return true; }
 
     @Override
     protected String getEntityName() {

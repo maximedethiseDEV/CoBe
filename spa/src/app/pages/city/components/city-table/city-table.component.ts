@@ -16,13 +16,11 @@ import {Pagination, TableColumn} from '@core/types';
 })
 export class CityTableComponent extends BaseTableComponent implements OnInit {
     private cityProvider: CityProvider = inject(CityProvider);
-    private countryProvider: CountryProvider = inject(CountryProvider);
-    private countries: Country[] = [];
     public entityName: string = 'city';
     public filterFields: string[] = [
         'cityName',
         'postalCode',
-        'countryName'
+        'countryCode'
     ];
     public tableColumns: TableColumn[] = [
         {
@@ -36,7 +34,7 @@ export class CityTableComponent extends BaseTableComponent implements OnInit {
             sort: true
         },
         {
-            key: 'countryName',
+            key: 'countryCode',
             translate: 'Pays'
         }
     ];
@@ -52,32 +50,19 @@ export class CityTableComponent extends BaseTableComponent implements OnInit {
             next: (response: Pagination<City>) => {
                 this.entities = response.content;
                 this.totalElements = response.totalElements;
-
-                this.loadCountries();
             },
-            error: (error: Error) => {
-                console.error('Erreur lors du chargement des contacts:', error);
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les données'
+                });
                 this.loading = false;
             },
             complete: () => {
                 this.loading = false;
             }
         })
-    }
-
-    private loadCountries(): void {
-        this.countryProvider.getAll().subscribe({
-            next: (response: Pagination<Country>) => {
-                this.countries = response.content;
-
-                for (const city of this.entities as City[]) {
-                    const country: Country|undefined = this.countries.find((country: Country) => country.id === city.countryId);
-                    city.countryName = country?.countryName || '';
-                }
-            },
-            error: (error: Error) => {},
-            complete: () => {}
-        });
     }
 
     protected override deleteEntity(city: City): void {

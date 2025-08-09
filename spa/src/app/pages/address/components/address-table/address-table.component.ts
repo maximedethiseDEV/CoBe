@@ -2,10 +2,9 @@ import {Component, inject, OnInit} from '@angular/core';
 import {BaseTableComponent} from '@core/components';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
-import {AddressProvider, CityProvider, CountryProvider} from '@core/providers';
+import {AddressProvider} from '@core/providers';
 import {Address} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
-import {zip, map} from 'rxjs';
 
 @Component({
     selector: 'app-address-table',
@@ -17,8 +16,6 @@ import {zip, map} from 'rxjs';
 })
 export class AddressTableComponent extends BaseTableComponent implements OnInit {
     private addressProvider: AddressProvider = inject(AddressProvider);
-    private cityProvider: CityProvider = inject(CityProvider);
-    private countryProvider: CountryProvider = inject(CountryProvider);
     public entityName: string = 'address';
     public filterFields: string[] = [
         'street',
@@ -56,44 +53,17 @@ export class AddressTableComponent extends BaseTableComponent implements OnInit 
     public loadEntities(params?: any) {
         this.loading = true;
 
-        zip(
-            this.addressProvider.getAll(params),
-            this.cityProvider.getAll(),
-            this.countryProvider.getAll()
-        ).pipe(
-            map(([addressesResponse, citiesResponse, countriesResponse]) : Pagination<Address> => {
-                const countryMapping = new Map(
-                    countriesResponse.content.map(country => [
-                        country.id,
-                        country.countryCode
-                    ])
-                );
-                const cityMapping = new Map(
-                    citiesResponse.content.map(city => [
-                        city.id,
-                        {
-                            cityName: city.cityName,
-                            postalCode: city.postalCode,
-                            countryCode: countryMapping.get(city.countryId)
-                        }
-                    ])
-                );
-
-                return {
-                    ...addressesResponse,
-                    content: addressesResponse.content.map(address => ({
-                        ...address,
-                        ...cityMapping.get(address.cityId)
-                    }))
-                };
-            })
-        ).subscribe({
+        this.addressProvider.getAll(params).subscribe({
             next: (response: Pagination<Address>) => {
                 this.entities = response.content;
                 this.totalElements = response.totalElements;
             },
             error: (error: Error) => {
-                console.error('Erreur lors du chargement des données des addresses:', error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erreur',
+                    detail: 'Impossible de charger les données'
+                });
                 this.loading = false;
             },
             complete: () => {

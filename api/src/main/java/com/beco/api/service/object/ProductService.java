@@ -1,6 +1,7 @@
 package com.beco.api.service.object;
 
 import com.beco.api.mapper.ProductMapper;
+import com.beco.api.model.dto.PostProductDto;
 import com.beco.api.model.dto.ProductDto;
 import com.beco.api.model.entity.Product;
 import com.beco.api.repository.ProductRepository;
@@ -9,12 +10,11 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "products")
-public class ProductService extends AbstractCrudService<Product, ProductDto, ProductDto, UUID> {
+public class ProductService extends AbstractCrudService<Product, ProductDto, PostProductDto, UUID> {
 
     private final ProductRepository repository;
     private final ProductMapper mapper;
@@ -37,7 +37,7 @@ public class ProductService extends AbstractCrudService<Product, ProductDto, Pro
     }
 
     @Override
-    protected boolean dataValidatorControl(ProductDto dto) {
+    protected boolean dataValidatorControl(PostProductDto dto) {
         return true;
     }
 

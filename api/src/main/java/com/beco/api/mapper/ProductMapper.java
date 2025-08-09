@@ -1,5 +1,6 @@
 package com.beco.api.mapper;
 
+import com.beco.api.model.dto.PostProductDto;
 import com.beco.api.model.dto.ProductDto;
 import com.beco.api.model.entity.Product;
 import org.mapstruct.*;
@@ -13,8 +14,8 @@ public interface ProductMapper {
 
     @Mapping(source = "materialSupplierId", target = "materialSupplier.id")
     @Mapping(source = "sharedDetailsId", target = "sharedDetails.id")
-    Product toEntity(ProductDto dto);
+    Product toEntity(PostProductDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateProductFromDto(ProductDto dto, @MappingTarget Product entity);
+    void updateProductFromDto(PostProductDto dto, @MappingTarget Product entity);
 }

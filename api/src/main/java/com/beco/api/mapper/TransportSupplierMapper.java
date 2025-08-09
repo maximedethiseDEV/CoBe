@@ -1,5 +1,6 @@
 package com.beco.api.mapper;
 
+import com.beco.api.model.dto.PostTransportSupplierDto;
 import com.beco.api.model.dto.TransportSupplierDto;
 import com.beco.api.model.entity.TransportSupplier;
 import org.mapstruct.*;
@@ -11,8 +12,8 @@ public interface TransportSupplierMapper {
     TransportSupplierDto toDto(TransportSupplier entity);
 
     @Mapping(source = "companyId", target = "company.id")
-    TransportSupplier toEntity(TransportSupplierDto dto);
+    TransportSupplier toEntity(PostTransportSupplierDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateTransportSupplierFromDto(TransportSupplierDto dto, @MappingTarget TransportSupplier entity);
+    void updateTransportSupplierFromDto(PostTransportSupplierDto dto, @MappingTarget TransportSupplier entity);
 }

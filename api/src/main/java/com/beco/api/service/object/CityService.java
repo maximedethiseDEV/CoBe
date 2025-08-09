@@ -1,35 +1,28 @@
 package com.beco.api.service.object;
 
 import com.beco.api.mapper.CityMapper;
-import com.beco.api.mapper.CountryMapper;
 import com.beco.api.model.dto.CityDto;
-import com.beco.api.model.dto.CountryDto;
+import com.beco.api.model.dto.PostCityDto;
 import com.beco.api.model.entity.City;
-import com.beco.api.model.entity.Country;
 import com.beco.api.repository.CityRepository;
-import com.beco.api.repository.CountryRepository;
 import com.beco.api.service.AbstractCrudService;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
 @CacheConfig(cacheNames = "cities")
-public class CityService extends AbstractCrudService<City, CityDto, CityDto, UUID> {
+public class CityService extends AbstractCrudService<City, CityDto, PostCityDto, UUID> {
 
     private final CityRepository repository;
     private final CityMapper mapper;
-    private final CountryRepository countryRepository;
-    private final CountryMapper countryMapper;
 
     public CityService(
             CityRepository repository,
             CacheManager cacheManager,
-            CityMapper mapper,
-            CountryRepository countryRepository, CountryMapper countryMapper
+            CityMapper mapper
     ) {
         super(
                 repository,
@@ -41,12 +34,10 @@ public class CityService extends AbstractCrudService<City, CityDto, CityDto, UUI
         );
         this.repository = repository;
         this.mapper = mapper;
-        this.countryRepository = countryRepository;
-        this.countryMapper = countryMapper;
     }
 
     @Override
-    protected boolean dataValidatorControl(CityDto dto) {
+    protected boolean dataValidatorControl(PostCityDto dto) {
         return true;
     }
 
