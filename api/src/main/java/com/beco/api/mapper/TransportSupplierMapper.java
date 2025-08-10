@@ -9,6 +9,10 @@ import org.mapstruct.*;
 public interface TransportSupplierMapper {
 
     @Mapping(source = "company.id", target = "companyId")
+    @Mapping(source = "company.companyName", target = "companyName")
+    @Mapping(source = "company.address.city.cityName", target = "cityName")
+    @Mapping(source = "company.address.city.postalCode", target = "postalCode")
+    @Mapping(source = "company.address.city.country.countryCode", target = "countryCode")
     TransportSupplierDto toDto(TransportSupplier entity);
 
     @Mapping(source = "companyId", target = "company.id")

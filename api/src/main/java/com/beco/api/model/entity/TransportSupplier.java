@@ -13,7 +13,7 @@ import java.util.UUID;
 public class TransportSupplier extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id", nullable = false)
+    @JoinColumn(name = "company_id", nullable = false, unique = true)
     private Company company;
 
     @Column(name = "license_number")

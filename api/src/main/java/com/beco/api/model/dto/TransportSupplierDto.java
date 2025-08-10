@@ -9,6 +9,11 @@ import java.util.UUID;
 public class TransportSupplierDto extends AbstractDto {
 
     private UUID companyId;
+    private String companyName;
+    private UUID parentId;
+    private String cityName;
+    private String postalCode;
+    private String countryCode;
 
     private String license;
 }

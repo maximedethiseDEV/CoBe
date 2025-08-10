@@ -1,0 +1,34 @@
+import {Routes} from '@angular/router';
+import {
+    AddressesResolver,
+    CompaniesResolver, ContactsResolver, SharedAllDetailsResolver,
+} from '@core/resolvers';
+import {TransportSupplierResolver} from '@core/resolvers/transport-supplier.resolver';
+
+export const transportSupplierRoutes: Routes = [
+    {
+        path: 'transport-suppliers',
+        loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        children: [
+            {
+                path: '',
+                loadComponent: () => import('@pages/transport-supplier/components/transport-supplier-table/transport-supplier-table.component').then(component => component.TransportSupplierTableComponent)
+            },
+            {
+                path: 'create',
+                loadComponent: () => import('@pages/transport-supplier/components/transport-supplier-create/transport-supplier-create.component').then(component => component.TransportSupplierCreateComponent),
+                resolve: {
+                    companies: CompaniesResolver,
+                }
+            },
+            {
+                path: 'update/:entityId',
+                loadComponent: () => import('@pages/transport-supplier/components/transport-supplier-update/transport-supplier-update.component').then(component => component.TransportSupplierUpdateComponent),
+                resolve: {
+                    entity: TransportSupplierResolver,
+                    companies: CompaniesResolver,
+                }
+            }
+        ]
+    }
+];
