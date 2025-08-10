@@ -12,6 +12,7 @@ import {constructionSiteRoutes} from '@pages/construction-site/construction-site
 import {productRoutes} from '@pages/product/product.routes';
 import {transportSupplierRoutes} from '@pages/transport-supplier/transport-supplier.routes';
 import {deliveryOrderNumberRoutes} from '@pages/delivery-order-number/delivery-order-number.routes';
+import {purchaseOrderRoutes} from '@pages/purchase-order/purchase-order.routes';
 
 export const hubRoutes: Routes = [
     {
@@ -43,7 +44,8 @@ export const hubRoutes: Routes = [
             ...constructionSiteRoutes,
             ...productRoutes,
             ...transportSupplierRoutes,
-            ...deliveryOrderNumberRoutes
+            ...deliveryOrderNumberRoutes,
+            ...purchaseOrderRoutes
         ]
     }
 ];

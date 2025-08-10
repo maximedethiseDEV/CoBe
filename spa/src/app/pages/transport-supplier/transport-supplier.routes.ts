@@ -1,8 +1,5 @@
 import {Routes} from '@angular/router';
-import {
-    AddressesResolver,
-    CompaniesResolver, ContactsResolver, SharedAllDetailsResolver,
-} from '@core/resolvers';
+import {CompaniesResolver} from '@core/resolvers';
 import {TransportSupplierResolver} from '@core/resolvers/transport-supplier.resolver';
 
 export const transportSupplierRoutes: Routes = [

@@ -19,7 +19,7 @@ export const MenuList: MenuItem[] = [
             {
                 label: 'Commandes',
                 icon: LucideIconsList.Package,
-                link: 'orders'
+                link: 'purchase-orders'
             },
             {
                 label: 'Détails de livraison',

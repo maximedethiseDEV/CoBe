@@ -47,4 +47,12 @@ interface BaseMapper {
         customer.setId(id);
         return customer;
     }
+
+    @Named("mapConstructionSiteIdToConstructionSite")
+    default ConstructionSite mapConstructionSiteIdToConstructionSite(UUID id) {
+        if (id == null) return null;
+        ConstructionSite constructionSite = new ConstructionSite();
+        constructionSite.setId(id);
+        return constructionSite;
+    }
 }

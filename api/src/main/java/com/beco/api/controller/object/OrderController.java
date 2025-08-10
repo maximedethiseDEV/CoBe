@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/purchase-orders")
 @CrossOrigin(origins = "http://localhost:4200")
 public class OrderController extends AbstractCrudController<Order, OrderDto, PostOrderDto, UUID> {
 

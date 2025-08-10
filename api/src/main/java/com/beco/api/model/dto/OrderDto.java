@@ -11,19 +11,29 @@ import java.util.UUID;
 @Data
 public class OrderDto extends AbstractDto {
 
-    private UUID billingCustomerId;
-
-    private UUID deliveryCustomerId;
-
-    private UUID constructionSiteId;
-
-    private UUID productId;
-
-    private UUID sharedDetailsId;
-
     private Instant requestedDeliveryBegin;
 
     private Instant requestedDeliveryEnd;
 
     private Integer quantityOrdered;
+
+    private UUID billingCustomerId;
+        private String billingCustomerName;
+
+    private UUID deliveryCustomerId;
+        private String deliveryCustomerName;
+
+    private UUID constructionSiteId;
+        private String constructionSiteCustomerName;
+        private String constructionSiteStreet;
+        private String constructionSiteCityName;
+        private String constructionSitePostalCode;
+        private String constructionSiteCountryCode;
+
+    private UUID productId;
+        private String code;
+        private String name;
+        private String materialSupplierName;
+
+    private UUID sharedDetailsId;
 }

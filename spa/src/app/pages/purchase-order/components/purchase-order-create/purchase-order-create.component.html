@@ -1,0 +1,146 @@
+<div class="flex-1 h-screen overflow-y-auto">
+    <div class="flex-1 px-2">
+        <div class="sm:mx-auto sm:w-full">
+            <h2 class="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight text-gray-900">
+                <i-lucide [img]="iconHeader" class="size-8"></i-lucide>
+                {{ labelHeader }}
+            </h2>
+        </div>
+
+        <div class="mt-6 flex-1">
+            <form [formGroup]="form" (ngSubmit)="create()" class="space-y-8">
+                <div class="space-y-4">
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="billingCustomer" class="block text-sm font-medium text-gray-700">
+                            Donneur d'ordre
+                        </label>
+                        <select
+                            id="billingCustomer"
+                            formControlName="billingCustomerId"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            @for (customer of customers; track customer.id) {
+                                <option [ngValue]="customer.id">
+                                    {{ customer.companyName }}
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="deliveryCustomer" class="block text-sm font-medium text-gray-700">
+                            Client à livrer
+                        </label>
+                        <select
+                            id="deliveryCustomer"
+                            formControlName="deliveryCustomerId"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            @for (customer of customers; track customer.id) {
+                                <option [ngValue]="customer.id">
+                                    {{ customer.companyName }}
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="constructionSite" class="block text-sm font-medium text-gray-700">
+                            Chantier
+                        </label>
+                        <select
+                            id="constructionSite"
+                            formControlName="constructionSiteId"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            @for (constructionSite of constructionSites; track constructionSite.id) {
+                                <option [ngValue]="constructionSite.id">
+                                    {{ constructionSite.companyName }} {{ constructionSite.street}} {{ constructionSite.cityName }} ({{ constructionSite.postalCode }}) - {{ constructionSite.countryCode }}
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="requestedDeliveryBegin" class="block text-sm font-medium text-gray-700">
+                            Début de livraison souhaité
+                        </label>
+                        <input
+                            id="requestedDeliveryBegin"
+                            type="date"
+                            formControlName="requestedDeliveryBegin"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="requestedDeliveryEnd" class="block text-sm font-medium text-gray-700">
+                            Fin de livraison souhaité
+                        </label>
+                        <input
+                            id="requestedDeliveryEnd"
+                            type="date"
+                            formControlName="requestedDeliveryEnd"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="quantityOrdered" class="block text-sm font-medium text-gray-700">
+                            Quantité
+                        </label>
+                        <input
+                            id="quantityOrdered"
+                            type="number"
+                            formControlName="quantityOrdered"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="product" class="block text-sm font-medium text-gray-700">
+                            Produit
+                        </label>
+                        <select
+                            id="product"
+                            formControlName="productId"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            @for (product of products; track product.id) {
+                                <option [ngValue]="product.id">
+                                    {{ product.code }} - {{ product.name}}
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <label for="sharedDetail" class="block text-sm font-medium text-gray-700">
+                            Détails
+                        </label>
+                        <select
+                            id="sharedDetail"
+                            formControlName="sharedDetailsId"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            @for (sharedDetail of sharedDetails; track sharedDetail.id) {
+                                <option [ngValue]="sharedDetail.id">
+                                    {{ sharedDetail.fileName}} {{ sharedDetail.notes}}
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit"
+                            [disabled]="form.invalid"
+                            class="mt-4 mr-2 rounded-md bg-green-600 px-4 py-2 text-white font-semibold shadow hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 disabled:opacity-50 cursor-pointer">
+                        <i-lucide [img]="iconsList.Save" class="size-6"></i-lucide>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

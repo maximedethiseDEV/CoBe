@@ -31,7 +31,7 @@ public class Order extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "construction_site_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    private Address constructionSite;
+    private ConstructionSite constructionSite;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
