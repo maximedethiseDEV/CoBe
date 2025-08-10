@@ -9,9 +9,13 @@ import org.mapstruct.*;
 public interface DeliveryOrderNumberMapper {
 
     @Mapping(source = "transportSupplier.id", target = "transportSupplierId")
+    @Mapping(source = "transportSupplier.company.companyName", target = "transportSupplierName")
     @Mapping(source = "customer.id", target = "customerId")
+    @Mapping(source = "customer.company.companyName", target = "customerName")
     @Mapping(source = "city.id", target = "cityId")
+    @Mapping(source = "city.cityName", target = "cityName")
     @Mapping(source = "product.id", target = "productId")
+    @Mapping(source = "product.code", target = "code")
     DeliveryOrderNumberDto toDto(DeliveryOrderNumber entity);
 
     @Mapping(source = "transportSupplierId", target = "transportSupplier.id")
