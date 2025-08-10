@@ -14,8 +14,11 @@ import java.util.UUID;
 @Table(name = "product")
 public class Product extends AbstractEntity {
 
-    @Column(name = "product_code", nullable = false, unique = true)
-    private String productCode;
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "material_supplier_id")

@@ -9,6 +9,7 @@ import {companyRoutes} from '@pages/company/company.routes';
 import {customerRoutes} from '@pages/customer/customer.routes';
 import {materialSupplierRoutes} from '@pages/material-supplier/material-supplier.routes';
 import {constructionSiteRoutes} from '@pages/construction-site/construction-site.routes';
+import {productRoutes} from '@pages/product/product.routes';
 
 export const hubRoutes: Routes = [
     {
@@ -37,7 +38,8 @@ export const hubRoutes: Routes = [
             ...companyRoutes,
             ...customerRoutes,
             ...materialSupplierRoutes,
-            ...constructionSiteRoutes
+            ...constructionSiteRoutes,
+            ...productRoutes
         ]
     }
 ];

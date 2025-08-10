@@ -130,7 +130,8 @@ CREATE TABLE "construction_site"
 CREATE TABLE "product"
 (
     "id"           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "product_code"         VARCHAR(255) NOT NULL UNIQUE,
+    "code"         VARCHAR(4) NOT NULL UNIQUE,
+    "name"         VARCHAR(100) NOT NULL,
     "material_supplier_id" UUID REFERENCES "material_supplier" ("id") ON DELETE SET NULL,
     "shared_details_id"    UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "created_date"           TIMESTAMPTZ DEFAULT NOW(),

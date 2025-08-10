@@ -151,15 +151,16 @@ FROM (
          JOIN "customer" cust ON cust.company_id = c.id;
 
 -- Insertion dans la table "product"
-INSERT INTO "product" ("product_code", "material_supplier_id")
+INSERT INTO "product" ("code","name", "material_supplier_id")
 SELECT
-    v.product_code,
+    v.code,
+    v.name,
     ms.id as material_supplier_id
 FROM (
          VALUES
-             ('PROD-A', 'Charlie Materials'),
-             ('PROD-B', 'Delta Supplies')
-     ) as v(product_code, company_name)
+             ('0070','6/20', 'Charlie Materials'),
+             ('0016','0/4TV', 'Delta Supplies')
+     ) as v(code,name, company_name)
          JOIN "company" c ON c.name = v.company_name
          JOIN "material_supplier" ms ON ms.company_id = c.id;
 
@@ -182,14 +183,14 @@ FROM (
          VALUES
              ('Alpha Construction', 'Bravo Logistics', '12 Rue Lafayette', 'PROD-A', 100),
              ('Bravo Logistics', 'Charlie Materials', '5th Avenue', 'PROD-B', 150)
-     ) as v(billing_company, delivery_company, site_street, product_code, quantity)
+     ) as v(billing_company, delivery_company, site_street, code, quantity)
          JOIN "company" bc_comp ON bc_comp.name = v.billing_company
          JOIN "customer" bc ON bc.company_id = bc_comp.id
          JOIN "company" dc_comp ON dc_comp.name = v.delivery_company
          JOIN "customer" dc ON dc.company_id = dc_comp.id
          JOIN "address" a ON a.street = v.site_street
          JOIN "construction_site" cs ON cs.address_id = a.id
-         JOIN "product" p ON p.product_code = v.product_code;
+         JOIN "product" p ON p.code = v.code;
 
 -- Insertion dans la table "delivery_order_number"
 INSERT INTO "delivery_order_number" (
@@ -209,13 +210,13 @@ FROM (
          VALUES
              ('Bravo Logistics', 'Alpha Construction', 'Paris', 'PROD-A', 'DELIVERY-1001'),
              ('Delta Supplies', 'Charlie Materials', 'New York', 'PROD-B', 'DELIVERY-1002')
-     ) as v(transport_company, customer_company, city_name, product_code, delivery_number)
+     ) as v(transport_company, customer_company, city_name, code, delivery_number)
          JOIN "company" tc ON tc.name = v.transport_company
          JOIN "transport_supplier" ts ON ts.company_id = tc.id
          JOIN "company" cc ON cc.name = v.customer_company
          JOIN "customer" cust ON cust.company_id = cc.id
          JOIN "city" city ON city.city_name = v.city_name
-         JOIN "product" p ON p.product_code = v.product_code;
+         JOIN "product" p ON p.code = v.code;
 
 -- Insertion dans la table "delivery"
 INSERT INTO "delivery" (
@@ -235,10 +236,10 @@ FROM (
          VALUES
              ('Alpha Construction', 'PROD-A', 'Bravo Logistics', 'DELIVERY-1001',  50, 'Non affrété'),
              ('Bravo Logistics', 'PROD-B', 'Delta Supplies', 'DELIVERY-1002',  75, 'Planifié')
-     ) as v(customer_company, product_code, transport_company, delivery_number, quantity, status)
+     ) as v(customer_company, code, transport_company, delivery_number, quantity, status)
          JOIN "company" cc ON cc.name = v.customer_company
          JOIN "customer" cust ON cust.company_id = cc.id
-         JOIN "product" p ON p.product_code = v.product_code
+         JOIN "product" p ON p.code = v.code
          JOIN "purchase_order" po ON po.billing_customer_id = cust.id AND po.product_id = p.id
          JOIN "company" tc ON tc.name = v.transport_company
          JOIN "transport_supplier" ts ON ts.company_id = tc.id
