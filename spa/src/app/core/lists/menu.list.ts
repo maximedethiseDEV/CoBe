@@ -29,12 +29,12 @@ export const MenuList: MenuItem[] = [
             {
                 label: 'Produits',
                 icon: LucideIconsList.PackageOpen,
-                link: ''
+                link: 'products'
             },
             {
                 label: 'Livraisons',
                 icon: LucideIconsList.PackageCheck,
-                link: ''
+                link: 'deliveries'
             },
             {
                 label: 'Entreprises',
@@ -44,27 +44,27 @@ export const MenuList: MenuItem[] = [
             {
                 label: 'Transporteurs',
                 icon: LucideIconsList.Truck,
-                link: ''
+                link: 'transport-suppliers'
             },
             {
                 label: 'Fournisseurs',
                 icon: LucideIconsList.Factory,
-                link: ''
+                link: 'material-suppliers'
             },
             {
                 label: 'Clients',
                 icon: LucideIconsList.Sparkles,
-                link: ''
+                link: 'customers'
             },
             {
                 label: 'Chantiers',
                 icon: LucideIconsList.TrafficCone,
-                link: ''
+                link: 'construction-sites'
             },
             {
                 label: 'Numéros de commande',
                 icon: LucideIconsList.Hash,
-                link: ''
+                link: 'delivery-order-numbers'
             },
             {
                 label: 'Contacts',

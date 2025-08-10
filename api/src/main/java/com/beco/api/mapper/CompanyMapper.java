@@ -2,15 +2,10 @@ package com.beco.api.mapper;
 
 import com.beco.api.model.dto.CompanyDto;
 import com.beco.api.model.dto.PostCompanyDto;
-import com.beco.api.model.entity.Address;
 import com.beco.api.model.entity.Company;
-import com.beco.api.model.entity.Contact;
-import com.beco.api.model.entity.SharedDetails;
 import org.mapstruct.*;
 
-import java.util.UUID;
-
-@Mapper(componentModel = "spring", uses = {ContactMapper.class, AddressMapper.class, SharedDetailsMapper.class})
+@Mapper(componentModel = "spring", uses = {BaseMapper.class, ContactMapper.class, AddressMapper.class, SharedDetailsMapper.class})
 public interface CompanyMapper {
     @Mapping(source = "contact.id", target = "contactId")
     @Mapping(source = "address.id", target = "addressId")
@@ -27,28 +22,4 @@ public interface CompanyMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateCompanyFromDto(PostCompanyDto dto, @MappingTarget Company company);
-
-    @Named("mapContactIdToContact")
-    default Contact mapContactIdToContact(UUID id) {
-        if (id == null) return null;
-        Contact c = new Contact();
-        c.setId(id);
-        return c;
-    }
-
-    @Named("mapAddressIdToAddress")
-    default Address mapAddressIdToAddress(UUID id) {
-        if (id == null) return null;
-        Address a = new Address();
-        a.setId(id);
-        return a;
-    }
-
-    @Named("mapSharedDetailsIdToSharedDetails")
-    default SharedDetails mapSharedDetailsIdToSharedDetails(UUID id) {
-        if (id == null) return null;
-        SharedDetails s = new SharedDetails();
-        s.setId(id);
-        return s;
-    }
 }

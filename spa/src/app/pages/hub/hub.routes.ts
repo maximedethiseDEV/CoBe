@@ -6,6 +6,9 @@ import {cityRoutes} from '@pages/city/city.routes';
 import {addressRoutes} from '@pages/address/address.routes';
 import {sharedDetailsRoutes} from '@pages/shared-details/shared-details.routes';
 import {companyRoutes} from '@pages/company/company.routes';
+import {customerRoutes} from '@pages/customer/customer.routes';
+import {materialSupplierRoutes} from '@pages/material-supplier/material-supplier.routes';
+import {constructionSiteRoutes} from '@pages/construction-site/construction-site.routes';
 
 export const hubRoutes: Routes = [
     {
@@ -32,6 +35,9 @@ export const hubRoutes: Routes = [
             ...addressRoutes,
             ...sharedDetailsRoutes,
             ...companyRoutes,
+            ...customerRoutes,
+            ...materialSupplierRoutes,
+            ...constructionSiteRoutes
         ]
     }
 ];

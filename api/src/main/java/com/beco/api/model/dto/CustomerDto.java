@@ -11,6 +11,10 @@ import java.util.UUID;
 public class CustomerDto extends AbstractDto {
 
     private UUID companyId;
+    private String companyName;
+    private String cityName;
+    private String postalCode;
+    private String countryCode;
 
     private UUID contactId;
 

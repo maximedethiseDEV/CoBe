@@ -3,22 +3,26 @@ package com.beco.api.model.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 public class ConstructionSiteDto extends AbstractDto {
 
-    private UUID customerId;
-
-    private UUID addressId;
-
-    private UUID sharedDetailsId;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateStart;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateEnd;
+
+    private UUID customerId;
+    private String companyName;
+
+    private UUID addressId;
+        private String street;
+        private String cityName;
+        private String postalCode;
+        private String countryCode;
+
+    private UUID sharedDetailsId;
 }

@@ -9,10 +9,15 @@ import java.util.UUID;
 public class MaterialSupplierDto extends AbstractDto {
 
     private UUID companyId;
+        private String companyName;
+        private UUID parentId;
 
     private UUID contactId;
 
     private UUID addressId;
+        private String cityName;
+        private String postalCode;
+        private String countryCode;
 
     private UUID sharedDetailsId;
 }
