@@ -1,5 +1,5 @@
 -- Insertion dans la table "delivery_status"
-INSERT INTO "delivery_status" ("status")
+INSERT INTO "delivery_status" ("name")
 VALUES
     ('Supprimé'),
     ('Non affrété'),

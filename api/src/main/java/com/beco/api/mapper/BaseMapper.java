@@ -55,4 +55,12 @@ interface BaseMapper {
         constructionSite.setId(id);
         return constructionSite;
     }
+
+    @Named("mapDeliveryOrderNumberIdToDeliveryOrderNumber")
+    default DeliveryOrderNumber mapDeliveryOrderNumberIdToDeliveryOrderNumber(UUID id) {
+        if (id == null) return null;
+        DeliveryOrderNumber deliveryOrderNumber = new DeliveryOrderNumber();
+        deliveryOrderNumber.setId(id);
+        return deliveryOrderNumber;
+    }
 }

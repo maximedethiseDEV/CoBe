@@ -7,6 +7,7 @@ export * from './country.resolver';
 export * from './customer.resolver';
 export * from './delivery.resolver';
 export * from './delivery-order-number.resolver';
+export * from './delivery-status.resolver';
 export * from './material-supplier.resolver';
 export * from './product.resolver';
 export * from './purchase-order.resolver';

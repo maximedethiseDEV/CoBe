@@ -2,15 +2,12 @@ package com.beco.api.service.object;
 
 import com.beco.api.mapper.OrderMapper;
 import com.beco.api.model.dto.*;
-import com.beco.api.model.entity.DeliveryStatusEnum;
 import com.beco.api.model.entity.Order;
 import com.beco.api.repository.OrderRepository;
 import com.beco.api.service.AbstractCrudService;
-import jakarta.transaction.Transactional;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -90,15 +87,4 @@ public class OrderService extends AbstractCrudService<Order, OrderDto, PostOrder
                 .map(orderMapper::toDto)
                 .collect(Collectors.toList());
     }
-
-    private DeliveryStatusDto createNewStatus() {
-        DeliveryStatusDto status = new DeliveryStatusDto();
-
-        DeliveryStatusEnum newEnum = DeliveryStatusEnum.NEW;
-        
-        status.setId(newEnum.getId());
-        status.setStatus(newEnum.getStatus());
-        return status;
-    }
-
 }

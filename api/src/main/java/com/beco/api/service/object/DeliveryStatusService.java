@@ -1,39 +1,47 @@
 package com.beco.api.service.object;
 
+import com.beco.api.mapper.DeliveryStatusMapper;
+import com.beco.api.model.dto.DeliveryStatusDto;
 import com.beco.api.model.entity.DeliveryStatus;
-import com.beco.api.model.entity.DeliveryStatusEnum;
 import com.beco.api.repository.DeliveryStatusRepository;
+import com.beco.api.service.AbstractCrudService;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.PostConstruct;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Service
-public class DeliveryStatusService {
+@CacheConfig(cacheNames = "delivery-status")
+public class DeliveryStatusService extends AbstractCrudService<DeliveryStatus, DeliveryStatusDto, DeliveryStatusDto, UUID> {
 
-    private final DeliveryStatusRepository deliveryStatusRepository;
+    private final DeliveryStatusRepository repository;
+    private final DeliveryStatusMapper mapper;
 
-    public DeliveryStatusService(DeliveryStatusRepository deliveryStatusRepository) {
-        this.deliveryStatusRepository = deliveryStatusRepository;
+    public DeliveryStatusService(
+            DeliveryStatusRepository repository,
+            CacheManager cacheManager,
+            DeliveryStatusMapper mapper
+    ) {
+        super(
+                repository,
+                cacheManager,
+                mapper::toDto,
+                mapper::toEntity,
+                mapper::updateDeliveryStatusFromDto
+
+        );
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
-    @PostConstruct
-    public void validateDeliveryStatus() {
-        // Récupérer les statuts en base
-        List<String> dbStatuses = deliveryStatusRepository.findAll().stream()
-                .map(DeliveryStatus::getStatus)
-                .collect(Collectors.toList());
+    @Override
+    protected boolean dataValidatorControl(DeliveryStatusDto dto) {
+        return true;
+    }
 
-        // Vérifier que tous les statuts de l'Enum existent en base
-        for (DeliveryStatusEnum statusEnum : DeliveryStatusEnum.values()) {
-            if (!dbStatuses.contains(statusEnum.getStatus())) {
-                // Si un statut Enum manque, le créer automatiquement
-                DeliveryStatus status = new DeliveryStatus();
-                status.fromEnum(statusEnum);
-                deliveryStatusRepository.save(status);
-            }
-        }
+    @Override
+    protected String getEntityName() {
+        return "status";
     }
 }

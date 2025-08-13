@@ -85,7 +85,7 @@ export class PurchaseOrderTableComponent extends BaseTableComponent implements O
         },
         {
             key: 'quantityOrdered',
-            translate: 'quantité',
+            translate: 'Quantité',
             sort: true
         },
         {

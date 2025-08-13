@@ -8,6 +8,7 @@ export * from './country.provider';
 export * from './customer.provider';
 export * from './delivery.provider';
 export * from './delivery-order-number.provider';
+export * from './delivery-status.provider';
 export * from './material-supplier.provider';
 export * from './product.provider';
 export * from './purchase-order.provider';

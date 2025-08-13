@@ -1,4 +1,4 @@
-CREATE EXTENSION IF NOT EXISTS pgcrypto; -- Requis pour gen_random_uuid()
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TABLE "country"
 (
@@ -166,10 +166,12 @@ CREATE TABLE "delivery_order_number"
     "last_modified_date"    TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE delivery_status
+CREATE TABLE "delivery_status"
 (
-    id SERIAL PRIMARY KEY,
-    status    VARCHAR(50) NOT NULL UNIQUE
+    "id"      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "name"    VARCHAR(50) NOT NULL UNIQUE,
+    "created_date"               TIMESTAMPTZ DEFAULT NOW(),
+    "last_modified_date"               TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE "delivery"
@@ -181,7 +183,7 @@ CREATE TABLE "delivery"
     "actual_delivery_begin"    TIMESTAMPTZ,
     "actual_delivery_end"      TIMESTAMPTZ,
     "quantity"                 INTEGER NOT NULL,
-    "status_id"                SERIAL NOT NULL REFERENCES "delivery_status" ("id"),
+    "status_id"                UUID NOT NULL REFERENCES "delivery_status" ("id"),
     "created_date"               TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"               TIMESTAMPTZ DEFAULT NOW()
 );

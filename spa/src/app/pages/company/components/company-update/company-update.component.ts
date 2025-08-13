@@ -1,10 +1,9 @@
-import {Component, inject, Input, OnInit} from '@angular/core';
+import {Component, inject, Input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
-import {Address, City, Company, Contact, Country, SharedDetails} from '@core/models';
-import {AddressProvider, CompanyProvider} from '@core/providers';
-import {SelectCityFromAddressPipe} from '@core/pipe/select-city-from-address.pipe';
+import {Address, Company, Contact, SharedDetails} from '@core/models';
+import {CompanyProvider} from '@core/providers';
 
 @Component({
     selector: 'app-company-update',
@@ -12,7 +11,6 @@ import {SelectCityFromAddressPipe} from '@core/pipe/select-city-from-address.pip
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
-        SelectCityFromAddressPipe
     ],
     templateUrl: './company-update.component.html'
 })

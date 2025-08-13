@@ -6,8 +6,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.UUID;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity

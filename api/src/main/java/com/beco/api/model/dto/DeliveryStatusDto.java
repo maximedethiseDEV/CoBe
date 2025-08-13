@@ -4,9 +4,7 @@ import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
-public class DeliveryStatusDto {
+public class DeliveryStatusDto extends AbstractDto {
 
-    private Integer id;
-
-    private String status;
+    private String name;
 }

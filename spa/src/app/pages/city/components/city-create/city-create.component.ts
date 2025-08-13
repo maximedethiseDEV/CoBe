@@ -4,14 +4,12 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {City, Country} from '@core/models';
 import {CityProvider} from '@core/providers';
-import {Select} from 'primeng/select';
 
 @Component({
     selector: 'app-city-create',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        Select,
         FormsModule
     ],
     templateUrl: './city-create.component.html'

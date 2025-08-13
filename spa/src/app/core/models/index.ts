@@ -7,6 +7,7 @@ export * from './country.model';
 export * from './customer.model';
 export * from './delivery.model';
 export * from './delivery-order-number.model';
+export * from './delivery-status.model';
 export * from './entity.model';
 export * from './material-supplier.model';
 export * from './product.model';

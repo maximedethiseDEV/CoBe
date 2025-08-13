@@ -217,31 +217,3 @@ FROM (
          JOIN "customer" cust ON cust.company_id = cc.id
          JOIN "city" city ON city.city_name = v.city_name
          JOIN "product" p ON p.code = v.code;
-
--- Insertion dans la table "delivery"
-INSERT INTO "delivery" (
-    "order_id",
-    "transport_supplier_id",
-    "delivery_order_number_id",
-    "quantity",
-    "status_id"
-)
-SELECT
-    po.id as order_id,
-    ts.id as transport_supplier_id,
-    don.id as delivery_order_number_id,
-    v.quantity,
-    ds.id as status_id
-FROM (
-         VALUES
-             ('Alpha Construction', 'PROD-A', 'Bravo Logistics', 'DELIVERY-1001',  50, 'Non affrété'),
-             ('Bravo Logistics', 'PROD-B', 'Delta Supplies', 'DELIVERY-1002',  75, 'Planifié')
-     ) as v(customer_company, code, transport_company, delivery_number, quantity, status)
-         JOIN "company" cc ON cc.name = v.customer_company
-         JOIN "customer" cust ON cust.company_id = cc.id
-         JOIN "product" p ON p.code = v.code
-         JOIN "purchase_order" po ON po.billing_customer_id = cust.id AND po.product_id = p.id
-         JOIN "company" tc ON tc.name = v.transport_company
-         JOIN "transport_supplier" ts ON ts.company_id = tc.id
-         JOIN "delivery_order_number" don ON don.unique_delivery_order_number = v.delivery_number
-         JOIN "delivery_status" ds ON ds.status = v.status;
