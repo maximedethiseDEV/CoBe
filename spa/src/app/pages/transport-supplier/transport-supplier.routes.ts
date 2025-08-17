@@ -1,11 +1,14 @@
 import {Routes} from '@angular/router';
-import {CompaniesResolver} from '@core/resolvers';
+import {CompaniesResolver, ContactsResolver} from '@core/resolvers';
 import {TransportSupplierResolver} from '@core/resolvers/transport-supplier.resolver';
 
 export const transportSupplierRoutes: Routes = [
     {
         path: 'transport-suppliers',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        data: {
+            role: ['ADMIN']
+        },
         children: [
             {
                 path: '',
@@ -16,6 +19,7 @@ export const transportSupplierRoutes: Routes = [
                 loadComponent: () => import('@pages/transport-supplier/components/transport-supplier-create/transport-supplier-create.component').then(component => component.TransportSupplierCreateComponent),
                 resolve: {
                     companies: CompaniesResolver,
+                    contacts: ContactsResolver
                 }
             },
             {
@@ -24,6 +28,7 @@ export const transportSupplierRoutes: Routes = [
                 resolve: {
                     entity: TransportSupplierResolver,
                     companies: CompaniesResolver,
+                    contacts: ContactsResolver
                 }
             }
         ]

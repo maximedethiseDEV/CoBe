@@ -16,6 +16,7 @@ import {MaterialSupplierProvider, TransportSupplierProvider} from '@core/provide
 })
 export class TransportSupplierUpdateComponent extends BaseUpdateComponent {
     @Input() companies: Company[] = [];
+    @Input() contacts: Contact[] = [];
     private transportSupplierProvider: TransportSupplierProvider = inject(TransportSupplierProvider);
     public featurePath: string = 'transport-suppliers';
     public labelHeader: string = 'Mettre à jour le transporteur';
@@ -24,6 +25,7 @@ export class TransportSupplierUpdateComponent extends BaseUpdateComponent {
         return new FormGroup({
             id: new FormControl(),
             companyId: new FormControl("",Validators.required),
+            contactId: new FormControl(),
             license: new FormControl()
         });
     }

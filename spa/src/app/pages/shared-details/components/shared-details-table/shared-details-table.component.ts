@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {SharedDetailsProvider} from '@core/providers';
 import {SharedDetails} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-sharedDetails-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -24,11 +28,13 @@ export class SharedDetailsTableComponent extends BaseTableComponent implements O
     public tableColumns: TableColumn[] = [
         {
             key: 'fileName',
+            type:'text',
             translate: 'Nom du fichier',
             sort: true
         },
         {
             key: 'notes',
+            type:'text',
             translate: 'Remarque',
             sort: true
         }

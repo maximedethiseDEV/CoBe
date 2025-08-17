@@ -8,9 +8,9 @@
         <version>3.4.3</version>
         <relativePath/>
     </parent>
-    <groupId>com.beco</groupId>
+    <groupId>com.cobe</groupId>
     <artifactId>api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>api</name>
     <description>api</description>
     <url/>
@@ -129,6 +129,10 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
     </dependencies>
 

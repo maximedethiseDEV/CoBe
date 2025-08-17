@@ -55,7 +55,26 @@
         <ng-template #body let-entity let-rowIndex= "rowIndex">
             <tr [pSelectableRow]="entity" [pSelectableRowIndex]="rowIndex" class="transition-colors">
                 @for (column of tableColumns; track column.key) {
-                    <td class="whitespace-nowrap overflow-hidden text-ellipsis">{{ entity[column.key] }}</td>
+                    <td class="whitespace-nowrap overflow-hidden text-ellipsis">
+                        @switch (column.type) {
+                            @case ('text') {
+                                {{ entity[column.key] }}
+                            }
+                            @case ('date') {
+                                {{ entity[column.key] | date: 'dd/MM/yyyy' }}
+                            }
+                            @case ('boolean') {
+                                @if (entity[column.key]) {
+                                    <i-lucide [img]="iconsList.Check" class="size-6"></i-lucide>
+                                }
+                                @else {
+                                }
+                            }
+                            @default {
+                                {{ entity[column.key] }}
+                            }
+                        }
+                    </td>
                 }
 
                 @if (hasTableAction('update') || hasTableAction('delete')) {

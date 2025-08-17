@@ -18,6 +18,7 @@ export class CompanyUpdateComponent extends BaseUpdateComponent {
     @Input() addresses: Address[] = [];
     @Input() contacts: Contact[] = [];
     @Input() sharedDetails: SharedDetails[] = [];
+    @Input() companies: Company[] = [];
     private companyProvider: CompanyProvider = inject(CompanyProvider);
     public featurePath: string = 'companies';
     public labelHeader: string = 'Nouvelle entreprise';
@@ -26,8 +27,9 @@ export class CompanyUpdateComponent extends BaseUpdateComponent {
         return new FormGroup({
             id: new FormControl(),
             companyName: new FormControl("",Validators.required),
+            commerciallyActive: new FormControl(true),
+            parentId: new FormControl(),
             addressId: new FormControl(),
-            contactId: new FormControl(),
             sharedDetailsId: new FormControl()
         });
     }

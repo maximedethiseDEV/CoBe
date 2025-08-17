@@ -45,22 +45,6 @@ services:
       - cobe-network
     restart: always
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-
-    ports:
-      - "5050:80"
-    depends_on:
-      - db
-    networks:
-      - cobe-network
-    restart: always
-
-  # Nouveau service NGINX pour l'application Angular
   spa:
     build:
       context: ./spa

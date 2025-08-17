@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {CompanyProvider} from '@core/providers';
 import {Company} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-company-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -21,28 +25,46 @@ export class CompanyTableComponent extends BaseTableComponent implements OnInit 
         'companyName',
         'cityName',
         'postalCode',
-        'countryCode'
+        'countryCode',
+        'hasParent',
+        'commerciallyActive'
     ];
     public tableColumns: TableColumn[] = [
         {
             key: 'companyName',
+            type:'text',
             translate: 'Nom',
             sort: true
         },
         {
             key: 'cityName',
+            type:'text',
             translate: 'Ville',
             sort: true
         },
         {
             key: 'postalCode',
+            type:'text',
             translate: 'Code postal',
             sort: true
         },
         {
             key: 'countryCode',
+            type:'text',
             translate: 'Pays',
             sort: true
+        },
+        {
+            key: 'hasParent',
+            type:'boolean',
+            translate: 'Sous-traitant',
+            sort: true,
+        },
+        {
+            key: 'commerciallyActive',
+            type: 'boolean',
+            translate: 'Actif',
+            sort: true,
         }
     ];
 
@@ -55,7 +77,10 @@ export class CompanyTableComponent extends BaseTableComponent implements OnInit 
 
         this.companyProvider.getAll(params).subscribe({
             next: (response: Pagination<Company>) => {
-                this.entities = response.content;
+                this.entities = response.content.map(company => ({
+                    ...company,
+                    hasParent: !!company.parentId
+                }));
                 this.totalElements = response.totalElements;
             },
             error: (error: Error) => {

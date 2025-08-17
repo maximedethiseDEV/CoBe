@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {DeliveryProvider} from '@core/providers';
 import {Delivery} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-delivery-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -29,36 +33,43 @@ export class DeliveryTableComponent extends BaseTableComponent implements OnInit
     public tableColumns: TableColumn[] = [
         {
             key: 'actualDeliveryBegin',
+            type:'text',
             translate: 'Début de livraison',
             sort: true
         },
         {
             key: 'actualDeliveryEnd',
+            type:'text',
             translate: 'Fin de livraison',
             sort: true
         },
         {
             key: 'quantity',
+            type:'text',
             translate: 'Quantité',
             sort: true
         },
         {
             key: 'status',
+            type:'text',
             translate: 'Statut',
             sort: true
         },
         {
             key: 'orderId',
+            type:'text',
             translate: 'Numéro de commande',
             sort: true
         },
         {
             key: 'transportSupplierId',
+            type:'text',
             translate: 'Transporteur',
             sort: true
         },
         {
             key: 'deliveryOrderNumberId',
+            type:'text',
             translate: 'Numéro de chargement',
             sort: true
         }

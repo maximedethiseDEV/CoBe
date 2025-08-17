@@ -18,6 +18,7 @@ export class CompanyCreateComponent extends BaseCreateComponent {
     @Input() addresses: Address[] = [];
     @Input() contacts: Contact[] = [];
     @Input() sharedDetails: SharedDetails[] = [];
+    @Input() companies: Company[] = [];
     private companyProvider: CompanyProvider = inject(CompanyProvider);
     public featurePath: string = 'companies';
     public labelHeader: string = 'Nouvelle entreprise';
@@ -25,8 +26,9 @@ export class CompanyCreateComponent extends BaseCreateComponent {
     public override generateForm(): FormGroup {
         return new FormGroup({
             companyName: new FormControl("",Validators.required),
+            commerciallyActive: new FormControl(true),
+            parentId: new FormControl(),
             addressId: new FormControl(),
-            contactId: new FormControl(),
             sharedDetailsId: new FormControl()
         });
     }

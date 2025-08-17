@@ -9,6 +9,9 @@ export const materialSupplierRoutes: Routes = [
     {
         path: 'material-suppliers',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        data: {
+            role: ['ADMIN']
+        },
         children: [
             {
                 path: '',

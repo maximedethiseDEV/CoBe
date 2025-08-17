@@ -39,7 +39,7 @@ export class PurchaseOrderUpdateComponent extends BaseUpdateComponent {
             requestedDeliveryBegin: new FormControl("",Validators.required),
             requestedDeliveryEnd: new FormControl(),
             quantityOrdered: new FormControl("",[Validators.required, Validators.min(0)]),
-            billingCustomerId: new FormControl(),
+            customerId: new FormControl(),
             deliveryCustomerId: new FormControl(),
             constructionSiteId: new FormControl(),
             productId: new FormControl("",Validators.required),

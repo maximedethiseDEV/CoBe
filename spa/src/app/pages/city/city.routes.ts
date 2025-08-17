@@ -1,10 +1,15 @@
 import {Routes} from '@angular/router';
 import {CityResolver, CountriesResolver} from '@core/resolvers';
+import {AuthenticationGuard} from '@core/guards';
 
 export const cityRoutes: Routes = [
     {
         path: 'cities',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
+        data: {
+            role: ['ADMIN']
+        },
         children: [
             {
                 path: '',

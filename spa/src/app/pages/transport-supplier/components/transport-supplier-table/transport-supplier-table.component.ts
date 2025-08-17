@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {TransportSupplierProvider} from '@core/providers';
 import {TransportSupplier} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-transportSupplier-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -27,26 +31,31 @@ export class TransportSupplierTableComponent extends BaseTableComponent implemen
     public tableColumns: TableColumn[] = [
         {
             key: 'companyName',
+            type:'text',
             translate: 'Nom',
             sort: true
         },
         {
             key: 'cityName',
+            type:'text',
             translate: 'Ville',
             sort: true
         },
         {
             key: 'postalCode',
+            type:'text',
             translate: 'Code postal',
             sort: true
         },
         {
             key: 'countryCode',
+            type:'text',
             translate: 'Pays',
             sort: true
         },
         {
             key: 'hasParent',
+            type:'text',
             translate: 'Sous-traitant',
             sort: true
         }

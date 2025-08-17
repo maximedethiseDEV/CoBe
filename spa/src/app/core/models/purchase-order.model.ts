@@ -6,11 +6,8 @@ export interface PurchaseOrder extends EntityModel {
     requestedDeliveryEnd: string;
     quantityOrdered: number;
 
-    billingCustomerId: string;
-        billingCustomerName: string;
-
-    deliveryCustomerId: string;
-        deliveryCustomerName: string;
+    customerId: string;
+        customerName: string;
 
     constructionSiteId: string;
         constructionSiteCustomerName: string;

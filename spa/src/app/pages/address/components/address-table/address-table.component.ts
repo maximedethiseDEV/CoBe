@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {AddressProvider} from '@core/providers';
 import {Address} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-address-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -26,21 +30,25 @@ export class AddressTableComponent extends BaseTableComponent implements OnInit 
     public tableColumns: TableColumn[] = [
         {
             key: 'street',
+            type:'text',
             translate: 'Rue',
             sort: true
         },
         {
             key: 'cityName',
+            type:'text',
             translate: 'Ville',
             sort: true
         },
         {
             key: 'postalCode',
+            type:'text',
             translate: 'Code postal',
             sort: true
         },
         {
             key: 'countryCode',
+            type:'text',
             translate: 'Pays',
             sort: true
         }

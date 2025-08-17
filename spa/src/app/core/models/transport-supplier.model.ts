@@ -10,4 +10,6 @@ export interface TransportSupplier extends EntityModel {
         postalCode: string;
         countryCode: string;
         parentId: string;
+
+    contactId: string;
 }

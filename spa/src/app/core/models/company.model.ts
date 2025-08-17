@@ -3,8 +3,7 @@ import {EntityModel} from '@core/models/entity.model';
 export interface Company extends EntityModel {
     companyName: string;
     commerciallyActive: boolean;
-
-    contactId: string;
+    parentId: string;
 
     addressId: string;
     cityName: string;

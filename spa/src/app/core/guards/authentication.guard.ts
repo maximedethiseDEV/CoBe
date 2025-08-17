@@ -5,7 +5,7 @@ import {AuthenticationService} from '@core/services';
 export const AuthenticationGuard: CanActivateFn = (route: ActivatedRouteSnapshot): boolean => {
     const authenticationService: AuthenticationService = inject(AuthenticationService);
     const router: Router = inject(Router);
-    const requiredRole: string = route.data?.['role'];
+    const requiredRole: string[] = route.data?.['role'];
 
     if (authenticationService.isAuthenticated() && authenticationService.hasRole(requiredRole)) {
         return true;

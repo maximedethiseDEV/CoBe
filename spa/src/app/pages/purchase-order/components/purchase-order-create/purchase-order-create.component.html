@@ -12,29 +12,12 @@
                 <div class="space-y-4">
 
                     <div class="grid grid-cols-3 gap-4">
-                        <label for="billingCustomer" class="block text-sm font-medium text-gray-700">
-                            Donneur d'ordre
-                        </label>
-                        <select
-                            id="billingCustomer"
-                            formControlName="billingCustomerId"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            @for (customer of customers; track customer.id) {
-                                <option [ngValue]="customer.id">
-                                    {{ customer.companyName }}
-                                </option>
-                            }
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="deliveryCustomer" class="block text-sm font-medium text-gray-700">
+                        <label for="customer" class="block text-sm font-medium text-gray-700">
                             Client à livrer
                         </label>
                         <select
-                            id="deliveryCustomer"
-                            formControlName="deliveryCustomerId"
+                            id="customer"
+                            formControlName="customerId"
                             class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         >
                             @for (customer of customers; track customer.id) {
@@ -68,7 +51,7 @@
                         </label>
                         <input
                             id="requestedDeliveryBegin"
-                            type="date"
+                            type="datetime-local"
                             formControlName="requestedDeliveryBegin"
                             class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         >
@@ -80,7 +63,7 @@
                         </label>
                         <input
                             id="requestedDeliveryEnd"
-                            type="date"
+                            type="datetime-local"
                             formControlName="requestedDeliveryEnd"
                             class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         >

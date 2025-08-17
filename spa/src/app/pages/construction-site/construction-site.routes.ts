@@ -20,6 +20,7 @@ export const constructionSiteRoutes: Routes = [
                 resolve: {
                     customers: CustomersResolver,
                     addresses: AddressesResolver,
+                    contacts: ContactsResolver,
                     sharedDetails: SharedAllDetailsResolver,
                 }
             },
@@ -30,6 +31,7 @@ export const constructionSiteRoutes: Routes = [
                     entity: ConstructionSiteResolver,
                     customers: CustomersResolver,
                     addresses: AddressesResolver,
+                    contacts: ContactsResolver,
                     sharedDetails: SharedAllDetailsResolver,
                 }
             }

@@ -5,12 +5,18 @@ import {Button} from 'primeng/button';
 import {ContactProvider} from '@core/providers';
 import {Contact} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {LucideAngularModule} from 'lucide-angular';
+import {DatePipe} from '@angular/common';
+import {LucideIconsList} from '@core/lists';
 
 @Component({
     selector: 'app-contact-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        LucideAngularModule,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -27,25 +33,30 @@ export class ContactTableComponent extends BaseTableComponent implements OnInit 
     public tableColumns: TableColumn[] = [
         {
             key: 'firstName',
+            type:'text',
             translate: 'Prénom',
             sort: true
         },
         {
             key: 'lastName',
+            type:'text',
             translate: 'Nom',
             sort: true
         },
         {
             key: 'email',
+            type:'text',
             translate: 'Email',
             sort: true
         },
         {
             key: 'phone',
+            type:'text',
             translate: 'Téléphone'
         },
         {
             key: 'role',
+            type:'text',
             translate: 'Poste'
         }
     ];
@@ -96,4 +107,6 @@ export class ContactTableComponent extends BaseTableComponent implements OnInit 
             }
         });
     }
+
+    protected readonly LucideIconsList = LucideIconsList;
 }

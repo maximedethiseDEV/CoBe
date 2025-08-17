@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {PurchaseOrderProvider} from '@core/providers';
 import {PurchaseOrder} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-purchaseOrder-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -21,8 +25,7 @@ export class PurchaseOrderTableComponent extends BaseTableComponent implements O
         'requestedDeliveryBegin',
         'requestedDeliveryEnd',
         'quantityOrdered',
-        'billingCustomerName',
-        'deliveryCustomerName',
+        'customerName',
         'constructionSiteCustomerName',
         'constructionSiteStreet',
         'constructionSiteCityName',
@@ -34,67 +37,74 @@ export class PurchaseOrderTableComponent extends BaseTableComponent implements O
     ];
     public tableColumns: TableColumn[] = [
         {
-            key: 'billingCustomerName',
-            translate: 'Donneur d\'ordre',
-            sort: true
-        },
-        {
-            key: 'deliveryCustomerName',
+            key: 'customerName',
+            type:'text',
             translate: 'Client à livrer',
             sort: true
         },
         {
             key: 'constructionSiteCustomerName',
+            type:'text',
             translate: 'Chantier nom entreprise',
             sort: true
         },
         {
             key: 'constructionSiteStreet',
+            type:'text',
             translate: 'Chantier rue',
             sort: true
         },
         {
             key: 'constructionSiteCityName',
+            type:'text',
             translate: 'Chantier ville',
             sort: true
         },
         {
             key: 'constructionSitePostalCode',
+            type:'text',
             translate: 'Chantier CP',
             sort: true
         },
         {
             key: 'constructionSiteCountryCode',
+            type:'text',
             translate: 'Chantier pays',
             sort: true
         },
         {
             key: 'code',
+            type:'text',
             translate: 'Code produit',
             sort: true
         },
         {
             key: 'name',
+            type:'text',
             translate: 'Produit',
             sort: true
         },
         {
             key: 'materialSupplierName',
+            type:'text',
             translate: 'Fournisseur',
             sort: true
         },
         {
             key: 'quantityOrdered',
+            type:'text',
             translate: 'Quantité',
             sort: true
         },
         {
             key: 'requestedDeliveryBegin',
+            type: 'date',
             translate: 'Début livraison',
             sort: true
         },
         {
             key: 'requestedDeliveryEnd',
+            type: 'date',
             translate: 'Fin livraison',
             sort: true
         }

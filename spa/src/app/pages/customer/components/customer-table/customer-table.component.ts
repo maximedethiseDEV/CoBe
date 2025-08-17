@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {CustomerProvider} from '@core/providers';
 import {Customer} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-customer-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -23,36 +27,41 @@ export class CustomerTableComponent extends BaseTableComponent implements OnInit
         'postalCode',
         'countryCode',
         'isSolvent',
-        'hasParent'
     ];
     public tableColumns: TableColumn[] = [
         {
             key: 'companyName',
+            type:'text',
             translate: 'Nom',
             sort: true
         },
         {
             key: 'cityName',
+            type:'text',
             translate: 'Ville',
             sort: true
         },
         {
             key: 'postalCode',
+            type:'text',
             translate: 'Code postal',
             sort: true
         },
         {
             key: 'countryCode',
+            type:'text',
             translate: 'Pays',
             sort: true
         },
         {
             key: 'isSolvent',
+            type:'boolean',
             translate: 'Solvable',
             sort: true
         },
         {
             key: 'hasParent',
+            type:'boolean',
             translate: 'Sous-traitant',
             sort: true
         }
@@ -67,10 +76,7 @@ export class CustomerTableComponent extends BaseTableComponent implements OnInit
 
         this.customerProvider.getAll(params).subscribe({
             next: (response: Pagination<Customer>) => {
-                this.entities = response.content.map(customer => ({
-                    ...customer,
-                    hasParent: !!customer.parentId
-                }));
+                this.entities = response.content;
                 this.totalElements = response.totalElements;
             },
             error: (error: Error) => {

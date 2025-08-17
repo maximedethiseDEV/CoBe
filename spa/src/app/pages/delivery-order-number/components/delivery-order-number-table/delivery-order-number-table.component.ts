@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {DeliveryOrderNumberProvider} from '@core/providers';
 import {DeliveryOrderNumber} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-deliveryOrderNumber-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -27,26 +31,31 @@ export class DeliveryOrderNumberTableComponent extends BaseTableComponent implem
     public tableColumns: TableColumn[] = [
         {
             key: 'uniqueDeliveryOrderNumber',
+            type:'text',
             translate: 'Numéro',
             sort: true
         },
         {
             key: 'transportSupplierName',
+            type:'text',
             translate: 'Transporteur',
             sort: true
         },
         {
             key: 'customerName',
+            type:'text',
             translate: 'Client',
             sort: true
         },
         {
             key: 'cityName',
+            type:'text',
             translate: 'Ville',
             sort: true
         },
         {
             key: 'code',
+            type:'text',
             translate: 'Produit',
             sort: true
         }

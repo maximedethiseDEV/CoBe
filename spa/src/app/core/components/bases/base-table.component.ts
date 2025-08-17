@@ -6,6 +6,7 @@ import {TableColumn} from '@core/types';
 import {SubscriptionCollection} from '@core/classes';
 import {SseService} from '@core/services';
 import {ActivatedRoute, Router} from '@angular/router';
+import {LucideIconsList} from '@core/lists';
 
 @Component({
     template: ''
@@ -20,6 +21,7 @@ export abstract class BaseTableComponent implements OnDestroy {
     protected router: Router = inject(Router);
     protected sseService: SseService = inject(SseService);
     protected messageService: MessageService = inject(MessageService);
+    public readonly iconsList: any = LucideIconsList;
     protected entities: EntityModel[] = [];
     protected totalElements: number = 0;
     protected currentPage: number = 1;

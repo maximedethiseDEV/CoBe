@@ -22,7 +22,7 @@ export class AddressCreateComponent extends BaseCreateComponent {
 
     public override generateForm(): FormGroup {
         return new FormGroup({
-            street: new FormControl("",Validators.required),
+            street: new FormControl(),
             cityId: new FormControl("",Validators.required)
         });
     }

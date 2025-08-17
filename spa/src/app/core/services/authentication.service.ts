@@ -48,9 +48,9 @@ export class AuthenticationService {
         sessionStorage.setItem(this.ROLES_KEY, roles);
     }
 
-    public hasRole(role: string): boolean {
-        const roles: string|null = sessionStorage.getItem(this.ROLES_KEY);
-        return roles ? roles.includes(role) : false;
+    public hasRole(roles: string[]): boolean {
+        const storedRole: string|null = sessionStorage.getItem(this.ROLES_KEY);
+        return storedRole ? roles.includes(storedRole) : false;
     }
 
     public isAuthenticated(): boolean {

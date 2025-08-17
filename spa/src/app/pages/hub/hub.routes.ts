@@ -21,7 +21,7 @@ export const hubRoutes: Routes = [
         loadComponent: () => import('./hub.component').then(component => component.HubComponent),
         canActivate: [AuthenticationGuard],
         data: {
-            role: 'USER'
+            role: ['USER', 'ADMIN']
         },
         children: [
             {

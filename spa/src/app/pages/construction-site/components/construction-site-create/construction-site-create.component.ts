@@ -17,6 +17,7 @@ import {ConstructionSiteProvider} from '@core/providers';
 export class ConstructionSiteCreateComponent extends BaseCreateComponent {
     @Input() customers: Customer[] = [];
     @Input() addresses: Address[] = [];
+    @Input() contacts: Contact[] = [];
     @Input() sharedDetails: SharedDetails[] = [];
     private constructionSiteProvider: ConstructionSiteProvider = inject(ConstructionSiteProvider);
     public featurePath: string = 'construction-sites';
@@ -24,8 +25,11 @@ export class ConstructionSiteCreateComponent extends BaseCreateComponent {
 
     public override generateForm(): FormGroup {
         return new FormGroup({
+            dateStart: new FormControl(),
+            dateEnd: new FormControl(),
             customerId: new FormControl("",Validators.required),
             addressId: new FormControl("",Validators.required),
+            contactId: new FormControl(),
             sharedDetailsId: new FormControl(),
         });
     }

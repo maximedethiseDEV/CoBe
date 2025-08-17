@@ -11,6 +11,9 @@ export const deliveryOrderNumberRoutes: Routes = [
     {
         path: 'delivery-order-numbers',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        data: {
+            role: ['ADMIN']
+        },
         children: [
             {
                 path: '',

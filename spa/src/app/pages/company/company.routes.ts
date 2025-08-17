@@ -1,13 +1,18 @@
 import {Routes} from '@angular/router';
 import {
-    AddressesResolver, ContactsResolver, SharedAllDetailsResolver,
+    AddressesResolver, CompaniesResolver, ContactsResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {CompanyResolver} from '@core/resolvers/company.resolver';
+import {AuthenticationGuard} from '@core/guards';
 
 export const companyRoutes: Routes = [
     {
         path: 'companies',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
+        data: {
+            role: ['ADMIN']
+        },
         children: [
             {
                 path: '',
@@ -20,6 +25,7 @@ export const companyRoutes: Routes = [
                     contacts: ContactsResolver,
                     addresses: AddressesResolver,
                     sharedDetails: SharedAllDetailsResolver,
+                    companies: CompaniesResolver
                 }
             },
             {
@@ -30,6 +36,7 @@ export const companyRoutes: Routes = [
                     contacts: ContactsResolver,
                     addresses: AddressesResolver,
                     sharedDetails: SharedAllDetailsResolver,
+                    companies: CompaniesResolver
                 }
             }
         ]

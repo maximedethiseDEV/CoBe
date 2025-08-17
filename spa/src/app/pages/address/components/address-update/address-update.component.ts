@@ -23,7 +23,7 @@ export class AddressUpdateComponent extends BaseUpdateComponent {
     public override generateForm(): FormGroup {
         return new FormGroup({
             id: new FormControl(),
-            street: new FormControl("",Validators.required),
+            street: new FormControl(),
             cityId: new FormControl("",Validators.required)
         });
     }

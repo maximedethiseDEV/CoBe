@@ -6,6 +6,9 @@ export const productRoutes: Routes = [
     {
         path: 'products',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        data: {
+            role: ['ADMIN']
+        },
         children: [
             {
                 path: '',

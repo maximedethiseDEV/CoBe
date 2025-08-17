@@ -5,7 +5,6 @@ export interface Customer extends EntityModel {
     dateStart: string;
     dateEnd: string;
     isSolvent: boolean;
-    parentId: string;
 
     companyId: string;
         companyName: string;

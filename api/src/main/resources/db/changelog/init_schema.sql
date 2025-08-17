@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 CREATE TABLE "country"
 (
     "id"    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "country_code"  VARCHAR(3) UNIQUE NOT NULL,
+    "country_code"  VARCHAR(2) UNIQUE NOT NULL,
     "country_name"  VARCHAR(255)      NOT NULL,
     "created_date"    TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"    TIMESTAMPTZ DEFAULT NOW()
@@ -23,8 +23,8 @@ CREATE INDEX "idx_city_name" ON "city" ("city_name");
 CREATE TABLE "address"
 (
     "id"    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "street"        VARCHAR(255),
     "city_id"       UUID      NOT NULL REFERENCES "city" ("id") ON DELETE RESTRICT,
-    "street"        VARCHAR(255) NOT NULL,
     "created_date"    TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"    TIMESTAMPTZ DEFAULT NOW()
 );
@@ -57,8 +57,8 @@ CREATE TABLE "dbuser"
     "id"       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     "username"      VARCHAR(255) NOT NULL UNIQUE,
     "password_hash" VARCHAR(255) NOT NULL,
-    "contact_id"    UUID         REFERENCES "contact" ("id") ON DELETE SET NULL,
     "permission"    VARCHAR(50),
+    "contact_id"    UUID         UNIQUE REFERENCES "contact" ("id") ON DELETE SET NULL,
     "created_date"    TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"    TIMESTAMPTZ DEFAULT NOW()
 );
@@ -67,10 +67,10 @@ CREATE TABLE "dbuser"
 CREATE TABLE "company"
 (
     "id"          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "name"                VARCHAR(255) NOT NULL UNIQUE,
+    "name"                VARCHAR(255) NOT NULL,
     "commercially_active" BOOLEAN      NOT NULL,
-    "contact_id"  UUID         REFERENCES "contact" ("id") ON DELETE SET NULL,
-    "address_id"          UUID         REFERENCES "address" ("id") ON DELETE SET NULL,
+    "parent_id"           UUID REFERENCES company (id) ON DELETE SET NULL,
+    "address_id"          UUID         UNIQUE REFERENCES "address" ("id") ON DELETE SET NULL,
     "shared_details_id"   UUID         REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "created_date"          TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"          TIMESTAMPTZ DEFAULT NOW()
@@ -82,8 +82,9 @@ CREATE INDEX "idx_company_name_active" ON "company" ("name" ASC) WHERE "commerci
 CREATE TABLE "transport_supplier"
 (
     "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "company_id"            UUID NOT NULL REFERENCES "company" ("id") ON DELETE CASCADE,
     "license_number"        VARCHAR(255),
+    "company_id"            UUID UNIQUE NOT NULL REFERENCES "company" ("id") ON DELETE CASCADE,
+    "contact_id"          UUID UNIQUE REFERENCES contact (id) ON DELETE SET NULL,
     "created_date"            TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"            TIMESTAMPTZ DEFAULT NOW()
 );
@@ -91,46 +92,45 @@ CREATE TABLE "transport_supplier"
 CREATE TABLE "material_supplier"
 (
     "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "company_id"           UUID NOT NULL REFERENCES "company" ("id") ON DELETE CASCADE,
-    "contact_id"           UUID REFERENCES "contact" ("id") ON DELETE SET NULL,
-    "loading_address_id"   UUID REFERENCES "address" ("id") ON DELETE SET NULL,
+    "company_id"           UUID UNIQUE NOT NULL REFERENCES "company" ("id") ON DELETE CASCADE,
+    "contact_id"           UUID UNIQUE REFERENCES "contact" ("id") ON DELETE SET NULL,
+    "loading_address_id"   UUID UNIQUE REFERENCES "address" ("id") ON DELETE SET NULL,
     "shared_details_id"    UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "created_date"           TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"           TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE customer
+
+CREATE TABLE "customer"
 (
     "id"         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "company_id"          UUID NOT NULL REFERENCES company (id) ON DELETE CASCADE,
-    "contact_id"          UUID REFERENCES contact (id) ON DELETE SET NULL,
-    "shared_details_id"   UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
-    "date_start"          DATE,
-    "date_end"            DATE,
+    "date_start"          TIMESTAMPTZ,
+    "date_end"            TIMESTAMPTZ,
     "is_solvent"          BOOLEAN NOT NULL,
-    "parent_id"           UUID REFERENCES customer (id) ON DELETE SET NULL,
+    "company_id"          UUID UNIQUE NOT NULL REFERENCES company (id) ON DELETE CASCADE,
+    "contact_id"          UUID UNIQUE REFERENCES contact (id) ON DELETE SET NULL,
+    "shared_details_id"   UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "created_date"          TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"          TIMESTAMPTZ DEFAULT NOW()
 );
 
-
 CREATE TABLE "construction_site"
 (
     "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "date_start"           TIMESTAMPTZ,
+    "date_end"             TIMESTAMPTZ,
+    "customer_id"          UUID REFERENCES customer ("id") NOT NULL,
     "address_id"           UUID NOT NULL REFERENCES "address" ("id") ON DELETE RESTRICT,
-    "customer_id"          UUID REFERENCES customer ("id"),
+    "contact_id"          UUID REFERENCES contact (id) ON DELETE SET NULL,
     "shared_details_id"    UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
-    "date_start"           DATE,
-    "date_end"             DATE,
     "created_date"           TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"           TIMESTAMPTZ DEFAULT NOW()
 );
 
-
 CREATE TABLE "product"
 (
     "id"           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "code"         VARCHAR(4) NOT NULL UNIQUE,
+    "code"         VARCHAR(4) UNIQUE NOT NULL,
     "name"         VARCHAR(100) NOT NULL,
     "material_supplier_id" UUID REFERENCES "material_supplier" ("id") ON DELETE SET NULL,
     "shared_details_id"    UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
@@ -138,17 +138,15 @@ CREATE TABLE "product"
     "last_modified_date"           TIMESTAMPTZ DEFAULT NOW()
 );
 
-
 CREATE TABLE "purchase_order"
 (
     "id"                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "billing_customer_id"     UUID NOT NULL REFERENCES "customer" ("id") ON DELETE RESTRICT,
-    "delivery_customer_id"    UUID REFERENCES "customer" ("id") ON DELETE SET NULL,
-    "construction_site_id"    UUID REFERENCES "construction_site" ("id") ON DELETE SET NULL,
-    "product_id"              UUID NOT NULL REFERENCES "product" ("id") ON DELETE RESTRICT,
     "quantity"                INTEGER NOT NULL,
     "requested_delivery_begin"  TIMESTAMPTZ,
     "requested_delivery_end"    TIMESTAMPTZ,
+    "customer_id"     UUID NOT NULL REFERENCES "customer" ("id") ON DELETE RESTRICT,
+    "construction_site_id"    UUID REFERENCES "construction_site" ("id") ON DELETE RESTRICT,
+    "product_id"              UUID NOT NULL REFERENCES "product" ("id") ON DELETE RESTRICT,
     "shared_details_id"       UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "created_date"              TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"              TIMESTAMPTZ DEFAULT NOW()
@@ -157,11 +155,11 @@ CREATE TABLE "purchase_order"
 CREATE TABLE "delivery_order_number"
 (
     "id"      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    "unique_delivery_order_number" VARCHAR(20) UNIQUE NOT NULL,
     "transport_supplier_id"         UUID NOT NULL REFERENCES "transport_supplier" ("id") ON DELETE RESTRICT,
     "customer_id"                   UUID NOT NULL REFERENCES "customer" ("id") ON DELETE RESTRICT,
     "city_id"                       UUID NOT NULL REFERENCES "city" ("id") ON DELETE RESTRICT,
     "product_id"                    UUID NOT NULL REFERENCES "product" ("id") ON DELETE RESTRICT,
-    "unique_delivery_order_number" VARCHAR(20) UNIQUE NOT NULL,
     "created_date"    TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"    TIMESTAMPTZ DEFAULT NOW()
 );
@@ -169,7 +167,7 @@ CREATE TABLE "delivery_order_number"
 CREATE TABLE "delivery_status"
 (
     "id"      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "name"    VARCHAR(50) NOT NULL UNIQUE,
+    "name"    VARCHAR(50) UNIQUE NOT NULL,
     "created_date"               TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"               TIMESTAMPTZ DEFAULT NOW()
 );
@@ -177,12 +175,12 @@ CREATE TABLE "delivery_status"
 CREATE TABLE "delivery"
 (
     "id"              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "order_id"                 UUID NOT NULL REFERENCES "purchase_order" ("id") ON DELETE RESTRICT,
-    "transport_supplier_id"    UUID NOT NULL REFERENCES "transport_supplier" ("id") ON DELETE RESTRICT,
-    "delivery_order_number_id" UUID  REFERENCES "delivery_order_number" ("id") ON DELETE RESTRICT,
     "actual_delivery_begin"    TIMESTAMPTZ,
     "actual_delivery_end"      TIMESTAMPTZ,
     "quantity"                 INTEGER NOT NULL,
+    "order_id"                 UUID NOT NULL REFERENCES "purchase_order" ("id") ON DELETE RESTRICT,
+    "transport_supplier_id"    UUID REFERENCES "transport_supplier" ("id") ON DELETE SET NULL,
+    "delivery_order_number_id" UUID  REFERENCES "delivery_order_number" ("id") ON DELETE SET NULL,
     "status_id"                UUID NOT NULL REFERENCES "delivery_status" ("id"),
     "created_date"               TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"               TIMESTAMPTZ DEFAULT NOW()

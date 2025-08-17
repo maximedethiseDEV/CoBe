@@ -28,7 +28,8 @@ import {
     TrafficCone,
     TrendingUpDown,
     Truck,
-    Wallet
+    Wallet,
+    SquarePlus, Check
 } from 'lucide-angular';
 
 export const LucideIconsList = {
@@ -61,5 +62,6 @@ export const LucideIconsList = {
     Mail,
     Delete,
     SquarePen,
-    Save
+    Save,
+    Check
 };

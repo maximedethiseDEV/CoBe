@@ -8,6 +8,9 @@ export const customerRoutes: Routes = [
     {
         path: 'customers',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        data: {
+            role: ['ADMIN']
+        },
         children: [
             {
                 path: '',

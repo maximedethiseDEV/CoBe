@@ -28,6 +28,23 @@
                     </div>
 
                     <div class="grid grid-cols-3 gap-4">
+                        <label for="contact" class="block text-sm font-medium text-gray-700">
+                            Contact
+                        </label>
+                        <select
+                            id="contact"
+                            formControlName="contactId"
+                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            @for (contact of contacts; track contact.id) {
+                                <option [ngValue]="contact.id">
+                                    {{ contact.firstName }} {{contact.role}}
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4">
                         <label for="license" class="block text-sm font-medium text-gray-700">
                             Licence
                         </label>

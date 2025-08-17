@@ -2,12 +2,12 @@
     <nav class="p-4">
         <div class="px-4 py-3 border-b border-gray-200">
             <h2 class="text-lg font-semibold text-gray-800">
-                {{ parentLabel }}
+                {{ parentLabel() }}
             </h2>
         </div>
 
         <ul class="space-y-2">
-            @for (item of menuItems; track item.label) {
+            @for (item of menuItems(); track item.label) {
                 <li>
                     <a [routerLink]="[item.link]" (click)="onItemClick(item)" class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
                         <lucide-icon [name]="item.icon" class="size-5"></lucide-icon>

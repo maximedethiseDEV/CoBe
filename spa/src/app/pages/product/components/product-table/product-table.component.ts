@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {ProductProvider} from '@core/providers';
 import {Product} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-product-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -25,16 +29,19 @@ export class ProductTableComponent extends BaseTableComponent implements OnInit 
     public tableColumns: TableColumn[] = [
         {
             key: 'code',
+            type:'text',
             translate: 'Code produit',
             sort: true
         },
         {
             key: 'name',
+            type:'text',
             translate: 'Nom',
             sort: true
         },
         {
             key: 'companyName',
+            type:'text',
             translate: 'Fournisseur',
             sort: true
         }

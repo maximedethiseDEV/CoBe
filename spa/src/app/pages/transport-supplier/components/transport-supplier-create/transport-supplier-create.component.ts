@@ -16,6 +16,7 @@ import {TransportSupplierProvider} from '@core/providers';
 })
 export class TransportSupplierCreateComponent extends BaseCreateComponent {
     @Input() companies: Company[] = [];
+    @Input() contacts: Contact[] = [];
     private transportSupplierProvider: TransportSupplierProvider = inject(TransportSupplierProvider);
     public featurePath: string = 'transport-suppliers';
     public labelHeader: string = 'Nouveau Transporteur';
@@ -23,6 +24,7 @@ export class TransportSupplierCreateComponent extends BaseCreateComponent {
     public override generateForm(): FormGroup {
         return new FormGroup({
             companyId: new FormControl("",Validators.required),
+            contactId: new FormControl(),
             license: new FormControl()
         });
     }

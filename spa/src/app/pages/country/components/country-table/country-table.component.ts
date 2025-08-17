@@ -5,12 +5,16 @@ import {Button} from 'primeng/button';
 import {CountryProvider} from '@core/providers';
 import {Country} from '@core/models';
 import {Pagination, TableColumn} from '@core/types';
+import {DatePipe} from '@angular/common';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
     selector: 'app-country-table',
     imports: [
         TableModule,
-        Button
+        Button,
+        DatePipe,
+        LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
@@ -24,11 +28,13 @@ export class CountryTableComponent extends BaseTableComponent implements OnInit 
     public tableColumns: TableColumn[] = [
         {
             key: 'countryName',
+            type:'text',
             translate: 'Nom',
             sort: true
         },
         {
             key: 'countryCode',
+            type:'text',
             translate: 'Code',
             sort: true
         }
