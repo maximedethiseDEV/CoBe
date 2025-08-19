@@ -4,11 +4,19 @@ import {
     CompaniesResolver, ContactsResolver, CustomersResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {ConstructionSiteResolver} from '@core/resolvers/construction-site.resolver';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const constructionSiteRoutes: Routes = [
     {
         path: 'construction-sites',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
+        data: {
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'construction-sites')?.role ?? []
+        },
         children: [
             {
                 path: '',

@@ -1,10 +1,18 @@
 import {Routes} from '@angular/router';
 import {SharedDetailsResolver} from '@core/resolvers';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const sharedDetailsRoutes: Routes = [
     {
         path: 'shared-details',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
+        data: {
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'shared-details')?.role ?? []
+        },
         children: [
             {
                 path: '',

@@ -6,13 +6,18 @@ import {
     TransportSuppliersResolver,
 } from '@core/resolvers';
 import {DeliveryOrderNumberResolver} from '@core/resolvers/delivery-order-number.resolver';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const deliveryOrderNumberRoutes: Routes = [
     {
         path: 'delivery-order-numbers',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
         data: {
-            role: ['ADMIN']
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'delivery-order-numbers')?.role ?? []
         },
         children: [
             {

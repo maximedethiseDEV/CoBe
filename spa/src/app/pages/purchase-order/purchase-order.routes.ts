@@ -6,10 +6,18 @@ import {
     ProductsResolver
 } from '@core/resolvers';
 import {PurchaseOrderResolver} from '@core/resolvers/purchase-order.resolver';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const purchaseOrderRoutes: Routes = [
     {
         path: 'purchase-orders',
+        canActivate: [AuthenticationGuard],
+        data: {
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'purchase-orders')?.role ?? []
+        },
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
         children: [
             {

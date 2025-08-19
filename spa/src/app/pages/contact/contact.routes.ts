@@ -1,9 +1,17 @@
 import {Routes} from '@angular/router';
 import {ContactResolver} from '@core/resolvers';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const contactRoutes: Routes = [
     {
         path: 'contacts',
+        canActivate: [AuthenticationGuard],
+        data: {
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'contacts')?.role ?? []
+        },
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
         children: [
             {

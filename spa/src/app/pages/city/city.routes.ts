@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
 import {CityResolver, CountriesResolver} from '@core/resolvers';
 import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const cityRoutes: Routes = [
     {
@@ -8,7 +9,9 @@ export const cityRoutes: Routes = [
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
         canActivate: [AuthenticationGuard],
         data: {
-            role: ['ADMIN']
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'cities')?.role ?? []
         },
         children: [
             {

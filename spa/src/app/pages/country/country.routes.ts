@@ -1,12 +1,17 @@
 import {Routes} from '@angular/router';
 import {CountryResolver} from '@core/resolvers';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const countryRoutes: Routes = [
     {
         path: 'countries',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
         data: {
-            role: ['ADMIN']
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'countries')?.role ?? []
         },
         children: [
             {

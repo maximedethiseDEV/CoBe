@@ -28,24 +28,6 @@ public class OrderController extends AbstractCrudController<Order, OrderDto, Pos
         this.orderService = orderService;
     }
 
-    /*
-    @PostMapping(value = "/with-file", consumes = "multipart/form-data")
-    public ResponseEntity<OrderDto> createWithFile(
-            @RequestPart("order") OrderDto orderDto,
-            @RequestPart(value = "file", required = false) MultipartFile file
-    ) {
-        OrderDto createdOrder = orderService.create(orderDto, file);
-
-        String entityPath = getEntityPath();
-        sseService.broadcastToEntity(entityPath,
-                new SseEventMessage("CREATE", entityPath, createdOrder));
-
-        return ResponseEntity.ok(createdOrder);
-    }
-
-     */
-
-
     @Override
     protected AbstractCrudService<Order, OrderDto, PostOrderDto, UUID> getService() {
 

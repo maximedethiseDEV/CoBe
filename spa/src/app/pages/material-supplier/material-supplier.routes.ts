@@ -4,13 +4,18 @@ import {
     CompaniesResolver, ContactsResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {MaterialSupplierResolver} from '@core/resolvers/material-supplier.resolver';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const materialSupplierRoutes: Routes = [
     {
         path: 'material-suppliers',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
         data: {
-            role: ['ADMIN']
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'material-suppliers')?.role ?? []
         },
         children: [
             {

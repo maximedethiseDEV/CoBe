@@ -1,13 +1,18 @@
 import {Routes} from '@angular/router';
 import {CompaniesResolver, ContactsResolver} from '@core/resolvers';
 import {TransportSupplierResolver} from '@core/resolvers/transport-supplier.resolver';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const transportSupplierRoutes: Routes = [
     {
         path: 'transport-suppliers',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
         data: {
-            role: ['ADMIN']
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'transport-suppliers')?.role ?? []
         },
         children: [
             {

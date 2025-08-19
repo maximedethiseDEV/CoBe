@@ -1,11 +1,19 @@
 import {Routes} from '@angular/router';
 import {CitiesResolver, CountriesResolver} from '@core/resolvers';
 import {AddressResolver} from '@core/resolvers/address.resolver';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const addressRoutes: Routes = [
     {
         path: 'addresses',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
+        data: {
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'addresses')?.role ?? []
+        },
         children: [
             {
                 path: '',

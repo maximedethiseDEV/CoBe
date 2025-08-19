@@ -12,6 +12,10 @@ import {Pagination} from '@core/types/pagination.type';
 export class ContactProvider {
     private http: HttpClient = inject(HttpClient);
 
+    public getAllNoPage(params?: any): Observable<Contact[]> {
+        return this.http.get<Contact[]>(`${environment.url.api}/contacts/all`, {params});
+    }
+
     public getAll(params?: any): Observable<Pagination<Contact>> {
         return this.http.get(`${environment.url.api}/contacts`, {params}).pipe(
             map((response: any) => response)

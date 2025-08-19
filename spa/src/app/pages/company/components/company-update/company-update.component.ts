@@ -2,7 +2,7 @@ import {Component, inject, Input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
-import {Address, Company, Contact, SharedDetails} from '@core/models';
+import {Address, Company, SharedDetails} from '@core/models';
 import {CompanyProvider} from '@core/providers';
 
 @Component({
@@ -16,7 +16,6 @@ import {CompanyProvider} from '@core/providers';
 })
 export class CompanyUpdateComponent extends BaseUpdateComponent {
     @Input() addresses: Address[] = [];
-    @Input() contacts: Contact[] = [];
     @Input() sharedDetails: SharedDetails[] = [];
     @Input() companies: Company[] = [];
     private companyProvider: CompanyProvider = inject(CompanyProvider);

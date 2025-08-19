@@ -1,15 +1,20 @@
 import {Routes} from '@angular/router';
 import {
-    CompaniesResolver, ContactsResolver, SharedAllDetailsResolver,
+    CompaniesResolver, ContactsNoPageResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {CustomerResolver} from '@core/resolvers/customer.resolver';
+import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const customerRoutes: Routes = [
     {
         path: 'customers',
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
+        canActivate: [AuthenticationGuard],
         data: {
-            role: ['ADMIN']
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'customers')?.role ?? []
         },
         children: [
             {
@@ -21,7 +26,7 @@ export const customerRoutes: Routes = [
                 loadComponent: () => import('@pages/customer/components/customer-create/customer-create.component').then(component => component.CustomerCreateComponent),
                 resolve: {
                     companies: CompaniesResolver,
-                    contacts: ContactsResolver,
+                    contacts: ContactsNoPageResolver,
                     sharedDetails: SharedAllDetailsResolver,
                 }
             },
@@ -31,7 +36,7 @@ export const customerRoutes: Routes = [
                 resolve: {
                     entity: CustomerResolver,
                     companies: CompaniesResolver,
-                    contacts: ContactsResolver,
+                    contacts: ContactsNoPageResolver,
                     sharedDetails: SharedAllDetailsResolver,
                 }
             }

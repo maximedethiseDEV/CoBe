@@ -1,9 +1,10 @@
 import {Routes} from '@angular/router';
 import {
-    AddressesResolver, CompaniesResolver, ContactsResolver, SharedAllDetailsResolver,
+    AddressesResolver, CompaniesResolver, ContactsNoPageResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {CompanyResolver} from '@core/resolvers/company.resolver';
 import {AuthenticationGuard} from '@core/guards';
+import {MenuList} from '@core/lists';
 
 export const companyRoutes: Routes = [
     {
@@ -11,7 +12,9 @@ export const companyRoutes: Routes = [
         loadComponent: () => import('@core/components/wrapper/wrapper.component').then(component => component.WrapperComponent),
         canActivate: [AuthenticationGuard],
         data: {
-            role: ['ADMIN']
+            role:  MenuList
+                .flatMap(item => item.children ?? [])
+                .find(child => child.link === 'companies')?.role ?? []
         },
         children: [
             {
@@ -22,7 +25,6 @@ export const companyRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/company/components/company-create/company-create.component').then(component => component.CompanyCreateComponent),
                 resolve: {
-                    contacts: ContactsResolver,
                     addresses: AddressesResolver,
                     sharedDetails: SharedAllDetailsResolver,
                     companies: CompaniesResolver
@@ -33,7 +35,6 @@ export const companyRoutes: Routes = [
                 loadComponent: () => import('@pages/company/components/company-update/company-update.component').then(component => component.CompanyUpdateComponent),
                 resolve: {
                     entity: CompanyResolver,
-                    contacts: ContactsResolver,
                     addresses: AddressesResolver,
                     sharedDetails: SharedAllDetailsResolver,
                     companies: CompaniesResolver
