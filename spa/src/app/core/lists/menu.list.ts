@@ -4,19 +4,19 @@ import {LucideIconsList} from '@core/lists/lucide-icons.list';
 export const MenuList: MenuItem[] = [
     {
         label: 'Visualiser le tableau de bord',
-        role: [],
+        role: ['ADMIN','USER'],
         icon: LucideIconsList.ChartLine,
         link: 'dashboard'
     },
     {
         label: 'Planifier les livraisons',
-        role: [],
+        role: ['ADMIN','USER'],
         icon: LucideIconsList.CalendarClock,
         link: 'schedule'
     },
     {
         label: 'Visualiser les données',
-        role: [],
+        role: ['ADMIN','USER'],
         icon: LucideIconsList.TextSearch,
         children: [
             {
@@ -27,7 +27,7 @@ export const MenuList: MenuItem[] = [
             },
             {
                 label: 'Chantiers',
-                role: [],
+                role: ['ADMIN','USER'],
                 icon: LucideIconsList.TrafficCone,
                 link: 'construction-sites'
             },
@@ -39,19 +39,19 @@ export const MenuList: MenuItem[] = [
             },
             {
                 label: 'Commandes',
-                role: [],
+                role: ['ADMIN','USER'],
                 icon: LucideIconsList.Package,
                 link: 'purchase-orders'
             },
             {
                 label: 'Contacts',
-                role: [],
+                role: ['ADMIN','USER'],
                 icon: LucideIconsList.CircleUserRound,
                 link: 'contacts'
             },
             {
                 label: 'Détails de livraison',
-                role: [],
+                role: ['ADMIN','USER'],
                 icon: LucideIconsList.PackageSearch,
                 link: 'shared-details'
             },
@@ -69,7 +69,7 @@ export const MenuList: MenuItem[] = [
             },
             {
                 label: 'Livraisons',
-                role: [],
+                role: ['ADMIN','USER'],
                 icon: LucideIconsList.PackageCheck,
                 link: 'deliveries'
             },
