@@ -29,7 +29,7 @@ import {
     TrendingUpDown,
     Truck,
     Wallet,
-    SquarePlus, Check
+    Check,
 } from 'lucide-angular';
 
 export const LucideIconsList = {
@@ -63,5 +63,5 @@ export const LucideIconsList = {
     Delete,
     SquarePen,
     Save,
-    Check
+    Check,
 };

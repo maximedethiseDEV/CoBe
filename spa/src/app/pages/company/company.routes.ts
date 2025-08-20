@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
 import {
-    AddressesResolver, CompaniesResolver, ContactsNoPageResolver, SharedAllDetailsResolver,
+    AddressesResolver, CompaniesResolver, ContactsNoPageResolver, CountriesResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {CompanyResolver} from '@core/resolvers/company.resolver';
 import {AuthenticationGuard} from '@core/guards';
@@ -27,7 +27,8 @@ export const companyRoutes: Routes = [
                 resolve: {
                     addresses: AddressesResolver,
                     sharedDetails: SharedAllDetailsResolver,
-                    companies: CompaniesResolver
+                    companies: CompaniesResolver,
+                    countries: CountriesResolver
                 }
             },
             {
@@ -37,7 +38,8 @@ export const companyRoutes: Routes = [
                     entity: CompanyResolver,
                     addresses: AddressesResolver,
                     sharedDetails: SharedAllDetailsResolver,
-                    companies: CompaniesResolver
+                    companies: CompaniesResolver,
+                    countries: CountriesResolver
                 }
             }
         ]
