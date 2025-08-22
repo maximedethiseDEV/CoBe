@@ -4,6 +4,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {Address, City} from '@core/models';
 import {AddressProvider} from '@core/providers';
+import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
 
 @Component({
     selector: 'app-address-update',
@@ -11,11 +12,11 @@ import {AddressProvider} from '@core/providers';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        AddressFormComponent,
     ],
     templateUrl: './address-update.component.html'
 })
 export class AddressUpdateComponent extends BaseUpdateComponent {
-    @Input() cities: City[] = [];
     private addressProvider: AddressProvider = inject(AddressProvider);
     public featurePath: string = 'addresses';
     public labelHeader: string = 'Mettre à jour la ville';

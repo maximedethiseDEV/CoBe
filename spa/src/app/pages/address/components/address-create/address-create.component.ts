@@ -1,9 +1,10 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {AddressProvider} from '@core/providers';
-import {Address, City} from '@core/models';
+import {Address} from '@core/models';
+import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
 
 @Component({
     selector: 'app-address-create',
@@ -11,11 +12,11 @@ import {Address, City} from '@core/models';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        AddressFormComponent,
     ],
     templateUrl: './address-create.component.html'
 })
 export class AddressCreateComponent extends BaseCreateComponent {
-    @Input() cities: City[] = [];
     private addressProvider: AddressProvider = inject(AddressProvider);
     public featurePath: string = 'addresses';
     public labelHeader: string = 'Nouvelle adresse';

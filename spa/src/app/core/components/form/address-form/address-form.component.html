@@ -1,0 +1,35 @@
+<div
+    [formGroup]="formAddress()"
+    class="space-y-4"
+>
+    <div class="grid">
+        <label for="street" class="block text-sm font-medium text-gray-700">
+            Rue
+        </label>
+        <input
+            id="street"
+            type="text"
+            formControlName="street"
+            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300"
+        >
+    </div>
+
+    <div class="grid">
+        <label for="city"
+               class="block text-sm font-medium text-gray-700"
+        >
+            Ville
+        </label>
+        <select
+            id="city"
+            formControlName="cityId"
+            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+            @for (city of cities(); track city.id) {
+                <option [ngValue]="city.id">
+                    {{ city.cityName }} ({{ city.postalCode }}) - {{ city.countryCode }}
+                </option>
+            }
+        </select>
+    </div>
+</div>

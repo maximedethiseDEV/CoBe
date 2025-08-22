@@ -1,15 +1,16 @@
-import {Component, ElementRef, inject, ViewChild} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {SharedDetailsProvider} from '@core/providers';
-import {FileUploaderComponent, BaseUpdateComponent} from '@core/components';
+import {BaseUpdateComponent} from '@core/components';
+import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 
 @Component({
     selector: 'app-country-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        FileUploaderComponent
+        SharedDetailsFormComponent
     ],
     templateUrl: './shared-details-update.component.html'
 })
@@ -17,8 +18,6 @@ export class SharedDetailsUpdateComponent extends BaseUpdateComponent {
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
     public featurePath: string = 'shared-details';
     public labelHeader: string = 'Mettre à jour le détail de livraison';
-
-    @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
     public override generateForm(): FormGroup {
         return new FormGroup({
@@ -52,9 +51,5 @@ export class SharedDetailsUpdateComponent extends BaseUpdateComponent {
                 }
             });
         }
-    }
-
-    onAttachmentSelected(file: File | null) {
-        this.form.get('fileName')?.setValue(file);
     }
 }

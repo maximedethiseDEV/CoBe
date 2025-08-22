@@ -10,6 +10,9 @@ import lombok.EqualsAndHashCode;
 @Table(name = "shared_details")
 public class SharedDetails extends AbstractEntity {
 
+    @Column(name = "label")
+    private String label;
+
     @Column(name = "file_name")
     private String fileName;
 
