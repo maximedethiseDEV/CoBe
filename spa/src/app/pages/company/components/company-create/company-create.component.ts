@@ -2,7 +2,7 @@ import {Component, inject, Input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
-import {Address, Company, SharedDetails} from '@core/models';
+import {Address, City, Company, Country, SharedDetails} from '@core/models';
 import {CompanyProvider} from '@core/providers';
 import {NgClass} from '@angular/common';
 
@@ -18,17 +18,29 @@ import {NgClass} from '@angular/common';
 })
 export class CompanyCreateComponent extends BaseCreateComponent {
     @Input() addresses: Address[] = [];
+    @Input() cities: City[] = [];
+    @Input() countries: Country[] = [];
     @Input() sharedDetails: SharedDetails[] = [];
     @Input() companies: Company[] = [];
-    @Input() countries: any[] = [];
     private companyProvider: CompanyProvider = inject(CompanyProvider);
     public featurePath: string = 'companies';
     public labelHeader: string = 'Nouvelle entreprise';
-    protected openedParent = false;
-    protected openedCompany = false;
-    protected openedAddress = false;
-    protected openedSharedDetails = false;
-    protected createMode = false;
+    protected states  = {
+        parent: {
+            opened: false,
+        },
+        company: {
+            opened: false,
+        },
+        address: {
+            opened: false,
+            create: false
+        },
+        sharedDetails: {
+            opened: false,
+            create: false
+        }
+    };
 
     public override generateForm(): FormGroup {
         return new FormGroup({
