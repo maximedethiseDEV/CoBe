@@ -1,6 +1,6 @@
-<div class="sticky top-0 h-16 sm:mx-auto sm:w-full border-e border-gray-200 bg-white shadow-sm z-10">
-    <h2 class="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight text-gray-900">
-        <i-lucide [img]="iconHeader" class="size-8"></i-lucide>
+<div class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm px-4 py-3">
+    <h2 class="flex items-center justify-center gap-3 text-xl font-semibold text-indigo-700">
+        <i-lucide [img]="iconHeader" class="w-6 h-6 text-indigo-600"></i-lucide>
         {{ labelHeader }}
     </h2>
 </div>
@@ -8,113 +8,123 @@
     <form
         [formGroup]="form"
         (ngSubmit)="create()"
+        class="w-full"
     >
-        <app-accordion-fom
-            title="Donneur d'ordre"
-            [(opened)]="statesPanel.parent.opened"
-        >
-            <ng-container slot="content">
-                <label for="parent" class="block text-sm font-medium text-gray-700">
-                    Donneur d'ordre
-                </label>
-                <select
-                    id="parent"
-                    formControlName="parentId"
-                    class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                    <option [ngValue]="null"></option>
-                    @for (company of companies(); track company.id) {
-                        <option [ngValue]="company.id">
-                            {{company.companyName}} {{ company.cityName }} ({{ company.postalCode }}) - {{ company.countryCode }}
-                        </option>
+        <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
+            <app-accordion-fom
+                title="Donneur d'ordre"
+                [(opened)]="statesPanel.parent.opened"
+            >
+                <ng-container slot="content">
+                    <label for="parent" class="block text-sm font-medium text-slate-700">
+                        Donneur d'ordre
+                    </label>
+                    <select
+                        id="parent"
+                        formControlName="parentId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (company of companies(); track company.id) {
+                            <option [ngValue]="company.id">
+                                {{company.companyName}} {{ company.cityName }} ({{ company.postalCode }}) - {{ company.countryCode }}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-accordion-fom>
+
+            <app-accordion-fom
+                title="Entreprise"
+                [(opened)]="statesPanel.company.opened"
+            >
+                <ng-container slot="content">
+                    <label for="companyName" class="block text-sm font-medium text-slate-700">
+                        Nom de l'entreprise <span class="text-indigo-600">*</span>
+                    </label>
+                    <input
+                        id="companyName"
+                        type="text"
+                        formControlName="companyName"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition placeholder:text-slate-400"
+                        placeholder="Ex. ACME SAS"
+                    >
+                    @if (form.get('companyName')?.invalid && (form.get('companyName')?.touched || form.get('companyName')?.dirty)) {
+                        <p class="mt-1 text-xs text-rose-600">Champ requis</p>
                     }
-                </select>
-            </ng-container>
-        </app-accordion-fom>
+                    <div class="mt-4 flex items-center gap-3">
+                        <input
+                            type="checkbox"
+                            id="commerciallyActive"
+                            formControlName="commerciallyActive"
+                            class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-2 focus:ring-indigo-400"
+                        />
+                        <label for="commerciallyActive" class="text-sm font-medium text-slate-700">
+                            Actif
+                        </label>
+                    </div>
+                </ng-container>
+            </app-accordion-fom>
 
-        <app-accordion-fom
-            title="Entreprise"
-            [(opened)]="statesPanel.company.opened"
-        >
-            <ng-container slot="content">
-                <label for="companyName" class="block text-sm font-medium text-gray-700">
-                    Nom de l'entreprise
-                </label>
-                <input
-                    id="companyName"
-                    type="text"
-                    formControlName="companyName"
-                    class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300"
-                >
-                <label for="commerciallyActive" class="block text-sm font-medium text-gray-700">
-                    Actif
-                </label>
-                <input
-                    type="checkbox"
-                    id="commerciallyActive"
-                    formControlName="commerciallyActive"
-                />
-            </ng-container>
-        </app-accordion-fom>
+            <app-accordion-fom
+                title="Adresse"
+                [canCreate]="true"
+                [(opened)]="statesPanel.address.opened"
+                [(creating)]="statesPanel.address.create"
+            >
+                <ng-container slot="create">
+                    <app-address-form [(formAddress)]="formAddress"/>
+                </ng-container>
+                <ng-container slot="content">
+                    <label for="address" class="block text-sm font-medium text-slate-700">
+                        Adresse
+                    </label>
+                    <select
+                        id="address"
+                        formControlName="addressId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (address of addresses(); track address.id) {
+                            <option [ngValue]="address.id">
+                                {{ address.street }} - {{ address.cityName }} ({{ address.postalCode }}) - {{ address.countryCode }}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-accordion-fom>
 
-        <app-accordion-fom
-            title="Adresse"
-            [canCreate]="true"
-            [(opened)]="statesPanel.address.opened"
-            [(creating)]="statesPanel.address.create"
-        >
-            <ng-container slot="create">
-                <app-address-form [(formAddress)]="formAddress"/>
-            </ng-container>
+            <app-accordion-fom
+                title="Détails"
+                [canCreate]="true"
+                [(opened)]="statesPanel.sharedDetails.opened"
+                [(creating)]="statesPanel.sharedDetails.create"
+            >
+                <ng-container slot="create">
+                    <app-shared-details-form [(formSharedDetails)]="formSharedDetails"/>
+                </ng-container>
+                <ng-container slot="content">
+                    <label for="sharedDetail" class="block text-sm font-medium text-slate-700">
+                        Détails
+                    </label>
+                    <select
+                        id="sharedDetail"
+                        formControlName="sharedDetailsId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (sharedDetail of sharedDetails(); track sharedDetail.id) {
+                            <option [ngValue]="sharedDetail.id">
+                                {{ sharedDetail.fileName}} {{ sharedDetail.notes}}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-accordion-fom>
+        </div>
 
-            <ng-container slot="content">
-                <label for="address" class="block text-sm font-medium text-gray-700">
-                    Adresse
-                </label>
-                <select
-                    id="address"
-                    formControlName="addressId"
-                    class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                    <option [ngValue]="null"></option>
-                    @for (address of addresses(); track address.id) {
-                        <option [ngValue]="address.id">
-                            {{ address.street }} - {{ address.cityName }} ({{ address.postalCode }}) - {{ address.countryCode }}
-                        </option>
-                    }
-                </select>
-            </ng-container>
-        </app-accordion-fom>
-
-        <app-accordion-fom
-            title="Détails"
-            [canCreate]="true"
-            [(opened)]="statesPanel.sharedDetails.opened"
-            [(creating)]="statesPanel.sharedDetails.create"
-        >
-            <ng-container slot="create">
-                <app-shared-details-form [(formSharedDetails)]="formSharedDetails"/>
-            </ng-container>
-
-            <ng-container slot="content">
-                <label for="sharedDetail" class="block text-sm font-medium text-gray-700">
-                    Détails
-                </label>
-                <select
-                    id="sharedDetail"
-                    formControlName="sharedDetailsId"
-                    class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                    <option [ngValue]="null"></option>
-                    @for (sharedDetail of sharedDetails(); track sharedDetail.id) {
-                        <option [ngValue]="sharedDetail.id">
-                            {{ sharedDetail.fileName}} {{ sharedDetail.notes}}
-                        </option>
-                    }
-                </select>
-            </ng-container>
-        </app-accordion-fom>
-
-        <app-submit-button [disabled]="form.invalid"/>
+        <div class="mt-4 flex justify-end">
+            <app-submit-button [disabled]="form.invalid"/>
+        </div>
     </form>
 </div>

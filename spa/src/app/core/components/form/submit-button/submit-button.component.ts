@@ -1,5 +1,5 @@
 import {Component, input} from '@angular/core';
-import {LucideAngularModule} from 'lucide-angular';
+import {LucideAngularModule, LucideIconData} from 'lucide-angular';
 import {LucideIconsList} from '@core/lists';
 
 @Component({
@@ -10,6 +10,6 @@ import {LucideIconsList} from '@core/lists';
   templateUrl: './submit-button.component.html'
 })
 export class SubmitButtonComponent {
-    public readonly iconsList: any = LucideIconsList;
+    public readonly saveIcon : LucideIconData = LucideIconsList.Save;
     disabled = input<boolean>(false);
 }

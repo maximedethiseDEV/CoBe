@@ -1,16 +1,18 @@
 <div
-    class="flex items-center justify-between p-4 font-semibold text-lg hover:bg-gray-100"
-    [ngClass]="opened() ? 'bg-gray-200 hover:bg-gray-200' : ''"
+    class="flex items-center justify-between p-4 text-sm font-medium select-none transition-colors duration-200"
+    [ngClass]="opened()
+        ? 'bg-indigo-50 border-l-4 border-indigo-500 ring-1 ring-inset ring-indigo-200 text-slate-800'
+        : 'bg-white hover:bg-slate-50 border-l-4 border-transparent text-slate-700'"
 >
     <button
         type="button"
-        class="flex items-center cursor-pointer"
+        class="flex items-center cursor-pointer text-base md:text-lg font-semibold"
         (click)="toggleOpen()"
         [attr.aria-expanded]="opened()"
     >
         <i
-            class="inline-block border-solid border-black border-0 border-r-[3px] border-b-[3px] p-[3px] transform transition-transform duration-300 mr-2"
-            [ngClass]="opened() ? 'rotate-[-135deg]' : 'rotate-[45deg]'"
+            class="inline-block border-solid border-black/70 border-0 border-r-[3px] border-b-[3px] p-[3px] transform transition-transform duration-300 mr-3"
+            [ngClass]="opened() ? 'rotate-[-135deg] border-black/70' : 'rotate-[45deg] border-black/50'"
         ></i>
         {{ title() }}
     </button>
@@ -18,19 +20,23 @@
     @if (canCreate()) {
         <button
             type="button"
-            class="flex items-center cursor-pointer rounded-full transition duration-200 ease-in-out cursor-pointer"
-            [ngClass]="creating() ? 'bg-green-500 text-white' : 'hover:bg-gray-300'"
+            class="flex items-center justify-center h-9 w-9 rounded-full transition duration-200 ease-in-out ring-1"
+            [ngClass]="creating()
+                ? 'bg-emerald-600 text-white ring-emerald-400 hover:bg-emerald-500'
+                : 'bg-white text-slate-600 ring-slate-200 hover:bg-slate-100'"
             (click)="toggleCreate()"
         >
-            <i-lucide [img]="iconsList.CirclePlus"></i-lucide>
+            <i-lucide [img]="iconsList.CirclePlus" class="h-5 w-5"></i-lucide>
         </button>
     }
 </div>
 
 @if (opened()) {
-    @if (creating()) {
-        <ng-content select="[slot=create]"></ng-content>
-    } @else {
-        <ng-content select="[slot=content]"></ng-content>
-    }
+    <div class="px-4 py-4 border-l" [ngClass]="creating() ? 'border-emerald-100' : 'border-indigo-100'">
+        @if (creating()) {
+            <ng-content select="[slot=create]"></ng-content>
+        } @else {
+            <ng-content select="[slot=content]"></ng-content>
+        }
+    </div>
 }

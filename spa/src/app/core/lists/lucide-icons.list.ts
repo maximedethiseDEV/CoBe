@@ -30,6 +30,14 @@ import {
     Truck,
     Wallet,
     Check,
+    RefreshCcw,
+    Trash2,
+    ChevronsUpDown,
+    ChevronDown,
+    ChevronUp,
+    ChevronLeft,
+    ChevronRight,
+    Inbox
 } from 'lucide-angular';
 
 export const LucideIconsList = {
@@ -64,4 +72,12 @@ export const LucideIconsList = {
     SquarePen,
     Save,
     Check,
+    RefreshCcw,
+    Trash2,
+    ChevronsUpDown,
+    ChevronDown,
+    ChevronUp,
+    ChevronLeft,
+    ChevronRight,
+    Inbox
 };
