@@ -15,7 +15,7 @@ export const MenuList: MenuItem[] = [
         link: 'schedule'
     },
     {
-        label: 'Visualiser les données',
+        label: 'Piloter les données',
         role: ['ADMIN','USER'],
         icon: LucideIconsList.TextSearch,
         children: [

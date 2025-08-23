@@ -1,18 +1,22 @@
-<div class="w-64 h-screen border-e border-gray-100 bg-transparent transform transition-all duration-300 ease-in-out">
-    <nav class="p-4">
-        <div class="px-4 py-3 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-800">
+<div class="w-64 h-screen border-e border-gray-200 bg-white shadow-sm transform transition-all duration-300 ease-in-out">
+    <nav class="flex flex-col h-full">
+        <div class="px-4 py-3 border-b border-gray-200 bg-gray-50">
+            <h2 class="text-lg font-semibold text-gray-800 flex items-center gap-2">
                 {{ parentLabel() }}
             </h2>
         </div>
 
-        <ul class="space-y-2">
+        <ul class="flex-1 p-4 space-y-1">
             @for (item of menuItems(); track item.label) {
                 <li>
-                    <a [routerLink]="[item.link]" (click)="onItemClick(item)" class="flex items-center gap-3 rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
-                        <lucide-icon [name]="item.icon" class="size-5"></lucide-icon>
+                    <a
+                        [routerLink]="[item.link]"
+                        (click)="onItemClick(item)"
+                        class="group flex items-center gap-3 rounded-lg px-4 py-2.5 text-gray-600 transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                        <lucide-icon [name]="item.icon" class="size-5 opacity-80 group-hover:opacity-100 transition"></lucide-icon>
 
-                        <span class="text-sm font-medium">{{ item.label }}</span>
+                        <span class="text-m font-medium">{{ item.label }}</span>
                     </a>
                 </li>
             }
