@@ -19,7 +19,7 @@
                             formControlName="customerId"
                             class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         >
-                            @for (customer of customers; track customer.id) {
+                            @for (customer of customers(); track customer.id) {
                                 <option [ngValue]="customer.id">
                                     {{ customer.companyName }} {{ customer.cityName }} ({{ customer.postalCode }}) - {{ customer.countryCode }}
                                 </option>
@@ -36,7 +36,7 @@
                             formControlName="addressId"
                             class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         >
-                            @for (address of addresses; track address.id) {
+                            @for (address of addresses(); track address.id) {
                                 <option [ngValue]="address.id">
                                     {{ address.cityName }} ({{ address.postalCode }}) - {{ address.countryCode }}
                                 </option>
@@ -53,7 +53,8 @@
                             formControlName="contactId"
                             class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         >
-                            @for (contact of contacts; track contact.id) {
+                            <option [ngValue]=""></option>
+                            @for (contact of contacts(); track contact.id) {
                                 <option [ngValue]="contact.id">
                                     {{ contact.firstName }} {{contact.role}}
                                 </option>
@@ -70,7 +71,8 @@
                             formControlName="sharedDetailsId"
                             class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         >
-                            @for (sharedDetail of sharedDetails; track sharedDetail.id) {
+                            <option [ngValue]=""></option>
+                            @for (sharedDetail of sharedDetails(); track sharedDetail.id) {
                                 <option [ngValue]="sharedDetail.id">
                                     {{ sharedDetail.fileName}} {{ sharedDetail.notes}}
                                 </option>

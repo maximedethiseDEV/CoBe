@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input, Input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
@@ -15,10 +15,10 @@ import {ConstructionSiteProvider} from '@core/providers';
     templateUrl: './construction-site-create.component.html'
 })
 export class ConstructionSiteCreateComponent extends BaseCreateComponent {
-    @Input() customers: Customer[] = [];
-    @Input() addresses: Address[] = [];
-    @Input() contacts: Contact[] = [];
-    @Input() sharedDetails: SharedDetails[] = [];
+    customers = input<Customer[]>();
+    addresses = input<Address[]>();
+    contacts = input<Contact[]>();
+    sharedDetails = input<SharedDetails[]>();
     private constructionSiteProvider: ConstructionSiteProvider = inject(ConstructionSiteProvider);
     public featurePath: string = 'construction-sites';
     public labelHeader: string = 'Nouveau chantier';
@@ -36,6 +36,7 @@ export class ConstructionSiteCreateComponent extends BaseCreateComponent {
 
     public create(): void {
         const constructionSite : ConstructionSite = this.form.getRawValue();
+        console.log(constructionSite);
         this.constructionSiteProvider.create(constructionSite).subscribe({
             next: () => {
                 this.messageService.add({

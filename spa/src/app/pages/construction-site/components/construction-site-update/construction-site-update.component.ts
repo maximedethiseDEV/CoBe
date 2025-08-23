@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input, Input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
@@ -15,10 +15,10 @@ import {ConstructionSiteProvider, MaterialSupplierProvider} from '@core/provider
     templateUrl: './construction-site-update.component.html'
 })
 export class ConstructionSiteUpdateComponent extends BaseUpdateComponent {
-    @Input() customers: Customer[] = [];
-    @Input() addresses: Address[] = [];
-    @Input() contacts: Contact[] = [];
-    @Input() sharedDetails: SharedDetails[] = [];
+    customers = input<Customer[]>();
+    addresses = input<Address[]>();
+    contacts = input<Contact[]>();
+    sharedDetails = input<SharedDetails[]>();
     private constructionSiteProvider: ConstructionSiteProvider = inject(ConstructionSiteProvider);
     public featurePath: string = 'construction-sites';
     public labelHeader: string = 'Mettre à jour le chantier';

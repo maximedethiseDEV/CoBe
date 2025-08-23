@@ -1,0 +1,36 @@
+<div
+    class="flex items-center justify-between p-4 font-semibold text-lg hover:bg-gray-100"
+    [ngClass]="opened() ? 'bg-gray-200 hover:bg-gray-200' : ''"
+>
+    <button
+        type="button"
+        class="flex items-center cursor-pointer"
+        (click)="toggleOpen()"
+        [attr.aria-expanded]="opened()"
+    >
+        <i
+            class="inline-block border-solid border-black border-0 border-r-[3px] border-b-[3px] p-[3px] transform transition-transform duration-300 mr-2"
+            [ngClass]="opened() ? 'rotate-[-135deg]' : 'rotate-[45deg]'"
+        ></i>
+        {{ title() }}
+    </button>
+
+    @if (canCreate()) {
+        <button
+            type="button"
+            class="flex items-center cursor-pointer rounded-full transition duration-200 ease-in-out cursor-pointer"
+            [ngClass]="creating() ? 'bg-green-500 text-white' : 'hover:bg-gray-300'"
+            (click)="toggleCreate()"
+        >
+            <i-lucide [img]="iconsList.CirclePlus"></i-lucide>
+        </button>
+    }
+</div>
+
+@if (opened()) {
+    @if (creating()) {
+        <ng-content select="[slot=create]"></ng-content>
+    } @else {
+        <ng-content select="[slot=content]"></ng-content>
+    }
+}
