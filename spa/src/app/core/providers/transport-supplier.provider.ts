@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
-import {TransportSupplier} from '@core/models';
+import {Contact, TransportSupplier} from '@core/models';
 import {Pagination} from '@core/types/pagination.type';
 
 @Injectable({
@@ -11,6 +11,11 @@ import {Pagination} from '@core/types/pagination.type';
 })
 export class TransportSupplierProvider {
     private http: HttpClient = inject(HttpClient);
+
+    public getAllNoPage(params?: any): Observable<TransportSupplier[]> {
+        return this.http.get<TransportSupplier[]>(`${environment.url.api}/transport-suppliers/all`, {params});
+    }
+
 
     public getAll(params?: any): Observable<Pagination<TransportSupplier>> {
         return this.http.get(`${environment.url.api}/transport-suppliers`, {params}).pipe(

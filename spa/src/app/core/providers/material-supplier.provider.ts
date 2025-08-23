@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
-import {MaterialSupplier} from '@core/models';
+import {Contact, MaterialSupplier} from '@core/models';
 import {Pagination} from '@core/types/pagination.type';
 
 @Injectable({
@@ -11,6 +11,10 @@ import {Pagination} from '@core/types/pagination.type';
 })
 export class MaterialSupplierProvider {
     private http: HttpClient = inject(HttpClient);
+
+    public getAllNoPage(params?: any): Observable<MaterialSupplier[]> {
+        return this.http.get<MaterialSupplier[]>(`${environment.url.api}/material-suppliers/all`, {params});
+    }
 
     public getAll(params?: any): Observable<Pagination<MaterialSupplier>> {
         return this.http.get(`${environment.url.api}/material-suppliers`, {params}).pipe(

@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
-import {ConstructionSite} from '@core/models';
+import {ConstructionSite, Contact} from '@core/models';
 import {Pagination} from '@core/types/pagination.type';
 
 @Injectable({
@@ -11,6 +11,10 @@ import {Pagination} from '@core/types/pagination.type';
 })
 export class ConstructionSiteProvider {
     private http: HttpClient = inject(HttpClient);
+
+    public getAllNoPage(params?: any): Observable<ConstructionSite[]> {
+        return this.http.get<ConstructionSite[]>(`${environment.url.api}/construction-sites/all`, {params});
+    }
 
     public getAll(params?: any): Observable<Pagination<ConstructionSite>> {
         return this.http.get(`${environment.url.api}/construction-sites`, {params}).pipe(

@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
-import {Address} from '@core/models';
+import {Address, Contact} from '@core/models';
 import {Pagination} from '@core/types/pagination.type';
 
 @Injectable({
@@ -11,6 +11,10 @@ import {Pagination} from '@core/types/pagination.type';
 })
 export class AddressProvider {
     private http: HttpClient = inject(HttpClient);
+
+    public getAllNoPage(params?: any): Observable<Address[]> {
+        return this.http.get<Address[]>(`${environment.url.api}/addresses/all`, {params});
+    }
 
     public getAll(params?: any): Observable<Pagination<Address>> {
         return this.http.get(`${environment.url.api}/addresses`, {params}).pipe(

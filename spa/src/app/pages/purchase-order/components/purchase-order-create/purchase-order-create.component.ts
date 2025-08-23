@@ -1,11 +1,13 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
-import {PurchaseOrderProvider} from '@core/providers';
+import {ConstructionSiteProvider, PurchaseOrderProvider, SharedDetailsProvider} from '@core/providers';
 import {Product, SharedDetails, ConstructionSite, Customer, PurchaseOrder} from '@core/models';
 import {DateTimeService} from '@core/services/datetime.service';
 import {CommonModule} from '@angular/common';
+import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-product-create',
@@ -14,18 +16,28 @@ import {CommonModule} from '@angular/common';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SharedDetailsFormComponent,
+        SubmitButtonComponent,
     ],
     templateUrl: './purchase-order-create.component.html'
 })
 export class PurchaseOrderCreateComponent extends BaseCreateComponent {
-    @Input() customers: Customer[] = [];
-    @Input() constructionSites: ConstructionSite[] = [];
-    @Input() products: Product[] = [];
-    @Input() sharedDetails: SharedDetails[] = [];
+    customers = input<Customer[]>();
+    constructionSites = input<ConstructionSite[]>();
+    products = input<Product[]>();
+    sharedDetails = input<SharedDetails[]>();
     private purchaseOrderProvider: PurchaseOrderProvider = inject(PurchaseOrderProvider);
+    private constructionSiteProvider: ConstructionSiteProvider = inject(ConstructionSiteProvider);
+    private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
     private dateTimeService: DateTimeService = inject(DateTimeService);
     public featurePath: string = 'purchase-orders';
     public labelHeader: string = 'Nouvelle commande';
+    protected statesPanel  = {
+        customer: {opened: false,},
+        constructionSite: {opened: false,},
+        product: {opened: false,},
+        sharedDetails: {opened: false, create: false}
+    };
 
     public override generateForm(): FormGroup {
         return new FormGroup({

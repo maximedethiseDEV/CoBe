@@ -1,8 +1,8 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, ResolveFn} from '@angular/router';
 import {Observable} from 'rxjs';
-import {TransportSupplier} from '@core/models';
-import {TransportSupplierProvider} from '@core/providers';
+import {Contact, TransportSupplier} from '@core/models';
+import {ContactProvider, TransportSupplierProvider} from '@core/providers';
 import {map} from 'rxjs/operators';
 import {Pagination} from '@core/types';
 
@@ -17,3 +17,8 @@ export const TransportSuppliersResolver: ResolveFn<TransportSupplier[]> = (): Ob
         map((response: Pagination<TransportSupplier>) => response.content)
     );
 }
+
+export const TransportSuppliersNoPageResolver: ResolveFn<TransportSupplier[]> = (): Observable<TransportSupplier[]> => {
+    const transportSupplierProvider: TransportSupplierProvider = inject(TransportSupplierProvider);
+    return transportSupplierProvider.getAllNoPage();
+};

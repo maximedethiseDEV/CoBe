@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
-import {PurchaseOrder} from '@core/models';
+import {Company, PurchaseOrder} from '@core/models';
 import {Pagination} from '@core/types/pagination.type';
 
 @Injectable({
@@ -11,6 +11,10 @@ import {Pagination} from '@core/types/pagination.type';
 })
 export class PurchaseOrderProvider {
     private http: HttpClient = inject(HttpClient);
+
+    public getAllNoPage(params?: any): Observable<PurchaseOrder[]> {
+        return this.http.get<PurchaseOrder[]>(`${environment.url.api}/purchase-orders/all`, {params});
+    }
 
     public getAll(params?: any): Observable<Pagination<PurchaseOrder>> {
         return this.http.get(`${environment.url.api}/purchase-orders`, {params}).pipe(

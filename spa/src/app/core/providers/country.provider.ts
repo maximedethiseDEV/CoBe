@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
-import {Country} from '@core/models';
+import {Contact, Country} from '@core/models';
 import {Pagination} from '@core/types/pagination.type';
 
 @Injectable({
@@ -11,6 +11,10 @@ import {Pagination} from '@core/types/pagination.type';
 })
 export class CountryProvider {
     private http: HttpClient = inject(HttpClient);
+
+    public getAllNoPage(params?: any): Observable<Country[]> {
+        return this.http.get<Country[]>(`${environment.url.api}/countries/all`, {params});
+    }
 
     public getAll(params?: any): Observable<Pagination<Country>> {
         return this.http.get(`${environment.url.api}/countries`, {params}).pipe(

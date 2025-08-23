@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from '@environment/environment';
-import {SharedDetails} from '@core/models';
+import {Contact, SharedDetails} from '@core/models';
 import {Pagination} from '@core/types/pagination.type';
 
 @Injectable({
@@ -11,6 +11,11 @@ import {Pagination} from '@core/types/pagination.type';
 })
 export class SharedDetailsProvider {
     private http: HttpClient = inject(HttpClient);
+
+    public getAllNoPage(params?: any): Observable<SharedDetails[]> {
+        return this.http.get<SharedDetails[]>(`${environment.url.api}/shared-details/all`, {params});
+    }
+
 
     public getAll(params?: any): Observable<Pagination<SharedDetails>> {
         return this.http.get(`${environment.url.api}/shared-details`, {params}).pipe(

@@ -1,8 +1,8 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, ResolveFn} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Address} from '@core/models';
-import {AddressProvider} from '@core/providers';
+import {Address, Contact} from '@core/models';
+import {AddressProvider, ContactProvider} from '@core/providers';
 import {map} from 'rxjs/operators';
 import {Pagination} from '@core/types';
 
@@ -17,3 +17,8 @@ export const AddressesResolver: ResolveFn<Address[]> = (): Observable<Address[]>
         map((response: Pagination<Address>) => response.content)
     );
 }
+
+export const AddressesNoPageResolver: ResolveFn<Address[]> = (): Observable<Address[]> => {
+    const addressProvider: AddressProvider = inject(AddressProvider);
+    return addressProvider.getAllNoPage();
+};

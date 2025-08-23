@@ -1,8 +1,8 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, ResolveFn} from '@angular/router';
 import {Observable} from 'rxjs';
-import {ConstructionSite} from '@core/models';
-import {ConstructionSiteProvider} from '@core/providers';
+import {ConstructionSite, Contact} from '@core/models';
+import {ConstructionSiteProvider, ContactProvider} from '@core/providers';
 import {map} from 'rxjs/operators';
 import {Pagination} from '@core/types';
 
@@ -17,3 +17,8 @@ export const ConstructionSitesResolver: ResolveFn<ConstructionSite[]> = (): Obse
         map((response: Pagination<ConstructionSite>) => response.content)
     );
 }
+
+export const ConstructionSitesNoPageResolver: ResolveFn<ConstructionSite[]> = (): Observable<ConstructionSite[]> => {
+    const constructionSiteProvider: ConstructionSiteProvider = inject(ConstructionSiteProvider);
+    return constructionSiteProvider.getAllNoPage();
+};

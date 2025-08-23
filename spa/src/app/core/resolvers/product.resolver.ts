@@ -1,8 +1,8 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, ResolveFn} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Product} from '@core/models';
-import {ProductProvider} from '@core/providers';
+import {Contact, Product} from '@core/models';
+import {ContactProvider, ProductProvider} from '@core/providers';
 import {map} from 'rxjs/operators';
 import {Pagination} from '@core/types';
 
@@ -17,3 +17,8 @@ export const ProductsResolver: ResolveFn<Product[]> = (): Observable<Product[]> 
         map((response: Pagination<Product>) => response.content)
     );
 }
+
+export const ProductsNoPageResolver: ResolveFn<Product[]> = (): Observable<Product[]> => {
+    const productProvider: ProductProvider = inject(ProductProvider);
+    return productProvider.getAllNoPage();
+};
