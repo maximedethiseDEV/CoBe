@@ -1,26 +1,23 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {BaseTableComponent} from '@core/components';
-import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
 import {PurchaseOrderProvider} from '@core/providers';
 import {PurchaseOrder} from '@core/models';
-import {Pagination, TableColumn} from '@core/types';
-import {DatePipe} from '@angular/common';
+import {TableColumn} from '@core/types';
 import {LucideAngularModule} from 'lucide-angular';
+import {LucideIconsList} from '@core/lists';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-purchaseOrder-table',
     imports: [
-        TableModule,
-        Button,
-        DatePipe,
         LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
-export class PurchaseOrderTableComponent extends BaseTableComponent implements OnInit {
+export class PurchaseOrderTableComponent extends BaseTableComponent<PurchaseOrder> implements OnInit {
     private purchaseOrderProvider: PurchaseOrderProvider = inject(PurchaseOrderProvider);
-    public entityName: string = 'purchase-orders';
+    public labelHeader: string = 'Liste des commandes';
+    public iconHeader = LucideIconsList.Package;
     public filterFields: string[] = [
         'requestedDeliveryBegin',
         'requestedDeliveryEnd',
@@ -110,46 +107,11 @@ export class PurchaseOrderTableComponent extends BaseTableComponent implements O
         }
     ];
 
-    ngOnInit(): void {
-        this.setupSseConnection('purchase-orders');
+    protected fetchAll(): Observable<PurchaseOrder[]> {
+        return this.purchaseOrderProvider.getAllNoPage();
     }
 
-    public loadEntities(params?: any) {
-        this.loading = true;
-
-        this.purchaseOrderProvider.getAll(params).subscribe({
-            next: (response: Pagination<PurchaseOrder>) => {
-                this.entities = response.content;
-                this.totalElements = response.totalElements;
-            },
-            error: (error: Error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les données'
-                });
-                this.loading = false;
-            },
-            complete: () => {
-                this.loading = false;
-            }
-        });
-    }
-
-    protected override deleteEntity(purchaseOrder: PurchaseOrder): void {
-        this.purchaseOrderProvider.delete(purchaseOrder.id).subscribe({
-            next: () => {
-                this.removeEntity(purchaseOrder.id);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Supprimé',
-                    detail: 'Commande supprimée',
-                    life: 2000
-                });
-            },
-            error: (error: Error) => {
-                console.error('Erreur lors de la suppression de la commande :', error);
-            }
-        });
+    protected deleteRequest(id: string) {
+        return this.purchaseOrderProvider.delete(id);
     }
 }

@@ -6,7 +6,7 @@ import {Address, Company, ConstructionSite, Contact, Customer, MaterialSupplier,
 import {ConstructionSiteProvider, MaterialSupplierProvider} from '@core/providers';
 
 @Component({
-    selector: 'app-company-update',
+    selector: 'app-construction-site-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,

@@ -1,6 +1,6 @@
-<div class="sticky top-0 h-16 sm:mx-auto sm:w-full border-e border-gray-200 bg-white shadow-sm z-10">
-    <h2 class="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight text-gray-900">
-        <i-lucide [img]="iconHeader" class="size-8"></i-lucide>
+<div class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm px-4 py-3">
+    <h2 class="flex items-center justify-center gap-3 text-xl font-semibold text-indigo-700">
+        <i-lucide [img]="iconHeader" class="w-6 h-6 text-indigo-600"></i-lucide>
         {{ labelHeader }}
     </h2>
 </div>
@@ -9,158 +9,145 @@
     <form
         [formGroup]="form"
         (ngSubmit)="create()"
+        class="w-full"
     >
-        <div
-            class="flex items-center justify-between p-4 font-semibold text-lg hover:bg-gray-100"
-            [ngClass]="statesPanel.customer.opened ? 'bg-gray-200 hover:bg-gray-200' : ''"
-        >
-            <button
-                (click)="statesPanel.customer.opened = !statesPanel.customer.opened"
-                type="button"
-                class="flex items-center cursor-pointer"
+        <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
+            <app-accordion-fom
+                title="Client à livrer"
+                [(opened)]="statesPanel.customer.opened"
             >
-                <i
-                    class="inline-block border-solid border-black border-0 border-r-[3px] border-b-[3px] p-[3px] transform transition-transform duration-300 mr-2"
-                    [ngClass]="statesPanel.customer.opened ? 'rotate-[-135deg]' : 'rotate-[45deg]'"
-                ></i>
-                Client à livrer
-            </button>
+                <ng-container slot="content">
+                    <label for="customer" class="block text-sm font-medium text-slate-700">
+                        Client à livrer
+                    </label>
+                    <select
+                        id="customer"
+                        formControlName="customerId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (customer of customers(); track customer.id) {
+                            <option [ngValue]="customer.id">
+                                {{ customer.companyName }}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-accordion-fom>
+
+            <app-accordion-fom
+                title="Chantier"
+                [(opened)]="statesPanel.constructionSite.opened"
+            >
+                <ng-container slot="content">
+                    <label for="constructionSite" class="block text-sm font-medium text-slate-700">
+                        Choix chantier
+                    </label>
+                    <select
+                        id="constructionSite"
+                        formControlName="constructionSiteId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (constructionSite of constructionSites(); track constructionSite.id) {
+                            <option [ngValue]="constructionSite.id">
+                                {{ constructionSite.companyName }} - {{ constructionSite.street}} {{ constructionSite.cityName}} - {{constructionSite.postalCode}} - {{constructionSite.countryCode}}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-accordion-fom>
+
+            <app-accordion-fom
+                title="Produit"
+                [(opened)]="statesPanel.product.opened"
+            >
+                <ng-container slot="content">
+                    <label for="quantityOrdered" class="block text-sm font-medium text-slate-700">
+                        Quantité <span class="text-indigo-600">*</span>
+                    </label>
+                    <input
+                        id="quantityOrdered"
+                        type="number"
+                        formControlName="quantityOrdered"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                    @if (form.get('quantityOrdered')?.invalid && (form.get('quantityOrdered')?.touched || form.get('quantityOrdered')?.dirty)) {
+                        <p class="mt-1 text-xs text-rose-600">Champ requis</p>
+                    }
+
+                    <label for="product" class="mt-4 block text-sm font-medium text-slate-700">
+                        Produit <span class="text-indigo-600">*</span>
+                    </label>
+                    <select
+                        id="product"
+                        formControlName="productId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="''"></option>
+                        @for (product of products(); track product.id) {
+                            <option [ngValue]="product.id">
+                                {{product.code}} - {{product.name}}
+                            </option>
+                        }
+                    </select>
+                    @if (form.get('productId')?.invalid && (form.get('productId')?.touched || form.get('productId')?.dirty)) {
+                        <p class="mt-1 text-xs text-rose-600">Champ requis</p>
+                    }
+                </ng-container>
+            </app-accordion-fom>
+
+            <app-accordion-fom
+                title="Détails"
+                [canCreate]="true"
+                [(opened)]="statesPanel.sharedDetails.opened"
+                [(creating)]="statesPanel.sharedDetails.create"
+            >
+                <ng-container slot="create">
+                    <app-shared-details-form [(formSharedDetails)]="formSharedDetails"/>
+                </ng-container>
+                <ng-container slot="content">
+                    <label for="requestedDeliveryBegin" class="mt-4 block text-sm font-medium text-slate-700">
+                        Début de livraison souhaité <span class="text-indigo-600">*</span>
+                    </label>
+                    <input
+                        id="requestedDeliveryBegin"
+                        type="datetime-local"
+                        formControlName="requestedDeliveryBegin"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+
+                    <label for="requestedDeliveryEnd" class="mt-4 block text-sm font-medium text-slate-700">
+                        Fin de livraison souhaitée
+                    </label>
+                    <input
+                        id="requestedDeliveryEnd"
+                        type="datetime-local"
+                        formControlName="requestedDeliveryEnd"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+
+                    <label for="sharedDetail" class="block text-sm font-medium text-slate-700">
+                        Détails
+                    </label>
+                    <select
+                        id="sharedDetail"
+                        formControlName="sharedDetailsId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (sharedDetail of sharedDetails(); track sharedDetail.id) {
+                            <option [ngValue]="sharedDetail.id">
+                                {{ sharedDetail.fileName}} {{ sharedDetail.notes}}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-accordion-fom>
         </div>
 
-        @if(statesPanel.customer.opened) {
-            <label for="customer" class="block text-sm font-medium text-gray-700">
-                Client à livrer
-            </label>
-            <select
-                id="customer"
-                formControlName="customerId"
-                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-                @for (customer of customers(); track customer.id) {
-                    <option [ngValue]="customer.id">
-                        {{ customer.companyName }}
-                    </option>
-                }
-            </select>
-        }
-
-        <div
-            class="flex items-center justify-between p-4 font-semibold text-lg hover:bg-gray-100"
-            [ngClass]="statesPanel.constructionSite.opened ? 'bg-gray-200 hover:bg-gray-200' : ''"
-        >
-            <button
-                (click)="statesPanel.constructionSite.opened = !statesPanel.constructionSite.opened"
-                type="button"
-                class="flex items-center cursor-pointer"
-            >
-                <i
-                    class="inline-block border-solid border-black border-0 border-r-[3px] border-b-[3px] p-[3px] transform transition-transform duration-300 mr-2"
-                    [ngClass]="statesPanel.constructionSite.opened ? 'rotate-[-135deg]' : 'rotate-[45deg]'"
-                ></i>
-                Chantier
-            </button>
+        <div class="mt-4 flex justify-end">
+            <app-submit-button [disabled]="form.invalid"/>
         </div>
-
-        @if(statesPanel.constructionSite.opened) {
-            <label for="constructionSite" class="block text-sm font-medium text-gray-700">
-                Choix chantier
-            </label>
-            <select
-                id="constructionSite"
-                formControlName="constructionSiteId"
-                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-                @for (constructionSite of constructionSites(); track constructionSite.id) {
-                    <option [ngValue]="constructionSite.id">
-                        {{ constructionSite.companyName }} - {{ constructionSite.street}} {{ constructionSite.cityName}} - {{constructionSite.postalCode}} - {{constructionSite.countryCode}}
-                    </option>
-                }
-            </select>
-        }
-
-        <div
-            class="flex items-center justify-between p-4 font-semibold text-lg hover:bg-gray-100"
-            [ngClass]="statesPanel.product.opened ? 'bg-gray-200 hover:bg-gray-200' : ''"
-        >
-            <button
-                (click)="statesPanel.product.opened = !statesPanel.product.opened"
-                type="button"
-                class="flex items-center cursor-pointer"
-            >
-                <product
-                    class="inline-block border-solid border-black border-0 border-r-[3px] border-b-[3px] p-[3px] transform transition-transform duration-300 mr-2"
-                    [ngClass]="statesPanel.product.opened ? 'rotate-[-135deg]' : 'rotate-[45deg]'"
-                ></product>
-                Produit
-            </button>
-        </div>
-
-        @if(statesPanel.product.opened) {
-            <label for="quantityOrdered" class="block text-sm font-medium text-gray-700">
-                Quantité
-            </label>
-            <input
-                id="quantityOrdered"
-                type="number"
-                formControlName="quantityOrdered"
-                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-            <label for="product" class="block text-sm font-medium text-gray-700">
-                Produit
-            </label>
-            <select
-                id="product"
-                formControlName="productId"
-                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-                <option [ngValue]=""></option>
-                @for (product of products(); track product.id) {
-                    <option [ngValue]="product.id">
-                        {{product.code}} - {{product.name}}
-                    </option>
-                }
-            </select>
-        }
-
-        <div
-            class="flex items-center justify-between p-4 font-semibold text-lg hover:bg-gray-100"
-            [ngClass]="statesPanel.sharedDetails.opened ? 'bg-gray-200 hover:bg-gray-200' : ''"
-        >
-            <button
-                (click)="statesPanel.sharedDetails.opened = !statesPanel.sharedDetails.opened"
-                type="button"
-                class="flex items-center cursor-pointer"
-            >
-                <product
-                    class="inline-block border-solid border-black border-0 border-r-[3px] border-b-[3px] p-[3px] transform transition-transform duration-300 mr-2"
-                    [ngClass]="statesPanel.sharedDetails.opened ? 'rotate-[-135deg]' : 'rotate-[45deg]'"
-                ></product>
-                Détails
-            </button>
-        </div>
-
-        @if(statesPanel.sharedDetails.opened) {
-            <label for="requestedDeliveryBegin" class="block text-sm font-medium text-gray-700">
-                Début de livraison souhaité
-            </label>
-            <input
-                id="requestedDeliveryBegin"
-                type="datetime-local"
-                formControlName="requestedDeliveryBegin"
-                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-            <label for="requestedDeliveryEnd" class="block text-sm font-medium text-gray-700">
-                Fin de livraison souhaité
-            </label>
-            <input
-                id="requestedDeliveryEnd"
-                type="datetime-local"
-                formControlName="requestedDeliveryEnd"
-                class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-
-            <app-shared-details-form [formSharedDetails]="form"/>
-        }
-        <app-submit-button [disabled]="form.invalid"/>
     </form>
 </div>

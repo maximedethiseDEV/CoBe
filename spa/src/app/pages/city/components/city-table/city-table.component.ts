@@ -1,26 +1,23 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {BaseTableComponent} from '@core/components';
-import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
-import {CityProvider, CountryProvider} from '@core/providers';
-import {City, Country} from '@core/models';
-import {Pagination, TableColumn} from '@core/types';
-import {DatePipe} from '@angular/common';
+import {CityProvider} from '@core/providers';
+import {City} from '@core/models';
+import {TableColumn} from '@core/types';
 import {LucideAngularModule} from 'lucide-angular';
+import {BaseTableComponent} from '@core/components';
+import {LucideIconsList} from '@core/lists';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-city-table',
     imports: [
-        TableModule,
-        Button,
-        DatePipe,
         LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
-export class CityTableComponent extends BaseTableComponent implements OnInit {
+export class CityTableComponent extends BaseTableComponent<City> implements OnInit {
     private cityProvider: CityProvider = inject(CityProvider);
-    public entityName: string = 'city';
+    public labelHeader: string = 'Liste des villes';
+    public iconHeader = LucideIconsList.Building2;
     public filterFields: string[] = [
         'cityName',
         'postalCode',
@@ -46,46 +43,11 @@ export class CityTableComponent extends BaseTableComponent implements OnInit {
         }
     ];
 
-    ngOnInit(): void {
-        this.setupSseConnection('cities');
+    protected fetchAll(): Observable<City[]> {
+        return this.cityProvider.getAllNoPage();
     }
 
-    public loadEntities(params?: {page: number}): void {
-        this.loading = true;
-
-        this.cityProvider.getAll(params).subscribe({
-            next: (response: Pagination<City>) => {
-                this.entities = response.content;
-                this.totalElements = response.totalElements;
-            },
-            error: () => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les données'
-                });
-                this.loading = false;
-            },
-            complete: () => {
-                this.loading = false;
-            }
-        })
-    }
-
-    protected override deleteEntity(city: City): void {
-        this.cityProvider.delete(city.id).subscribe({
-            next: () => {
-                this.removeEntity(city.id);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Supprimé',
-                    detail: 'Contact supprimé',
-                    life: 2000
-                });
-            },
-            error: (error: Error) => {
-                console.error('Erreur lors de la suppression du contact :', error);
-            }
-        });
+    protected deleteRequest(id: string) {
+        return this.cityProvider.delete(id);
     }
 }

@@ -6,7 +6,7 @@ import {Address, City, Company, Contact, Country, Customer, SharedDetails} from 
 import {AddressProvider, CompanyProvider, CustomerProvider} from '@core/providers';
 
 @Component({
-    selector: 'app-company-update',
+    selector: 'app-customer-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,

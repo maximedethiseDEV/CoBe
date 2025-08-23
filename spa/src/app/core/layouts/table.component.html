@@ -1,102 +1,185 @@
-<div class="h-full flex flex-col">
-    <p-table #dt
-             [value]="tableData" [rows]="20" [paginator]="true" [lazy]="true"
-             [globalFilterFields]=filterFields [totalRecords]="totalElements" [loading]="loading"
-             [scrollable]="true" [tableStyle]=tableStyle (onLazyLoad)="onPageChange($event)"
-             stripedRows
-             scrollHeight="900px"
-             responsiveLayout="scroll">
-        <ng-template #caption>
-            <div class="flex justify-left items-center gap-2">
-                @if (hasTableAction('create')) {
-                    <p-button label="Créer" icon="pi pi-plus" class="mr-2" (onClick)="createEntity()" />
-                }
+<header class="sticky top-0 z-10 flex items-center justify-between bg-white/90 backdrop-blur-xl border-b border-gray-200 shadow-sm px-6 py-2">
+    <h1 class="flex items-center gap-2 text-xl font-bold text-indigo-600">
+        <i-lucide [img]="iconHeader" class="w-6 h-6"></i-lucide>
+        {{ labelHeader }}
+    </h1>
 
-                <p-button severity="secondary" icon="pi pi-filter-slash" class="mr-2" (click)="clear()" />
+    <div class="flex items-center gap-2">
+        @if(hasTableAction('create')){
+            <button
+                (click)="createEntity()"
+                class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors duration-200"
+            >
+            <span class="flex items-center gap-2">
+                <lucide-icon [name]="createIcon"></lucide-icon>
+            </span>
+            </button>
+        }
+        <button
+            (click)="refreshData()"
+            class="px-3 py-2 bg-gray-100 border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-200 hover:text-indigo-600 transition-colors duration-200"
+            title="Actualiser"
+        >
+            <lucide-icon [name]="refreshIcon"></lucide-icon>
+        </button>
+    </div>
+</header>
 
-                <span class="p-input-icon-left">
-                    <label for="globalFilter" class="mr-2">
-                        <i class="pi pi-search"></i>
-                    </label>
-
-                    <input
-                        pInputText
-                        PSize="Large"
-                        type="text"
-                        name="globalFilter"
-                        id="globalFilter"
-                        (input)="search($event)"
-                        placeholder="Rechercher..."
-                    />
-                </span>
+<main class="">
+    @if(loading){
+        <div class="flex justify-center items-center min-h-screen">
+            <div class="relative">
+                <div class="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                <div class="absolute top-0 left-0 w-16 h-16 border-4 border-transparent border-t-blue-600 rounded-full animate-spin animation-delay-75"></div>
             </div>
-        </ng-template>
-
-        <ng-template #header>
-            <tr>
-                @for (column of tableColumns; track column.key) {
-                    <th [pSortableColumn]="column.sort ? column.key : undefined">
-                        {{ column.translate }}
-
-                        @if (column.sort) {
-                            <p-sortIcon [field]="column.key"></p-sortIcon>
-                        }
-                    </th>
-                }
-
-                @if (hasTableAction('update') || hasTableAction('delete')) {
-                    <th>
-                        Actions
-                    </th>
-                }
-            </tr>
-        </ng-template>
-
-        <ng-template #body let-entity let-rowIndex= "rowIndex">
-            <tr [pSelectableRow]="entity" [pSelectableRowIndex]="rowIndex" class="transition-colors">
-                @for (column of tableColumns; track column.key) {
-                    <td class="whitespace-nowrap overflow-hidden text-ellipsis">
-                        @switch (column.type) {
-                            @case ('text') {
-                                {{ entity[column.key] }}
+            <p class="text-gray-500 font-medium">Chargement des données...</p>
+        </div>
+    }
+    @else {
+        <div class="bg-white backdrop-blur-sm shadow-xl shadow-gray-500/10 border border-white/20 overflow-hidden h-full flex flex-col">
+            <div class="flex-grow min-h-0 overflow-auto">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full min-w-max">
+                        <thead class="sticky top-0 z-40 bg-gray-50">
+                        <tr>
+                            @for(column of tableColumns; track column.key) {
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wide border-b border-gray-200 hover:bg-gray-100 transition-colors durée-200 whitespace-nowrap">
+                                    <span class="flex items-center gap-2">
+                                        {{ column.translate }}
+                                        <i-lucide [img]="filterIcon" class="w-4 h-4 text-gray-400"></i-lucide>
+                                    </span>
+                                </th>
                             }
-                            @case ('date') {
-                                {{ entity[column.key] | date: 'dd/MM/yyyy' }}
+                            @if(hasAnyAction()){
+                                <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wide border-b border-gray-200 whitespace-nowrap">
+                                    Actions
+                                </th>
+
                             }
-                            @case ('boolean') {
-                                @if (entity[column.key]) {
-                                    <i-lucide [img]="iconsList.Check" class="size-6"></i-lucide>
-                                }
-                                @else {
-                                }
+                        </tr>
+                        </thead>
+
+                        <tbody class="bg-white">
+
+                            @if(filteredData.length === 0) {
+                                <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                    <td
+                                        [attr.colspan]="tableColumns.length + (hasAnyAction() ? 1 : 0)"
+                                        class="px-4 py-12 text-center"
+                                    >
+                                        <div class="flex flex-col items-center space-y-3">
+                                            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                                                <i-lucide [img]="emptyDataIcon" class="w-6 h-6"></i-lucide>
+                                            </div>
+                                            <div class="text-gray-500 font-medium">Aucune donnée disponible</div>
+                                        </div>
+                                    </td>
+                                </tr>
                             }
-                            @default {
-                                {{ entity[column.key] }}
+
+                            @for(entity of paginatedData; track entity.id) {
+                                <tr class="hover:bg-indigo-50 transition-colors duration-200 border-b border-gray-100">
+
+                                    @for(column of tableColumns; track column.key){
+                                        <td class="px-4 py-2 text-sm text-gray-800 whitespace-nowrap">
+                                            <span
+                                                [innerHTML]="getColumnValue(entity, column)"
+                                                class="block truncate max-w-none md:max-w-[16rem]"
+                                                [title]="getColumnValue(entity, column)"
+                                            ></span>
+                                        </td>
+                                    }
+
+                                    @if(hasAnyAction()){
+                                        <td class="px-4 py-2 text-right whitespace-nowrap">
+                                            <div class="flex justify-end items-center gap-1">
+                                                @if(hasTableAction('update')){
+                                                    <button
+                                                        (click)="updateEntity(entity)"
+                                                        class="p-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                                                        title="Modifier"
+                                                    >
+                                                        <i-lucide [img]="updateIcon" class="w-5 h-5"></i-lucide>
+                                                    </button>
+                                                }
+
+                                                @if(hasTableAction('delete')){
+                                                    <button
+                                                        (click)="deleteEntity(entity)"
+                                                        class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                                                        title="Supprimer"
+                                                    >
+                                                        <i-lucide [img]="deleteIcon" class="w-5 h-5"></i-lucide>
+                                                    </button>
+                                                }
+                                            </div>
+                                        </td>
+                                    }
+                                </tr>
                             }
-                        }
-                    </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</main>
+
+@if(totalPages > 1){
+    <footer
+        class="sticky bottom-0 flex bg-white/95 backdrop-blur-xl px-8 py-4 items-center justify-between border-t border-gray-100/50 shadow-lg shadow-gray-500/5"
+    >
+        <div class="flex items-center space-x-4">
+            <div class="text-sm font-medium text-gray-700">
+                <span class="text-indigo-600 font-bold">{{ startIndex + 1 }}</span>
+                -
+                <span class="text-indigo-600 font-bold">{{ endIndex }}</span>
+                sur
+                <span class="text-blue-600 font-bold">{{ totalElements }}</span>
+                résultats
+            </div>
+            <div class="hidden sm:block w-px h-6 bg-gray-200"></div>
+            <div class="hidden sm:block text-xs text-gray-500">
+                Page {{ currentPage }} sur {{ totalPages }}
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-1">
+            <button
+                (click)="goToPage(currentPage - 1)"
+                [disabled]="currentPage === 1"
+                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-l-xl hover:bg-gray-50 hover:border-indigo-300 hover:text-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-gray-200 disabled:hover:text-gray-700 transition-colors duration-200"
+            >
+            <span class="flex items-center gap-1">
+                <lucide-icon class="w-4 h-4" [name]="previousPageIcon"></lucide-icon>
+                <span class="hidden sm:inline">Précédent</span>
+            </span>
+            </button>
+
+            <div class="flex">
+                @for(page of getVisiblePages(); track page){
+                    <button
+                        (click)="goToPage(page)"
+                        class="px-4 py-2 text-sm font-medium border-t border-b transition-colors durée-200"
+                        [class]="page === currentPage
+                    ? 'bg-indigo-600 text-white border-indigo-600'
+                    : 'text-gray-700 bg-white border-gray-200 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-600'"
+                    >
+                        {{ page }}
+                    </button>
                 }
+            </div>
 
-                @if (hasTableAction('update') || hasTableAction('delete')) {
-                    <td>
-                        @if (hasTableAction('update')) {
-                            <p-button icon="pi pi-pencil" severity="secondary" class="mr-2" [rounded]="true" (click)="updateEntity(entity)" />
-                        }
-
-                        @if (hasTableAction('delete')) {
-                            <p-button icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" (click)="deleteEntity(entity)" />
-                        }
-                    </td>
-                }
-            </tr>
-        </ng-template>
-
-        <ng-template #emptymessage>
-            <tr>
-                <td colspan="5" class="text-center p-4">
-                    Aucun {{ entityName }} trouvé
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-</div>
+            <button
+                (click)="goToPage(currentPage + 1)"
+                [disabled]="currentPage === totalPages"
+                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-r-xl hover:bg-gray-50 hover:border-indigo-300 hover:text-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-gray-200 disabled:hover:text-gray-700 transition-colors duration-200"
+            >
+            <span class="flex items-center gap-1">
+                <span class="hidden sm:inline">Suivant</span>
+                <lucide-icon class="w-4 h-4" [name]="nextPageIcon"></lucide-icon>
+            </span>
+            </button>
+        </div>
+    </footer>
+}

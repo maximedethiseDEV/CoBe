@@ -6,7 +6,7 @@ import {Address, Company, Contact, MaterialSupplier, SharedDetails} from '@core/
 import {MaterialSupplierProvider} from '@core/providers';
 
 @Component({
-    selector: 'app-company-update',
+    selector: 'app-material-supplier-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,

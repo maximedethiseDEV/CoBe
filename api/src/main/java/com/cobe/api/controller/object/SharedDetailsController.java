@@ -76,11 +76,17 @@ public class SharedDetailsController extends AbstractCrudController<SharedDetail
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<SharedDetailsDto> create(
-            @RequestParam(value = "notes", required = false) String notes,
-            @RequestParam(value = "file", required = false) MultipartFile file
+            @RequestPart(value = "label", required = true) String label,
+            @RequestPart(value = "notes", required = false) String notes,
+            @RequestPart(value = "file", required = false) MultipartFile file
     ) throws IOException {
 
+        if (label == null || label.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         SharedDetailsDto sharedDetailsDto = new SharedDetailsDto();
+        sharedDetailsDto.setLabel(label);
         sharedDetailsDto.setNotes(notes);
 
         storeFileIfPresent(file, sharedDetailsDto);
@@ -96,11 +102,15 @@ public class SharedDetailsController extends AbstractCrudController<SharedDetail
     @PutMapping(value = "/upload/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<SharedDetailsDto> update(
             @PathVariable UUID id,
-            @RequestParam(value = "notes", required = false) String notes,
-            @RequestParam(value = "file", required = false) MultipartFile file
+            @RequestPart(value = "label", required = false) String label,
+            @RequestPart(value = "notes", required = false) String notes,
+            @RequestPart(value = "file", required = false) MultipartFile file
     ) throws IOException {
 
         SharedDetailsDto sharedDetailsDto = new SharedDetailsDto();
+        if (label != null && !label.isBlank()) {
+            sharedDetailsDto.setLabel(label);
+        }
         sharedDetailsDto.setNotes(notes);
 
         storeFileIfPresent(file, sharedDetailsDto);

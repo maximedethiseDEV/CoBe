@@ -12,7 +12,7 @@ import {
 import {DeliveryOrderNumberProvider} from '@core/providers';
 
 @Component({
-    selector: 'app-deliveryOrderNumber-create',
+    selector: 'app-delivery-order-number-create',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,

@@ -6,7 +6,7 @@ import {BaseUpdateComponent} from '@core/components';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 
 @Component({
-    selector: 'app-country-update',
+    selector: 'app-shared-details-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,

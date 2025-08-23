@@ -6,7 +6,7 @@ import {Address, MaterialSupplier, Contact, SharedDetails, Company} from '@core/
 import {MaterialSupplierProvider} from '@core/providers';
 
 @Component({
-    selector: 'app-materialSupplier-create',
+    selector: 'app-material-supplier-create',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,

@@ -16,7 +16,7 @@ import {
 import {AddressProvider, CompanyProvider, CustomerProvider, DeliveryOrderNumberProvider} from '@core/providers';
 
 @Component({
-    selector: 'app-company-update',
+    selector: 'app-delivery-order-number-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,

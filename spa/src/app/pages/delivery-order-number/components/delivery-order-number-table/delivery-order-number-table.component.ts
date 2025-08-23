@@ -1,26 +1,23 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {BaseTableComponent} from '@core/components';
-import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
 import {DeliveryOrderNumberProvider} from '@core/providers';
 import {DeliveryOrderNumber} from '@core/models';
-import {Pagination, TableColumn} from '@core/types';
-import {DatePipe} from '@angular/common';
+import {TableColumn} from '@core/types';
 import {LucideAngularModule} from 'lucide-angular';
+import {LucideIconsList} from '@core/lists';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-deliveryOrderNumber-table',
     imports: [
-        TableModule,
-        Button,
-        DatePipe,
         LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
-export class DeliveryOrderNumberTableComponent extends BaseTableComponent implements OnInit {
+export class DeliveryOrderNumberTableComponent extends BaseTableComponent<DeliveryOrderNumber> implements OnInit {
     private deliveryOrderNumberProvider: DeliveryOrderNumberProvider = inject(DeliveryOrderNumberProvider);
-    public entityName: string = 'deliveryOrderNumber';
+    public labelHeader: string = 'Liste des numéros de chargement';
+    public iconHeader = LucideIconsList.Hash;
     public filterFields: string[] = [
         'uniqueDeliveryOrderNumber',
         'transportSupplierName',
@@ -61,46 +58,11 @@ export class DeliveryOrderNumberTableComponent extends BaseTableComponent implem
         }
     ];
 
-    ngOnInit(): void {
-        this.setupSseConnection('unique-delivery-numbers');
+    protected fetchAll(): Observable<DeliveryOrderNumber[]> {
+        return this.deliveryOrderNumberProvider.getAllNoPage();
     }
 
-    public loadEntities(params?: any) {
-        this.loading = true;
-
-        this.deliveryOrderNumberProvider.getAll(params).subscribe({
-            next: (response: Pagination<DeliveryOrderNumber>) => {
-                this.entities = response.content;
-                this.totalElements = response.totalElements;
-            },
-            error: (error: Error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les données'
-                });
-                this.loading = false;
-            },
-            complete: () => {
-                this.loading = false;
-            }
-        });
-    }
-
-    protected override deleteEntity(deliveryOrderNumber: DeliveryOrderNumber): void {
-        this.deliveryOrderNumberProvider.delete(deliveryOrderNumber.id).subscribe({
-            next: () => {
-                this.removeEntity(deliveryOrderNumber.id);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Supprimé',
-                    detail: 'Client supprimée',
-                    life: 2000
-                });
-            },
-            error: (error: Error) => {
-                console.error('Erreur lors de la suppression du client :', error);
-            }
-        });
+    protected deleteRequest(id: string) {
+        return this.deliveryOrderNumberProvider.delete(id);
     }
 }

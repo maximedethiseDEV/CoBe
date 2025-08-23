@@ -1,94 +1,213 @@
-import {Component, OnDestroy, ViewChild, inject} from '@angular/core';
-import {Table} from 'primeng/table';
-import {MessageService} from 'primeng/api';
+import {Component, OnDestroy, OnInit, inject} from '@angular/core';
 import {EntityModel} from '@core/models';
 import {TableColumn} from '@core/types';
 import {SubscriptionCollection} from '@core/classes';
 import {SseService} from '@core/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {LucideIconsList} from '@core/lists';
+import {LucideIconData} from 'lucide-angular';
+import {Observable} from 'rxjs';
 
 @Component({
     template: ''
 })
-export abstract class BaseTableComponent implements OnDestroy {
-    @ViewChild('dt') dt!: Table;
-    abstract entityName: string;
+export abstract class BaseTableComponent<T extends EntityModel = EntityModel> implements OnInit, OnDestroy {
+    public readonly createIcon: LucideIconData = LucideIconsList.CirclePlus;
+    public readonly refreshIcon: LucideIconData = LucideIconsList.RefreshCcw;
+    public readonly filterIcon: LucideIconData = LucideIconsList.ChevronsUpDown;
+    public readonly updateIcon: LucideIconData = LucideIconsList.SquarePen;
+    public readonly deleteIcon: LucideIconData = LucideIconsList.Trash2;
+    public readonly nextPageIcon: LucideIconData = LucideIconsList.ChevronRight;
+    public readonly previousPageIcon: LucideIconData = LucideIconsList.ChevronLeft;
+    public readonly emptyDataIcon: LucideIconData = LucideIconsList.Inbox;
+
+    abstract labelHeader: string;
+    abstract iconHeader: LucideIconData;
     abstract filterFields: string[];
     abstract tableColumns: TableColumn[];
+
+    // Optionnel: canal SSE et auto-load pour centraliser l'init
+    public sseChannel?: string;
+    public autoLoad: boolean = true;
+
     protected subscriptionCollection: SubscriptionCollection = new SubscriptionCollection();
     protected route: ActivatedRoute = inject(ActivatedRoute);
     protected router: Router = inject(Router);
     protected sseService: SseService = inject(SseService);
-    protected messageService: MessageService = inject(MessageService);
-    public readonly iconsList: any = LucideIconsList;
-    protected entities: EntityModel[] = [];
-    protected totalElements: number = 0;
-    protected currentPage: number = 1;
-    protected loading: boolean = true;
-    protected tableStyle: {
-        width: string,
-        height: string
-    } = {
-        width: '100%',
-        height: '100%'
-    };
-    protected tableActions: string[] = [
-        'create',
-        'update',
-        'delete'
-    ];
+    protected entities: T[] = [];
+    public totalElements: number = 0;
+    public currentPage: number = 1;
+    public loading: boolean = true;
+    protected tableActions: string[] = ['create', 'update', 'delete'];
+
+    protected itemsPerPage: number = 100;
+    protected searchTerm: string = '';
 
     constructor() {}
+
+    ngOnInit(): void {
+        if (this.sseChannel) {
+            this.setupSseConnection(this.sseChannel);
+        }
+        if (this.autoLoad) {
+            this.loadEntities();
+        }
+    }
 
     ngOnDestroy(): void {
         this.subscriptionCollection.unsubscribe();
     }
 
-    get tableData(): EntityModel[] {
-        return this.entities;
+    get filteredData(): T[] {
+        if (!this.searchTerm) {
+            return this.entities;
+        }
+
+        return this.entities.filter(entity => {
+            return this.filterFields.some(field => {
+                const value = this.getNestedValue(entity, field);
+                return value?.toString().toLowerCase().includes(this.searchTerm.toLowerCase());
+            });
+        });
     }
 
-    public hasTableAction(action: 'create'|'update'|'delete'): boolean {
+    get paginatedData(): T[] {
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        return this.filteredData.slice(startIndex, endIndex);
+    }
+
+    get totalPages(): number {
+        return Math.ceil(this.filteredData.length / this.itemsPerPage);
+    }
+
+    get startIndex(): number {
+        return (this.currentPage - 1) * this.itemsPerPage;
+    }
+
+    get endIndex(): number {
+        return Math.min(this.startIndex + this.itemsPerPage, this.filteredData.length);
+    }
+
+    // Méthodes publiques
+    public hasTableAction(action: 'create' | 'update' | 'delete'): boolean {
         return this.tableActions.includes(action);
     }
 
-    abstract loadEntities(params?: {page: number}): void;
-
-    protected createEntity(): void {
-        this.router.navigate(['create'], {relativeTo: this.route});
+    public hasAnyAction(): boolean {
+        return this.tableActions.some(action => ['update', 'delete'].includes(action));
     }
 
-    protected updateEntity(entity: EntityModel): void {
-        // @ts-ignore
-        this.router.navigate(['update', entity.id], {relativeTo: this.route});
+    public getColumnValue(entity: T, column: TableColumn): string {
+        const value = this.getNestedValue(entity, column.key);
+
+        // Tu peux ajouter ici des formatters selon le type de colonne
+        if (column.type === 'date' && value) {
+            return new Date(value).toLocaleDateString('fr-FR');
+        }
+
+        return value?.toString() || '';
     }
 
-    protected deleteEntity(entity: EntityModel): void {}
 
-    protected removeEntity(entityId: string): void {
-        // @ts-ignore
-        const index: number = this.entities.findIndex((entity: EntityModel) => entity.id === entityId);
+    public onSearch(event: Event): void {
+        const target = event.target as HTMLInputElement;
+        this.searchTerm = target.value;
+        this.currentPage = 1; // Reset à la première page lors de la recherche
+    }
 
-        if (index > -1) {
-            this.entities.splice(index, 1);
+    public goToPage(page: number): void {
+        if (page >= 1 && page <= this.totalPages) {
+            this.currentPage = page;
+            // Trigger onPageChange for compatibility with original component
+            this.onPageChange({
+                first: (page - 1) * this.itemsPerPage,
+                rows: this.itemsPerPage
+            });
         }
     }
 
-    protected clear(): void {
-        this.dt.clear();
+    public getVisiblePages(): number[] {
+        const totalPages = this.totalPages;
+        const current = this.currentPage; // garde-fou
+        const visible: number[] = [];
+
+        if (totalPages <= 7) {
+            for (let i = 1; i <= totalPages; i++) visible.push(i);
+        } else if (current <= 4) {
+            for (let i = 1; i <= 5; i++) visible.push(i);
+            visible.push(totalPages);
+        } else if (current >= totalPages - 3) {
+            visible.push(1);
+            for (let i = totalPages - 4; i <= totalPages; i++) visible.push(i);
+        } else {
+            visible.push(1);
+            for (let i = current - 1; i <= current + 1; i++) visible.push(i);
+            visible.push(totalPages);
+        }
+
+        return visible;
     }
 
-    protected search(event: Event): void {
-        const inputValue: string = (event.target as HTMLInputElement)?.value || '';
-        this.dt.filterGlobal(inputValue, 'contains');
+    public refreshData(): void {
+        this.loadEntities({ page: this.currentPage - 1 });
+    }
+
+    // API de données à implémenter dans les enfants
+    protected abstract fetchAll(params?: any): Observable<T[]>;
+    protected abstract deleteRequest(id: string): Observable<any>;
+
+    // Implémentation générique de chargement/suppression
+    public loadEntities(params?: any): void {
+        this.loading = true;
+        this.fetchAll(params).subscribe({
+            next: (data: T[]) => {
+                this.entities = data;
+                this.totalElements = data.length;
+            },
+            error: (error: Error) => {
+                console.error('Erreur lors du chargement des données:', error);
+                this.loading = false;
+            },
+            complete: () => {
+                this.loading = false;
+            }
+        });
+    }
+
+    public createEntity(): void {
+        this.router.navigate(['create'], { relativeTo: this.route });
+    }
+
+    public updateEntity(entity: T): void {
+        this.router.navigate(['update', (entity as EntityModel).id], { relativeTo: this.route });
+    }
+
+    public deleteEntity(entity: T): void {
+        const id = (entity as EntityModel).id;
+        this.deleteRequest(id).subscribe({
+            next: () => {
+                this.removeEntity(id);
+                this.totalElements = this.entities.length;
+            },
+            error: (error: Error) => {
+                console.error('Impossible de supprimer les données :', error);
+            }
+        });
     }
 
     protected onPageChange(event: any): void {
         const pageIndex: number = event.first / event.rows;
         this.currentPage = pageIndex + 1;
+        this.loadEntities({ page: this.currentPage - 1 });
+    }
 
-        this.loadEntities({page: this.currentPage - 1});
+    protected removeEntity(entityId: string): void {
+        // @ts-ignore
+        const index: number = this.entities.findIndex((entity: T) => (entity as EntityModel).id === entityId);
+        if (index > -1) {
+            this.entities.splice(index, 1);
+        }
     }
 
     protected setupSseConnection(entityName: string): void {
@@ -96,15 +215,21 @@ export abstract class BaseTableComponent implements OnDestroy {
             next: (event: any) => {
                 if (event.eventType === 'CREATE') {
                     this.entities = [...this.entities, event.payload];
+                    this.totalElements = this.entities.length;
                 } else if (event.eventType === 'UPDATE') {
                     // @ts-ignore
-                    this.entities = this.entities.map((entity: EntityModel) => entity.id === event.payload.id ? event.payload : entity);
+                    this.entities = this.entities.map((entity: T) =>
+                        (entity as EntityModel).id === event.payload.id ? event.payload : entity
+                    );
                 } else if (event.eventType === 'DELETE') {
                     // @ts-ignore
-                    const index: number = this.entities.findIndex((entity: EntityModel) => entity.id === event.payload);
+                    const index: number = this.entities.findIndex((entity: T) =>
+                        (entity as EntityModel).id === event.payload
+                    );
 
                     if (index > -1) {
                         this.entities.splice(index, 1);
+                        this.totalElements = this.entities.length;
                     }
                 }
             },
@@ -112,5 +237,10 @@ export abstract class BaseTableComponent implements OnDestroy {
                 console.error('Erreur SSE:', error);
             }
         });
+    }
+
+    // Méthodes utilitaires
+    private getNestedValue(obj: any, path: string): any {
+        return path.split('.').reduce((current, key) => current?.[key], obj);
     }
 }

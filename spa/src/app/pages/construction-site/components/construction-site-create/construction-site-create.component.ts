@@ -6,7 +6,7 @@ import {Address, ConstructionSite, Contact, SharedDetails, Customer} from '@core
 import {ConstructionSiteProvider} from '@core/providers';
 
 @Component({
-    selector: 'app-constructionSite-create',
+    selector: 'app-construction-site-create',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,

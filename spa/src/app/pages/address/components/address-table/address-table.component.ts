@@ -1,26 +1,23 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {BaseTableComponent} from '@core/components';
-import {TableModule} from 'primeng/table';
-import {Button} from 'primeng/button';
 import {AddressProvider} from '@core/providers';
 import {Address} from '@core/models';
-import {Pagination, TableColumn} from '@core/types';
-import {DatePipe} from '@angular/common';
+import {TableColumn} from '@core/types';
 import {LucideAngularModule} from 'lucide-angular';
+import {BaseTableComponent} from '@core/components';
+import {LucideIconsList} from '@core/lists';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-address-table',
     imports: [
-        TableModule,
-        Button,
-        DatePipe,
         LucideAngularModule
     ],
     templateUrl: '../../../../core/layouts/table.component.html'
 })
-export class AddressTableComponent extends BaseTableComponent implements OnInit {
+export class AddressTableComponent extends BaseTableComponent<Address> implements OnInit {
     private addressProvider: AddressProvider = inject(AddressProvider);
-    public entityName: string = 'address';
+    public labelHeader: string = 'Liste des adresses';
+    public iconHeader = LucideIconsList.MapPin;
     public filterFields: string[] = [
         'street',
         'cityName',
@@ -54,46 +51,11 @@ export class AddressTableComponent extends BaseTableComponent implements OnInit 
         }
     ];
 
-    ngOnInit(): void {
-        this.setupSseConnection('addresses');
+    protected fetchAll(): Observable<Address[]> {
+        return this.addressProvider.getAllNoPage();
     }
 
-    public loadEntities(params?: any) {
-        this.loading = true;
-
-        this.addressProvider.getAll(params).subscribe({
-            next: (response: Pagination<Address>) => {
-                this.entities = response.content;
-                this.totalElements = response.totalElements;
-            },
-            error: (error: Error) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erreur',
-                    detail: 'Impossible de charger les données'
-                });
-                this.loading = false;
-            },
-            complete: () => {
-                this.loading = false;
-            }
-        });
-    }
-
-    protected override deleteEntity(address: Address): void {
-        this.addressProvider.delete(address.id).subscribe({
-            next: () => {
-                this.removeEntity(address.id);
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Supprimé',
-                    detail: 'Adresse supprimée',
-                    life: 2000
-                });
-            },
-            error: (error: Error) => {
-                console.error('Erreur lors de la suppression de l\'adresse :', error);
-            }
-        });
+    protected deleteRequest(id: string) {
+        return this.addressProvider.delete(id);
     }
 }

@@ -9,7 +9,7 @@ import {SharedDetailsProvider} from '@core/providers';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 
 @Component({
-    selector: 'app-sharedDetails-create',
+    selector: 'app-shared-details-create',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
@@ -31,8 +31,11 @@ export class SharedDetailsCreateComponent extends BaseCreateComponent {
             const form = this.form.getRawValue();
             const formData = new FormData();
 
+            formData.append('label',form.label);
             formData.append('file', form.fileName);
             formData.append('notes', form.notes);
+
+            console.log(formData.get('label') + ' ' + formData.get('file') + ' ' + formData.get('notes'));
 
             this.sharedDetailsProvider.createMultipart(formData).subscribe({
                 next: () => {

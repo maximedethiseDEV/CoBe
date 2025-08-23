@@ -1,4 +1,4 @@
-import {Component, inject, input} from '@angular/core';
+import {Component, inject, input, signal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
@@ -8,9 +8,11 @@ import {DateTimeService} from '@core/services/datetime.service';
 import {CommonModule} from '@angular/common';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {AccordionFomComponent} from '@core/components/form/accordion-fom/accordion-fom.component';
+import {of, map, concatMap} from 'rxjs';
 
 @Component({
-    selector: 'app-product-create',
+    selector: 'app-purchase-order-create',
     imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -18,6 +20,7 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         FormsModule,
         SharedDetailsFormComponent,
         SubmitButtonComponent,
+        AccordionFomComponent,
     ],
     templateUrl: './purchase-order-create.component.html'
 })
@@ -26,8 +29,8 @@ export class PurchaseOrderCreateComponent extends BaseCreateComponent {
     constructionSites = input<ConstructionSite[]>();
     products = input<Product[]>();
     sharedDetails = input<SharedDetails[]>();
+    formSharedDetails = signal<FormGroup>(new FormGroup({}));
     private purchaseOrderProvider: PurchaseOrderProvider = inject(PurchaseOrderProvider);
-    private constructionSiteProvider: ConstructionSiteProvider = inject(ConstructionSiteProvider);
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
     private dateTimeService: DateTimeService = inject(DateTimeService);
     public featurePath: string = 'purchase-orders';
@@ -40,39 +43,72 @@ export class PurchaseOrderCreateComponent extends BaseCreateComponent {
     };
 
     public override generateForm(): FormGroup {
+        const DATEDEFAULT = new Date();
+        DATEDEFAULT.setDate(DATEDEFAULT.getDate() + 1);
+        DATEDEFAULT.setHours(8, 0, 0, 0);
+
+        const DATEDEFAULTLOCAL = new Date(DATEDEFAULT.getTime() - DATEDEFAULT.getTimezoneOffset() * 60000)
+            .toISOString()
+            .slice(0, 16);
+
         return new FormGroup({
-            requestedDeliveryBegin: new FormControl("",Validators.required,),
-            requestedDeliveryEnd: new FormControl(),
-            quantityOrdered: new FormControl("",[Validators.required, Validators.min(0)]),
+            requestedDeliveryBegin: new FormControl(DATEDEFAULTLOCAL, Validators.required),
+            requestedDeliveryEnd: new FormControl(DATEDEFAULTLOCAL),
+            quantityOrdered: new FormControl("", [Validators.required, Validators.min(0)]),
             customerId: new FormControl(),
             constructionSiteId: new FormControl(),
-            productId: new FormControl("",Validators.required),
+            productId: new FormControl("", Validators.required),
             sharedDetailsId: new FormControl()
         });
     }
 
+
+
     public create(): void {
-        const purchaseOrder : PurchaseOrder = this.form.getRawValue();
+        const formValue: PurchaseOrder = this.form.getRawValue();
 
-        const payload: PurchaseOrder = {
-            ...purchaseOrder,
-            requestedDeliveryBegin: this.dateTimeService.convertDatetimeLocalToIso(purchaseOrder.requestedDeliveryBegin),
-            requestedDeliveryEnd: this.dateTimeService.convertDatetimeLocalToIso(purchaseOrder.requestedDeliveryEnd),
-        } as PurchaseOrder;
+        // Prépare FormData pour un éventuel upload
+        const sharedDetailsForm = this.formSharedDetails().getRawValue();
+        const sharedDetailsFormData = new FormData();
+        if (sharedDetailsForm.fileName) sharedDetailsFormData.append('file', sharedDetailsForm.fileName);
+        if (sharedDetailsForm.notes) sharedDetailsFormData.append('notes', sharedDetailsForm.notes);
 
-        this.purchaseOrderProvider.create(payload).subscribe({
-            next: () => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Enregistré',
-                    detail: 'Commande enregistrée',
-                    life: 2000
-                });
-                this.back();
-            },
-            error: (error: Error) => {
-                console.error("Erreur lors de la création du commande:", error);
-            }
-        });
+        // Observable qui résout l'ID des détails partagés:
+        // - si création: upload multipart puis récupère l'ID
+        // - sinon: prend la valeur du champ existant (ou '')
+        const sharedDetailsId$ = this.statesPanel.sharedDetails.create
+            ? this.sharedDetailsProvider.createMultipart(sharedDetailsFormData).pipe(
+                map((r: any) => r?.id as string ?? '')
+            )
+            : of(this.form.get('sharedDetailsId')?.value ?? '');
+
+        sharedDetailsId$
+            .pipe(
+                concatMap((resolvedSharedDetailsId) => {
+                    const payload: PurchaseOrder = {
+                        ...formValue,
+                        sharedDetailsId: resolvedSharedDetailsId || '',
+                        requestedDeliveryBegin: this.dateTimeService.convertDatetimeLocalToIso(formValue.requestedDeliveryBegin),
+                        requestedDeliveryEnd: this.dateTimeService.convertDatetimeLocalToIso(formValue.requestedDeliveryEnd),
+                    } as PurchaseOrder;
+
+                    return this.purchaseOrderProvider.create(payload);
+                })
+            )
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Enregistré',
+                        detail: 'Commande enregistrée',
+                        life: 2000
+                    });
+                    this.back();
+                },
+                error: (error: Error) => {
+                    console.error("Erreur lors de la création de la commande:", error);
+                }
+            });
     }
+
 }

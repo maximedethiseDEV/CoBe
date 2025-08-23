@@ -1,4 +1,4 @@
-import {Component, model} from '@angular/core';
+import {Component, model, OnInit} from '@angular/core';
 import {FileUploaderComponent} from '@core/components';
 import {
     AbstractControl,
@@ -18,7 +18,7 @@ import {
     ],
   templateUrl: './shared-details-form.component.html'
 })
-export class SharedDetailsFormComponent {
+export class SharedDetailsFormComponent implements OnInit {
 
     formSharedDetails = model.required<FormGroup>();
     form = new FormGroup(
@@ -34,8 +34,8 @@ export class SharedDetailsFormComponent {
         this.formSharedDetails.set(this.form);
     }
 
-    onAttachmentSelected(file: File | null) {
-        this.formSharedDetails().get('fileName')?.setValue(file);
+    onAttachmentSelected(fileName: File | null) {
+        this.formSharedDetails().get('fileName')?.setValue(fileName);
     }
 
     atLeastOneRequiredValidator(field1: string, field2: string): ValidatorFn {
