@@ -14,7 +14,7 @@ export interface ConstructionSite extends EntityModel {
         postalCode: string;
         countryCode: string;
 
-    sharedDetailsId: string;
-
     contactId: string;
+
+    sharedDetailsId: string;
 }

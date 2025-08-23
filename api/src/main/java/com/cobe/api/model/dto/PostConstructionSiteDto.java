@@ -13,6 +13,8 @@ public class PostConstructionSiteDto extends AbstractDto {
 
     private UUID addressId;
 
+    private UUID contactId;
+
     private UUID sharedDetailsId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

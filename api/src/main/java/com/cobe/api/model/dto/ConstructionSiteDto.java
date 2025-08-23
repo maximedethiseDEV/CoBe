@@ -24,5 +24,7 @@ public class ConstructionSiteDto extends AbstractDto {
         private String postalCode;
         private String countryCode;
 
+    private UUID contactId;
+
     private UUID sharedDetailsId;
 }
