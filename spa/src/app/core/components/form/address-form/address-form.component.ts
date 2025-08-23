@@ -15,4 +15,12 @@ export class AddressFormComponent {
     private route = inject(ActivatedRoute);
     cities = signal<City[]>(this.route.snapshot.data['cities'] as City[]);
     formAddress = model.required<FormGroup>();
+    form = new FormGroup({
+        street: new FormControl('', [Validators.required]),
+        cityId: new FormControl('', [Validators.required]),
+    })
+
+    ngOnInit() {
+        this.formAddress.set(this.form);
+    }
 }

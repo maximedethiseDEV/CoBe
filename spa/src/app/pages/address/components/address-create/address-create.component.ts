@@ -22,10 +22,7 @@ export class AddressCreateComponent extends BaseCreateComponent {
     public labelHeader: string = 'Nouvelle adresse';
 
     public override generateForm(): FormGroup {
-        return new FormGroup({
-            street: new FormControl(),
-            cityId: new FormControl("",Validators.required)
-        });
+        return new FormGroup({});
     }
 
     public create(): void {

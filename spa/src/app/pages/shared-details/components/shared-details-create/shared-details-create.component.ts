@@ -1,11 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {
-    AbstractControl,
-    FormControl,
     FormGroup,
     ReactiveFormsModule,
-    ValidationErrors, ValidatorFn,
-    Validators
 } from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
@@ -27,27 +23,7 @@ export class SharedDetailsCreateComponent extends BaseCreateComponent {
     public labelHeader: string = 'Nouveau détail de livraison';
 
     public override generateForm(): FormGroup {
-        return new FormGroup(
-            {
-                fileName: new FormControl<File | null>(null), notes: new FormControl('', [Validators.maxLength(250)])
-            },
-            {
-                validators: this.atLeastOneRequiredValidator('fileName', 'notes')
-            }
-        );
-    }
-
-    atLeastOneRequiredValidator(field1: string, field2: string): ValidatorFn {
-        return (group: AbstractControl): ValidationErrors | null => {
-            const value1 = group.get(field1)?.value;
-            const value2 = group.get(field2)?.value;
-
-            if ((value1 && value1 !== '') || (value2 && value2 !== '')) {
-                return null; // valide
-            }
-
-            return { atLeastOneRequired: true };
-        };
+        return new FormGroup({});
     }
 
     public create(): void {
