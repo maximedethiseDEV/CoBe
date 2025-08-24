@@ -9,6 +9,23 @@ services:
       - cobe-network
     restart: always
 
+  mailpit:
+    image: axllent/mailpit:v1.27.0
+    container_name: mailpit
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    volumes:
+      - ./data:/data
+    ports:
+      - 8025:8025
+      - 1025:1025
+    networks:
+      - cobe-network
+    restart: unless-stopped
+
   db:
     image: postgres:15-alpine
     container_name: postgresql
@@ -46,6 +63,7 @@ services:
     restart: always
 
   spa:
+    image: cobe-spa
     build:
       context: ./spa
       dockerfile: Dockerfile

@@ -36,7 +36,7 @@ export class CustomerUpdateComponent extends BaseUpdateComponent {
 
     public update(): void {
         const customer : Customer = this.form.getRawValue();
-        this.customerProvider.create(customer).subscribe({
+        this.customerProvider.update(customer).subscribe({
             next: () => {
                 this.messageService.add({
                     severity: 'success',

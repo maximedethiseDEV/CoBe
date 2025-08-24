@@ -1,7 +1,9 @@
 import {Routes} from '@angular/router';
 import {
     SharedAllDetailsResolver,
-    ProductsResolver, PurchaseOrdersResolver, DeliveryAllStatusResolver
+    PurchaseOrdersResolver,
+    DeliveryAllStatusResolver,
+    TransportSuppliersResolver, DeliveryOrderNumbersResolver
 } from '@core/resolvers';
 import {DeliveryResolver} from '@core/resolvers/delivery.resolver';
 import {AuthenticationGuard} from '@core/guards';
@@ -27,8 +29,8 @@ export const deliveryRoutes: Routes = [
                 loadComponent: () => import('@pages/delivery/components/delivery-create/delivery-create.component').then(component => component.DeliveryCreateComponent),
                 resolve: {
                     purchaseOrders: PurchaseOrdersResolver,
-                    transportSuppliers: ProductsResolver,
-                    deliveryOrderNumbers: SharedAllDetailsResolver,
+                    transportSuppliers: TransportSuppliersResolver,
+                    deliveryOrderNumbers: DeliveryOrderNumbersResolver,
                     deliveryStatus: DeliveryAllStatusResolver
                 }
             },
@@ -38,8 +40,8 @@ export const deliveryRoutes: Routes = [
                 resolve: {
                     entity: DeliveryResolver,
                     purchaseOrders: PurchaseOrdersResolver,
-                    transportSuppliers: ProductsResolver,
-                    deliveryOrderNumbers: SharedAllDetailsResolver,
+                    transportSuppliers: TransportSuppliersResolver,
+                    deliveryOrderNumbers: DeliveryOrderNumbersResolver,
                     deliveryStatus: DeliveryAllStatusResolver
                 }
             }

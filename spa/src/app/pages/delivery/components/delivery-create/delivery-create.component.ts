@@ -1,13 +1,19 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {DeliveryProvider} from '@core/providers';
 import {
     Delivery,
-    PurchaseOrder, TransportSupplier, DeliveryOrderNumber
+    PurchaseOrder,
+    TransportSupplier,
+    DeliveryOrderNumber,
+    DeliveryStatus
 } from '@core/models';
-import {DeliveryStatus} from '@core/models/delivery-status.model';
+import {CommonModule} from '@angular/common';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {AccordionFomComponent} from '@core/components/form/accordion-fom/accordion-fom.component';
+import {DateTimeService} from '@core/services/datetime.service';
 
 @Component({
     selector: 'app-delivery-create',
@@ -15,26 +21,40 @@ import {DeliveryStatus} from '@core/models/delivery-status.model';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        CommonModule,
+        SubmitButtonComponent,
+        AccordionFomComponent,
     ],
     templateUrl: './delivery-create.component.html'
 })
 export class DeliveryCreateComponent extends BaseCreateComponent {
-    @Input() purchaseOrders: PurchaseOrder[] = [];
-    @Input() transportSuppliers: TransportSupplier[] = [];
-    @Input() deliveryOrderNumbers: DeliveryOrderNumber[] = [];
-    @Input() deliveryStatus: DeliveryStatus[] = [];
+    purchaseOrders = input<PurchaseOrder[]>();
+    transportSuppliers = input<TransportSupplier[]>();
+    deliveryOrderNumbers = input<DeliveryOrderNumber[]>();
+    deliveryStatus = input<DeliveryStatus[]>();
     private deliveryProvider: DeliveryProvider = inject(DeliveryProvider);
+    private dateTimeService: DateTimeService = inject(DateTimeService);
     public featurePath: string = 'deliveries';
     public labelHeader: string = 'Nouvelle livraison';
+    protected statesPanel  = {
+        order: {opened: false,},
+        transport: {opened: false,},
+        details: {opened: false,},
+    };
 
     public override generateForm(): FormGroup {
+        const DATEDEFAULT = new Date();
+        DATEDEFAULT.setDate(DATEDEFAULT.getDate() + 1);
+        DATEDEFAULT.setHours(8, 0, 0, 0);
+        const DATEDEFAULTLOCAL = new Date(DATEDEFAULT.getTime() - DATEDEFAULT.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+
         return new FormGroup({
-            actualDeliveryBegin: new FormControl("",Validators.required),
-            actualDeliveryEnd: new FormControl(),
+            actualDeliveryBegin: new FormControl(DATEDEFAULTLOCAL, Validators.required),
+            actualDeliveryEnd: new FormControl(DATEDEFAULTLOCAL),
             quantity: new FormControl("",[Validators.required, Validators.min(0)]),
-            statusId: new FormControl(),
+            statusId: new FormControl("",Validators.required),
             transportSupplierId: new FormControl(),
-            orderId: new FormControl(),
+            orderId: new FormControl("",Validators.required),
             deliveryOrderNumberId: new FormControl(),
         });
     }
@@ -44,10 +64,9 @@ export class DeliveryCreateComponent extends BaseCreateComponent {
 
         const payload: Delivery = {
             ...delivery,
-            actualDeliveryBegin: this.toInstantIso(delivery.actualDeliveryBegin),
-            actualDeliveryEnd: this.toInstantIso(delivery.actualDeliveryEnd),
+            actualDeliveryBegin: this.dateTimeService.convertDatetimeLocalToIso(delivery.actualDeliveryBegin),
+            actualDeliveryEnd: this.dateTimeService.convertDatetimeLocalToIso(delivery.actualDeliveryEnd),
         } as Delivery;
-
 
         this.deliveryProvider.create(payload).subscribe({
             next: () => {
@@ -64,22 +83,4 @@ export class DeliveryCreateComponent extends BaseCreateComponent {
             }
         });
     }
-
-    private toInstantIso(dateInput?: string | null): string | null {
-        if (!dateInput) return null;
-
-        // Si input type="date": "YYYY-MM-DD" -> fixer à minuit UTC
-        // Si input type="datetime-local": "YYYY-MM-DDTHH:mm" -> l'interprétez en local puis convertissez en UTC
-        // Ici on accepte les deux cas :
-        const hasTime = dateInput.includes('T');
-        if (hasTime) {
-            // "YYYY-MM-DDTHH:mm" (sans timezone) -> interprétation locale -> ISO UTC
-            const d = new Date(dateInput);
-            return isNaN(d.getTime()) ? null : d.toISOString();
-        } else {
-            // "YYYY-MM-DD" -> minuit UTC ce jour-là
-            return `${dateInput}T00:00:00.000Z`;
-        }
-    }
-
 }

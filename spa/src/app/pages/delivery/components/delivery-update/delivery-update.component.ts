@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input, Input} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
@@ -8,6 +8,10 @@ import {
     TransportSupplier
 } from '@core/models';
 import {DeliveryProvider} from '@core/providers';
+import {AccordionFomComponent} from '@core/components/form/accordion-fom/accordion-fom.component';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {CommonModule} from '@angular/common';
+import {DateTimeService} from '@core/services/datetime.service';
 
 @Component({
     selector: 'app-delivery-update',
@@ -15,28 +19,37 @@ import {DeliveryProvider} from '@core/providers';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        CommonModule,
+        AccordionFomComponent,
+        SubmitButtonComponent,
     ],
     templateUrl: './delivery-update.component.html'
 })
 export class DeliveryUpdateComponent extends BaseUpdateComponent {
-    @Input() purchaseOrders: PurchaseOrder[] = [];
-    @Input() transportSuppliers: TransportSupplier[] = [];
-    @Input() deliveryOrderNumbers: DeliveryOrderNumber[] = [];
-    @Input() deliveryStatus: DeliveryStatus[] = [];
+    purchaseOrders = input<PurchaseOrder[]>();
+    transportSuppliers = input<TransportSupplier[]>();
+    deliveryOrderNumbers = input<DeliveryOrderNumber[]>();
+    deliveryStatus = input<DeliveryStatus[]>();
     private deliveryProvider: DeliveryProvider = inject(DeliveryProvider);
+    private dateTimeService: DateTimeService = inject(DateTimeService);
     public featurePath: string = 'deliveries';
     public labelHeader: string = 'Mettre à jour la livraison';
+    protected statesPanel  = {
+        order: {opened: false,},
+        transport: {opened: false,},
+        details: {opened: false,},
+    };
 
 
     public override generateForm(): FormGroup {
         return new FormGroup({
             id: new FormControl(),
-            actualDeliveryBegin: new FormControl("",Validators.required,),
+            actualDeliveryBegin: new FormControl("", Validators.required),
             actualDeliveryEnd: new FormControl(),
             quantity: new FormControl("",[Validators.required, Validators.min(0)]),
-            statusId: new FormControl(),
+            statusId: new FormControl("",Validators.required),
             transportSupplierId: new FormControl(),
-            orderId: new FormControl(),
+            orderId: new FormControl("",Validators.required),
             deliveryOrderNumberId: new FormControl(),
         });
     }
@@ -46,12 +59,11 @@ export class DeliveryUpdateComponent extends BaseUpdateComponent {
 
         const payload: Delivery = {
             ...delivery,
-            actualDeliveryBegin: this.toInstantIso(delivery.actualDeliveryBegin),
-            actualDeliveryEnd: this.toInstantIso(delivery.actualDeliveryEnd),
+            actualDeliveryBegin: this.dateTimeService.convertDatetimeLocalToIso(delivery.actualDeliveryBegin),
+            actualDeliveryEnd: this.dateTimeService.convertDatetimeLocalToIso(delivery.actualDeliveryEnd),
         } as Delivery;
 
-
-        this.deliveryProvider.create(payload).subscribe({
+        this.deliveryProvider.update(payload).subscribe({
             next: () => {
                 this.messageService.add({
                     severity: 'success',
@@ -62,25 +74,8 @@ export class DeliveryUpdateComponent extends BaseUpdateComponent {
                 this.back();
             },
             error: (error: Error) => {
-                console.error("Erreur lors de la création de la livraison:", error);
+                console.error("Erreur lors de la modification de la livraison:", error);
             }
         });
-    }
-
-    private toInstantIso(dateInput?: string | null): string | null {
-        if (!dateInput) return null;
-
-        // Si input type="date": "YYYY-MM-DD" -> fixer à minuit UTC
-        // Si input type="datetime-local": "YYYY-MM-DDTHH:mm" -> l'interprétez en local puis convertissez en UTC
-        // Ici on accepte les deux cas :
-        const hasTime = dateInput.includes('T');
-        if (hasTime) {
-            // "YYYY-MM-DDTHH:mm" (sans timezone) -> interprétation locale -> ISO UTC
-            const d = new Date(dateInput);
-            return isNaN(d.getTime()) ? null : d.toISOString();
-        } else {
-            // "YYYY-MM-DD" -> minuit UTC ce jour-là
-            return `${dateInput}T00:00:00.000Z`;
-        }
     }
 }

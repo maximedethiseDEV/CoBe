@@ -64,4 +64,12 @@ interface BaseMapper {
         deliveryOrderNumber.setId(id);
         return deliveryOrderNumber;
     }
+
+    @Named("mapTransportSupplierIdToTransportSupplier")
+    default TransportSupplier mapTransportSupplierIdToTransportSupplier(UUID id) {
+        if (id == null) return null;
+        TransportSupplier transportSupplier = new TransportSupplier();
+        transportSupplier.setId(id);
+        return transportSupplier;
+    }
 }

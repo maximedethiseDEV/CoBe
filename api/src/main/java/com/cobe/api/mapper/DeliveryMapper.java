@@ -5,7 +5,7 @@ import com.cobe.api.model.dto.PostDeliveryDto;
 import com.cobe.api.model.entity.Delivery;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", uses = {BaseMapper.class, OrderMapper.class, TransportSupplierMapper.class, DeliveryOrderNumberMapper.class, DeliveryStatusMapper.class})
+@Mapper(componentModel = "spring", uses = {BaseMapper.class, OrderMapper.class, TransportSupplierMapper.class, DeliveryOrderNumberMapper.class, DeliveryStatusMapper.class, TransportSupplierMapper.class})
 public interface DeliveryMapper {
 
     @Mapping(source = "order.id", target = "orderId")
@@ -15,7 +15,7 @@ public interface DeliveryMapper {
     DeliveryDto toDto(Delivery entity);
 
     @Mapping(source = "orderId", target = "order.id")
-    @Mapping(source = "transportSupplierId", target = "transportSupplier.id")
+    @Mapping(source = "transportSupplierId", target = "transportSupplier", qualifiedByName = "mapTransportSupplierIdToTransportSupplier")
     @Mapping(source = "deliveryOrderNumberId", target = "deliveryOrderNumber", qualifiedByName = "mapDeliveryOrderNumberIdToDeliveryOrderNumber")
     @Mapping(source = "statusId", target = "status.id")
     Delivery toEntity(PostDeliveryDto dto);

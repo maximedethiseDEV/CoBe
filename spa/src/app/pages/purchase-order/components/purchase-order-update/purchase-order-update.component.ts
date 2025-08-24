@@ -50,7 +50,7 @@ export class PurchaseOrderUpdateComponent extends BaseUpdateComponent {
     public update(): void {
         const purchaseOrder : PurchaseOrder = this.form.getRawValue();
 
-        this.purchaseOrderProvider.create(purchaseOrder).subscribe({
+        this.purchaseOrderProvider.update(purchaseOrder).subscribe({
             next: () => {
                 this.messageService.add({
                     severity: 'success',

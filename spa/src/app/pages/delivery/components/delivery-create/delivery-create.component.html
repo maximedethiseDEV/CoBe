@@ -1,112 +1,142 @@
-<div class="flex-1 h-screen overflow-y-auto">
-    <div class="flex-1 px-2">
-        <div class="sm:mx-auto sm:w-full">
-            <h2 class="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight text-gray-900">
-                <i-lucide [img]="iconHeader" class="size-8"></i-lucide>
-                {{ labelHeader }}
-            </h2>
+<div class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm px-4 py-3">
+    <h2 class="flex items-center justify-center gap-3 text-xl font-semibold text-indigo-700">
+        <i-lucide [img]="iconHeader" class="w-6 h-6 text-indigo-600"></i-lucide>
+        {{ labelHeader }}
+    </h2>
+</div>
+
+<div class="mt-6 flex-1">
+    <form
+        [formGroup]="form"
+        (ngSubmit)="create()
+        "
+        class="w-full"
+    >
+        <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
+            <app-accordion-fom
+                title="Commande"
+                [(opened)]="statesPanel.order.opened"
+            >
+                <ng-container slot="content">
+                    <label for="purchaseOrder" class="block text-sm font-medium text-slate-700">
+                        Commande liée
+                    </label>
+                    <select
+                        id="purchaseOrder"
+                        formControlName="orderId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (purchaseOrder of purchaseOrders(); track purchaseOrder.id) {
+                            <option [ngValue]="purchaseOrder.id">
+                                {{ purchaseOrder.code }} - {{ purchaseOrder.customerName }} - {{ purchaseOrder.constructionSiteCityName }}
+                            </option>
+                        }
+                    </select>
+
+                    <label for="deliveryOrderNumber" class="mt-4 block text-sm font-medium text-slate-700">
+                        Numéro de chargement
+                    </label>
+                    <select
+                        id="deliveryOrderNumber"
+                        formControlName="deliveryOrderNumberId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]=""></option>
+                        @for (deliveryOrderNumber of deliveryOrderNumbers(); track deliveryOrderNumber.id) {
+                            <option [ngValue]="deliveryOrderNumber.id">
+                                {{ deliveryOrderNumber.uniqueDeliveryOrderNumber }}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-accordion-fom>
+
+            <app-accordion-fom
+                title="Transport"
+                [(opened)]="statesPanel.transport.opened"
+            >
+                <ng-container slot="content">
+                    <label for="transportSupplier" class="block text-sm font-medium text-slate-700">
+                        Transporteur
+                    </label>
+                    <select
+                        id="transportSupplier"
+                        formControlName="transportSupplierId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (transportSupplier of transportSuppliers(); track transportSupplier.id) {
+                            <option [ngValue]="transportSupplier.id">
+                                {{ transportSupplier.companyName}}
+                            </option>
+                        }
+                    </select>
+
+                    <label for="status" class="mt-4 block text-sm font-medium text-slate-700">
+                        Statut
+                    </label>
+                    <select
+                        id="status"
+                        formControlName="statusId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (status of deliveryStatus(); track status.id) {
+                            <option [ngValue]="status.id">
+                                {{ status.name }}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-accordion-fom>
+
+            <app-accordion-fom
+                title="Détails de livraison"
+                [(opened)]="statesPanel.details.opened"
+            >
+                <ng-container slot="content">
+                    <label for="actualDeliveryBegin" class="block text-sm font-medium text-slate-700">
+                        Début de livraison <span class="text-indigo-600">*</span>
+                    </label>
+                    <input
+                        id="actualDeliveryBegin"
+                        type="datetime-local"
+                        formControlName="actualDeliveryBegin"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                    @if (form.get('actualDeliveryBegin')?.invalid && (form.get('actualDeliveryBegin')?.touched || form.get('actualDeliveryBegin')?.dirty)) {
+                        <p class="mt-1 text-xs text-rose-600">Champ requis</p>
+                    }
+
+                    <label for="actualDeliveryEnd" class="mt-4 block text-sm font-medium text-slate-700">
+                        Fin de livraison
+                    </label>
+                    <input
+                        id="actualDeliveryEnd"
+                        type="datetime-local"
+                        formControlName="actualDeliveryEnd"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+
+                    <label for="quantity" class="mt-4 block text-sm font-medium text-slate-700">
+                        Quantité <span class="text-indigo-600">*</span>
+                    </label>
+                    <input
+                        id="quantity"
+                        type="number"
+                        formControlName="quantity"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                    @if (form.get('quantity')?.invalid && (form.get('quantity')?.touched || form.get('quantity')?.dirty)) {
+                        <p class="mt-1 text-xs text-rose-600">Champ requis</p>
+                    }
+                </ng-container>
+            </app-accordion-fom>
         </div>
 
-        <div class="mt-6 flex-1">
-            <form [formGroup]="form" (ngSubmit)="create()" class="space-y-8">
-                <div class="space-y-4">
-
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="purchaseOrder" class="block text-sm font-medium text-gray-700">
-                            Commande
-                        </label>
-                        <select
-                            id="purchaseOrder"
-                            formControlName="orderId"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            @for (purchaseOrder of purchaseOrders; track purchaseOrder.id) {
-                                <option [ngValue]="purchaseOrder.id">
-                                    {{ purchaseOrder.id }}
-                                </option>
-                            }
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="transportSupplier" class="block text-sm font-medium text-gray-700">
-                            Transporteur
-                        </label>
-                        <select
-                            id="transportSupplier"
-                            formControlName="transportSupplierId"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            @for (transportSupplier of transportSuppliers; track transportSupplier.id) {
-                                <option [ngValue]="transportSupplier.id">
-                                    {{ transportSupplier.id }}
-                                </option>
-                            }
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="actualDeliveryBegin" class="block text-sm font-medium text-gray-700">
-                            Début de livraison
-                        </label>
-                        <input
-                            id="actualDeliveryBegin"
-                            type="date"
-                            formControlName="actualDeliveryBegin"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="actualDeliveryEnd" class="block text-sm font-medium text-gray-700">
-                            Fin de livraison
-                        </label>
-                        <input
-                            id="actualDeliveryEnd"
-                            type="date"
-                            formControlName="actualDeliveryEnd"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="quantity" class="block text-sm font-medium text-gray-700">
-                            Quantité
-                        </label>
-                        <input
-                            id="quantity"
-                            type="number"
-                            formControlName="quantity"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="status" class="block text-sm font-medium text-gray-700">
-                            Statut
-                        </label>
-                        <select
-                            id="status"
-                            formControlName="statusId"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            @for (status of deliveryStatus; track status.id) {
-                                <option [ngValue]="status.id">
-                                    {{ status.name }}
-                                </option>
-                            }
-                        </select>
-                    </div>
-                </div>
-
-                <div class="flex justify-end">
-                    <button type="submit"
-                            [disabled]="form.invalid"
-                            class="mt-4 mr-2 rounded-md bg-green-600 px-4 py-2 text-white font-semibold shadow hover:bg-green-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 disabled:opacity-50 cursor-pointer">
-                        <i-lucide [img]="iconsList.Save" class="size-6"></i-lucide>
-                    </button>
-                </div>
-            </form>
+        <div class="mt-4 flex justify-end">
+            <app-submit-button [disabled]="form.invalid"/>
         </div>
-    </div>
+    </form>
 </div>

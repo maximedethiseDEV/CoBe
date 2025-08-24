@@ -17,7 +17,7 @@ public class Delivery extends AbstractEntity {
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "transport_supplier_id", nullable = false)
+    @JoinColumn(name = "transport_supplier_id")
     private TransportSupplier transportSupplier;
 
     @ManyToOne(fetch = FetchType.LAZY)
