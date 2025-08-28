@@ -26,17 +26,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        return new User(user.getUsername(), user.getPasswordHash(), getGrantedAuthorities(user.getPermission()));
+        return new User(user.getUsername(), user.getPasswordHash(), getGrantedAuthorities(user));
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(String roles) {
+    private List<GrantedAuthority> getGrantedAuthorities(DBUser user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-
-        String[] roleArray = roles.split(",");
-        for (String role : roleArray) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.trim()));
+        if (user.getPermission() != null) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getPermission().name()));
         }
-
         return authorities;
     }
 }

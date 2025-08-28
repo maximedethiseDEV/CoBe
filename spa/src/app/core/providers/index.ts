@@ -6,6 +6,7 @@ export * from './construction-site.provider';
 export * from './contact.provider';
 export * from './country.provider';
 export * from './customer.provider';
+export * from './db-user.provider';
 export * from './delivery.provider';
 export * from './delivery-order-number.provider';
 export * from './delivery-status.provider';

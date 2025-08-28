@@ -1,5 +1,6 @@
 package com.cobe.api.model.entity;
 
+import com.cobe.api.model.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +27,7 @@ public class DBUser  extends AbstractEntity {
     @JoinColumn(name = "contact_id")
     private Contact contact;
 
-    @Column(name = "permission", nullable = true)
-    private String permission;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "permission", nullable = false)
+    private UserRole permission;
 }

@@ -37,7 +37,9 @@ import {
     ChevronUp,
     ChevronLeft,
     ChevronRight,
-    Inbox
+    Inbox,
+    BookUser,
+    Users
 } from 'lucide-angular';
 
 export const LucideIconsList = {
@@ -79,5 +81,7 @@ export const LucideIconsList = {
     ChevronUp,
     ChevronLeft,
     ChevronRight,
-    Inbox
+    Inbox,
+    BookUser,
+    Users,
 };

@@ -7,7 +7,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "material_supplier")
 public class MaterialSupplier extends AbstractEntity {

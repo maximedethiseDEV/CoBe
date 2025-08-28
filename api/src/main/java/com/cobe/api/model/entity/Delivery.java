@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import java.time.Instant;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "delivery")
 public class Delivery extends AbstractEntity {

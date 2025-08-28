@@ -5,6 +5,7 @@ export * from './construction-site.model'
 export * from './contact.model';
 export * from './country.model';
 export * from './customer.model';
+export * from './db-user.model';
 export * from './delivery.model';
 export * from './delivery-order-number.model';
 export * from './delivery-status.model';

@@ -10,8 +10,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.Instant;
 
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "purchase_order")
 public class Order extends AbstractEntity {

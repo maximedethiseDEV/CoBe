@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "company")
 public class Company extends AbstractEntity {

@@ -36,13 +36,11 @@ public class AuthController {
         );
 
         String token = jwtService.generateToken(authentication);
-
-        // Récupérer les rôles de l'utilisateur
-        String roles = authentication.getAuthorities().stream()
+        String permission = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+                .findFirst()
+                .orElse("ROLE_USER");
 
-        // Retourner le token et les rôles
-        return ResponseEntity.ok(new JwtResponse(token, roles));
+        return ResponseEntity.ok(new JwtResponse(token, permission));
     }
 }

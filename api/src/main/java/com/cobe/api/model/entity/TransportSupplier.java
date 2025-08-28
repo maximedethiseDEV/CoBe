@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "transport_supplier")
 public class TransportSupplier extends AbstractEntity {

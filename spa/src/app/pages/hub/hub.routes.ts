@@ -14,6 +14,7 @@ import {transportSupplierRoutes} from '@pages/transport-supplier/transport-suppl
 import {deliveryOrderNumberRoutes} from '@pages/delivery-order-number/delivery-order-number.routes';
 import {purchaseOrderRoutes} from '@pages/purchase-order/purchase-order.routes';
 import {deliveryRoutes} from '@pages/delivery/delivery.routes';
+import {dbUserRoutes} from '@pages/db-user/db-user.routes';
 
 export const hubRoutes: Routes = [
     {
@@ -21,7 +22,7 @@ export const hubRoutes: Routes = [
         loadComponent: () => import('./hub.component').then(component => component.HubComponent),
         canActivate: [AuthenticationGuard],
         data: {
-            role: ['USER', 'ADMIN']
+            role: ['USER', 'ADMIN','SUPER_ADMIN']
         },
         children: [
             {
@@ -47,7 +48,8 @@ export const hubRoutes: Routes = [
             ...transportSupplierRoutes,
             ...deliveryOrderNumberRoutes,
             ...purchaseOrderRoutes,
-            ...deliveryRoutes
+            ...deliveryRoutes,
+            ...dbUserRoutes
         ]
     }
 ];

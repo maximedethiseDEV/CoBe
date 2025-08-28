@@ -23,16 +23,18 @@ public class JwtService {
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
         long expiry = 36000L;
-        String scope = authentication.getAuthorities()
+
+        String permission = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+                .findFirst()
+                .orElse("ROLE_USER");
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expiry))
                 .subject(authentication.getName())
-                .claim("scope", scope)
+                .claim("scope", permission)
                 .build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }

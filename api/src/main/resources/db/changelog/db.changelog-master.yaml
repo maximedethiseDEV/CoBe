@@ -21,6 +21,15 @@ databaseChangeLog:
       author: maxime
       changes:
         - sqlFile:
+            path: creation_users.sql
+            relativeToChangelogFile: true
+            splitStatements: false
+
+  - changeSet:
+      id: 3
+      author: maxime
+      changes:
+        - sqlFile:
             path: insert_delivery_status.sql
             relativeToChangelogFile: true
             splitStatements: false

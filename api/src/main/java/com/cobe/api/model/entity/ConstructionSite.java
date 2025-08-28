@@ -8,8 +8,6 @@ import lombok.EqualsAndHashCode;
 import java.time.Instant;
 
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "construction_site")
 public class ConstructionSite extends AbstractEntity {
