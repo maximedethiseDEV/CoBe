@@ -3,7 +3,7 @@ export const environment: any = {
     name: 'local',
     applicationTitle: 'CoBe',
     url: {
-        api: 'http://localhost:8080',
-        sse: 'http://localhost:8080'
+        api: 'https://localhost:8080',
+        sse: 'https://localhost:8080'
     }
 };

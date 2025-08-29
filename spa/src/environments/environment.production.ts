@@ -3,7 +3,7 @@ export const environment: any = {
     name: 'production',
     applicationTitle: 'CoBe',
     url: {
-        api: 'http://localhost:9000',
-        sse: 'http://localhost:9000'
+        api: 'https://localhost:9000',
+        sse: 'https://localhost:9000'
     }
 };
