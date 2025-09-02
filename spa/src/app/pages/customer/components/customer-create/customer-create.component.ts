@@ -4,6 +4,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {Address, Customer, Contact, SharedDetails, Company} from '@core/models';
 import {CustomerProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-customer-create',
@@ -11,6 +12,7 @@ import {CustomerProvider} from '@core/providers';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './customer-create.component.html'
 })

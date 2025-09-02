@@ -9,6 +9,7 @@ import org.mapstruct.*;
 public interface CompanyMapper {
 
     @Mapping(source = "address.id", target = "addressId")
+    @Mapping(source = "address.street", target = "street")
     @Mapping(source = "address.city.cityName", target = "cityName")
     @Mapping(source = "address.city.postalCode", target = "postalCode")
     @Mapping(source = "address.city.country.countryCode", target = "countryCode")

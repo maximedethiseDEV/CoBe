@@ -4,13 +4,15 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {City, Contact, Country, DbUser} from '@core/models';
 import {CityProvider, DbUserProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-db-user-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        FormsModule
+        FormsModule,
+        SubmitButtonComponent
     ],
     templateUrl: './db-user-update.component.html'
 })

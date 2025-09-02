@@ -23,7 +23,6 @@ export const addressRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/address/components/address-create/address-create.component').then(component => component.AddressCreateComponent),
                 resolve: {
-                    countries: CountriesResolver,
                     cities: CitiesResolver
                 }
             },
@@ -32,7 +31,6 @@ export const addressRoutes: Routes = [
                 loadComponent: () => import('@pages/address/components/address-update/address-update.component').then(component => component.AddressUpdateComponent),
                 resolve: {
                     entity: AddressResolver,
-                    countries: CountriesResolver,
                     cities: CitiesResolver
                 }
             }

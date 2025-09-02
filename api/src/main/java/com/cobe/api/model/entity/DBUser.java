@@ -1,6 +1,6 @@
 package com.cobe.api.model.entity;
 
-import com.cobe.api.model.UserRole;
+import com.cobe.api.config.security.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

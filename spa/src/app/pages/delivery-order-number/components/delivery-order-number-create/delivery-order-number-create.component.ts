@@ -10,6 +10,7 @@ import {
     Customer
 } from '@core/models';
 import {DeliveryOrderNumberProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-delivery-order-number-create',
@@ -17,6 +18,7 @@ import {DeliveryOrderNumberProvider} from '@core/providers';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './delivery-order-number-create.component.html'
 })

@@ -14,6 +14,7 @@ import {
     TransportSupplier
 } from '@core/models';
 import {AddressProvider, CompanyProvider, CustomerProvider, DeliveryOrderNumberProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-delivery-order-number-update',
@@ -21,6 +22,7 @@ import {AddressProvider, CompanyProvider, CustomerProvider, DeliveryOrderNumberP
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './delivery-order-number-update.component.html'
 })

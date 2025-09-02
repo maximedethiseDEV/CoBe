@@ -27,10 +27,8 @@ export const companyRoutes: Routes = [
                 loadComponent: () => import('@pages/company/components/company-create/company-create.component').then(component => component.CompanyCreateComponent),
                 resolve: {
                     addresses: AddressesResolver,
-                    countries: CountriesResolver,
                     cities: CitiesResolver,
                     sharedDetails: SharedAllDetailsResolver,
-                    companies: CompaniesResolver
                 }
             },
             {
@@ -39,10 +37,8 @@ export const companyRoutes: Routes = [
                 resolve: {
                     entity: CompanyResolver,
                     addresses: AddressesResolver,
-                    countries: CountriesResolver,
                     cities: CitiesResolver,
                     sharedDetails: SharedAllDetailsResolver,
-                    companies: CompaniesResolver
                 }
             }
         ]

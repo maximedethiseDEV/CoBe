@@ -1,6 +1,6 @@
 package com.cobe.api.service;
 
-import com.cobe.api.model.UserRole;
+import com.cobe.api.config.security.UserRole;
 import com.cobe.api.model.entity.DBUser;
 import com.cobe.api.repository.DBUserRepository;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ public class RegisterService {
 
     private final DBUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private static final String DEFAULT_ROLE = UserRole.USER.toString();
 
     public RegisterService(DBUserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -56,7 +57,7 @@ public class RegisterService {
 
     private void assignDefaultPermissionIfNeeded(DBUser user) {
         if (user.getPermission() == null) {
-            user.setPermission(UserRole.valueOf("ADMIN"));
+            user.setPermission(UserRole.valueOf(DEFAULT_ROLE));
         }
     }
 

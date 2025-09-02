@@ -4,6 +4,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {Address, Company, Contact, MaterialSupplier, SharedDetails, TransportSupplier} from '@core/models';
 import {MaterialSupplierProvider, TransportSupplierProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-transport-supplier-update',
@@ -11,6 +12,7 @@ import {MaterialSupplierProvider, TransportSupplierProvider} from '@core/provide
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './transport-supplier-update.component.html'
 })

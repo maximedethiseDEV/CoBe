@@ -4,6 +4,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {Address, ConstructionSite, Contact, SharedDetails, Customer} from '@core/models';
 import {ConstructionSiteProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-construction-site-create',
@@ -11,6 +12,7 @@ import {ConstructionSiteProvider} from '@core/providers';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './construction-site-create.component.html'
 })

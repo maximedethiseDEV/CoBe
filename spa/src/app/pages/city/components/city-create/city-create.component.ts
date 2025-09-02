@@ -4,13 +4,15 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {City, Country} from '@core/models';
 import {CityProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-city-create',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        FormsModule
+        FormsModule,
+        SubmitButtonComponent
     ],
     templateUrl: './city-create.component.html'
 })

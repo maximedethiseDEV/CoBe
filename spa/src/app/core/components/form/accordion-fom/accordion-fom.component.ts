@@ -13,8 +13,7 @@ import {LucideIconsList} from '@core/lists';
   templateUrl: './accordion-fom.component.html'
 })
 export class AccordionFomComponent {
-    public readonly iconsList: any = LucideIconsList;
-
+    public readonly createIcon: any = LucideIconsList.Plus;
     title = input.required<string>();
     canCreate = input<boolean>(false);
     opened = model<boolean>(false);

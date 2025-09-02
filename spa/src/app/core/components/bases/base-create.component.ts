@@ -3,6 +3,7 @@ import {FormGroup} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {LucideIconsList} from '@core/lists';
 import {ActivatedRoute, Params, Router} from '@angular/router';
+import {LucideIconData} from 'lucide-angular';
 
 @Component({
     template: ''
@@ -16,8 +17,7 @@ export abstract class BaseCreateComponent {
     protected params: Params;
     protected queryParams: Params;
     public form: FormGroup = new FormGroup({});
-    public readonly iconsList: any = LucideIconsList;
-    public readonly iconHeader: any= this.iconsList.CirclePlus;
+    public readonly iconHeader: any = LucideIconsList.CirclePlus;
 
     constructor() {
         this.params = this.route.snapshot.params;

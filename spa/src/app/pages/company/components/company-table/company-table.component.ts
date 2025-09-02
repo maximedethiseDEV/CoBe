@@ -20,6 +20,7 @@ export class CompanyTableComponent extends BaseTableComponent<Company> implement
     public iconHeader = LucideIconsList.Wallet;
     public filterFields: string[] = [
         'companyName',
+        'street',
         'cityName',
         'postalCode',
         'countryCode',
@@ -31,6 +32,12 @@ export class CompanyTableComponent extends BaseTableComponent<Company> implement
             key: 'companyName',
             type:'text',
             translate: 'Nom',
+            sort: true
+        },
+        {
+            key: 'street',
+            type:'text',
+            translate: 'Rue',
             sort: true
         },
         {

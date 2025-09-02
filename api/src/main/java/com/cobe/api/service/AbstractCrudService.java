@@ -55,7 +55,6 @@ public abstract class AbstractCrudService<ENTITY, GetRequest_DTO, PostOrPutReque
     public GetRequest_DTO create(PostOrPutRequest_DTO dto) {
 
         if (dataValidatorControl(dto)) {
-
             ENTITY savedEntity = repository.save(dtoToEntityMapper.apply(dto));
             GetRequest_DTO savedDto = entityToDtoMapper.apply(savedEntity);
 

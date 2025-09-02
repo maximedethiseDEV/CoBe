@@ -33,7 +33,7 @@ export class CompanyUpdateComponent extends BaseUpdateComponent {
     private addressProvider: AddressProvider = inject(AddressProvider);
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
     public featurePath: string = 'companies';
-    public labelHeader: string = 'Nouvelle entreprise';
+    public labelHeader: string = 'Mettre à jour l\'entreprise';
     protected statesPanel  = {
         parent: {opened: false,},
         company: {opened: false,},

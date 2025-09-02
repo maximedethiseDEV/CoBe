@@ -4,6 +4,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {Address, Company, Contact, MaterialSupplier, SharedDetails} from '@core/models';
 import {MaterialSupplierProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-material-supplier-update',
@@ -11,6 +12,7 @@ import {MaterialSupplierProvider} from '@core/providers';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './material-supplier-update.component.html'
 })
@@ -28,7 +30,7 @@ export class MaterialSupplierUpdateComponent extends BaseUpdateComponent {
             id: new FormControl(),
             companyId: new FormControl("",Validators.required),
             contactId: new FormControl(),
-            addressId: new FormControl(),
+            addressId: new FormControl("",Validators.required),
             sharedDetailsId: new FormControl(),
         });
     }

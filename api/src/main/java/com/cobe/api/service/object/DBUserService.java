@@ -1,7 +1,7 @@
 package com.cobe.api.service.object;
 
 import com.cobe.api.mapper.DBUserMapper;
-import com.cobe.api.model.UserRole;
+import com.cobe.api.config.security.UserRole;
 import com.cobe.api.model.dto.DBUserDto;
 import com.cobe.api.model.dto.PostDBUserDto;
 import com.cobe.api.model.entity.DBUser;
@@ -59,7 +59,7 @@ public class DBUserService extends AbstractCrudService<DBUser, DBUserDto, PostDB
         }
 
         if (dto.getPermission() == null) {
-            dto.setPermission(UserRole.USER.name());
+            dto.setPermission(UserRole.USER.toString());
         }
 
         if (dto.getPassword() == null || dto.getPassword().isBlank()) {
@@ -85,7 +85,6 @@ public class DBUserService extends AbstractCrudService<DBUser, DBUserDto, PostDB
             }
         }
 
-        // Mise à jour via MapStruct (ignore les nulls)
         mapper.updateDBUserFromDto(dto, existing);
 
         // Si mot de passe fourni -> encoder et remplacer

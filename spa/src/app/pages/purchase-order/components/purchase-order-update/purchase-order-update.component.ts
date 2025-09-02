@@ -13,6 +13,7 @@ import {
     SharedDetails
 } from '@core/models';
 import {AddressProvider, ProductProvider, PurchaseOrderProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-purchase-order-update',
@@ -20,6 +21,7 @@ import {AddressProvider, ProductProvider, PurchaseOrderProvider} from '@core/pro
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './purchase-order-update.component.html'
 })

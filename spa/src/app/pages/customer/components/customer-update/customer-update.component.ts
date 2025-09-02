@@ -4,6 +4,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {Address, City, Company, Contact, Country, Customer, SharedDetails} from '@core/models';
 import {AddressProvider, CompanyProvider, CustomerProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-customer-update',
@@ -11,6 +12,7 @@ import {AddressProvider, CompanyProvider, CustomerProvider} from '@core/provider
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './customer-update.component.html'
 })

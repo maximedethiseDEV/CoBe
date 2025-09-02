@@ -12,17 +12,17 @@ import {Observable} from 'rxjs';
     template: ''
 })
 export abstract class BaseTableComponent<T extends EntityModel = EntityModel> implements OnInit, OnDestroy {
-    public readonly createIcon: LucideIconData = LucideIconsList.CirclePlus;
-    public readonly refreshIcon: LucideIconData = LucideIconsList.RefreshCcw;
-    public readonly filterIcon: LucideIconData = LucideIconsList.ChevronsUpDown;
-    public readonly updateIcon: LucideIconData = LucideIconsList.SquarePen;
-    public readonly deleteIcon: LucideIconData = LucideIconsList.Trash2;
-    public readonly nextPageIcon: LucideIconData = LucideIconsList.ChevronRight;
-    public readonly previousPageIcon: LucideIconData = LucideIconsList.ChevronLeft;
-    public readonly emptyDataIcon: LucideIconData = LucideIconsList.Inbox;
+    public readonly createIcon: any = LucideIconsList.Plus;
+    public readonly refreshIcon: any = LucideIconsList.RefreshCcw;
+    public readonly filterIcon: any = LucideIconsList.ChevronsUpDown;
+    public readonly updateIcon: any = LucideIconsList.SquarePen;
+    public readonly deleteIcon: any = LucideIconsList.Trash2;
+    public readonly nextPageIcon: any = LucideIconsList.ChevronRight;
+    public readonly previousPageIcon: any = LucideIconsList.ChevronLeft;
+    public readonly emptyDataIcon: any = LucideIconsList.Inbox;
 
     abstract labelHeader: string;
-    abstract iconHeader: LucideIconData;
+    abstract iconHeader:LucideIconData;
     abstract filterFields: string[];
     abstract tableColumns: TableColumn[];
 

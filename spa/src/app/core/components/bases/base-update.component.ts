@@ -17,8 +17,7 @@ export abstract class BaseUpdateComponent {
     protected queryParams: Params;
     public entity: any;
     public form: FormGroup = new FormGroup({});
-    public readonly iconsList: any = LucideIconsList;
-    public readonly iconHeader: any= this.iconsList.CircleUserRound;
+    public readonly iconHeader: any = LucideIconsList.SquarePen;
 
     constructor() {
         this.entity = this.route.snapshot.data['entity'];

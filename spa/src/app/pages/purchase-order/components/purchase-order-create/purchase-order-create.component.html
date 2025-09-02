@@ -9,7 +9,6 @@
     <form
         [formGroup]="form"
         (ngSubmit)="create()"
-        class="w-full"
     >
         <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
             <app-accordion-fom
@@ -87,7 +86,7 @@
                         <option [ngValue]="''"></option>
                         @for (product of products(); track product.id) {
                             <option [ngValue]="product.id">
-                                {{product.code}} - {{product.name}}
+                                {{product.code}} - {{product.name}} ({{product.companyName}})
                             </option>
                         }
                     </select>

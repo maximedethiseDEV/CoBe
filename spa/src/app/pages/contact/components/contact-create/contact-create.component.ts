@@ -4,12 +4,14 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {Contact} from '@core/models';
 import {ContactProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-contact-create',
     imports: [
         ReactiveFormsModule,
-        LucideAngularModule
+        LucideAngularModule,
+        SubmitButtonComponent
     ],
     templateUrl: './contact-create.component.html'
 })

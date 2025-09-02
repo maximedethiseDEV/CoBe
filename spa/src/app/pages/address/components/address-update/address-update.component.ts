@@ -5,6 +5,8 @@ import {BaseUpdateComponent} from '@core/components';
 import {Address, City} from '@core/models';
 import {AddressProvider} from '@core/providers';
 import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
+import {LucideIconsList} from '@core/lists';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-address-update',
@@ -13,6 +15,7 @@ import {AddressFormComponent} from '@core/components/form/address-form/address-f
         LucideAngularModule,
         FormsModule,
         AddressFormComponent,
+        SubmitButtonComponent,
     ],
     templateUrl: './address-update.component.html'
 })

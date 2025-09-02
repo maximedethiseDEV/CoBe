@@ -4,6 +4,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {Address, MaterialSupplier, Contact, SharedDetails, Company} from '@core/models';
 import {MaterialSupplierProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-material-supplier-create',
@@ -11,6 +12,7 @@ import {MaterialSupplierProvider} from '@core/providers';
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
+        SubmitButtonComponent,
     ],
     templateUrl: './material-supplier-create.component.html'
 })
@@ -27,7 +29,7 @@ export class MaterialSupplierCreateComponent extends BaseCreateComponent {
         return new FormGroup({
             companyId: new FormControl("",Validators.required),
             contactId: new FormControl(),
-            addressId: new FormControl(),
+            addressId: new FormControl("",Validators.required),
             sharedDetailsId: new FormControl(),
         });
     }

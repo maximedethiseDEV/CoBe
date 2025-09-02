@@ -21,7 +21,7 @@ export const MenuList: MenuItem[] = [
         children: [
             {
                 label: 'Adresses',
-                role: ['ADMIN','SUPER_ADMIN'],
+                role: ['USER','ADMIN','SUPER_ADMIN'],
                 icon: LucideIconsList.MapPin,
                 link: 'addresses'
             },

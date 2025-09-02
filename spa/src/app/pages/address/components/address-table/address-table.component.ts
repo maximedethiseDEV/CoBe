@@ -27,25 +27,25 @@ export class AddressTableComponent extends BaseTableComponent<Address> implement
     public tableColumns: TableColumn[] = [
         {
             key: 'street',
-            type:'text',
+            type: 'text',
             translate: 'Rue',
             sort: true
         },
         {
             key: 'cityName',
-            type:'text',
+            type: 'text',
             translate: 'Ville',
             sort: true
         },
         {
             key: 'postalCode',
-            type:'text',
+            type: 'text',
             translate: 'Code postal',
             sort: true
         },
         {
             key: 'countryCode',
-            type:'text',
+            type: 'text',
             translate: 'Pays',
             sort: true
         }

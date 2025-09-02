@@ -47,10 +47,9 @@ public abstract class AbstractCrudController<ENTITY, GetRequest_DTO, PostOrPutRe
         GetRequest_DTO createdEntity = getService().create(entity);
 
         String entityPath = getEntityPath();
-        sseService.broadcastToEntity(entityPath,
-                new SseEventMessage("CREATE", entityPath, createdEntity));
+        sseService.broadcastToEntity(entityPath, new SseEventMessage("CREATE", entityPath, createdEntity));
 
-        return ResponseEntity.ok(createdEntity);
+        return ResponseEntity.status(201).body(createdEntity);
     }
 
     @PutMapping("/{id}")

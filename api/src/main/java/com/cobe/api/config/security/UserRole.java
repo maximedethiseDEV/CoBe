@@ -1,4 +1,4 @@
-package com.cobe.api.model;
+package com.cobe.api.config.security;
 
 public enum UserRole {
 

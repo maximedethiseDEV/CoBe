@@ -4,13 +4,15 @@ import {LucideAngularModule} from 'lucide-angular';
 import {SharedDetailsProvider} from '@core/providers';
 import {BaseUpdateComponent} from '@core/components';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-shared-details-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        SharedDetailsFormComponent
+        SharedDetailsFormComponent,
+        SubmitButtonComponent
     ],
     templateUrl: './shared-details-update.component.html'
 })

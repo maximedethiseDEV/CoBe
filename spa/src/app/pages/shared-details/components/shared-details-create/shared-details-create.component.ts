@@ -7,6 +7,7 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {SharedDetailsProvider} from '@core/providers';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-shared-details-create',
@@ -14,6 +15,7 @@ import {SharedDetailsFormComponent} from '@core/components/form/shared-details-f
         ReactiveFormsModule,
         LucideAngularModule,
         SharedDetailsFormComponent,
+        SubmitButtonComponent,
     ],
     templateUrl: './shared-details-create.component.html'
 })

@@ -4,13 +4,15 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {Contact, DbUser} from '@core/models';
 import {DbUserProvider} from '@core/providers';
+import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 
 @Component({
     selector: 'app-db-user-create',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        FormsModule
+        FormsModule,
+        SubmitButtonComponent
     ],
     templateUrl: './db-user-create.component.html'
 })

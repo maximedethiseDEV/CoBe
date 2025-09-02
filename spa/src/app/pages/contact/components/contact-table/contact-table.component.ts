@@ -16,7 +16,7 @@ import {Observable} from 'rxjs';
 })
 export class ContactTableComponent extends BaseTableComponent<Contact> implements OnInit {
     private contactProvider: ContactProvider = inject(ContactProvider);
-    public iconHeader = LucideIconsList.CircleUserRound;
+    public iconHeader = LucideIconsList.BookUser;
     public labelHeader = 'Liste des contacts';
     public filterFields: string[] = [
         'firstName',

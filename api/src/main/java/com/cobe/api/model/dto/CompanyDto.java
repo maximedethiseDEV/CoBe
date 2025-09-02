@@ -14,6 +14,7 @@ public class CompanyDto extends AbstractDto {
     private UUID parentId;
 
     private UUID addressId;
+    private String street;
     private String cityName;
     private String postalCode;
     private String countryCode;

@@ -8,7 +8,6 @@
     <form
         [formGroup]="form"
         (ngSubmit)="create()"
-        class="w-full"
     >
         <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
             <app-accordion-fom
@@ -47,7 +46,6 @@
                         type="text"
                         formControlName="companyName"
                         class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition placeholder:text-slate-400"
-                        placeholder="Ex. ACME SAS"
                     >
                     @if (form.get('companyName')?.invalid && (form.get('companyName')?.touched || form.get('companyName')?.dirty)) {
                         <p class="mt-1 text-xs text-rose-600">Champ requis</p>
@@ -123,7 +121,7 @@
             </app-accordion-fom>
         </div>
 
-        <div class="mt-4 flex justify-end">
+        <div class="flex justify-end">
             <app-submit-button [disabled]="form.invalid"/>
         </div>
     </form>
