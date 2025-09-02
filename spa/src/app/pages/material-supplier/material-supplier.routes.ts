@@ -1,7 +1,9 @@
 import {Routes} from '@angular/router';
 import {
-    AddressesResolver,
-    CompaniesResolver, ContactsResolver, SharedAllDetailsResolver,
+    AddressesNoPageResolver,
+    AddressesResolver, CompaniesNoPageResolver,
+    CompaniesResolver, ContactsNoPageResolver, ContactsResolver,
+    SharedAllDetailsNoPageResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {MaterialSupplierResolver} from '@core/resolvers/material-supplier.resolver';
 import {AuthenticationGuard} from '@core/guards';
@@ -26,10 +28,10 @@ export const materialSupplierRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/material-supplier/components/material-supplier-create/material-supplier-create.component').then(component => component.MaterialSupplierCreateComponent),
                 resolve: {
-                    companies: CompaniesResolver,
-                    addresses: AddressesResolver,
-                    contacts: ContactsResolver,
-                    sharedDetails: SharedAllDetailsResolver,
+                    companies: CompaniesNoPageResolver,
+                    addresses: AddressesNoPageResolver,
+                    contacts: ContactsNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             },
             {
@@ -37,10 +39,10 @@ export const materialSupplierRoutes: Routes = [
                 loadComponent: () => import('@pages/material-supplier/components/material-supplier-update/material-supplier-update.component').then(component => component.MaterialSupplierUpdateComponent),
                 resolve: {
                     entity: MaterialSupplierResolver,
-                    companies: CompaniesResolver,
-                    addresses: AddressesResolver,
-                    contacts: ContactsResolver,
-                    sharedDetails: SharedAllDetailsResolver,
+                    companies: CompaniesNoPageResolver,
+                    addresses: AddressesNoPageResolver,
+                    contacts: ContactsNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             }
         ]

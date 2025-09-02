@@ -3,7 +3,8 @@ import {
     SharedAllDetailsResolver,
     PurchaseOrdersResolver,
     DeliveryAllStatusResolver,
-    TransportSuppliersResolver, DeliveryOrderNumbersResolver
+    TransportSuppliersResolver, DeliveryOrderNumbersResolver, PurchaseOrdersNoPageResolver,
+    TransportSuppliersNoPageResolver, DeliveryOrderNumbersNoPageResolver, DeliveryAllStatusNoPageResolver
 } from '@core/resolvers';
 import {DeliveryResolver} from '@core/resolvers/delivery.resolver';
 import {AuthenticationGuard} from '@core/guards';
@@ -28,10 +29,10 @@ export const deliveryRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/delivery/components/delivery-create/delivery-create.component').then(component => component.DeliveryCreateComponent),
                 resolve: {
-                    purchaseOrders: PurchaseOrdersResolver,
-                    transportSuppliers: TransportSuppliersResolver,
-                    deliveryOrderNumbers: DeliveryOrderNumbersResolver,
-                    deliveryStatus: DeliveryAllStatusResolver
+                    purchaseOrders: PurchaseOrdersNoPageResolver,
+                    transportSuppliers: TransportSuppliersNoPageResolver,
+                    deliveryOrderNumbers: DeliveryOrderNumbersNoPageResolver,
+                    deliveryStatus: DeliveryAllStatusNoPageResolver
                 }
             },
             {
@@ -39,10 +40,10 @@ export const deliveryRoutes: Routes = [
                 loadComponent: () => import('@pages/delivery/components/delivery-update/delivery-update.component').then(component => component.DeliveryUpdateComponent),
                 resolve: {
                     entity: DeliveryResolver,
-                    purchaseOrders: PurchaseOrdersResolver,
-                    transportSuppliers: TransportSuppliersResolver,
-                    deliveryOrderNumbers: DeliveryOrderNumbersResolver,
-                    deliveryStatus: DeliveryAllStatusResolver
+                    purchaseOrders: PurchaseOrdersNoPageResolver,
+                    transportSuppliers: TransportSuppliersNoPageResolver,
+                    deliveryOrderNumbers: DeliveryOrderNumbersNoPageResolver,
+                    deliveryStatus: DeliveryAllStatusNoPageResolver
                 }
             }
         ]

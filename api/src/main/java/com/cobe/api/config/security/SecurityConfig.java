@@ -42,11 +42,11 @@ public class SecurityConfig {
                         ).hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
                         .requestMatchers(HttpMethod.GET,
                                 "/customers/**",
-                                "/products",
+                                "/products/**",
                                 "/transport-suppliers/**",
-                                "/unique-delivery-numbers",
-                                "/delivery-status",
-                                "/cities"
+                                "/unique-delivery-numbers/**",
+                                "/delivery-status/**",
+                                "/cities/**"
                         ).hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/users/**").hasRole("SUPER_ADMIN") // exclusif super admin
                         .requestMatchers("/**").hasAnyRole("ADMIN", "SUPER_ADMIN") // admin+ a accès au reste

@@ -1,5 +1,10 @@
 import {Routes} from '@angular/router';
-import {MaterialSuppliersResolver, SharedAllDetailsResolver, SharedDetailsResolver} from '@core/resolvers';
+import {
+    MaterialSuppliersNoPageResolver,
+    MaterialSuppliersResolver, SharedAllDetailsNoPageResolver,
+    SharedAllDetailsResolver,
+    SharedDetailsResolver
+} from '@core/resolvers';
 import {ProductResolver} from '@core/resolvers/product.resolver';
 import {AuthenticationGuard} from '@core/guards';
 import {MenuList} from '@core/lists';
@@ -23,8 +28,8 @@ export const productRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/product/components/product-create/product-create.component').then(component => component.ProductCreateComponent),
                 resolve: {
-                    materialSuppliers: MaterialSuppliersResolver,
-                    sharedDetails: SharedAllDetailsResolver
+                    materialSuppliers: MaterialSuppliersNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver
                 }
             },
             {
@@ -32,8 +37,8 @@ export const productRoutes: Routes = [
                 loadComponent: () => import('@pages/product/components/product-update/product-update.component').then(component => component.ProductUpdateComponent),
                 resolve: {
                     entity: ProductResolver,
-                    materialSuppliers: MaterialSuppliersResolver,
-                    sharedDetails: SharedAllDetailsResolver
+                    materialSuppliers: MaterialSuppliersNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver
                 }
             }
         ]

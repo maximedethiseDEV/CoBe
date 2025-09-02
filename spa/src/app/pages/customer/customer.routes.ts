@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
 import {
-    CompaniesResolver, ContactsNoPageResolver, SharedAllDetailsResolver,
+    CompaniesNoPageResolver,
+    CompaniesResolver, ContactsNoPageResolver, SharedAllDetailsNoPageResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {CustomerResolver} from '@core/resolvers/customer.resolver';
 import {AuthenticationGuard} from '@core/guards';
@@ -25,9 +26,9 @@ export const customerRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/customer/components/customer-create/customer-create.component').then(component => component.CustomerCreateComponent),
                 resolve: {
-                    companies: CompaniesResolver,
+                    companies: CompaniesNoPageResolver,
                     contacts: ContactsNoPageResolver,
-                    sharedDetails: SharedAllDetailsResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             },
             {
@@ -35,9 +36,9 @@ export const customerRoutes: Routes = [
                 loadComponent: () => import('@pages/customer/components/customer-update/customer-update.component').then(component => component.CustomerUpdateComponent),
                 resolve: {
                     entity: CustomerResolver,
-                    companies: CompaniesResolver,
+                    companies: CompaniesNoPageResolver,
                     contacts: ContactsNoPageResolver,
-                    sharedDetails: SharedAllDetailsResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             }
         ]

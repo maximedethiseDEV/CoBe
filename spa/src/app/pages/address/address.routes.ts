@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CitiesResolver, CountriesResolver} from '@core/resolvers';
+import {CitiesNoPageResolver, CitiesResolver, CountriesResolver} from '@core/resolvers';
 import {AddressResolver} from '@core/resolvers/address.resolver';
 import {AuthenticationGuard} from '@core/guards';
 import {MenuList} from '@core/lists';
@@ -23,7 +23,7 @@ export const addressRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/address/components/address-create/address-create.component').then(component => component.AddressCreateComponent),
                 resolve: {
-                    cities: CitiesResolver
+                    cities: CitiesNoPageResolver
                 }
             },
             {
@@ -31,7 +31,7 @@ export const addressRoutes: Routes = [
                 loadComponent: () => import('@pages/address/components/address-update/address-update.component').then(component => component.AddressUpdateComponent),
                 resolve: {
                     entity: AddressResolver,
-                    cities: CitiesResolver
+                    cities: CitiesNoPageResolver
                 }
             }
         ]

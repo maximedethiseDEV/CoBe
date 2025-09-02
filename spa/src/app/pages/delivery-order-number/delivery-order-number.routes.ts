@@ -1,8 +1,9 @@
 import {Routes} from '@angular/router';
 import {
-    CitiesResolver,
-    CustomersResolver,
-    ProductsResolver,
+    CitiesNoPageResolver,
+    CitiesResolver, CustomersNoPageResolver,
+    CustomersResolver, ProductsNoPageResolver,
+    ProductsResolver, TransportSuppliersNoPageResolver,
     TransportSuppliersResolver,
 } from '@core/resolvers';
 import {DeliveryOrderNumberResolver} from '@core/resolvers/delivery-order-number.resolver';
@@ -28,10 +29,10 @@ export const deliveryOrderNumberRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/delivery-order-number/components/delivery-order-number-create/delivery-order-number-create.component').then(component => component.DeliveryOrderNumberCreateComponent),
                 resolve: {
-                    transportSuppliers: TransportSuppliersResolver,
-                    customers: CustomersResolver,
-                    cities: CitiesResolver,
-                    products: ProductsResolver,
+                    transportSuppliers: TransportSuppliersNoPageResolver,
+                    customers: CustomersNoPageResolver,
+                    cities: CitiesNoPageResolver,
+                    products: ProductsNoPageResolver,
                 }
             },
             {
@@ -39,10 +40,10 @@ export const deliveryOrderNumberRoutes: Routes = [
                 loadComponent: () => import('@pages/delivery-order-number/components/delivery-order-number-update/delivery-order-number-update.component').then(component => component.DeliveryOrderNumberUpdateComponent),
                 resolve: {
                     entity: DeliveryOrderNumberResolver,
-                    transportSuppliers: TransportSuppliersResolver,
-                    customers: CustomersResolver,
-                    cities: CitiesResolver,
-                    products: ProductsResolver,
+                    transportSuppliers: TransportSuppliersNoPageResolver,
+                    customers: CustomersNoPageResolver,
+                    cities: CitiesNoPageResolver,
+                    products: ProductsNoPageResolver,
                 }
             }
         ]

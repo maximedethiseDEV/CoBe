@@ -1,7 +1,9 @@
 import {Routes} from '@angular/router';
 import {
-    AddressesResolver,
-    CitiesResolver, CompaniesResolver, ContactsNoPageResolver, CountriesResolver, SharedAllDetailsResolver,
+    AddressesNoPageResolver,
+    AddressesResolver, CitiesNoPageResolver,
+    CitiesResolver, CompaniesResolver, ContactsNoPageResolver, CountriesResolver,
+    SharedAllDetailsNoPageResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {CompanyResolver} from '@core/resolvers/company.resolver';
 import {AuthenticationGuard} from '@core/guards';
@@ -26,9 +28,9 @@ export const companyRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/company/components/company-create/company-create.component').then(component => component.CompanyCreateComponent),
                 resolve: {
-                    addresses: AddressesResolver,
-                    cities: CitiesResolver,
-                    sharedDetails: SharedAllDetailsResolver,
+                    addresses: AddressesNoPageResolver,
+                    cities: CitiesNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             },
             {
@@ -36,9 +38,9 @@ export const companyRoutes: Routes = [
                 loadComponent: () => import('@pages/company/components/company-update/company-update.component').then(component => component.CompanyUpdateComponent),
                 resolve: {
                     entity: CompanyResolver,
-                    addresses: AddressesResolver,
-                    cities: CitiesResolver,
-                    sharedDetails: SharedAllDetailsResolver,
+                    addresses: AddressesNoPageResolver,
+                    cities: CitiesNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             }
         ]

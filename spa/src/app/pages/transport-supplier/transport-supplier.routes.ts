@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {CompaniesResolver, ContactsResolver} from '@core/resolvers';
+import {CompaniesNoPageResolver, CompaniesResolver, ContactsNoPageResolver, ContactsResolver} from '@core/resolvers';
 import {TransportSupplierResolver} from '@core/resolvers/transport-supplier.resolver';
 import {AuthenticationGuard} from '@core/guards';
 import {MenuList} from '@core/lists';
@@ -23,8 +23,8 @@ export const transportSupplierRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/transport-supplier/components/transport-supplier-create/transport-supplier-create.component').then(component => component.TransportSupplierCreateComponent),
                 resolve: {
-                    companies: CompaniesResolver,
-                    contacts: ContactsResolver
+                    companies: CompaniesNoPageResolver,
+                    contacts: ContactsNoPageResolver
                 }
             },
             {
@@ -32,8 +32,8 @@ export const transportSupplierRoutes: Routes = [
                 loadComponent: () => import('@pages/transport-supplier/components/transport-supplier-update/transport-supplier-update.component').then(component => component.TransportSupplierUpdateComponent),
                 resolve: {
                     entity: TransportSupplierResolver,
-                    companies: CompaniesResolver,
-                    contacts: ContactsResolver
+                    companies: CompaniesNoPageResolver,
+                    contacts: ContactsNoPageResolver
                 }
             }
         ]

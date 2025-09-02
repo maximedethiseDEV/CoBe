@@ -3,7 +3,8 @@ import {
     ConstructionSitesResolver,
     CustomersResolver,
     SharedAllDetailsResolver,
-    ProductsResolver
+    ProductsResolver, CustomersNoPageResolver, ConstructionSitesNoPageResolver, ProductsNoPageResolver,
+    SharedAllDetailsNoPageResolver
 } from '@core/resolvers';
 import {PurchaseOrderResolver} from '@core/resolvers/purchase-order.resolver';
 import {AuthenticationGuard} from '@core/guards';
@@ -28,10 +29,10 @@ export const purchaseOrderRoutes: Routes = [
                 path: 'create',
                 loadComponent: () => import('@pages/purchase-order/components/purchase-order-create/purchase-order-create.component').then(component => component.PurchaseOrderCreateComponent),
                 resolve: {
-                    customers: CustomersResolver,
-                    constructionSites: ConstructionSitesResolver,
-                    products: ProductsResolver,
-                    sharedDetails: SharedAllDetailsResolver
+                    customers: CustomersNoPageResolver,
+                    constructionSites: ConstructionSitesNoPageResolver,
+                    products: ProductsNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver
                 }
             },
             {
@@ -39,10 +40,10 @@ export const purchaseOrderRoutes: Routes = [
                 loadComponent: () => import('@pages/purchase-order/components/purchase-order-update/purchase-order-update.component').then(component => component.PurchaseOrderUpdateComponent),
                 resolve: {
                     entity: PurchaseOrderResolver,
-                    customers: CustomersResolver,
-                    constructionSites: ConstructionSitesResolver,
-                    products: ProductsResolver,
-                    sharedDetails: SharedAllDetailsResolver
+                    customers: CustomersNoPageResolver,
+                    constructionSites: ConstructionSitesNoPageResolver,
+                    products: ProductsNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver
                 }
             }
         ]
