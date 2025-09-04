@@ -11,9 +11,8 @@
         (ngSubmit)="create()"
     >
         <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
-            <app-accordion-fom
-                title="Commande"
-                [(opened)]="statesPanel.order.opened"
+            <app-section-fom
+                [sectionForm]="sections.order"
             >
                 <ng-container slot="content">
                     <label for="purchaseOrder" class="block text-sm font-medium text-slate-700">
@@ -48,11 +47,10 @@
                         }
                     </select>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
 
-            <app-accordion-fom
-                title="Transport"
-                [(opened)]="statesPanel.transport.opened"
+            <app-section-fom
+                [sectionForm]="sections.transport"
             >
                 <ng-container slot="content">
                     <label for="transportSupplier" class="block text-sm font-medium text-slate-700">
@@ -87,11 +85,11 @@
                         }
                     </select>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
 
-            <app-accordion-fom
-                title="Détails de livraison"
-                [(opened)]="statesPanel.details.opened"
+            <app-section-fom
+                [sectionForm]="sections.sharedDetails"
+                (createConfig)="onSectionCreateModeChange($event)"
             >
                 <ng-container slot="content">
                     <label for="actualDeliveryBegin" class="block text-sm font-medium text-slate-700">
@@ -130,7 +128,7 @@
                         <p class="mt-1 text-xs text-rose-600">Champ requis</p>
                     }
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
         </div>
 
         <div class="mt-4 flex justify-end">

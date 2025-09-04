@@ -8,7 +8,7 @@ import {AddressFormComponent} from '@core/components/form/address-form/address-f
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {concatMap, of, forkJoin, map} from 'rxjs';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
-import {AccordionFomComponent} from '@core/components/form/accordion-fom/accordion-fom.component';
+import {SectionFomComponent} from '@core/components/form/accordion-fom/section-fom.component';
 
 @Component({
     selector: 'app-company-create',
@@ -19,7 +19,7 @@ import {AccordionFomComponent} from '@core/components/form/accordion-fom/accordi
         AddressFormComponent,
         SharedDetailsFormComponent,
         SubmitButtonComponent,
-        AccordionFomComponent,
+        SectionFomComponent,
     ],
     templateUrl: './company-create.component.html'
 })
@@ -34,11 +34,11 @@ export class CompanyCreateComponent extends BaseCreateComponent {
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
     public featurePath: string = 'companies';
     public labelHeader: string = 'Nouvelle entreprise';
-    protected statesPanel  = {
-        parent: {opened: false,},
-        company: {opened: false,},
-        address: {opened: false, create: false},
-        sharedDetails: {opened: false, create: false}
+    sections  = {
+        parent: {key:"parent", title:"Donneur d'ordre"},
+        company: {key:"company",title:"Entreprise"},
+        address: {key:"address",title:"Adresse",addCreateButton: true},
+        sharedDetails: {key:"sharedDetails",title:"Détails",addCreateButton: true}
     };
 
     public override generateForm(): FormGroup {
@@ -60,13 +60,13 @@ export class CompanyCreateComponent extends BaseCreateComponent {
         if (sharedDetailsForm.fileName) sharedDetailsFormData.append('file', sharedDetailsForm.fileName);
         if (sharedDetailsForm.notes) sharedDetailsFormData.append('notes', sharedDetailsForm.notes);
 
-        const addressId$ = this.statesPanel.address.create
+        const addressId$ = this.sections.address
             ? this.addressProvider.create(address).pipe(
                 map((r: any) => r?.id as string ?? '')
             )
             : of(this.form.get('addressId')?.value ?? '');
 
-        const sharedDetailsId$ = this.statesPanel.sharedDetails.create
+        const sharedDetailsId$ = this.sections.sharedDetails
             ? this.sharedDetailsProvider.createMultipart(sharedDetailsFormData).pipe(
                 map((r: any) => r?.id as string ?? '')
             )

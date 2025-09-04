@@ -11,9 +11,8 @@
         (ngSubmit)="create()"
     >
         <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
-            <app-accordion-fom
-                title="Client à livrer"
-                [(opened)]="statesPanel.customer.opened"
+            <app-section-fom
+                [sectionForm]="sections.customer"
             >
                 <ng-container slot="content">
                     <label for="customer" class="block text-sm font-medium text-slate-700">
@@ -32,11 +31,10 @@
                         }
                     </select>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
 
-            <app-accordion-fom
-                title="Chantier"
-                [(opened)]="statesPanel.constructionSite.opened"
+            <app-section-fom
+                [sectionForm]="sections.constructionSite"
             >
                 <ng-container slot="content">
                     <label for="constructionSite" class="block text-sm font-medium text-slate-700">
@@ -55,11 +53,10 @@
                         }
                     </select>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
 
-            <app-accordion-fom
-                title="Produit"
-                [(opened)]="statesPanel.product.opened"
+            <app-section-fom
+                [sectionForm]="sections.product"
             >
                 <ng-container slot="content">
                     <label for="quantityOrdered" class="block text-sm font-medium text-slate-700">
@@ -94,15 +91,13 @@
                         <p class="mt-1 text-xs text-rose-600">Champ requis</p>
                     }
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
 
-            <app-accordion-fom
-                title="Détails"
-                [canCreate]="true"
-                [(opened)]="statesPanel.sharedDetails.opened"
-                [(creating)]="statesPanel.sharedDetails.create"
+            <app-section-fom
+                [sectionForm]="sections.sharedDetails"
+                (createConfig)="onSectionCreateModeChange($event)"
             >
-                <ng-container slot="create">
+                <ng-container slot="isNew">
                     <app-shared-details-form [(formSharedDetails)]="formSharedDetails"/>
                 </ng-container>
                 <ng-container slot="content">
@@ -142,7 +137,7 @@
                         }
                     </select>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
         </div>
 
         <div class="mt-4 flex justify-end">

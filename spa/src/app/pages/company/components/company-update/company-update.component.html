@@ -10,9 +10,8 @@
         (ngSubmit)="update()"
     >
         <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
-            <app-accordion-fom
-                title="Donneur d'ordre"
-                [(opened)]="statesPanel.parent.opened"
+            <app-section-fom
+                [sectionForm]="sections.parent"
             >
                 <ng-container slot="content">
                     <label for="parent" class="block text-sm font-medium text-slate-700">
@@ -31,11 +30,10 @@
                         }
                     </select>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
 
-            <app-accordion-fom
-                title="Entreprise"
-                [(opened)]="statesPanel.company.opened"
+            <app-section-fom
+                [sectionForm]="sections.company"
             >
                 <ng-container slot="content">
                     <label for="companyName" class="block text-sm font-medium text-slate-700">
@@ -62,13 +60,10 @@
                         </label>
                     </div>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
 
-            <app-accordion-fom
-                title="Adresse"
-                [canCreate]="true"
-                [(opened)]="statesPanel.address.opened"
-                [(creating)]="statesPanel.address.create"
+            <app-section-fom
+                [sectionForm]="sections.address"
             >
                 <ng-container slot="create">
                     <app-address-form [(formAddress)]="formAddress"/>
@@ -90,13 +85,10 @@
                         }
                     </select>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
 
-            <app-accordion-fom
-                title="Détails"
-                [canCreate]="true"
-                [(opened)]="statesPanel.sharedDetails.opened"
-                [(creating)]="statesPanel.sharedDetails.create"
+            <app-section-fom
+                [sectionForm]="sections.sharedDetails"
             >
                 <ng-container slot="create">
                     <app-shared-details-form [(formSharedDetails)]="formSharedDetails"/>
@@ -118,7 +110,7 @@
                         }
                     </select>
                 </ng-container>
-            </app-accordion-fom>
+            </app-section-fom>
         </div>
 
         <div class="flex justify-end">

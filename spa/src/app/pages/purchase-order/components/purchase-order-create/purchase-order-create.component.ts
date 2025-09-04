@@ -2,14 +2,15 @@ import {Component, inject, input, signal} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
-import {ConstructionSiteProvider, PurchaseOrderProvider, SharedDetailsProvider} from '@core/providers';
+import {PurchaseOrderProvider, SharedDetailsProvider} from '@core/providers';
 import {Product, SharedDetails, ConstructionSite, Customer, PurchaseOrder} from '@core/models';
 import {DateTimeService} from '@core/services/datetime.service';
 import {CommonModule} from '@angular/common';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
-import {AccordionFomComponent} from '@core/components/form/accordion-fom/accordion-fom.component';
+import {SectionFomComponent} from '@core/components/form/accordion-fom/section-fom.component';
 import {of, map, concatMap} from 'rxjs';
+import {SectionCreateConfig} from '@core/types';
 
 @Component({
     selector: 'app-purchase-order-create',
@@ -20,7 +21,7 @@ import {of, map, concatMap} from 'rxjs';
         FormsModule,
         SharedDetailsFormComponent,
         SubmitButtonComponent,
-        AccordionFomComponent,
+        SectionFomComponent,
     ],
     templateUrl: './purchase-order-create.component.html'
 })
@@ -35,11 +36,11 @@ export class PurchaseOrderCreateComponent extends BaseCreateComponent {
     private dateTimeService: DateTimeService = inject(DateTimeService);
     public featurePath: string = 'purchase-orders';
     public labelHeader: string = 'Nouvelle commande';
-    protected statesPanel  = {
-        customer: {opened: false,},
-        constructionSite: {opened: false,},
-        product: {opened: false,},
-        sharedDetails: {opened: false, create: false}
+    protected sections  = {
+        customer: {key:"customer",title: "Client"},
+        constructionSite: {key:"constructionSite",title: "Chantier"},
+        product: {key:"product",title: "Produit"},
+        sharedDetails: {key:"sharedDetails",title: "Détails",addCreateButton: true}
     };
 
     public override generateForm(): FormGroup {
@@ -76,7 +77,7 @@ export class PurchaseOrderCreateComponent extends BaseCreateComponent {
         // Observable qui résout l'ID des détails partagés:
         // - si création: upload multipart puis récupère l'ID
         // - sinon: prend la valeur du champ existant (ou '')
-        const sharedDetailsId$ = this.statesPanel.sharedDetails.create
+        const sharedDetailsId$ = this.sections.sharedDetails
             ? this.sharedDetailsProvider.createMultipart(sharedDetailsFormData).pipe(
                 map((r: any) => r?.id as string ?? '')
             )
@@ -111,4 +112,7 @@ export class PurchaseOrderCreateComponent extends BaseCreateComponent {
             });
     }
 
+    onSectionCreateModeChange($event: SectionCreateConfig) {
+
+    }
 }

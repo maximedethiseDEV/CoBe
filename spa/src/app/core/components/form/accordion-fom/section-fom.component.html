@@ -1,6 +1,6 @@
 <div
     class="flex items-center justify-between p-4 text-sm font-medium select-none transition-colors duration-200"
-    [ngClass]="opened()
+    [ngClass]="isOpen()
         ? 'bg-indigo-50 border-l-4 border-indigo-500 ring-1 ring-inset ring-indigo-200 text-slate-800'
         : 'bg-white hover:bg-slate-50 border-l-4 border-transparent text-slate-700'"
 >
@@ -8,20 +8,19 @@
         type="button"
         class="flex items-center cursor-pointer text-base md:text-lg font-semibold"
         (click)="toggleOpen()"
-        [attr.aria-expanded]="opened()"
     >
         <i
             class="inline-block border-solid border-black/70 border-0 border-r-[3px] border-b-[3px] p-[3px] transform transition-transform duration-300 mr-3"
-            [ngClass]="opened() ? 'rotate-[-135deg] border-black/70' : 'rotate-[45deg] border-black/50'"
+            [ngClass]="isOpen() ? 'rotate-[45deg] border-black/70' : 'rotate-[-45deg] border-black/50'"
         ></i>
-        {{ title() }}
+        {{ sectionForm().title }}
     </button>
 
-    @if (canCreate()) {
+    @if (sectionForm().addCreateButton) {
         <button
             type="button"
             class="flex items-center justify-center h-9 w-9 rounded-full transition duration-200 ease-in-out ring-1"
-            [ngClass]="creating()
+            [ngClass]="isNew()
                 ? 'bg-emerald-600 text-white ring-emerald-400 hover:bg-emerald-500'
                 : 'bg-white text-slate-600 ring-slate-200 hover:bg-slate-100'"
             (click)="toggleCreate()"
@@ -31,10 +30,10 @@
     }
 </div>
 
-@if (opened()) {
-    <div class="px-4 py-4 border-l" [ngClass]="creating() ? 'border-emerald-100' : 'border-indigo-100'">
-        @if (creating()) {
-            <ng-content select="[slot=create]"></ng-content>
+@if (isOpen()) {
+    <div class="px-4 py-4 border-l" [ngClass]="isNew() ? 'border-emerald-100' : 'border-indigo-100'">
+        @if (isNew()) {
+            <ng-content select="[slot=isNew]"></ng-content>
         } @else {
             <ng-content select="[slot=content]"></ng-content>
         }

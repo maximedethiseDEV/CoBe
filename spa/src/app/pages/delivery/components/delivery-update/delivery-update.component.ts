@@ -8,10 +8,11 @@ import {
     TransportSupplier
 } from '@core/models';
 import {DeliveryProvider} from '@core/providers';
-import {AccordionFomComponent} from '@core/components/form/accordion-fom/accordion-fom.component';
+import {SectionFomComponent} from '@core/components/form/accordion-fom/section-fom.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 import {CommonModule} from '@angular/common';
 import {DateTimeService} from '@core/services/datetime.service';
+import {SectionCreateConfig} from '@core/types';
 
 @Component({
     selector: 'app-delivery-update',
@@ -20,7 +21,7 @@ import {DateTimeService} from '@core/services/datetime.service';
         LucideAngularModule,
         FormsModule,
         CommonModule,
-        AccordionFomComponent,
+        SectionFomComponent,
         SubmitButtonComponent,
     ],
     templateUrl: './delivery-update.component.html'
@@ -34,10 +35,10 @@ export class DeliveryUpdateComponent extends BaseUpdateComponent {
     private dateTimeService: DateTimeService = inject(DateTimeService);
     public featurePath: string = 'deliveries';
     public labelHeader: string = 'Mettre à jour la livraison';
-    protected statesPanel  = {
-        order: {opened: false,},
-        transport: {opened: false,},
-        details: {opened: false,},
+    protected sections  = {
+        order: {key:"order",title: "Commande"},
+        transport: {key:"transport",title: "Chantier"},
+        sharedDetails: {key:"sharedDetails",title: "Détails", addCreateButton: true}
     };
 
 
@@ -77,5 +78,9 @@ export class DeliveryUpdateComponent extends BaseUpdateComponent {
                 console.error("Erreur lors de la modification de la livraison:", error);
             }
         });
+    }
+
+    onSectionCreateModeChange($event: SectionCreateConfig) {
+
     }
 }
