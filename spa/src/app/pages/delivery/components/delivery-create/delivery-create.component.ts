@@ -12,9 +12,10 @@ import {
 } from '@core/models';
 import {CommonModule} from '@angular/common';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
-import {SectionFomComponent} from '@core/components/form/accordion-fom/section-fom.component';
+import {SectionFomComponent} from '@core/components/form/section-fom/section-fom.component';
 import {DateTimeService} from '@core/services/datetime.service';
-import {SectionCreateConfig} from '@core/types';
+import {SectionCreateMode} from '@core/types';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-delivery-create',
@@ -25,6 +26,7 @@ import {SectionCreateConfig} from '@core/types';
         CommonModule,
         SubmitButtonComponent,
         SectionFomComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './delivery-create.component.html'
 })
@@ -85,7 +87,7 @@ export class DeliveryCreateComponent extends BaseCreateComponent {
         });
     }
 
-    onSectionCreateModeChange($event: SectionCreateConfig) {
+    onSectionCreateModeChange($event: SectionCreateMode) {
 
     }
 }

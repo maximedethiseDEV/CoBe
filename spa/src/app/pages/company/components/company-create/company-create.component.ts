@@ -8,7 +8,8 @@ import {AddressFormComponent} from '@core/components/form/address-form/address-f
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {concatMap, of, forkJoin, map} from 'rxjs';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
-import {SectionFomComponent} from '@core/components/form/accordion-fom/section-fom.component';
+import {SectionFomComponent} from '@core/components/form/section-fom/section-fom.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-company-create',
@@ -20,6 +21,7 @@ import {SectionFomComponent} from '@core/components/form/accordion-fom/section-f
         SharedDetailsFormComponent,
         SubmitButtonComponent,
         SectionFomComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './company-create.component.html'
 })
@@ -32,8 +34,8 @@ export class CompanyCreateComponent extends BaseCreateComponent {
     private companyProvider: CompanyProvider = inject(CompanyProvider);
     private addressProvider: AddressProvider = inject(AddressProvider);
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
-    public featurePath: string = 'companies';
-    public labelHeader: string = 'Nouvelle entreprise';
+    featurePath: string = 'companies';
+    labelHeader: string = 'Nouvelle entreprise';
     sections  = {
         parent: {key:"parent", title:"Donneur d'ordre"},
         company: {key:"company",title:"Entreprise"},

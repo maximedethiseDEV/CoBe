@@ -1,10 +1,14 @@
 import {Component, inject} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {SharedDetailsProvider} from '@core/providers';
 import {BaseUpdateComponent} from '@core/components';
-import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
+import {
+    atLeastOneRequiredValidator,
+    SharedDetailsFormComponent
+} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-shared-details-update',
@@ -12,7 +16,8 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         ReactiveFormsModule,
         LucideAngularModule,
         SharedDetailsFormComponent,
-        SubmitButtonComponent
+        SubmitButtonComponent,
+        HeaderFormComponent
     ],
     templateUrl: './shared-details-update.component.html'
 })
@@ -21,11 +26,13 @@ export class SharedDetailsUpdateComponent extends BaseUpdateComponent {
     public featurePath: string = 'shared-details';
     public labelHeader: string = 'Mettre à jour le détail de livraison';
 
-    public override generateForm(): FormGroup {
-        return new FormGroup({
-            id: new FormControl(),
-            fileName: new FormControl<File | null>(null),
-            notes: new FormControl('', [Validators.maxLength(250)])
+    public generateForm(): FormGroup {
+        return this.formBuilder.group({
+            label: ['', Validators.required],
+            fileName: this.formBuilder.control<File | null>(null),
+            notes: ['', [Validators.maxLength(250)]],
+        }, {
+            validators: atLeastOneRequiredValidator('fileName', 'notes')
         });
     }
 

@@ -1,12 +1,12 @@
-import {Component, inject, Input} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Component, inject} from '@angular/core';
+import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
-import {Address, City} from '@core/models';
+import {Address} from '@core/models';
 import {AddressProvider} from '@core/providers';
 import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
-import {LucideIconsList} from '@core/lists';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-address-update',
@@ -16,19 +16,20 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         FormsModule,
         AddressFormComponent,
         SubmitButtonComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './address-update.component.html'
 })
 export class AddressUpdateComponent extends BaseUpdateComponent {
     private addressProvider: AddressProvider = inject(AddressProvider);
     public featurePath: string = 'addresses';
-    public labelHeader: string = 'Mettre à jour la ville';
+    public labelHeader: string = 'Mettre à jour l\'adresse';
 
-    public override generateForm(): FormGroup {
-        return new FormGroup({
-            id: new FormControl(),
-            street: new FormControl(),
-            cityId: new FormControl("",Validators.required)
+    public generateForm(): FormGroup {
+        return this.formBuilder.group({
+                id: [],
+                street: ['', Validators.required],
+                cityId: ['', Validators.required],
         });
     }
 

@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {LucideIconsList} from '@core/lists';
 import {MessageService} from 'primeng/api';
 
@@ -10,6 +10,7 @@ import {MessageService} from 'primeng/api';
 export abstract class BaseUpdateComponent {
     abstract featurePath: string;
     abstract labelHeader: string;
+    formBuilder = inject(FormBuilder);
     protected route: ActivatedRoute = inject(ActivatedRoute);
     protected router: Router = inject(Router);
     protected messageService: MessageService = inject(MessageService);

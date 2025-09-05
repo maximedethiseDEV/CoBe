@@ -8,9 +8,10 @@ import {DateTimeService} from '@core/services/datetime.service';
 import {CommonModule} from '@angular/common';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
-import {SectionFomComponent} from '@core/components/form/accordion-fom/section-fom.component';
+import {SectionFomComponent} from '@core/components/form/section-fom/section-fom.component';
 import {of, map, concatMap} from 'rxjs';
-import {SectionCreateConfig} from '@core/types';
+import {SectionCreateMode} from '@core/types';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-purchase-order-create',
@@ -22,6 +23,7 @@ import {SectionCreateConfig} from '@core/types';
         SharedDetailsFormComponent,
         SubmitButtonComponent,
         SectionFomComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './purchase-order-create.component.html'
 })
@@ -112,7 +114,7 @@ export class PurchaseOrderCreateComponent extends BaseCreateComponent {
             });
     }
 
-    onSectionCreateModeChange($event: SectionCreateConfig) {
+    onSectionCreateModeChange($event: SectionCreateMode) {
 
     }
 }

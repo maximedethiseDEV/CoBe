@@ -11,11 +11,10 @@ import lombok.EqualsAndHashCode;
 @Table(name = "contact")
 public class Contact extends AbstractEntity {
 
-    @Column(name = "last_name", nullable = false)
-    @NotNull(message = " Le nom de famille est obligatoire")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     @NotNull(message = " Le prénom est obligatoire")
     private String firstName;
 

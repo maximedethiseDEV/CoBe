@@ -1,24 +1,15 @@
-<div class="flex-1 h-screen overflow-y-auto">
-    <div class="flex-1 px-2">
-        <div class="sm:mx-auto sm:w-full">
-            <h2 class="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight text-gray-900">
-                <i-lucide [img]="iconHeader" class="size-8"></i-lucide>
-                {{ labelHeader }}
-            </h2>
+<app-header-form [iconHeader]="iconHeader" [labelHeader]="labelHeader"/>
+
+<div class="mt-6 flex-1">
+    <form
+        [formGroup]="form"
+        (ngSubmit)="create()"
+    >
+
+        <app-shared-details-form [form]="form"/>
+
+        <div class="flex justify-end">
+            <app-submit-button [disabled]="form.invalid"/>
         </div>
-
-        <div class="mt-6 flex-1">
-            <form
-                [formGroup]="form"
-                (ngSubmit)="create()"
-            >
-
-                <app-shared-details-form [(formSharedDetails)]="form"/>
-
-                <div class="flex justify-end">
-                    <app-submit-button [disabled]="form.invalid"/>
-                </div>
-            </form>
-        </div>
-    </div>
+    </form>
 </div>

@@ -1,13 +1,11 @@
-import {Component, model, OnInit} from '@angular/core';
+import {Component, input} from '@angular/core';
 import {FileUploaderComponent} from '@core/components';
 import {
     AbstractControl,
-    FormControl,
     FormGroup,
     ReactiveFormsModule,
     ValidationErrors,
     ValidatorFn,
-    Validators
 } from '@angular/forms';
 
 @Component({
@@ -18,36 +16,24 @@ import {
     ],
   templateUrl: './shared-details-form.component.html'
 })
-export class SharedDetailsFormComponent implements OnInit {
+export class SharedDetailsFormComponent {
 
-    formSharedDetails = model.required<FormGroup>();
-    form = new FormGroup(
-        {
-            label: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-            fileName: new FormControl<File | null>(null),
-            notes: new FormControl('', [Validators.maxLength(250)])
-        },
-        { validators: this.atLeastOneRequiredValidator('fileName', 'notes') }
-    );
-
-    ngOnInit() {
-        this.formSharedDetails.set(this.form);
-    }
+    form = input.required<FormGroup>();
 
     onAttachmentSelected(fileName: File | null) {
-        this.formSharedDetails().get('fileName')?.setValue(fileName);
+        this.form().get('fileName')?.setValue(fileName);
     }
+}
 
-    atLeastOneRequiredValidator(field1: string, field2: string): ValidatorFn {
-        return (group: AbstractControl): ValidationErrors | null => {
-            const value1 = group.get(field1)?.value;
-            const value2 = group.get(field2)?.value;
+export function atLeastOneRequiredValidator(field1: string, field2: string): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+        const value1 = group.get(field1)?.value;
+        const value2 = group.get(field2)?.value;
 
-            if ((value1 && value1 !== '') || (value2 && value2 !== '')) {
-                return null; // valide
-            }
+        if ((value1 && value1 !== '') || (value2 && value2 !== '')) {
+            return null;
+        }
 
-            return { atLeastOneRequired: true };
-        };
-    }
+        return { atLeastOneRequired: true };
+    };
 }

@@ -5,6 +5,7 @@ import {BaseUpdateComponent} from '@core/components';
 import {Address, Company, ConstructionSite, Contact, Customer, MaterialSupplier, SharedDetails} from '@core/models';
 import {ConstructionSiteProvider, MaterialSupplierProvider} from '@core/providers';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-construction-site-update',
@@ -13,6 +14,7 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         LucideAngularModule,
         FormsModule,
         SubmitButtonComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './construction-site-update.component.html'
 })

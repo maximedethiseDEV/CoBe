@@ -1,5 +1,5 @@
-import {Component, inject, model, signal} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Component, inject, input} from '@angular/core';
+import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {City} from '@core/models';
 import {ActivatedRoute} from '@angular/router';
 
@@ -13,14 +13,6 @@ import {ActivatedRoute} from '@angular/router';
 export class AddressFormComponent {
 
     private route = inject(ActivatedRoute);
-    cities = signal<City[]>(this.route.snapshot.data['cities'] as City[]);
-    formAddress = model.required<FormGroup>();
-    form = new FormGroup({
-        street: new FormControl('', [Validators.required]),
-        cityId: new FormControl('', [Validators.required]),
-    })
-
-    ngOnInit() {
-        this.formAddress.set(this.form);
-    }
+    cities = input<City[]>(this.route.snapshot.data['cities'] as City[]);
+    form = input.required<FormGroup>();
 }

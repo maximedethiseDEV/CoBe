@@ -1,12 +1,12 @@
 import {Component, inject} from '@angular/core';
-import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {AddressProvider} from '@core/providers';
 import {Address} from '@core/models';
 import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
-import {LucideIconsList} from '@core/lists';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-address-create',
@@ -16,6 +16,7 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         FormsModule,
         AddressFormComponent,
         SubmitButtonComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './address-create.component.html'
 })
@@ -25,8 +26,11 @@ export class AddressCreateComponent extends BaseCreateComponent {
     public labelHeader: string = 'Nouvelle adresse';
 
 
-    public override generateForm(): FormGroup {
-        return new FormGroup({});
+    public generateForm(): FormGroup {
+        return this.formBuilder.group({
+            street: ['', Validators.required],
+            cityId: ['', Validators.required],
+        });
     }
 
     public create(): void {

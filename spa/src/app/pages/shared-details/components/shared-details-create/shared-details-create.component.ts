@@ -1,13 +1,17 @@
 import {Component, inject} from '@angular/core';
 import {
     FormGroup,
-    ReactiveFormsModule,
+    ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {SharedDetailsProvider} from '@core/providers';
-import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
+import {
+    atLeastOneRequiredValidator,
+    SharedDetailsFormComponent
+} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-shared-details-create',
@@ -16,6 +20,7 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         LucideAngularModule,
         SharedDetailsFormComponent,
         SubmitButtonComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './shared-details-create.component.html'
 })
@@ -24,8 +29,14 @@ export class SharedDetailsCreateComponent extends BaseCreateComponent {
     public featurePath: string = 'shared-details';
     public labelHeader: string = 'Nouveau détail de livraison';
 
-    public override generateForm(): FormGroup {
-        return new FormGroup({});
+    public generateForm(): FormGroup {
+        return this.formBuilder.group({
+            label: ['', Validators.required],
+            fileName: this.formBuilder.control<File | null>(null),
+            notes: ['', [Validators.maxLength(250)]],
+        }, {
+            validators: atLeastOneRequiredValidator('fileName', 'notes')
+        });
     }
 
     public create(): void {

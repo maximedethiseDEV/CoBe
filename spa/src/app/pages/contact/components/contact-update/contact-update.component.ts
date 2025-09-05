@@ -1,17 +1,21 @@
 import {Component, inject} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {Contact} from '@core/models';
 import {ContactProvider} from '@core/providers';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {ContactFormComponent} from '@core/components/form/contact-form/contact-form.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-contact-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        SubmitButtonComponent
+        SubmitButtonComponent,
+        ContactFormComponent,
+        HeaderFormComponent
     ],
     templateUrl: './contact-update.component.html'
 })
@@ -20,14 +24,14 @@ export class ContactUpdateComponent extends BaseUpdateComponent {
     public featurePath: string = 'contacts';
     public labelHeader: string = 'Mettre à jour le contact';
 
-    public override generateForm(): FormGroup {
-        return new FormGroup({
-            id: new FormControl(),
-            firstName: new FormControl(),
-            lastName: new FormControl(),
-            email: new FormControl(),
-            phone: new FormControl(),
-            role: new FormControl()
+    public generateForm(): FormGroup {
+        return this.formBuilder.group({
+            id: [],
+            firstName: ['', Validators.required],
+            lastName: [],
+            email: [],
+            phone: [],
+            role: [],
         });
     }
 

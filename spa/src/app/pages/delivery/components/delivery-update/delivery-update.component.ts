@@ -8,11 +8,12 @@ import {
     TransportSupplier
 } from '@core/models';
 import {DeliveryProvider} from '@core/providers';
-import {SectionFomComponent} from '@core/components/form/accordion-fom/section-fom.component';
+import {SectionFomComponent} from '@core/components/form/section-fom/section-fom.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 import {CommonModule} from '@angular/common';
 import {DateTimeService} from '@core/services/datetime.service';
-import {SectionCreateConfig} from '@core/types';
+import {SectionCreateMode} from '@core/types';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-delivery-update',
@@ -23,6 +24,7 @@ import {SectionCreateConfig} from '@core/types';
         CommonModule,
         SectionFomComponent,
         SubmitButtonComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './delivery-update.component.html'
 })
@@ -80,7 +82,7 @@ export class DeliveryUpdateComponent extends BaseUpdateComponent {
         });
     }
 
-    onSectionCreateModeChange($event: SectionCreateConfig) {
+    onSectionCreateModeChange($event: SectionCreateMode) {
 
     }
 }

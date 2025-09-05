@@ -14,6 +14,7 @@ import {
 } from '@core/models';
 import {AddressProvider, ProductProvider, PurchaseOrderProvider} from '@core/providers';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-purchase-order-update',
@@ -22,6 +23,7 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         LucideAngularModule,
         FormsModule,
         SubmitButtonComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './purchase-order-update.component.html'
 })

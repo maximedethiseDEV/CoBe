@@ -4,11 +4,12 @@ import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {Address, Company, SharedDetails} from '@core/models';
 import {AddressProvider, CompanyProvider, SharedDetailsProvider} from '@core/providers';
-import {SectionFomComponent} from '@core/components/form/accordion-fom/section-fom.component';
+import {SectionFomComponent} from '@core/components/form/section-fom/section-fom.component';
 import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
 import {concatMap, forkJoin, map, of} from 'rxjs';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-company-update',
@@ -20,6 +21,7 @@ import {concatMap, forkJoin, map, of} from 'rxjs';
         AddressFormComponent,
         SharedDetailsFormComponent,
         SubmitButtonComponent,
+        HeaderFormComponent,
     ],
     templateUrl: './company-update.component.html'
 })

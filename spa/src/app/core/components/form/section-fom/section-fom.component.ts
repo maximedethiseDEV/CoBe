@@ -1,8 +1,8 @@
-import {Component, input, model, output, signal} from '@angular/core';
+import {Component, input, output, signal} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {LucideAngularModule} from 'lucide-angular';
 import {LucideIconsList} from '@core/lists';
-import {SectionCreateConfig, SectionForm} from '@core/types';
+import {SectionCreateMode, SectionForm} from '@core/types';
 
 @Component({
   selector: 'app-section-fom',
@@ -16,7 +16,7 @@ import {SectionCreateConfig, SectionForm} from '@core/types';
 export class SectionFomComponent {
     public readonly createIcon: any = LucideIconsList.Plus;
     sectionForm = input.required<SectionForm>();
-    createConfig = output<SectionCreateConfig>();
+    createConfig = output<SectionCreateMode>();
     isOpen = signal<boolean>(false);
     isNew = signal<boolean>(false);
 
@@ -31,9 +31,9 @@ export class SectionFomComponent {
     toggleCreate(): void {
         this.isNew.update((isNew) => !isNew);
         this.createConfig.emit({ key: this.sectionForm().key, create: true });
-        if (this.isNew() && !this.isOpen()) {
-            this.isOpen.set(true);
-            this.createConfig.emit({ key: this.sectionForm().key, create: false });
+        if (!this.isOpen()) {
+            this.isOpen.update(isOpen => !isOpen);
+            this.createConfig.emit({ key: this.sectionForm().key, create: true });
         }
     }
 }

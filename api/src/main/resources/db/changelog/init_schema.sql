@@ -43,8 +43,8 @@ CREATE TABLE "shared_details"
 CREATE TABLE "contact"
 (
     "id"    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "last_name"     VARCHAR(255) NOT NULL,
-    "first_name"    VARCHAR(255),
+    "last_name"     VARCHAR(255),
+    "first_name"    VARCHAR(255) NOT NULL,
     "phone"         VARCHAR(255),
     "email"         VARCHAR(255) UNIQUE,
     "role"          VARCHAR(50),
