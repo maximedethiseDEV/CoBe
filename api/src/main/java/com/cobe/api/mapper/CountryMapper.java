@@ -11,6 +11,5 @@ public interface CountryMapper {
 
     Country toEntity(CountryDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateCountryFromDto(CountryDto dto, @MappingTarget Country country);
 }

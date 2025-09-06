@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
 import {
     AddressesNoPageResolver,
-    AddressesResolver,
+    AddressesResolver, CitiesNoPageResolver,
     CompaniesResolver, ContactsNoPageResolver, ContactsResolver,
     CustomersNoPageResolver, CustomersResolver, SharedAllDetailsNoPageResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
@@ -29,6 +29,7 @@ export const constructionSiteRoutes: Routes = [
                 loadComponent: () => import('@pages/construction-site/components/construction-site-create/construction-site-create.component').then(component => component.ConstructionSiteCreateComponent),
                 resolve: {
                     customers: CustomersNoPageResolver,
+                    cities: CitiesNoPageResolver,
                     addresses: AddressesNoPageResolver,
                     contacts: ContactsNoPageResolver,
                     sharedDetails: SharedAllDetailsNoPageResolver,
@@ -40,6 +41,7 @@ export const constructionSiteRoutes: Routes = [
                 resolve: {
                     entity: ConstructionSiteResolver,
                     customers: CustomersNoPageResolver,
+                    cities: CitiesNoPageResolver,
                     addresses: AddressesNoPageResolver,
                     contacts: ContactsNoPageResolver,
                     sharedDetails: SharedAllDetailsNoPageResolver,

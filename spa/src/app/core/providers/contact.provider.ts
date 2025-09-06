@@ -28,7 +28,7 @@ export class ContactProvider {
         );
     }
 
-    public create(contact: Contact): Observable<Pagination<Contact>> {
+    public create(contact: Contact): Observable<Contact> {
         return this.http.post(`${environment.url.api}/contacts`, contact).pipe(
             map((response: any) => response)
         );

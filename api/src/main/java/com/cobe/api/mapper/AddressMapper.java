@@ -17,6 +17,6 @@ public interface AddressMapper {
     @Mapping(source = "cityId", target = "city.id")
     Address toEntity(PostAddressDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "cityId", target = "city.id")
     void updateAddressFromDto(PostAddressDto dto, @MappingTarget Address address);
 }

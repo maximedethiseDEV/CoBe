@@ -24,6 +24,9 @@ public interface MaterialSupplierMapper {
     @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     MaterialSupplier toEntity(PostMaterialSupplierDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "companyId", target = "company.id")
+    @Mapping(source = "addressId", target = "address", qualifiedByName = "mapAddressIdToAddress")
+    @Mapping(source = "contactId", target = "contact", qualifiedByName = "mapContactIdToContact")
+    @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     void updateMaterialSupplierFromDto(PostMaterialSupplierDto dto, @MappingTarget MaterialSupplier entity);
 }

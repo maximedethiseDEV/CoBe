@@ -19,6 +19,7 @@ public interface TransportSupplierMapper {
     @Mapping(source = "contactId", target = "contact", qualifiedByName = "mapContactIdToContact")
     TransportSupplier toEntity(PostTransportSupplierDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "companyId", target = "company.id")
+    @Mapping(source = "contactId", target = "contact", qualifiedByName = "mapContactIdToContact")
     void updateTransportSupplierFromDto(PostTransportSupplierDto dto, @MappingTarget TransportSupplier entity);
 }

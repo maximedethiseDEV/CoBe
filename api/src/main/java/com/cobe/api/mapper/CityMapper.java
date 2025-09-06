@@ -15,6 +15,6 @@ public interface CityMapper {
     @Mapping(source = "countryId", target = "country.id")
     City toEntity(PostCityDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "countryId", target = "country.id")
     void updateCityFromDto(PostCityDto dto, @MappingTarget City city);
 }

@@ -11,6 +11,5 @@ public interface DeliveryStatusMapper {
 
     DeliveryStatus toEntity(DeliveryStatusDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateDeliveryStatusFromDto(DeliveryStatusDto dto, @MappingTarget DeliveryStatus entity);
 }

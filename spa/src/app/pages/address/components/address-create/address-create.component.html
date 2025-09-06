@@ -1,11 +1,10 @@
 <app-header-form [iconHeader]="iconHeader" [labelHeader]="labelHeader"/>
 
-<div class="mt-6 flex-1">
-    <form
-        [formGroup]="form"
-        (ngSubmit)="create()"
-    >
-        <app-address-form [form]="form"/>
-        <app-submit-button [disabled]="form.invalid"/>
-    </form>
-</div>
+<form
+    [formGroup]="form"
+    (ngSubmit)="create()"
+    class="mt-6"
+>
+    <app-address-form [form]="form"/>
+    <app-submit-button [disabled]="form.invalid"/>
+</form>

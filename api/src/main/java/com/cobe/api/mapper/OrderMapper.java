@@ -29,6 +29,9 @@ public interface OrderMapper {
     @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     Order toEntity(PostOrderDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "customerId", target = "customer.id")
+    @Mapping(source = "constructionSiteId", target = "constructionSite", qualifiedByName = "mapConstructionSiteIdToConstructionSite")
+    @Mapping(source = "productId", target = "product.id")
+    @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     void updateOrderFromDto(PostOrderDto dto, @MappingTarget Order entity);
 }

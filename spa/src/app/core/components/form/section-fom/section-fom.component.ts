@@ -27,12 +27,9 @@ export class SectionFomComponent {
 
     toggleCreate(): void {
         this.isNew.update((isNew) => !isNew);
+        this.createConfig.emit({ key: this.sectionForm().key, create: this.isNew() });
         if (!this.isOpen()) {
-            this.isOpen.update(isOpen => !isOpen);
-            this.createConfig.emit({ key: this.sectionForm().key, create: true });
-        }
-        else {
-            this.createConfig.emit({ key: this.sectionForm().key, create: false });
+            this.isOpen.update(() => true);
         }
     }
 }

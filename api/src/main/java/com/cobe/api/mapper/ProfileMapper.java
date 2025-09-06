@@ -20,7 +20,6 @@ public interface ProfileMapper {
     @Mapping(target = "permission", ignore = true)
     ProfileDto toDto(DBUser user);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "username", ignore = true)
     void updateFromDto(PostProfileDto dto, @MappingTarget DBUser user);

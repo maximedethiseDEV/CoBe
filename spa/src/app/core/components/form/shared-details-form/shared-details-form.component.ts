@@ -18,10 +18,6 @@ import {
 })
 export class SharedDetailsFormComponent {
     form = input.required<FormGroup>();
-
-    onAttachmentSelected(fileName: File | null) {
-        this.form().get('fileName')?.setValue(fileName);
-    }
 }
 
 export function atLeastOneRequiredValidator(field1: string, field2: string): ValidatorFn {

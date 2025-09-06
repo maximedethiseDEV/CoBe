@@ -22,6 +22,8 @@ public interface CompanyMapper {
     @Mapping(source = "parentId", target = "parent", qualifiedByName = "mapCompanyIdToCompany")
     Company toEntity(PostCompanyDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "addressId", target = "address", qualifiedByName = "mapAddressIdToAddress")
+    @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
+    @Mapping(source = "parentId", target = "parent", qualifiedByName = "mapCompanyIdToCompany")
     void updateCompanyFromDto(PostCompanyDto dto, @MappingTarget Company company);
 }

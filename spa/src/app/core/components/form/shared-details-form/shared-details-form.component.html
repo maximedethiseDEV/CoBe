@@ -28,7 +28,6 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">Pièce jointe</label>
         <app-file-uploader
             formControlName="fileName"
-            (fileSelected)="onAttachmentSelected($event)"
             [allowedTypes]="['application/pdf', 'image/png', 'image/jpeg']"
             class="col-span-2"
         ></app-file-uploader>

@@ -20,6 +20,9 @@ public interface DeliveryMapper {
     @Mapping(source = "statusId", target = "status.id")
     Delivery toEntity(PostDeliveryDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "orderId", target = "order.id")
+    @Mapping(source = "transportSupplierId", target = "transportSupplier", qualifiedByName = "mapTransportSupplierIdToTransportSupplier")
+    @Mapping(source = "deliveryOrderNumberId", target = "deliveryOrderNumber", qualifiedByName = "mapDeliveryOrderNumberIdToDeliveryOrderNumber")
+    @Mapping(source = "statusId", target = "status.id")
     void updateDeliveryFromDto(PostDeliveryDto dto, @MappingTarget Delivery entity);
 }

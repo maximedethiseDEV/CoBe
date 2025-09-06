@@ -17,6 +17,7 @@ public interface ProductMapper {
     @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     Product toEntity(PostProductDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "materialSupplierId", target = "materialSupplier.id")
+    @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     void updateProductFromDto(PostProductDto dto, @MappingTarget Product entity);
 }

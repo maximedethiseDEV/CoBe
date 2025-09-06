@@ -25,6 +25,9 @@ public interface ConstructionSiteMapper {
     @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     ConstructionSite toEntity(PostConstructionSiteDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "customerId", target = "customer", qualifiedByName = "mapCustomerIdToCustomer")
+    @Mapping(source = "addressId", target = "address", qualifiedByName = "mapAddressIdToAddress")
+    @Mapping(source = "contactId", target = "contact", qualifiedByName = "mapContactIdToContact")
+    @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     void updateConstructionSiteFromDto(PostConstructionSiteDto dto, @MappingTarget ConstructionSite entity);
 }

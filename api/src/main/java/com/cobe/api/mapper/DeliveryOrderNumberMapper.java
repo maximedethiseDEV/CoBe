@@ -24,6 +24,9 @@ public interface DeliveryOrderNumberMapper {
     @Mapping(source = "productId", target = "product.id")
     DeliveryOrderNumber toEntity(PostDeliveryOrderNumberDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "transportSupplierId", target = "transportSupplier.id")
+    @Mapping(source = "customerId", target = "customer.id")
+    @Mapping(source = "cityId", target = "city.id")
+    @Mapping(source = "productId", target = "product.id")
     void updateDeliveryOrderNumberFromDto(PostDeliveryOrderNumberDto dto, @MappingTarget DeliveryOrderNumber entity);
 }

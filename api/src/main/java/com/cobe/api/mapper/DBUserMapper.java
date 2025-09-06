@@ -18,6 +18,6 @@ public interface DBUserMapper {
     @Mapping(source = "contactId", target = "contact", qualifiedByName = "mapContactIdToContact")
     DBUser toEntity(PostDBUserDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "contactId", target = "contact", qualifiedByName = "mapContactIdToContact")
     void updateDBUserFromDto(PostDBUserDto dto, @MappingTarget DBUser entity);
 }

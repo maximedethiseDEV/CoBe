@@ -4,7 +4,6 @@ import com.cobe.api.model.dto.PostProfileDto;
 import com.cobe.api.model.dto.ProfileDto;
 import org.springframework.http.ResponseEntity;
 import com.cobe.api.service.ProfileService;
-import jakarta.annotation.security.RolesAllowed;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -25,8 +24,7 @@ public class ProfileController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProfileDto> updateCurrentUserProfile(@PathVariable("id") UUID id,
-                                                               @RequestBody PostProfileDto dto) {
+    public ResponseEntity<ProfileDto> updateCurrentUserProfile(@PathVariable("id") UUID id, @RequestBody PostProfileDto dto) {
         return ResponseEntity.ok(profileService.updateCurrentUserProfile(id, dto));
     }
 

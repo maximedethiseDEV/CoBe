@@ -22,6 +22,8 @@ public interface CustomerMapper {
     @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     Customer toEntity(PostCustomerDto dto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(source = "companyId", target = "company", qualifiedByName = "mapCompanyIdToCompany")
+    @Mapping(source = "contactId", target = "contact", qualifiedByName = "mapContactIdToContact")
+    @Mapping(source = "sharedDetailsId", target = "sharedDetails", qualifiedByName = "mapSharedDetailsIdToSharedDetails")
     void updateCustomerFromDto(PostCustomerDto dto, @MappingTarget Customer entity);
 }

@@ -11,6 +11,5 @@ public interface SharedDetailsMapper {
 
     SharedDetails toEntity(SharedDetailsDto sharedDetailsDto);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateSharedDetailsFromDto(SharedDetailsDto dto, @MappingTarget SharedDetails sharedDetails);
 }
