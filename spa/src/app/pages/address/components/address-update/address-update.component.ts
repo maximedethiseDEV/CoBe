@@ -27,9 +27,9 @@ export class AddressUpdateComponent extends BaseUpdateComponent {
 
     public generateForm(): FormGroup {
         return this.formBuilder.group({
-                id: [],
-                street: ['', Validators.required],
-                cityId: ['', Validators.required],
+            id: ['',Validators.required],
+            street: ['', Validators.required],
+            cityId: ['', Validators.required],
         });
     }
 

@@ -1,10 +1,12 @@
-import {Component, inject, Input} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Component, inject, input} from '@angular/core';
+import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {City, Country} from '@core/models';
 import {CityProvider} from '@core/providers';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {CityFormComponent} from '@core/components/form/city-form/city-form.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-city-create',
@@ -12,21 +14,23 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
-        SubmitButtonComponent
+        SubmitButtonComponent,
+        CityFormComponent,
+        HeaderFormComponent
     ],
     templateUrl: './city-create.component.html'
 })
 export class CityCreateComponent extends BaseCreateComponent {
-    @Input() countries: Country[] = [];
+    countries = input<Country[]>();
     private cityProvider: CityProvider = inject(CityProvider);
     public featurePath: string = 'cities';
     public labelHeader: string = 'Nouvelle ville';
 
-    public override generateForm(): FormGroup {
-        return new FormGroup({
-            cityName: new FormControl("",Validators.required),
-            postalCode: new FormControl("",Validators.required),
-            countryId: new FormControl("",Validators.required)
+    public generateForm(): FormGroup {
+        return this.formBuilder.group({
+            cityName: ['', Validators.required],
+            postalCode: ['', Validators.required],
+            countryId: ['', Validators.required],
         });
     }
 

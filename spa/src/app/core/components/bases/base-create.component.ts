@@ -13,7 +13,7 @@ export abstract class BaseCreateComponent {
     router: Router = inject(Router);
     messageService: MessageService = inject(MessageService);
     formBuilder = inject(FormBuilder);
-    public form: FormGroup = new FormGroup({});
+    form!: FormGroup;
     params: Params;
     queryParams: Params;
     abstract featurePath: string;

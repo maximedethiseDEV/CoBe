@@ -1,19 +1,23 @@
 import {Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {AuthenticationService} from '@core/services';
+import {LucideAngularModule} from 'lucide-angular';
+import {LucideIconsList} from '@core/lists';
 
 @Component({
     selector: 'app-register',
     imports: [
         FormsModule,
-        NgIf
+        NgIf,
+        LucideAngularModule,
+        RouterLink
     ],
-    templateUrl: './register.component.html',
-    styleUrl: './register.component.scss'
+    templateUrl: './register.component.html'
 })
 export class RegisterComponent {
+    public goHome = LucideIconsList.House;
     private router: Router = inject(Router);
     private authenticationService: AuthenticationService = inject(AuthenticationService);
     private totalSteps: number = 2;
@@ -88,5 +92,9 @@ export class RegisterComponent {
         };
 
         this.step = 1;
+    }
+
+    public goToLogin(): void {
+        this.router.navigate(['']);
     }
 }

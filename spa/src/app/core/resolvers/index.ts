@@ -10,6 +10,7 @@ export * from './delivery-order-number.resolver';
 export * from './delivery-status.resolver';
 export * from './material-supplier.resolver';
 export * from './product.resolver';
+export * from './profile.resolver'
 export * from './purchase-order.resolver';
 export * from './shared-details.resolver';
 export * from  './transport-supplier.resolver';

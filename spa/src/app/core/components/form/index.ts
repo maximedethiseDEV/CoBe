@@ -1,0 +1,7 @@
+export * from './address-form/address-form.component'
+export * from './city-form/city-form.component'
+export * from './contact-form/contact-form.component'
+export * from './header-form/header-form.component'
+export * from './section-fom/section-fom.component'
+export * from './shared-details-form/shared-details-form.component'
+export * from './submit-button/submit-button.component'

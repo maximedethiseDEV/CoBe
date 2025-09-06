@@ -12,6 +12,7 @@ export * from './delivery-order-number.provider';
 export * from './delivery-status.provider';
 export * from './material-supplier.provider';
 export * from './product.provider';
+export * from './profile.provider';
 export * from './purchase-order.provider';
 export * from './shared-details.provider';
 export * from  './transport-supplier.provider';

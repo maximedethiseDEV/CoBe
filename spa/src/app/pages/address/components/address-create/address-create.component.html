@@ -6,9 +6,6 @@
         (ngSubmit)="create()"
     >
         <app-address-form [form]="form"/>
-
-        <div class="flex justify-end">
-            <app-submit-button [disabled]="form.invalid"/>
-        </div>
+        <app-submit-button [disabled]="form.invalid"/>
     </form>
 </div>

@@ -40,7 +40,7 @@ import {
     Inbox,
     BookUser,
     Users,
-    Plus
+    Plus, House, Phone, BookmarkCheck
 } from 'lucide-angular';
 
 export const LucideIconsList = {
@@ -85,5 +85,8 @@ export const LucideIconsList = {
     Inbox,
     BookUser,
     Users,
-    Plus
+    Plus,
+    House,
+    Phone,
+    BookmarkCheck
 };

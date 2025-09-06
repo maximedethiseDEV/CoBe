@@ -15,6 +15,7 @@ import {deliveryOrderNumberRoutes} from '@pages/delivery-order-number/delivery-o
 import {purchaseOrderRoutes} from '@pages/purchase-order/purchase-order.routes';
 import {deliveryRoutes} from '@pages/delivery/delivery.routes';
 import {dbUserRoutes} from '@pages/db-user/db-user.routes';
+import {ProfileResolver} from '@core/resolvers';
 
 export const hubRoutes: Routes = [
     {
@@ -29,6 +30,14 @@ export const hubRoutes: Routes = [
                 path: '',
                 redirectTo: 'dashboard',
                 pathMatch: 'full'
+            },
+            {
+                path: 'profile',
+                title: 'Profil',
+                loadComponent: () => import('../profile/profile.component').then(component => component.ProfileComponent),
+                resolve: {
+                    profile: ProfileResolver
+                }
             },
             {
                 path: 'dashboard',
@@ -49,7 +58,7 @@ export const hubRoutes: Routes = [
             ...deliveryOrderNumberRoutes,
             ...purchaseOrderRoutes,
             ...deliveryRoutes,
-            ...dbUserRoutes
+            ...dbUserRoutes,
         ]
     }
 ];

@@ -5,6 +5,8 @@ import {BaseUpdateComponent} from '@core/components';
 import {City, Country} from '@core/models';
 import {CityProvider} from '@core/providers';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {CityFormComponent} from '@core/components/form/city-form/city-form.component';
+import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
 
 @Component({
     selector: 'app-city-update',
@@ -12,7 +14,9 @@ import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-
         ReactiveFormsModule,
         LucideAngularModule,
         FormsModule,
-        SubmitButtonComponent
+        SubmitButtonComponent,
+        CityFormComponent,
+        HeaderFormComponent
     ],
     templateUrl: './city-update.component.html'
 })
@@ -22,15 +26,14 @@ export class CityUpdateComponent extends BaseUpdateComponent {
     public featurePath: string = 'cities';
     public labelHeader: string = 'Mettre à jour la ville';
 
-    public override generateForm(): FormGroup {
-        return new FormGroup({
-            id: new FormControl(),
-            cityName: new FormControl("",Validators.required),
-            postalCode: new FormControl("",Validators.required),
-            countryId: new FormControl("",Validators.required)
+    public generateForm(): FormGroup {
+        return this.formBuilder.group({
+            id: ['',Validators.required],
+            cityName: ['', Validators.required],
+            postalCode: ['', Validators.required],
+            countryId: ['', Validators.required],
         });
     }
-
     public update(): void {
         if (this.form.valid) {
             const city: City = this.form.getRawValue();

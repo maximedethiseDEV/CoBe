@@ -11,13 +11,16 @@
 
         <form class="space-y-6" (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
             <div>
-                <label for="username" class="block text-sm/6 font-medium text-gray-900">Username</label>
+                <label for="username" class="block text-sm/6 font-medium text-gray-900">
+                    Nom d'utilisateur
+                </label>
                 <div class="mt-2">
                     <input
                         type="text"
                         name="username"
                         id="username"
                         autocomplete="username"
+                        placeholder="nom d'utilisateur"
                         required
                         [(ngModel)]="username"
                         #usernameModel="ngModel"
@@ -34,8 +37,11 @@
                     <label for="password" class="block text-sm/6 font-medium text-gray-900">Mot de passe</label>
 
                     <div class="text-sm">
-                        <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Mot de passe oublié
-                            ?</a>
+                        <a
+                            [routerLink]="['forget-password']"
+                            class="font-semibold text-indigo-600 hover:text-indigo-500">
+                            Mot de passe oublié ?
+                        </a>
                     </div>
                 </div>
 
@@ -46,6 +52,7 @@
                         id="password"
                         autocomplete="current-password"
                         required
+                        placeholder="mot de passe"
                         [(ngModel)]="password"
                         #passwordModel="ngModel"
                         class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"

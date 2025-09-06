@@ -1,15 +1,18 @@
 import {Component, inject, input, signal} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {Address, Company, SharedDetails} from '@core/models';
 import {AddressProvider, CompanyProvider, SharedDetailsProvider} from '@core/providers';
-import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
-import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {concatMap, of, forkJoin, map} from 'rxjs';
-import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
-import {SectionFomComponent} from '@core/components/form/section-fom/section-fom.component';
-import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
+import {
+    AddressFormComponent,
+    HeaderFormComponent,
+    SectionFomComponent,
+    SharedDetailsFormComponent,
+    SubmitButtonComponent
+} from '@core/components/form';
+import {SectionCreateMode} from '@core/types';
 
 @Component({
     selector: 'app-company-create',
@@ -36,22 +39,32 @@ export class CompanyCreateComponent extends BaseCreateComponent {
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
     featurePath: string = 'companies';
     labelHeader: string = 'Nouvelle entreprise';
-    sections  = {
-        parent: {key:"parent", title:"Donneur d'ordre"},
-        company: {key:"company",title:"Entreprise"},
-        address: {key:"address",title:"Adresse",addCreateButton: true},
-        sharedDetails: {key:"sharedDetails",title:"Détails",addCreateButton: true}
+    sections = {
+        parent: {key: "parent", title: "Donneur d'ordre"},
+        company: {key: "company", title: "Entreprise"},
+        address: {key: "address", title: "Adresse", addCreateButton: true},
+        sharedDetails: {key: "sharedDetails", title: "Détails", addCreateButton: true}
     };
 
-    public override generateForm(): FormGroup {
-        return new FormGroup({
-            companyName: new FormControl("",Validators.required),
-            commerciallyActive: new FormControl(true),
-            parentId: new FormControl(),
-            addressId: new FormControl(),
-            sharedDetailsId: new FormControl()
+    public generateForm(): FormGroup {
+        return this.formBuilder.group({
+            companyName: ['', Validators.required],
+            commerciallyActive: [true, Validators.required],
+            parentId: [],
+            addressId: [],
+            sharedDetailsId: [],
+            address: this.formBuilder.group({
+                street: ['', Validators.required],
+                cityId: ['', Validators.required],
+            }),
+            sharedDetails: this.formBuilder.group({
+                label: ['', Validators.required],
+                fileName: [],
+                notes: [],
+            }),
         });
     }
+
 
     public create(): void {
         const company: Company = this.form.getRawValue();
@@ -96,5 +109,34 @@ export class CompanyCreateComponent extends BaseCreateComponent {
                     console.error("Erreur lors de la création de l'entreprise:", error);
                 }
             });
+    }
+
+    onSectionCreateModeChange($event: SectionCreateMode) {
+        const {key, create} = $event;
+
+        switch (key) {
+            case 'address': {
+                if (create) {
+                    this.form.get('addressId')?.disable();
+                    this.form.get('address')?.enable();
+                    break;
+                } else {
+                    this.form.get('address')?.disable();
+                    this.form.get('addressId')?.enable();
+                    break;
+                }
+            }
+            case 'sharedDetails': {
+                if (create) {
+                    this.form.get('sharedDetailsId')?.disable();
+                    this.form.get('sharedDetails')?.enable();
+                    break;
+                } else {
+                    this.form.get('sharedDetails')?.disable();
+                    this.form.get('sharedDetailsId')?.enable();
+                    break;
+                }
+            }
+        }
     }
 }

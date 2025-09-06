@@ -1,16 +1,16 @@
-import {Component, inject, input, signal} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
-import {Address, ConstructionSite, Contact, SharedDetails, Customer, City} from '@core/models';
+import {Address, ConstructionSite, Contact, SharedDetails, Customer} from '@core/models';
 import {ConstructionSiteProvider} from '@core/providers';
-import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
-import {SectionFomComponent} from '@core/components/form/section-fom/section-fom.component';
-import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
-import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
 import {SectionCreateMode} from '@core/types';
-import {ContactFormComponent} from '@core/components/form/contact-form/contact-form.component';
-import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
+import {
+    AddressFormComponent, ContactFormComponent, HeaderFormComponent,
+    SectionFomComponent,
+    SharedDetailsFormComponent,
+    SubmitButtonComponent
+} from '@core/components/form';
 
 @Component({
     selector: 'app-construction-site-create',
@@ -50,6 +50,22 @@ export class ConstructionSiteCreateComponent extends BaseCreateComponent {
             addressId: ['', Validators.required],
             contactId: [],
             sharedDetailsId: [],
+            address: this.formBuilder.group({
+                street: ['', Validators.required],
+                cityId: ['', Validators.required],
+            }),
+            customer: this.formBuilder.group({
+                companyName: ['', Validators.required],
+                commerciallyActive: [true, Validators.required],
+                parentId: [],
+                addressId: [],
+                sharedDetailsId: [],
+            }),
+            sharedDetails: this.formBuilder.group({
+                label: ['', Validators.required],
+                fileName: [],
+                notes: [],
+            }),
         });
     }
 
@@ -77,34 +93,37 @@ export class ConstructionSiteCreateComponent extends BaseCreateComponent {
         switch (key) {
             case 'address': {
                 if(create) {
-                    this.form.removeControl('addressId');
+                    this.form.get('addressId')?.disable();
+                    this.form.get('address')?.enable();
                     break;
                 }
                 else {
-                    this.form.removeControl('address');
-                    this.form.addControl('addressId', this.formBuilder.control(null, [Validators.required]));
+                    this.form.get('address')?.disable();
+                    this.form.get('addressId')?.enable();
                     break;
                 }
             }
             case 'sharedDetails': {
                 if(create) {
-                    this.form.removeControl('sharedDetailsId');
+                    this.form.get('sharedDetailsId')?.disable();
+                    this.form.get('sharedDetails')?.enable();
                     break;
                 }
                 else {
-                    this.form.removeControl('sharedDetails');
-                    this.form.addControl('sharedDetailsId', this.formBuilder.control(null));
+                    this.form.get('sharedDetails')?.disable();
+                    this.form.get('sharedDetailsId')?.enable();
                     break;
                 }
             }
             case 'contact': {
                 if(create) {
-                    this.form.removeControl('contactId');
+                    this.form.get('contactId')?.disable();
+                    this.form.get('contact')?.enable();
                     break;
                 }
                 else {
-                    this.form.removeControl('contact');
-                    this.form.addControl('contactId', this.formBuilder.control(null));
+                    this.form.get('contact')?.disable();
+                    this.form.get('contactId')?.enable();
                     break;
                 }
             }

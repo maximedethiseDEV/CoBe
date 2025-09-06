@@ -17,7 +17,6 @@ import {
   templateUrl: './shared-details-form.component.html'
 })
 export class SharedDetailsFormComponent {
-
     form = input.required<FormGroup>();
 
     onAttachmentSelected(fileName: File | null) {

@@ -11,8 +11,7 @@ import {AuthenticationService} from '@core/services';
         NgIf,
         RouterLink
     ],
-    templateUrl: './login.component.html',
-    styleUrl: './login.component.scss'
+    templateUrl: './login.component.html'
 })
 export class LoginComponent {
     private router: Router = inject(Router);

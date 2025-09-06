@@ -1,8 +1,9 @@
-import {Component, input, output, signal} from '@angular/core';
+import {Component, inject, input, output, signal} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {LucideAngularModule} from 'lucide-angular';
 import {LucideIconsList} from '@core/lists';
 import {SectionCreateMode, SectionForm} from '@core/types';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-section-fom',
@@ -22,18 +23,16 @@ export class SectionFomComponent {
 
     toggleOpen(): void {
         this.isOpen.update((isOpen) => !isOpen);
-        if (!this.isOpen() && this.isNew()) {
-            this.isNew.set(false);
-            this.createConfig.emit({ key: this.sectionForm().key, create: false });
-        }
     }
 
     toggleCreate(): void {
         this.isNew.update((isNew) => !isNew);
-        this.createConfig.emit({ key: this.sectionForm().key, create: true });
         if (!this.isOpen()) {
             this.isOpen.update(isOpen => !isOpen);
             this.createConfig.emit({ key: this.sectionForm().key, create: true });
+        }
+        else {
+            this.createConfig.emit({ key: this.sectionForm().key, create: false });
         }
     }
 }

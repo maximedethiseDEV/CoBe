@@ -32,6 +32,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**"
                         ).permitAll()
                         .requestMatchers(
+                                "/me/**",
                                 "/construction-sites/**",
                                 "/purchase-orders/**",
                                 "/contacts/**",
