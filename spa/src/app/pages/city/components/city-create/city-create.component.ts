@@ -29,7 +29,7 @@ export class CityCreateComponent extends BaseCreateComponent {
     public generateForm(): FormGroup {
         return this.formBuilder.group({
             cityName: ['', Validators.required],
-            postalCode: ['', Validators.required],
+            postalCode: ['', [Validators.required, Validators.maxLength(5)]],
             countryId: ['', Validators.required],
         });
     }

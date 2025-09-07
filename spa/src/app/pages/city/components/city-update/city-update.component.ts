@@ -30,7 +30,7 @@ export class CityUpdateComponent extends BaseUpdateComponent {
         return this.formBuilder.group({
             id: ['',Validators.required],
             cityName: ['', Validators.required],
-            postalCode: ['', Validators.required],
+            postalCode: ['', [Validators.required, Validators.maxLength(5)]],
             countryId: ['', Validators.required],
         });
     }
