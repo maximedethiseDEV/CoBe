@@ -4,7 +4,8 @@ import {
     PurchaseOrdersResolver,
     DeliveryAllStatusResolver,
     TransportSuppliersResolver, DeliveryOrderNumbersResolver, PurchaseOrdersNoPageResolver,
-    TransportSuppliersNoPageResolver, DeliveryOrderNumbersNoPageResolver, DeliveryAllStatusNoPageResolver
+    TransportSuppliersNoPageResolver, DeliveryOrderNumbersNoPageResolver, DeliveryAllStatusNoPageResolver,
+    SharedAllDetailsNoPageResolver
 } from '@core/resolvers';
 import {DeliveryResolver} from '@core/resolvers/delivery.resolver';
 import {AuthenticationGuard} from '@core/guards';
@@ -32,7 +33,8 @@ export const deliveryRoutes: Routes = [
                     purchaseOrders: PurchaseOrdersNoPageResolver,
                     transportSuppliers: TransportSuppliersNoPageResolver,
                     deliveryOrderNumbers: DeliveryOrderNumbersNoPageResolver,
-                    deliveryStatus: DeliveryAllStatusNoPageResolver
+                    deliveryStatus: DeliveryAllStatusNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             },
             {
@@ -43,7 +45,8 @@ export const deliveryRoutes: Routes = [
                     purchaseOrders: PurchaseOrdersNoPageResolver,
                     transportSuppliers: TransportSuppliersNoPageResolver,
                     deliveryOrderNumbers: DeliveryOrderNumbersNoPageResolver,
-                    deliveryStatus: DeliveryAllStatusNoPageResolver
+                    deliveryStatus: DeliveryAllStatusNoPageResolver,
+                    sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             }
         ]

@@ -12,4 +12,6 @@ export interface TransportSupplier extends EntityModel {
         parentId: string;
 
     contactId: string;
+
+    sharedDetailsId: string;
 }

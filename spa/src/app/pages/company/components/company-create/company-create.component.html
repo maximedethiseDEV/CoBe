@@ -63,7 +63,7 @@
             (createConfig)="onSectionCreateModeChange($event)"
         >
             <ng-container slot="isNew">
-                <app-address-form [form]="form"/>
+                <app-address-form [form]="addressGroup"/>
             </ng-container>
             <ng-container slot="content">
                 <label for="address" class="block text-sm font-medium text-slate-700">
@@ -89,7 +89,7 @@
             (createConfig)="onSectionCreateModeChange($event)"
         >
             <ng-container slot="isNew">
-                <app-shared-details-form [form]="form"/>
+                <app-shared-details-form [form]="sharedDetailsGroup"/>
             </ng-container>
             <ng-container slot="content">
                 <label for="sharedDetail" class="block text-sm font-medium text-slate-700">

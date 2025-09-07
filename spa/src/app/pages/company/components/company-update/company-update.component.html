@@ -62,7 +62,7 @@
                 [sectionForm]="sections.address"
             >
                 <ng-container slot="create">
-                    <app-address-form [form]="form"/>
+                    <app-address-form [form]="addressGroup"/>
                 </ng-container>
                 <ng-container slot="content">
                     <label for="address" class="block text-sm font-medium text-slate-700">
@@ -87,7 +87,7 @@
                 [sectionForm]="sections.sharedDetails"
             >
                 <ng-container slot="create">
-                    <app-shared-details-form [form]="form"/>
+                    <app-shared-details-form [form]="sharedDetailsGroup"/>
                 </ng-container>
                 <ng-container slot="content">
                     <label for="sharedDetail" class="block text-sm font-medium text-slate-700">

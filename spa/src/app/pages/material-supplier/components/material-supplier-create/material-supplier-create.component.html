@@ -1,92 +1,102 @@
-<div class="flex-1 h-screen overflow-y-auto">
-    <div class="flex-1 px-2">
-        <div class="sm:mx-auto sm:w-full">
-            <h2 class="flex items-center justify-center gap-2 text-2xl font-bold tracking-tight text-gray-900">
-                <i-lucide [img]="iconHeader" class="size-8"></i-lucide>
-                {{ labelHeader }}
-            </h2>
-        </div>
+<app-header-form [iconHeader]="iconHeader" [labelHeader]="labelHeader"/>
+<div class="mt-6 flex-1">
+  <form [formGroup]="form" (ngSubmit)="create()">
+    <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
+      <app-section-fom [sectionForm]="sections.company">
+        <ng-container slot="content">
+          <label for="company" class="block text-sm font-medium text-slate-700">
+            Fournisseur
+          </label>
+          <select
+            id="company"
+            formControlName="companyId"
+            class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+          >
+            <option [ngValue]="null"></option>
+            @for (company of companies(); track company.id) {
+              <option [ngValue]="company.id">
+                {{ company.companyName }} {{ company.cityName }} ({{ company.postalCode }}) - {{ company.countryCode }}
+              </option>
+            }
+          </select>
+        </ng-container>
+      </app-section-fom>
 
-        <div class="mt-6 flex-1">
-            <form
-                [formGroup]="form"
-                (ngSubmit)="create()"
-            >
-                <div class="space-y-4">
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="company" class="block text-sm font-medium text-gray-700">
-                            Fournisseur
-                        </label>
-                        <select
-                            id="company"
-                            formControlName="companyId"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            @for (company of companies; track company.id) {
-                                <option [ngValue]="company.id">
-                                    {{ company.companyName }} {{ company.cityName }} ({{ company.postalCode }})
-                                    - {{ company.countryCode }}
-                                </option>
-                            }
-                        </select>
-                    </div>
+      <app-section-fom [sectionForm]="sections.address">
+        <ng-container slot="content">
+          <label for="address" class="block text-sm font-medium text-slate-700">
+            Adresse de chargement
+          </label>
+          <select
+            id="address"
+            formControlName="addressId"
+            class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+          >
+            <option [ngValue]="null"></option>
+            @for (address of addresses(); track address.id) {
+              <option [ngValue]="address.id">
+                {{ address.cityName }} ({{ address.postalCode }}) - {{ address.countryCode }}
+              </option>
+            }
+          </select>
+        </ng-container>
+      </app-section-fom>
 
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="address" class="block text-sm font-medium text-gray-700">
-                            Adresse de chargement
-                        </label>
-                        <select
-                            id="address"
-                            formControlName="addressId"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            @for (address of addresses; track address.id) {
-                                <option [ngValue]="address.id">
-                                    {{ address.cityName }} ({{ address.postalCode }}) - {{ address.countryCode }}
-                                </option>
-                            }
-                        </select>
-                    </div>
+      <app-section-fom
+        [sectionForm]="sections.contact"
+        (createConfig)="onSectionCreateModeChange($event)"
+      >
+        <ng-container slot="isNew">
+          <app-contact-form [form]="contactGroup"/>
+        </ng-container>
+        <ng-container slot="content">
+          <label for="contact" class="block text-sm font-medium text-slate-700">
+            Contact
+          </label>
+          <select
+            id="contact"
+            formControlName="contactId"
+            class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+          >
+            <option [ngValue]="null"></option>
+            @for (contact of contacts(); track contact.id) {
+              <option [ngValue]="contact.id">
+                {{ contact.firstName }} {{ contact.role }}
+              </option>
+            }
+          </select>
+        </ng-container>
+      </app-section-fom>
 
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="contact" class="block text-sm font-medium text-gray-700">
-                            Contact
-                        </label>
-                        <select
-                            id="contact"
-                            formControlName="contactId"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            @for (contact of contacts; track contact.id) {
-                                <option [ngValue]="contact.id">
-                                    {{ contact.firstName }} {{ contact.role }}
-                                </option>
-                            }
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-4">
-                        <label for="sharedDetail" class="block text-sm font-medium text-gray-700">
-                            Détails
-                        </label>
-                        <select
-                            id="sharedDetail"
-                            formControlName="sharedDetailsId"
-                            class="mt-1 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                            @for (sharedDetail of sharedDetails; track sharedDetail.id) {
-                                <option [ngValue]="sharedDetail.id">
-                                    {{ sharedDetail.fileName }} {{ sharedDetail.notes }}
-                                </option>
-                            }
-                        </select>
-                    </div>
-                </div>
-
-                <div class="flex justify-end">
-                    <app-submit-button [disabled]="form.invalid"/>
-                </div>
-            </form>
-        </div>
+      <app-section-fom
+        [sectionForm]="sections.sharedDetails"
+        (createConfig)="onSectionCreateModeChange($event)"
+      >
+        <ng-container slot="isNew">
+          <app-shared-details-form [form]="sharedDetailsGroup"/>
+        </ng-container>
+        <ng-container slot="content">
+          <label for="sharedDetail" class="block text-sm font-medium text-slate-700">
+            Détails
+          </label>
+          <select
+            id="sharedDetail"
+            formControlName="sharedDetailsId"
+            class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+          >
+            <option [ngValue]="null"></option>
+            @for (sharedDetail of sharedDetails(); track sharedDetail.id) {
+              <option [ngValue]="sharedDetail.id">
+                {{ sharedDetail.label }}
+              </option>
+            }
+          </select>
+        </ng-container>
+      </app-section-fom>
     </div>
+
+    <div class="flex justify-end">
+      <app-submit-button [disabled]="form.invalid"/>
+    </div>
+  </form>
 </div>

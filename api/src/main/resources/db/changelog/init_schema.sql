@@ -86,6 +86,7 @@ CREATE TABLE "transport_supplier"
     "license_number"        VARCHAR(255),
     "company_id"            UUID UNIQUE NOT NULL REFERENCES "company" ("id") ON DELETE CASCADE,
     "contact_id"          UUID UNIQUE REFERENCES contact (id) ON DELETE SET NULL,
+    "shared_details_id"    UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "created_date"            TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"            TIMESTAMPTZ DEFAULT NOW()
 );
@@ -182,6 +183,7 @@ CREATE TABLE "delivery"
     "order_id"                 UUID NOT NULL REFERENCES "purchase_order" ("id") ON DELETE RESTRICT,
     "transport_supplier_id"    UUID REFERENCES "transport_supplier" ("id") ON DELETE SET NULL,
     "delivery_order_number_id" UUID  REFERENCES "delivery_order_number" ("id") ON DELETE SET NULL,
+    "shared_details_id"   UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "status_id"                UUID NOT NULL REFERENCES "delivery_status" ("id"),
     "created_date"               TIMESTAMPTZ DEFAULT NOW(),
     "last_modified_date"               TIMESTAMPTZ DEFAULT NOW()

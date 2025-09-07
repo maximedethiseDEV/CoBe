@@ -16,5 +16,7 @@ public class TransportSupplierDto extends AbstractDto {
 
     private UUID contactId;
 
+    private UUID sharedDetailsId;
+
     private String license;
 }

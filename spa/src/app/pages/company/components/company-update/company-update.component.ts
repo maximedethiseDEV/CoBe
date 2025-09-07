@@ -1,5 +1,5 @@
-import {Component, inject, input, Input, signal} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Component, inject, input} from '@angular/core';
+import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseUpdateComponent} from '@core/components';
 import {Address, Company, SharedDetails} from '@core/models';
@@ -8,8 +8,9 @@ import {SectionFomComponent} from '@core/components/form/section-fom/section-fom
 import {AddressFormComponent} from '@core/components/form/address-form/address-form.component';
 import {SharedDetailsFormComponent} from '@core/components/form/shared-details-form/shared-details-form.component';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
-import {concatMap, forkJoin, map, of} from 'rxjs';
 import {HeaderFormComponent} from '@core/components/form/header-form/header-form.component';
+import {forkJoin, of} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
     selector: 'app-company-update',
@@ -29,73 +30,131 @@ export class CompanyUpdateComponent extends BaseUpdateComponent {
     addresses = input<Address[]>();
     sharedDetails = input<SharedDetails[]>();
     companies = input<Company[]>();
-    formAddress = signal<FormGroup>(new FormGroup({}));
-    formSharedDetails = signal<FormGroup>(new FormGroup({}));
+
     private companyProvider: CompanyProvider = inject(CompanyProvider);
     private addressProvider: AddressProvider = inject(AddressProvider);
     private sharedDetailsProvider: SharedDetailsProvider = inject(SharedDetailsProvider);
+
     public featurePath: string = 'companies';
     public labelHeader: string = 'Mettre à jour l\'entreprise';
+
     sections  = {
         parent: {key:"parent", title:"Donneur d'ordre"},
-        company: {key:"company",title:"Entreprise"},
-        address: {key:"address",title:"Adresse",addCreateButton: true},
-        sharedDetails: {key:"sharedDetails",title:"Détails",addCreateButton: true}
+        company: {key:"company", title:"Entreprise"},
+        address: {key:"address", title:"Adresse", addCreateButton: true},
+        sharedDetails: {key:"sharedDetails", title:"Détails", addCreateButton: true}
     };
 
     public override generateForm(): FormGroup {
-        return new FormGroup({
-            id: new FormControl(),
-            companyName: new FormControl("",Validators.required),
-            commerciallyActive: new FormControl(true),
-            parentId: new FormControl(),
-            addressId: new FormControl(),
-            sharedDetailsId: new FormControl()
+        const form = this.formBuilder.group({
+            id: [],
+            companyName: ['', Validators.required],
+            commerciallyActive: [true, Validators.required],
+            parentId: [],
+            addressId: [],
+            sharedDetailsId: [],
+            address: this.formBuilder.group({
+                street: ['', Validators.required],
+                cityId: ['', Validators.required],
+            }),
+            sharedDetails: this.formBuilder.group({
+                label: ['', Validators.required],
+                fileName: [],
+                notes: [],
+            }),
         });
+
+        form.get('address')?.disable({ emitEvent: false });
+        form.get('sharedDetails')?.disable({ emitEvent: false });
+
+        return form;
     }
 
     public update(): void {
-        const company: Company = this.form.getRawValue();
-        const address: Address = this.formAddress().getRawValue();
-        const sharedDetailsForm = this.formSharedDetails().getRawValue();
+        const createAddress = this.form.get('address')?.enabled && this.form.get('address')?.valid;
+        const createShared = this.form.get('sharedDetails')?.enabled && this.form.get('sharedDetails')?.valid;
 
-        const sharedDetailsFormData = new FormData();
-        if (sharedDetailsForm.fileName) sharedDetailsFormData.append('file', sharedDetailsForm.fileName);
-        if (sharedDetailsForm.notes) sharedDetailsFormData.append('notes', sharedDetailsForm.notes);
+        const address$ = createAddress ? this.addressProvider.create(this.form.get('address')!.getRawValue()) : of(null);
+        const shared$  = createShared  ? this.sharedDetailsProvider.create(this.form.get('sharedDetails')!.getRawValue()) : of(null);
 
-        const addressId$ = this.sections.address
-            ? this.addressProvider.create(address).pipe(
-                map((r: any) => r?.id as string ?? '')
-            )
-            : of(this.form.get('addressId')?.value ?? '');
-
-        const sharedDetailsId$ = this.sections.sharedDetails
-            ? this.sharedDetailsProvider.createMultipart(sharedDetailsFormData).pipe(
-                map((r: any) => r?.id as string ?? '')
-            )
-            : of('');
-
-        forkJoin([addressId$, sharedDetailsId$])
-            .pipe(
-                concatMap(([resolvedAddressId, resolvedSharedDetailsId]) => {
-                    company.addressId = resolvedAddressId || '';
-                    company.sharedDetailsId = resolvedSharedDetailsId || '';
-                    return this.companyProvider.create(company);
+        forkJoin([address$, shared$]).pipe(
+                switchMap(([address, shared]) => {
+                    const payload: Partial<Company> = {
+                        id: this.form.value.id,
+                        companyName: this.form.value.companyName!,
+                        commerciallyActive: this.form.value.commerciallyActive,
+                        parentId: this.form.value.parentId,
+                        addressId: address?.id ?? this.form.value.addressId,
+                        sharedDetailsId: shared?.id ?? this.form.value.sharedDetailsId
+                    };
+                    return this.companyProvider.update(payload);
                 })
-            )
-            .subscribe({
-                next: () => {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Enregistré',
-                        detail: 'Entreprise enregistrée',
-                        life: 2000
+        ).subscribe({
+            next: () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Enregistré',
+                    detail: 'Entreprise mise à jour',
+                    life: 2000
+                });
+                this.back();
+            },
+            error: (error: Error) => {
+                console.error("Erreur lors de la mise à jour de l'entreprise:", error);
+            }
+        });
+    }
+
+    onSectionCreateModeChange($event: { key: string; create: boolean }) {
+        const { key, create } = $event;
+
+        const toggle = (idCtrlPath: string, groupPath: string, requiredOnGroup: boolean) => {
+            const idCtrl = this.form.get(idCtrlPath);
+            const grp = this.form.get(groupPath) as FormGroup;
+            if (!idCtrl || !grp) return;
+
+            if (create) {
+                idCtrl.clearValidators();
+                idCtrl.setValue(null);
+                idCtrl.disable({ emitEvent: false });
+                idCtrl.updateValueAndValidity({ emitEvent: false });
+
+                grp.enable({ emitEvent: false });
+                if (requiredOnGroup) {
+                    Object.values(grp.controls).forEach(c => {
+                        c.addValidators(Validators.required);
+                        c.updateValueAndValidity({ emitEvent: false });
                     });
-                    this.back();
-                },
-                error: (error: Error) => {
-                    console.error("Erreur lors de la création de l'entreprise:", error);
                 }
-            });
+                grp.updateValueAndValidity({ emitEvent: false });
+            } else {
+                grp.disable({ emitEvent: false });
+                grp.reset({}, { emitEvent: false });
+                grp.updateValueAndValidity({ emitEvent: false });
+                idCtrl.clearValidators();
+                idCtrl.enable({ emitEvent: false });
+                idCtrl.updateValueAndValidity({ emitEvent: false });
+            }
+
+            this.form.updateValueAndValidity();
+        };
+
+        switch (key) {
+            case 'address': {
+                toggle('addressId', 'address', true);
+                break;
+            }
+            case 'sharedDetails': {
+                toggle('sharedDetailsId', 'sharedDetails', true);
+                break;
+            }
+        }
+    }
+
+    get addressGroup(): FormGroup {
+        return this.form.get('address') as FormGroup;
+    }
+    get sharedDetailsGroup(): FormGroup {
+        return this.form.get('sharedDetails') as FormGroup;
     }
 }

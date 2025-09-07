@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 import {
     AddressesNoPageResolver,
     AddressesResolver, CitiesNoPageResolver,
-    CitiesResolver, CompaniesResolver, ContactsNoPageResolver, CountriesResolver,
+    CitiesResolver, CompaniesNoPageResolver, CompaniesResolver, ContactsNoPageResolver, CountriesResolver,
     SharedAllDetailsNoPageResolver, SharedAllDetailsResolver,
 } from '@core/resolvers';
 import {CompanyResolver} from '@core/resolvers/company.resolver';
@@ -30,6 +30,7 @@ export const companyRoutes: Routes = [
                 resolve: {
                     addresses: AddressesNoPageResolver,
                     cities: CitiesNoPageResolver,
+                    companies: CompaniesNoPageResolver,
                     sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             },
@@ -40,6 +41,7 @@ export const companyRoutes: Routes = [
                     entity: CompanyResolver,
                     addresses: AddressesNoPageResolver,
                     cities: CitiesNoPageResolver,
+                    companies: CompaniesNoPageResolver,
                     sharedDetails: SharedAllDetailsNoPageResolver,
                 }
             }

@@ -143,7 +143,6 @@ export class ConstructionSiteCreateComponent extends BaseCreateComponent {
                 }
                 grp.updateValueAndValidity({ emitEvent: false });
             } else {
-                // On repasse en sélection : activer l'ID (avec required si nécessaire), désactiver le groupe
                 grp.disable({ emitEvent: false });
                 (grp as FormGroup).reset({}, { emitEvent: false });
                 grp.updateValueAndValidity({ emitEvent: false });

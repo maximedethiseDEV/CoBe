@@ -11,5 +11,7 @@ public class PostTransportSupplierDto extends AbstractDto {
 
     private UUID contactId;
 
+    private UUID sharedDetailsId;
+
     private String license;
 }

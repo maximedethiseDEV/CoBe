@@ -7,26 +7,26 @@
     >
         <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
             <app-section-fom
-                [sectionForm]="sections.customer"
-            >
-                <ng-container slot="content">
-                    <label for="customer" class="block text-sm font-medium text-slate-700">
-                        Client à livrer
-                    </label>
-                    <select
-                        id="customer"
-                        formControlName="customerId"
-                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
-                    >
-                        <option [ngValue]="null"></option>
-                        @for (customer of customers(); track customer.id) {
-                            <option [ngValue]="customer.id">
-                                {{ customer.companyName }}
-                            </option>
-                        }
-                    </select>
-                </ng-container>
-            </app-section-fom>
+            [sectionForm]="sections.customer"
+        >
+            <ng-container slot="content">
+                <label for="customer" class="block text-sm font-medium text-slate-700">
+                    Client à livrer
+                </label>
+                <select
+                    id="customer"
+                    formControlName="customerId"
+                    class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                >
+                    <option [ngValue]="null"></option>
+                    @for (customer of customers(); track customer.id) {
+                        <option [ngValue]="customer.id">
+                            {{ customer.companyName }}
+                        </option>
+                    }
+                </select>
+            </ng-container>
+        </app-section-fom>
 
             <app-section-fom
                 [sectionForm]="sections.constructionSite"
@@ -89,12 +89,8 @@
             </app-section-fom>
 
             <app-section-fom
-                [sectionForm]="sections.sharedDetails"
-                (createConfig)="onSectionCreateModeChange($event)"
+                [sectionForm]="sections.schedule"
             >
-                <ng-container slot="isNew">
-                    <app-shared-details-form [form]="form"/>
-                </ng-container>
                 <ng-container slot="content">
                     <label for="requestedDeliveryBegin" class="mt-4 block text-sm font-medium text-slate-700">
                         Début de livraison souhaité <span class="text-indigo-600">*</span>
@@ -115,7 +111,17 @@
                         formControlName="requestedDeliveryEnd"
                         class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
                     >
+                </ng-container>
+            </app-section-fom>
 
+            <app-section-fom
+                [sectionForm]="sections.sharedDetails"
+                (createConfig)="onSectionCreateModeChange($event)"
+            >
+                <ng-container slot="isNew">
+                    <app-shared-details-form [form]="form"/>
+                </ng-container>
+                <ng-container slot="content">
                     <label for="sharedDetail" class="block text-sm font-medium text-slate-700">
                         Détails
                     </label>

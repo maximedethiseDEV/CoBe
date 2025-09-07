@@ -21,7 +21,7 @@
                         <option [ngValue]="null"></option>
                         @for (purchaseOrder of purchaseOrders(); track purchaseOrder.id) {
                             <option [ngValue]="purchaseOrder.id">
-                                {{ purchaseOrder.code }} - {{ purchaseOrder.customerName }} - {{ purchaseOrder.constructionSiteCityName }}
+                                [{{ purchaseOrder.id }}] {{ purchaseOrder.code }} - {{ purchaseOrder.customerName }} - {{ purchaseOrder.constructionSiteCityName }}
                             </option>
                         }
                     </select>
@@ -44,8 +44,7 @@
                 </ng-container>
             </app-section-fom>
 
-            <app-section-fom
-                [sectionForm]="sections.transport"
+            <app-section-fom [sectionForm]="sections.transport"
             >
                 <ng-container slot="content">
                     <label for="transportSupplier" class="block text-sm font-medium text-slate-700">
@@ -82,10 +81,7 @@
                 </ng-container>
             </app-section-fom>
 
-            <app-section-fom
-                [sectionForm]="sections.sharedDetails"
-                (createConfig)="onSectionCreateModeChange($event)"
-            >
+            <app-section-fom [sectionForm]="sections.schedule">
                 <ng-container slot="content">
                     <label for="actualDeliveryBegin" class="block text-sm font-medium text-slate-700">
                         Début de livraison <span class="text-indigo-600">*</span>
@@ -122,6 +118,32 @@
                     @if (form.get('quantity')?.invalid && (form.get('quantity')?.touched || form.get('quantity')?.dirty)) {
                         <p class="mt-1 text-xs text-rose-600">Champ requis</p>
                     }
+                </ng-container>
+            </app-section-fom>
+
+            <app-section-fom
+                [sectionForm]="sections.sharedDetails"
+                (createConfig)="onSectionCreateModeChange($event)"
+            >
+                <ng-container slot="isNew">
+                    <app-shared-details-form [form]="form"/>
+                </ng-container>
+                <ng-container slot="content">
+                    <label for="sharedDetail" class="block text-sm font-medium text-slate-700">
+                        Détails
+                    </label>
+                    <select
+                        id="sharedDetail"
+                        formControlName="sharedDetailsId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (sharedDetail of sharedDetails(); track sharedDetail.id) {
+                            <option [ngValue]="sharedDetail.id">
+                                {{ sharedDetail.fileName}} {{ sharedDetail.notes}}
+                            </option>
+                        }
+                    </select>
                 </ng-container>
             </app-section-fom>
         </div>

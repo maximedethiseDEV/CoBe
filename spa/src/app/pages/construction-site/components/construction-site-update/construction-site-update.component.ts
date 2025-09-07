@@ -126,12 +126,11 @@ export class ConstructionSiteUpdateComponent extends BaseUpdateComponent {
 
         const toggle = (idCtrlPath: string, groupPath: string, requiredOnGroup: boolean) => {
             const idCtrl = this.form.get(idCtrlPath);
-            const grp = this.form.get(groupPath);
+            const grp = this.form.get(groupPath) as FormGroup;
 
             if (!idCtrl || !grp) return;
 
             if (create) {
-                // Sélection -> Création
                 idCtrl.clearValidators();
                 idCtrl.setValue(null);
                 idCtrl.disable({ emitEvent: false });
@@ -139,23 +138,17 @@ export class ConstructionSiteUpdateComponent extends BaseUpdateComponent {
 
                 grp.enable({ emitEvent: false });
                 if (requiredOnGroup) {
-                    Object.values((grp as FormGroup).controls).forEach(c => {
+                    Object.values(grp.controls).forEach(c => {
                         c.addValidators(Validators.required);
                         c.updateValueAndValidity({ emitEvent: false });
                     });
                 }
-                (grp as FormGroup).updateValueAndValidity({ emitEvent: false });
+                grp.updateValueAndValidity({ emitEvent: false });
             } else {
-                // Création -> Sélection
-                (grp as FormGroup).disable({ emitEvent: false });
-                (grp as FormGroup).reset({}, { emitEvent: false });
-                (grp as FormGroup).updateValueAndValidity({ emitEvent: false });
-
-                if (idCtrlPath === 'addressId' || idCtrlPath === 'customerId') {
-                    idCtrl.setValidators([Validators.required]);
-                } else {
-                    idCtrl.clearValidators();
-                }
+                grp.disable({ emitEvent: false });
+                grp.reset({}, { emitEvent: false });
+                grp.updateValueAndValidity({ emitEvent: false });
+                idCtrl.clearValidators();
                 idCtrl.enable({ emitEvent: false });
                 idCtrl.updateValueAndValidity({ emitEvent: false });
             }
@@ -170,7 +163,6 @@ export class ConstructionSiteUpdateComponent extends BaseUpdateComponent {
         }
     }
 
-    // Getters pour les sous-groupes
     get addressGroup(): FormGroup {
         return this.form.get('address') as FormGroup;
     }

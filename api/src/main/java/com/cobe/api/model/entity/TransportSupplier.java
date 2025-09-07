@@ -19,4 +19,8 @@ public class TransportSupplier extends AbstractEntity {
 
     @Column(name = "license_number")
     private String license;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shared_details_id")
+    private SharedDetails sharedDetails;
 }

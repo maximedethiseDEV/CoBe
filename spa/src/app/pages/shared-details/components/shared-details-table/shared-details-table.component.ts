@@ -19,10 +19,17 @@ export class SharedDetailsTableComponent extends BaseTableComponent<SharedDetail
     public labelHeader: string = 'Liste des détails';
     public iconHeader = LucideIconsList.PackageSearch;
     public filterFields: string[] = [
+        'label',
         'fileName',
         'notes'
     ];
     public tableColumns: TableColumn[] = [
+        {
+            key: 'label',
+            type:'text',
+            translate: 'Etiquette',
+            sort: true
+        },
         {
             key: 'fileName',
             type:'text',

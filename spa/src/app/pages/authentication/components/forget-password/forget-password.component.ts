@@ -3,6 +3,7 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {Router, RouterLink} from '@angular/router';
 import {LucideAngularModule} from 'lucide-angular';
 import {LucideIconsList} from '@core/lists';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-forget-password',
@@ -10,7 +11,8 @@ import {LucideIconsList} from '@core/lists';
         FormsModule,
         ReactiveFormsModule,
         LucideAngularModule,
-        RouterLink
+        RouterLink,
+        NgIf
     ],
   templateUrl: './forget-password.component.html'
 })

@@ -1,10 +1,10 @@
-import {Component, inject, input, signal} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseCreateComponent} from '@core/components';
 import {Address, Company, SharedDetails} from '@core/models';
 import {AddressProvider, CompanyProvider, SharedDetailsProvider} from '@core/providers';
-import {concatMap, of, forkJoin, map} from 'rxjs';
+import {forkJoin, of} from 'rxjs';
 import {
     AddressFormComponent,
     HeaderFormComponent,
@@ -51,7 +51,7 @@ export class CompanyCreateComponent extends BaseCreateComponent {
             commerciallyActive: [true, Validators.required],
             parentId: [],
             addressId: [], // pas required: l'adresse est optionnelle côté back
-            sharedDetailsId: [], // optionnel aussi
+            sharedDetailsId: [],
             address: this.formBuilder.group({
                 street: ['', Validators.required],
                 cityId: ['', Validators.required],
@@ -63,7 +63,7 @@ export class CompanyCreateComponent extends BaseCreateComponent {
             }),
         });
 
-        // Désactiver par défaut les sous-formulaires de création
+        // Désactiver les sous-formulaires (mode sélection par défaut)
         form.get('address')?.disable({ emitEvent: false });
         form.get('sharedDetails')?.disable({ emitEvent: false });
 
@@ -79,61 +79,47 @@ export class CompanyCreateComponent extends BaseCreateComponent {
             return;
         }
 
-        // Déterminer si on crée les sous-entités
         const addressGroup = this.form.get('address') as FormGroup;
         const sharedGroup = this.form.get('sharedDetails') as FormGroup;
 
         const createAddress = addressGroup?.enabled && addressGroup.valid;
         const createShared = sharedGroup?.enabled && sharedGroup.valid;
 
-        // Construire FormData pour sharedDetails si fichier présent
-        let sharedFormData: FormData | null = null;
-        if (createShared) {
-            const s = sharedGroup.getRawValue();
-            sharedFormData = new FormData();
-            if (s.fileName) sharedFormData.append('file', s.fileName);
-            if (s.notes) sharedFormData.append('notes', s.notes);
-            if (s.label) sharedFormData.append('label', s.label);
-        }
+        const address$ = createAddress
+            ? this.addressProvider.create(addressGroup.getRawValue())
+            : of(null);
 
-        const addressId$ = createAddress
-            ? this.addressProvider.create(addressGroup.getRawValue()).pipe(map((r: any) => r?.id ?? null))
-            : of(this.form.value.addressId ?? null);
+        const sharedDetails$ = createShared
+            ? this.sharedDetailsProvider.create(sharedGroup.getRawValue())
+            : of(null);
 
-        const sharedDetailsId$ = createShared
-            ? this.sharedDetailsProvider.createMultipart(sharedFormData as FormData).pipe(map((r: any) => r?.id ?? null))
-            : of(this.form.value.sharedDetailsId ?? null);
-
-        forkJoin({
-            addressId: addressId$,
-            sharedDetailsId: sharedDetailsId$
-        })
-        .pipe(
-            switchMap(({ addressId, sharedDetailsId }) => {
-                const payload: Partial<Company> = {
-                    companyName: this.form.value.companyName!,
-                    commerciallyActive: this.form.value.commerciallyActive!,
-                    parentId: this.form.value.parentId ?? null,
-                    addressId: addressId ?? null,
-                    sharedDetailsId: sharedDetailsId ?? null
-                };
-                return this.companyProvider.create(payload as Company);
-            })
-        )
-        .subscribe({
-            next: () => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Enregistré',
-                    detail: 'Entreprise enregistrée',
-                    life: 2000
-                });
-                this.back();
-            },
-            error: (error: Error) => {
-                console.error("Erreur lors de la création de l'entreprise:", error);
-            }
-        });
+        forkJoin([address$, sharedDetails$])
+            .pipe(
+                switchMap(([address, shared]) => {
+                    const payload: Partial<Company> = {
+                        companyName: this.form.value.companyName!,
+                        commerciallyActive: this.form.value.commerciallyActive!,
+                        parentId: this.form.value.parentId ?? null,
+                        addressId: address?.id ?? this.form.value.addressId ?? null,
+                        sharedDetailsId: shared?.id ?? this.form.value.sharedDetailsId ?? null
+                    };
+                    return this.companyProvider.create(payload as Company);
+                })
+            )
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Enregistré',
+                        detail: 'Entreprise enregistrée',
+                        life: 2000
+                    });
+                    this.back();
+                },
+                error: (error: Error) => {
+                    console.error("Erreur lors de la création de l'entreprise:", error);
+                }
+            });
     }
 
     onSectionCreateModeChange($event: SectionCreateMode) {
@@ -146,25 +132,26 @@ export class CompanyCreateComponent extends BaseCreateComponent {
             if (!idCtrl || !grp) return;
 
             if (create) {
-                // Passer en mode création
+                // Passage en mode création
                 idCtrl.setValue(null, { emitEvent: false });
                 idCtrl.clearValidators();
                 idCtrl.disable({ emitEvent: false });
+                idCtrl.updateValueAndValidity({ emitEvent: false });
 
                 grp.enable({ emitEvent: false });
                 if (requiredOnGroup) {
                     Object.values(grp.controls).forEach(c => {
-                        // réapplique required si pertinent
                         c.addValidators(Validators.required);
                         c.updateValueAndValidity({ emitEvent: false });
                     });
                 }
             } else {
-                // Revenir en sélection
+                // Retour en mode sélection
                 grp.disable({ emitEvent: false });
                 grp.reset({}, { emitEvent: false });
+                grp.updateValueAndValidity({ emitEvent: false });
 
-                // addressId/sharedDetailsId ne sont pas required pour Company, on nettoie seulement
+                // Pour Company, addressId/sharedDetailsId ne sont pas requis : pas de re-validators
                 idCtrl.clearValidators();
                 idCtrl.enable({ emitEvent: false });
                 idCtrl.updateValueAndValidity({ emitEvent: false });
@@ -183,5 +170,11 @@ export class CompanyCreateComponent extends BaseCreateComponent {
                 break;
             }
         }
+    }
+    get addressGroup(): FormGroup {
+        return this.form.get('address') as FormGroup;
+    }
+    get sharedDetailsGroup(): FormGroup {
+        return this.form.get('sharedDetails') as FormGroup;
     }
 }

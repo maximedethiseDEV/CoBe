@@ -14,6 +14,8 @@ public class PostDeliveryDto extends AbstractDto {
 
     private UUID deliveryOrderNumberId;
 
+    private UUID sharedDetailsId;
+
     private UUID statusId;
 
     private Integer quantity;

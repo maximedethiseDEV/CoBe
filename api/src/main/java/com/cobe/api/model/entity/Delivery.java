@@ -3,6 +3,8 @@ package com.cobe.api.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
 
@@ -22,6 +24,11 @@ public class Delivery extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_order_number_id")
     private DeliveryOrderNumber deliveryOrderNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shared_details_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private SharedDetails sharedDetails;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id", nullable = false)
