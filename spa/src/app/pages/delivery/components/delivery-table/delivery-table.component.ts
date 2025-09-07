@@ -94,7 +94,7 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
         this.deliveryProvider.sendEmail(id).subscribe({
             next: () => {
                 this.messageService.add({
-                    severity: 'success',
+                    severity: 'info',
                     summary: 'Envoyé',
                     detail: 'Livraison envoyé au transporteur',
                     life: 2000

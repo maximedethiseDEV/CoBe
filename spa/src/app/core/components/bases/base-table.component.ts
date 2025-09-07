@@ -42,12 +42,31 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
     public loading: boolean = true;
     protected tableActions: string[] = ['create', 'update', 'delete', 'send'];
 
+    // Pagination
     protected itemsPerPage: number = 100;
+
+    // Filtres par colonne (clé de colonne -> valeur de filtre)
+    public filters: Record<string, any> = {};
+
+    // Tri
+    public sortKey?: string;
+    public sortDir: 'asc' | 'desc' | null = null;
+
+    // Sélection d'une seule ligne
+    public selectedEntity: T | null = null;
+
+    // Ancien champ de recherche global (non utilisé mais conservé pour compat)
     protected searchTerm: string = '';
 
     constructor() {}
 
     ngOnInit(): void {
+        // Initialiser les filtres pour chaque colonne
+        this.tableColumns?.forEach(col => {
+            if (!(col.key in this.filters)) {
+                this.filters[col.key] = '';
+            }
+        });
         if (this.sseChannel) {
             this.setupSseConnection(this.sseChannel);
         }
@@ -60,27 +79,93 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
         this.subscriptionCollection.unsubscribe();
     }
 
+    // Applique les filtres par colonne
     get filteredData(): T[] {
-        if (!this.searchTerm) {
+        const activeFilters = Object.entries(this.filters).filter(([_, v]) => v !== '' && v !== null && v !== undefined);
+        if (activeFilters.length === 0) {
             return this.entities;
         }
 
-        return this.entities.filter(entity => {
-            return this.filterFields.some(field => {
-                const value = this.getNestedValue(entity, field);
-                return value?.toString().toLowerCase().includes(this.searchTerm.toLowerCase());
+        return this.entities.filter((entity: T) => {
+            return activeFilters.every(([key, rawVal]) => {
+                const column = this.tableColumns.find(c => c.key === key);
+                const value = this.getNestedValue(entity, key);
+                if (!column) return true;
+                if (rawVal === '' || rawVal === null || rawVal === undefined) return true;
+
+                switch (column.type) {
+                    case 'text':
+                    case 'uuid': {
+                        const valStr = (value ?? '').toString().toLowerCase();
+                        return valStr.includes((rawVal ?? '').toString().toLowerCase());
+                    }
+                    case 'number': {
+                        if (rawVal === '') return true;
+                        const n = Number(rawVal);
+                        if (isNaN(n)) return true;
+                        return Number(value) === n;
+                    }
+                    case 'date': {
+                        if (!rawVal) return true;
+                        try {
+                            const filterDate = new Date(rawVal);
+                            const cellDate = value ? new Date(value) : null;
+                            if (!cellDate) return false;
+                            return cellDate.toDateString() === filterDate.toDateString();
+                        } catch {
+                            return true;
+                        }
+                    }
+                    case 'boolean': {
+                        if (rawVal === '') return true;
+                        const boolVal = rawVal === true || rawVal === 'true';
+                        return (!!value) === boolVal;
+                    }
+                    default:
+                        return (value ?? '').toString().toLowerCase().includes((rawVal ?? '').toString().toLowerCase());
+                }
             });
+        });
+    }
+
+    // Trie les données filtrées si nécessaire
+    get sortedData(): T[] {
+        if (!this.sortKey || !this.sortDir) return [...this.filteredData];
+        const key = this.sortKey;
+        const dir = this.sortDir === 'asc' ? 1 : -1;
+        const column = this.tableColumns.find(c => c.key === key);
+        return [...this.filteredData].sort((a: T, b: T) => {
+            const va = this.getNestedValue(a, key);
+            const vb = this.getNestedValue(b, key);
+            let comp = 0;
+            switch (column?.type) {
+                case 'number':
+                    comp = (Number(va) || 0) - (Number(vb) || 0);
+                    break;
+                case 'date':
+                    comp = (va ? new Date(va).getTime() : 0) - (vb ? new Date(vb).getTime() : 0);
+                    break;
+                case 'boolean':
+                    comp = (va ? 1 : 0) - (vb ? 1 : 0);
+                    break;
+                default: {
+                    const sa = (va ?? '').toString().toLowerCase();
+                    const sb = (vb ?? '').toString().toLowerCase();
+                    comp = sa.localeCompare(sb);
+                }
+            }
+            return comp * dir;
         });
     }
 
     get paginatedData(): T[] {
         const startIndex = (this.currentPage - 1) * this.itemsPerPage;
         const endIndex = startIndex + this.itemsPerPage;
-        return this.filteredData.slice(startIndex, endIndex);
+        return this.sortedData.slice(startIndex, endIndex);
     }
 
     get totalPages(): number {
-        return Math.ceil(this.filteredData.length / this.itemsPerPage);
+        return Math.ceil(this.sortedData.length / this.itemsPerPage);
     }
 
     get startIndex(): number {
@@ -137,6 +222,31 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
                 rows: this.itemsPerPage
             });
         }
+    }
+
+    public toggleSort(column: TableColumn): void {
+        if (!column.sort) return;
+        if (this.sortKey !== column.key) {
+            this.sortKey = column.key;
+            this.sortDir = 'asc';
+        } else {
+            this.sortDir = this.sortDir === 'asc' ? 'desc' : (this.sortDir === 'desc' ? null : 'asc');
+            if (this.sortDir === null) this.sortKey = undefined;
+        }
+        this.currentPage = 1;
+    }
+
+    public onFilterChange(): void {
+        // Lors d'une modification de filtre, on revient à la première page
+        this.currentPage = 1;
+    }
+
+    public selectRow(entity: T): void {
+        this.selectedEntity = this.selectedEntity === entity ? null : entity;
+    }
+
+    public hasSelection(): boolean {
+        return !!this.selectedEntity;
     }
 
     public getVisiblePages(): number[] {
@@ -202,7 +312,7 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
                 this.removeEntity(id);
                 this.totalElements = this.entities.length;
                 this.messageService.add({
-                    severity: 'success',
+                    severity: 'warn',
                     summary: 'Supprimé',
                     detail: 'Données supprimées.',
                     life: 2000
