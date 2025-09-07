@@ -1,6 +1,8 @@
+export type TableColumnType = 'text' | 'date' | 'boolean' | 'number' | 'uuid';
+
 export type TableColumn = {
     key: string;
-    type: string;
+    type: TableColumnType;
     translate: string;
-    sort?: boolean
+    sort?: boolean;
 };

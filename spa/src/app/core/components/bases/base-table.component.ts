@@ -103,12 +103,23 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
     public getColumnValue(entity: T, column: TableColumn): string {
         const value = this.getNestedValue(entity, column.key);
 
-        // Tu peux ajouter ici des formatters selon le type de colonne
-        if (column.type === 'date' && value) {
-            return new Date(value).toLocaleDateString('fr-FR');
+        switch (column.type) {
+            case 'date':
+                return value ? new Date(value).toLocaleDateString('fr-FR') : '';
+            case 'boolean': {
+                const isTrue = !!value;
+                // Icône Lucide (check) si vrai, sinon vide
+                return isTrue
+                    ? '<span title="Oui" class="inline-flex items-center text-emerald-600"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg></span>'
+                    : '';
+            }
+            case 'text':
+                return (value?.toString() ?? '').toUpperCase();
+            case 'number':
+                return typeof value === 'number' ? value.toString() : (value?.toString() ?? '');
+            default:
+                return value?.toString() || '';
         }
-
-        return value?.toString() || '';
     }
 
 
@@ -190,9 +201,20 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
             next: () => {
                 this.removeEntity(id);
                 this.totalElements = this.entities.length;
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Supprimé',
+                    detail: 'Données supprimées.',
+                    life: 2000
+                });
             },
-            error: (error: Error) => {
-                console.error('Impossible de supprimer les données :', error);
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Echec',
+                    detail: 'Impossible de supprimer les données.',
+                    life: 2000
+                });
             }
         });
     }

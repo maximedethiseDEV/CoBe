@@ -33,13 +33,13 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
     public tableColumns: TableColumn[] = [
         {
             key: 'actualDeliveryBegin',
-            type:'text',
+            type:'date',
             translate: 'Début de livraison',
             sort: true
         },
         {
             key: 'actualDeliveryEnd',
-            type:'text',
+            type:'date',
             translate: 'Fin de livraison',
             sort: true
         },
@@ -57,19 +57,19 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
         },
         {
             key: 'orderId',
-            type:'text',
+            type:'uuid',
             translate: 'Numéro de commande',
             sort: true
         },
         {
             key: 'transportSupplierId',
-            type:'text',
+            type:'uuid',
             translate: 'Transporteur',
             sort: true
         },
         {
             key: 'deliveryOrderNumberId',
-            type:'text',
+            type:'uuid',
             translate: 'Numéro de chargement',
             sort: true
         }
