@@ -93,12 +93,15 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
         const id = (entity as EntityModel).id;
         this.deliveryProvider.sendEmail(id).subscribe({
             next: () => {
-                // TODO: afficher un toast de succès si vous avez un service de notification
-                // this.toast.success('Email envoyé');
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Envoyé',
+                    detail: 'Livraison envoyé au transporteur',
+                    life: 2000
+                });
             },
             error: (error: Error) => {
-                console.error('Impossible d\'envoyer l\'email :', error);
-                // TODO: afficher un toast d'erreur
+                console.error("Erreur lors de l'envoi au transporteur:", error);
             }
         });
     }

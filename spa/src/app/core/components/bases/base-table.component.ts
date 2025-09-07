@@ -7,11 +7,13 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {LucideIconsList} from '@core/lists';
 import {LucideIconData} from 'lucide-angular';
 import {Observable} from 'rxjs';
+import {MessageService} from 'primeng/api';
 
 @Component({
     template: ''
 })
 export abstract class BaseTableComponent<T extends EntityModel = EntityModel> implements OnInit, OnDestroy {
+    messageService: MessageService = inject(MessageService);
     public readonly createIcon: any = LucideIconsList.Plus;
     public readonly refreshIcon: any = LucideIconsList.RefreshCcw;
     public readonly filterIcon: any = LucideIconsList.ChevronsUpDown;
