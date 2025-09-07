@@ -43,4 +43,8 @@ export class DeliveryProvider {
     public delete(id: string): Observable<any> {
         return this.http.delete(`${environment.url.api}/deliveries/${id}`);
     }
- }
+
+    public sendEmail(id: string): Observable<void> {
+        return this.http.post<void>(`${environment.url.api}/deliveries/send-mail/${id}`, {});
+    }
+}

@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {DeliveryProvider} from '@core/providers';
-import {Delivery} from '@core/models';
+import {Delivery, EntityModel} from '@core/models';
 import {TableColumn} from '@core/types';
 import {LucideAngularModule} from 'lucide-angular';
 import {BaseTableComponent} from '@core/components';
@@ -12,12 +12,14 @@ import {Observable} from 'rxjs';
     imports: [
         LucideAngularModule
     ],
-    templateUrl: '../../../../core/layouts/table.component.html'
+    templateUrl: './delivery-table.component.html'
 })
 export class DeliveryTableComponent extends BaseTableComponent<Delivery> implements OnInit {
     private deliveryProvider: DeliveryProvider = inject(DeliveryProvider);
-    public labelHeader: string = 'Liste des livraisons';
-    public iconHeader = LucideIconsList.PackageCheck;
+    public readonly labelHeader: string = 'Liste des livraisons';
+    public readonly iconHeader = LucideIconsList.PackageCheck;
+    public readonly sendIcon: any = LucideIconsList.Mail;
+
     public filterFields: string[] = [
         'actualDeliveryBegin',
         'actualDeliveryEnd',
@@ -27,6 +29,7 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
         'transportSupplierId',
         'deliveryOrderNumberId',
     ];
+
     public tableColumns: TableColumn[] = [
         {
             key: 'actualDeliveryBegin',
@@ -72,6 +75,11 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
         }
     ];
 
+    override ngOnInit(): void {
+        this['tableActions'] = ['create', 'send', 'update', 'delete'];
+        super.ngOnInit();
+    }
+
     protected fetchAll(): Observable<Delivery[]> {
         return this.deliveryProvider.getAllNoPage();
     }
@@ -80,4 +88,18 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
         return this.deliveryProvider.delete(id);
     }
 
+    // Implémentation locale et explicite de l'action "Envoyer"
+    public sendEntity(entity: Delivery): void {
+        const id = (entity as EntityModel).id;
+        this.deliveryProvider.sendEmail(id).subscribe({
+            next: () => {
+                // TODO: afficher un toast de succès si vous avez un service de notification
+                // this.toast.success('Email envoyé');
+            },
+            error: (error: Error) => {
+                console.error('Impossible d\'envoyer l\'email :', error);
+                // TODO: afficher un toast d'erreur
+            }
+        });
+    }
 }

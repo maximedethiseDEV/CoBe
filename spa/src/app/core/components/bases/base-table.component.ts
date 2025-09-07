@@ -38,7 +38,7 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
     public totalElements: number = 0;
     public currentPage: number = 1;
     public loading: boolean = true;
-    protected tableActions: string[] = ['create', 'update', 'delete'];
+    protected tableActions: string[] = ['create', 'update', 'delete', 'send'];
 
     protected itemsPerPage: number = 100;
     protected searchTerm: string = '';
@@ -90,7 +90,7 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
     }
 
     // Méthodes publiques
-    public hasTableAction(action: 'create' | 'update' | 'delete'): boolean {
+    public hasTableAction(action: 'create' | 'update' | 'delete' | 'send'): boolean {
         return this.tableActions.includes(action);
     }
 
@@ -119,7 +119,6 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
     public goToPage(page: number): void {
         if (page >= 1 && page <= this.totalPages) {
             this.currentPage = page;
-            // Trigger onPageChange for compatibility with original component
             this.onPageChange({
                 first: (page - 1) * this.itemsPerPage,
                 rows: this.itemsPerPage

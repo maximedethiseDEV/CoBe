@@ -5,13 +5,17 @@ import {BaseUpdateComponent} from '@core/components';
 import {Country} from '@core/models';
 import {CountryProvider} from '@core/providers';
 import {SubmitButtonComponent} from '@core/components/form/submit-button/submit-button.component';
+import {CountryFormComponent} from '@core/components/form/country-form/country-form.component';
+import {HeaderFormComponent} from '@core/components/form';
 
 @Component({
     selector: 'app-country-update',
     imports: [
         ReactiveFormsModule,
         LucideAngularModule,
-        SubmitButtonComponent
+        SubmitButtonComponent,
+        CountryFormComponent,
+        HeaderFormComponent
     ],
     templateUrl: './country-update.component.html'
 })
@@ -21,32 +25,30 @@ export class CountryUpdateComponent extends BaseUpdateComponent {
     public labelHeader: string = 'Mettre à jour le pays';
 
     public override generateForm(): FormGroup {
-        return new FormGroup({
-            id: new FormControl(),
-            countryName: new FormControl('', [Validators.required, Validators.maxLength(200)]),
-            countryCode: new FormControl('', [Validators.required, Validators.maxLength(3)])
+        return this.formBuilder.group({
+            id: [],
+            countryName: ['', [Validators.required,Validators.maxLength(200)]],
+            countryCode: ['', [Validators.required,Validators.maxLength(2)]],
         });
     }
 
     public update(): void {
-        if (this.form.valid) {
-            const country: Country = this.form.getRawValue();
+        const country: Country = this.form.getRawValue();
 
-            this.countryProvider.update(country).subscribe({
-                next: () => {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Mis à jour',
-                        detail: 'Pays mis à jour',
-                        life: 2000
-                    });
+        this.countryProvider.update(country).subscribe({
+            next: () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Mis à jour',
+                    detail: 'Pays mis à jour',
+                    life: 2000
+                });
 
-                    this.back();
-                },
-                error: (error: Error) => {
-                    console.error('Erreur lors de la mise à jour du pays:', error);
-                }
-            });
-        }
+                this.back();
+            },
+            error: (error: Error) => {
+                console.error('Erreur lors de la mise à jour du pays:', error);
+            }
+        });
     }
 }

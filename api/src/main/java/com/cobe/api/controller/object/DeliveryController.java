@@ -33,7 +33,7 @@ public class DeliveryController extends AbstractCrudController<Delivery, Deliver
         return service;
     }
 
-    @PostMapping("/mail/{id}")
+    @PostMapping("/send-mail/{id}")
     public ResponseEntity<Void> sendTest(@PathVariable UUID id) throws Exception {
         service.sendMailDelivery(id);
         return ResponseEntity.accepted().build();
