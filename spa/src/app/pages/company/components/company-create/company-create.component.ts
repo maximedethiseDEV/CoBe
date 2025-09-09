@@ -49,8 +49,10 @@ export class CompanyCreateComponent extends BaseCreateComponent {
         const form = this.formBuilder.group({
             companyName: ['', Validators.required],
             commerciallyActive: [true, Validators.required],
+            codeAS400: ['',[Validators.required, Validators.maxLength(4)]],
+            codeSAP: ['',Validators.required, Validators.maxLength(10)],
             parentId: [],
-            addressId: [], // pas required: l'adresse est optionnelle côté back
+            addressId: [],
             sharedDetailsId: [],
             address: this.formBuilder.group({
                 street: ['', Validators.required],
@@ -85,13 +87,9 @@ export class CompanyCreateComponent extends BaseCreateComponent {
         const createAddress = addressGroup?.enabled && addressGroup.valid;
         const createShared = sharedGroup?.enabled && sharedGroup.valid;
 
-        const address$ = createAddress
-            ? this.addressProvider.create(addressGroup.getRawValue())
-            : of(null);
+        const address$ = createAddress ? this.addressProvider.create(addressGroup.getRawValue()) : of(null);
 
-        const sharedDetails$ = createShared
-            ? this.sharedDetailsProvider.create(sharedGroup.getRawValue())
-            : of(null);
+        const sharedDetails$ = createShared ? this.sharedDetailsProvider.create(sharedGroup.getRawValue()) : of(null);
 
         forkJoin([address$, sharedDetails$])
             .pipe(
@@ -99,6 +97,8 @@ export class CompanyCreateComponent extends BaseCreateComponent {
                     const payload: Partial<Company> = {
                         companyName: this.form.value.companyName!,
                         commerciallyActive: this.form.value.commerciallyActive!,
+                        codeAS400: this.form.value.codeAS400,
+                        codeSAP: this.form.value.codeSAP,
                         parentId: this.form.value.parentId ?? null,
                         addressId: address?.id ?? this.form.value.addressId ?? null,
                         sharedDetailsId: shared?.id ?? this.form.value.sharedDetailsId ?? null

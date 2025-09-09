@@ -101,7 +101,12 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
                 });
             },
             error: (error: Error) => {
-                console.error("Erreur lors de l'envoi au transporteur:", error);
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Echec',
+                    detail: 'Echec de l\'envoi du mail',
+                    life: 2000
+                });
             }
         });
     }

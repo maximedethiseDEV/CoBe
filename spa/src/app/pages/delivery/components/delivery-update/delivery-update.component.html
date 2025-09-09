@@ -21,7 +21,7 @@
                         <option [ngValue]="null"></option>
                         @for (purchaseOrder of purchaseOrders(); track purchaseOrder.id) {
                             <option [ngValue]="purchaseOrder.id">
-                                [{{ purchaseOrder.id }}] {{ purchaseOrder.code }} - {{ purchaseOrder.customerName }} - {{ purchaseOrder.constructionSiteCityName }}
+                                [{{ purchaseOrder.id }}] {{ purchaseOrder.codeAS400 }} - {{ purchaseOrder.customerName }} - {{ purchaseOrder.constructionSiteCityName }}
                             </option>
                         }
                     </select>

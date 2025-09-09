@@ -69,6 +69,8 @@ CREATE TABLE "company"
 (
     "id"          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     "name"                VARCHAR(255) NOT NULL,
+    "code_as400"         VARCHAR(4) UNIQUE NOT NULL,
+    "code_sap"         VARCHAR(10) UNIQUE NOT NULL,
     "commercially_active" BOOLEAN      NOT NULL,
     "parent_id"           UUID REFERENCES company (id) ON DELETE SET NULL,
     "address_id"          UUID         UNIQUE REFERENCES "address" ("id") ON DELETE SET NULL,
@@ -132,8 +134,12 @@ CREATE TABLE "construction_site"
 CREATE TABLE "product"
 (
     "id"           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "code"         VARCHAR(4) UNIQUE NOT NULL,
-    "name"         VARCHAR(100) NOT NULL,
+    "code_as400"         VARCHAR(4) UNIQUE NOT NULL,
+    "code_sap"         VARCHAR(18) UNIQUE,
+    "name_short"         VARCHAR(10) NOT NULL,
+    "name_long"         VARCHAR(255) NOT NULL,
+    "category"          VARCHAR(7) NOT NULL,
+    "is_valid"          BOOLEAN DEFAULT TRUE NOT NULL,
     "material_supplier_id" UUID REFERENCES "material_supplier" ("id") ON DELETE SET NULL,
     "shared_details_id"    UUID REFERENCES "shared_details" ("id") ON DELETE SET NULL,
     "created_date"           TIMESTAMPTZ DEFAULT NOW(),

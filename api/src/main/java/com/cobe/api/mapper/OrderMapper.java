@@ -17,8 +17,8 @@ public interface OrderMapper {
     @Mapping(source = "constructionSite.address.city.postalCode", target = "constructionSitePostalCode")
     @Mapping(source = "constructionSite.address.city.country.countryCode", target = "constructionSiteCountryCode")
     @Mapping(source = "product.id", target = "productId")
-    @Mapping(source = "product.code", target = "code")
-    @Mapping(source = "product.name", target = "name")
+    @Mapping(source = "product.codeAS400", target = "codeAS400")
+    @Mapping(source = "product.nameShort", target = "name")
     @Mapping(source = "product.materialSupplier.company.companyName", target = "materialSupplierName")
     @Mapping(source = "sharedDetails.id", target = "sharedDetailsId")
     OrderDto toDto(Order entity);

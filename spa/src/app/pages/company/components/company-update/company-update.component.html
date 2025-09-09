@@ -44,6 +44,27 @@
                     @if (form.get('companyName')?.invalid && (form.get('companyName')?.touched || form.get('companyName')?.dirty)) {
                         <p class="mt-1 text-xs text-rose-600">Champ requis</p>
                     }
+
+                    <label for="codeAS400" class="mt-4 block text-sm font-medium text-slate-700">
+                        Code AS400*
+                    </label>
+                    <input
+                        id="codeAS400"
+                        type="text"
+                        formControlName="codeAS400"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+
+                    <label for="codeSAP" class="mt-4 block text-sm font-medium text-slate-700">
+                        Code SAP*
+                    </label>
+                    <input
+                        id="codeSAP"
+                        type="text"
+                        formControlName="codeSAP"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+
                     <div class="mt-4 flex items-center gap-3">
                         <input
                             type="checkbox"

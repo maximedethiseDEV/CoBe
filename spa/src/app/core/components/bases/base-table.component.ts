@@ -14,14 +14,17 @@ import {MessageService} from 'primeng/api';
 })
 export abstract class BaseTableComponent<T extends EntityModel = EntityModel> implements OnInit, OnDestroy {
     messageService: MessageService = inject(MessageService);
-    public readonly createIcon: any = LucideIconsList.Plus;
-    public readonly refreshIcon: any = LucideIconsList.RefreshCcw;
-    public readonly filterIcon: any = LucideIconsList.ChevronsUpDown;
-    public readonly updateIcon: any = LucideIconsList.SquarePen;
-    public readonly deleteIcon: any = LucideIconsList.Trash2;
-    public readonly nextPageIcon: any = LucideIconsList.ChevronRight;
-    public readonly previousPageIcon: any = LucideIconsList.ChevronLeft;
-    public readonly emptyDataIcon: any = LucideIconsList.Inbox;
+    readonly createIcon: any = LucideIconsList.Plus;
+    readonly refreshIcon: any = LucideIconsList.RefreshCcw;
+    readonly sortAscIcon: any = LucideIconsList.ArrowDownWideNarrow;
+    readonly sortDescIcon: any = LucideIconsList.ArrowUpWideNarrow;
+    readonly filterIcon: any = LucideIconsList.ArrowDownUp;
+    readonly updateIcon: any = LucideIconsList.SquarePen;
+    readonly deleteIcon: any = LucideIconsList.Trash2;
+    readonly nextPageIcon: any = LucideIconsList.ChevronRight;
+    readonly previousPageIcon: any = LucideIconsList.ChevronLeft;
+    readonly emptyDataIcon: any = LucideIconsList.Inbox;
+    readonly iconValid: any = LucideIconsList.Check;
 
     abstract labelHeader: string;
     abstract iconHeader:LucideIconData;
@@ -42,21 +45,16 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
     public loading: boolean = true;
     protected tableActions: string[] = ['create', 'update', 'delete', 'send'];
 
-    // Pagination
     protected itemsPerPage: number = 100;
 
     // Filtres par colonne (clé de colonne -> valeur de filtre)
+    protected searchTerm: string = '';
     public filters: Record<string, any> = {};
-
-    // Tri
     public sortKey?: string;
     public sortDir: 'asc' | 'desc' | null = null;
 
-    // Sélection d'une seule ligne
     public selectedEntity: T | null = null;
 
-    // Ancien champ de recherche global (non utilisé mais conservé pour compat)
-    protected searchTerm: string = '';
 
     constructor() {}
 
@@ -194,8 +192,8 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
             case 'boolean': {
                 const isTrue = !!value;
                 // Icône Lucide (check) si vrai, sinon vide
-                return isTrue
-                    ? '<span title="Oui" class="inline-flex items-center text-emerald-600"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg></span>'
+                return isTrue ?
+                    '<i-lucide [name]="iconValid"/>'
                     : '';
             }
             case 'text':
@@ -207,6 +205,10 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
         }
     }
 
+    // Méthodes utilitaires
+    private getNestedValue(obj: any, path: string): any {
+        return path.split('.').reduce((current, key) => current?.[key], obj);
+    }
 
     public onSearch(event: Event): void {
         const target = event.target as HTMLInputElement;
@@ -279,7 +281,6 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
     protected abstract fetchAll(params?: any): Observable<T[]>;
     protected abstract deleteRequest(id: string): Observable<any>;
 
-    // Implémentation générique de chargement/suppression
     public loadEntities(params?: any): void {
         this.loading = true;
         this.fetchAll(params).subscribe({
@@ -372,8 +373,4 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
         });
     }
 
-    // Méthodes utilitaires
-    private getNestedValue(obj: any, path: string): any {
-        return path.split('.').reduce((current, key) => current?.[key], obj);
-    }
 }

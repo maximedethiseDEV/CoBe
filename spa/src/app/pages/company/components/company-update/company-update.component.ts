@@ -50,6 +50,8 @@ export class CompanyUpdateComponent extends BaseUpdateComponent {
             id: [],
             companyName: ['', Validators.required],
             commerciallyActive: [true, Validators.required],
+            codeAS400: ['',Validators.required],
+            codeSAP: ['',Validators.required],
             parentId: [],
             addressId: [],
             sharedDetailsId: [],
@@ -81,6 +83,8 @@ export class CompanyUpdateComponent extends BaseUpdateComponent {
                 switchMap(([address, shared]) => {
                     const payload: Partial<Company> = {
                         id: this.form.value.id,
+                        codeSAP: this.form.value.codeSAP,
+                        codeAS400: this.form.value.codeAS400,
                         companyName: this.form.value.companyName!,
                         commerciallyActive: this.form.value.commerciallyActive,
                         parentId: this.form.value.parentId,

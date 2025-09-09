@@ -4,6 +4,8 @@ export interface Company extends EntityModel {
     companyName: string;
     commerciallyActive: boolean;
     parentId: string;
+    codeSAP: string;
+    codeAS400: string;
 
     addressId: string;
     cityName: string;

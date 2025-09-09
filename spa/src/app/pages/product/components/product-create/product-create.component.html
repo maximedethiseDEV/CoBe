@@ -1,82 +1,92 @@
 <app-header-form [iconHeader]="iconHeader" [labelHeader]="labelHeader"/>
 
 <div class="mt-6 flex-1">
-  <form [formGroup]="form" (ngSubmit)="create()">
-    <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
-      <app-section-fom [sectionForm]="sections.product">
-        <ng-container slot="content">
-          <label for="name" class="block text-sm font-medium text-slate-700">
-            Nom <span class="text-indigo-600">*</span>
-          </label>
-          <input
-            id="name"
-            type="text"
-            formControlName="name"
-            class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
-          >
+    <form [formGroup]="form" (ngSubmit)="create()">
+        <div class="border border-slate-200 divide-y divide-slate-200 rounded-none">
+            <app-section-fom [sectionForm]="sections.product">
+                <ng-container slot="content">
+                    <label for="nameShort" class="block text-sm font-medium text-slate-700">
+                        Nom raccourci <span class="text-indigo-600">*</span>
+                    </label>
+                    <input
+                        id="nameShort"
+                        type="text"
+                        formControlName="nameShort"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
 
-          <label for="code" class="mt-4 block text-sm font-medium text-slate-700">
-            Code <span class="text-indigo-600">*</span>
-          </label>
-          <input
-            id="code"
-            type="text"
-            formControlName="code"
-            class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
-          >
-        </ng-container>
-      </app-section-fom>
+                    <label for="codeAS400" class="mt-4 block text-sm font-medium text-slate-700">
+                        Code AS400 <span class="text-indigo-600">*</span>
+                    </label>
+                    <input
+                        id="codeAS400"
+                        type="text"
+                        formControlName="codeAS400"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
 
-      <app-section-fom [sectionForm]="sections.materialSupplier">
-        <ng-container slot="content">
-          <label for="materialSupplier" class="block text-sm font-medium text-slate-700">
-            Fournisseur <span class="text-indigo-600">*</span>
-          </label>
-          <select
-            id="materialSupplier"
-            formControlName="materialSupplierId"
-            class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
-          >
-            <option [ngValue]="null"></option>
-            @for (materialSupplier of materialSuppliers(); track materialSupplier.id) {
-              <option [ngValue]="materialSupplier.id">
-                {{ materialSupplier.companyName }} {{ materialSupplier.cityName }}
-                ({{ materialSupplier.postalCode }}) - {{ materialSupplier.countryCode }}
-              </option>
-            }
-          </select>
-        </ng-container>
-      </app-section-fom>
+                    <label for="codeSAP" class="mt-4 block text-sm font-medium text-slate-700">
+                        Code SAP*
+                    </label>
+                    <input
+                        id="codeSAP"
+                        type="text"
+                        formControlName="codeSAP"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                </ng-container>
+            </app-section-fom>
 
-      <app-section-fom
-        [sectionForm]="sections.sharedDetails"
-        (createConfig)="onSectionCreateModeChange($event)"
-      >
-        <ng-container slot="isNew">
-          <app-shared-details-form [form]="sharedDetailsGroup"/>
-        </ng-container>
-        <ng-container slot="content">
-          <label for="sharedDetail" class="block text-sm font-medium text-slate-700">
-            Détails
-          </label>
-          <select
-            id="sharedDetail"
-            formControlName="sharedDetailsId"
-            class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
-          >
-            <option [ngValue]="null"></option>
-            @for (sharedDetail of sharedDetails(); track sharedDetail.id) {
-              <option [ngValue]="sharedDetail.id">
-                {{ sharedDetail.label }}
-              </option>
-            }
-          </select>
-        </ng-container>
-      </app-section-fom>
-    </div>
+            <app-section-fom [sectionForm]="sections.materialSupplier">
+                <ng-container slot="content">
+                    <label for="materialSupplier" class="block text-sm font-medium text-slate-700">
+                        Fournisseur <span class="text-indigo-600">*</span>
+                    </label>
+                    <select
+                        id="materialSupplier"
+                        formControlName="materialSupplierId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (materialSupplier of materialSuppliers(); track materialSupplier.id) {
+                            <option [ngValue]="materialSupplier.id">
+                                {{ materialSupplier.companyName }} {{ materialSupplier.cityName }}
+                                ({{ materialSupplier.postalCode }}) - {{ materialSupplier.countryCode }}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-section-fom>
 
-    <div class="flex justify-end">
-      <app-submit-button [disabled]="form.invalid"/>
-    </div>
-  </form>
+            <app-section-fom
+                [sectionForm]="sections.sharedDetails"
+                (createConfig)="onSectionCreateModeChange($event)"
+            >
+                <ng-container slot="isNew">
+                    <app-shared-details-form [form]="sharedDetailsGroup"/>
+                </ng-container>
+                <ng-container slot="content">
+                    <label for="sharedDetail" class="block text-sm font-medium text-slate-700">
+                        Détails
+                    </label>
+                    <select
+                        id="sharedDetail"
+                        formControlName="sharedDetailsId"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+                        <option [ngValue]="null"></option>
+                        @for (sharedDetail of sharedDetails(); track sharedDetail.id) {
+                            <option [ngValue]="sharedDetail.id">
+                                {{ sharedDetail.label }}
+                            </option>
+                        }
+                    </select>
+                </ng-container>
+            </app-section-fom>
+        </div>
+
+        <div class="flex justify-end">
+            <app-submit-button [disabled]="form.invalid"/>
+        </div>
+    </form>
 </div>

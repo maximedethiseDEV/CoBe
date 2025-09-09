@@ -25,6 +25,8 @@ public class OrderDto extends AbstractDto {
         private String constructionSiteCountryCode;
 
     private UUID productId;
+        private String codeAS400;
+        private String codeSAP;
         private String code;
         private String name;
         private String materialSupplierName;

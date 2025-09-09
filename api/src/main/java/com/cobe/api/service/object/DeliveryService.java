@@ -18,6 +18,10 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.time.Instant;
 import java.util.UUID;
+import jakarta.persistence.EntityNotFoundException;
+import com.cobe.api.model.entity.TransportSupplier;
+import com.cobe.api.model.entity.Contact;
+import com.cobe.api.config.exception.BusinessException;
 
 @Service
 @CacheConfig(cacheNames = "deliveries")
@@ -62,16 +66,32 @@ public class DeliveryService extends AbstractCrudService<Delivery, DeliveryDto, 
         return "delivery";
     }
 
-    public void sendMailDelivery(UUID id) throws Exception {
-
+    public void sendMailDelivery(UUID id) {
         Context context = new Context();
         Delivery delivery = repository.findByIdForMail(id);
-        String emailRecipient = delivery.getTransportSupplier().getContact().getEmail();
-        String transportSupplierName = delivery.getTransportSupplier().getCompany().getCompanyName();
-        String transportSupplierLicense = delivery.getTransportSupplier().getLicense();
+
+        if (delivery == null) {
+            throw new EntityNotFoundException("Livraison introuvable");
+        }
+
+        TransportSupplier transportSupplier = delivery.getTransportSupplier();
+        if (transportSupplier == null) {
+            throw new BusinessException("Aucun transporteur associé à la livraison");
+        }
+        Contact contact = transportSupplier.getContact();
+        if (contact == null) {
+            throw new BusinessException.MissingContactException("Aucun contact défini pour le transporteur");
+        }
+        String emailRecipient = contact.getEmail();
+        if (emailRecipient == null || emailRecipient.isBlank()) {
+            throw new BusinessException("L'adresse email du contact est manquante");
+        }
+
+        String transportSupplierName = transportSupplier.getCompany().getCompanyName();
+        String transportSupplierLicense = transportSupplier.getLicense();
         String customerName = delivery.getOrder().getCustomer().getCompany().getCompanyName();
-        String productName = delivery.getOrder().getProduct().getName();
-        String productCode = delivery.getOrder().getProduct().getCode();
+        String productName = delivery.getOrder().getProduct().getNameShort();
+        String productCode = delivery.getOrder().getProduct().getCodeAS400();
         String quantity = String.valueOf(delivery.getQuantity());
         Instant actualDeliveryBegin = delivery.getActualDeliveryBegin();
         Instant actualDeliveryEnd = delivery.getActualDeliveryEnd();
@@ -108,8 +128,9 @@ public class DeliveryService extends AbstractCrudService<Delivery, DeliveryDto, 
             helper.setText(htmlBody, true);
             mailSender.send(message);
         } catch (Exception e) {
-            throw new Exception("Impossible d'envoyer l'e-mail", e);
+            throw new BusinessException.MailSendingException("Impossible d'envoyer l'e-mail", e);
         }
     }
 
+    
 }

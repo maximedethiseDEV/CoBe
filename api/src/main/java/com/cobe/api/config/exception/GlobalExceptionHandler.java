@@ -94,4 +94,24 @@ public class GlobalExceptionHandler {
                 .map(err -> err.getField() + ": " + err.getDefaultMessage())
                 .orElse("MethodArgumentNotValidException");
     }
+
+    // --- Erreurs métier (un seul fichier BusinessException) ---
+
+    // Erreur métier générique 422
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex, HttpServletRequest request) {
+        return buildErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), getRequestPath(request));
+    }
+
+    // Contact manquant 422
+    @ExceptionHandler(BusinessException.MissingContactException.class)
+    public ResponseEntity<ErrorResponse> handleMissingContact(BusinessException.MissingContactException ex, HttpServletRequest request) {
+        return buildErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage(), getRequestPath(request));
+    }
+
+    // Échec SMTP 502
+    @ExceptionHandler(BusinessException.MailSendingException.class)
+    public ResponseEntity<ErrorResponse> handleMailSending(BusinessException.MailSendingException ex, HttpServletRequest request) {
+        return buildErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage(), getRequestPath(request));
+    }
 }

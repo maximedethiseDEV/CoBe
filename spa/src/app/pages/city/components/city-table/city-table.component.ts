@@ -39,7 +39,8 @@ export class CityTableComponent extends BaseTableComponent<City> implements OnIn
         {
             key: 'countryCode',
             type:'text',
-            translate: 'Pays'
+            translate: 'Pays',
+            sort: true
         }
     ];
 

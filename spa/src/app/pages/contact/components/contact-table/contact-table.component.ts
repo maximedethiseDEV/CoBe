@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {ContactProvider} from '@core/providers';
 import {Contact} from '@core/models';
 import {TableColumn} from '@core/types';
-import {LucideAngularModule} from 'lucide-angular';
+import {ChevronDown, ChevronUp, LucideAngularModule} from 'lucide-angular';
 import {BaseTableComponent} from '@core/components';
 import {LucideIconsList} from '@core/lists';
 import {Observable} from 'rxjs';
@@ -63,4 +63,7 @@ export class ContactTableComponent extends BaseTableComponent<Contact> implement
     protected deleteRequest(id: string) {
         return this.contactProvider.delete(id);
     }
+
+    protected readonly ChevronDown = ChevronDown;
+    protected readonly ChevronUp = ChevronUp;
 }

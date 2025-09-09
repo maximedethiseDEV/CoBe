@@ -19,5 +19,5 @@ public class DeliveryOrderNumberDto extends AbstractDto {
     private String cityName;
 
     private UUID productId;
-    private String code;
+    private String codeAS400;
 }

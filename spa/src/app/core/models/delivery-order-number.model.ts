@@ -14,5 +14,5 @@ export interface DeliveryOrderNumber extends EntityModel {
     cityName: string;
 
     productId: string;
-    code: string;
+    codeAS400: string;
 }

@@ -11,11 +11,23 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "product")
 public class Product extends AbstractEntity {
 
-    @Column(name = "code", nullable = false, unique = true)
-    private String code;
+    @Column(name = "code_as400", nullable = false, unique = true)
+    private String codeAS400;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "code_sap", nullable = false, unique = true)
+    private String codeSAP;
+
+    @Column(name = "name_short", nullable = false)
+    private String nameShort;
+
+    @Column(name = "name_long", nullable = false)
+    private String nameLong;
+
+    @Column(name = "category", nullable = false)
+    private String category;
+
+    @Column(name = "is_valid", nullable = false)
+    private Boolean isValid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "material_supplier_id")

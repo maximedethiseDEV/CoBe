@@ -90,7 +90,7 @@
             <option [ngValue]="null"></option>
             @for (product of products(); track product.id) {
               <option [ngValue]="product.id">
-                {{ product.code }} - {{ product.name }}
+                {{ product.codeAS400 }} - {{ product.nameShort }}
               </option>
             }
           </select>

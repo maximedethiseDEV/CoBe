@@ -11,6 +11,9 @@ public class CompanyDto extends AbstractDto {
 
     private Boolean commerciallyActive = true;
 
+    private String codeSAP;
+    private String codeAS400;
+
     private UUID parentId;
 
     private UUID addressId;

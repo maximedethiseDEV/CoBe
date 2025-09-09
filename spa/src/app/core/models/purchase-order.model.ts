@@ -17,8 +17,12 @@ export interface PurchaseOrder extends EntityModel {
         constructionSiteCountryCode: string;
 
     productId: string;
-        code: string;
-        name: string;
+        codeAS400: string;
+        codeSAP: string;
+        nameShort: string;
+        nameLong: string;
+        category: string;
+        isValid: boolean;
         materialSupplierName: string;
 
     sharedDetailsId: string;

@@ -27,6 +27,12 @@ export class TransportSupplierTableComponent extends BaseTableComponent<Transpor
     ];
     public tableColumns: TableColumn[] = [
         {
+            key: 'codeAS400',
+            type:'text',
+            translate: 'Code AS400',
+            sort: true
+        },
+        {
             key: 'companyName',
             type:'text',
             translate: 'Nom',
@@ -36,12 +42,6 @@ export class TransportSupplierTableComponent extends BaseTableComponent<Transpor
             key: 'cityName',
             type:'text',
             translate: 'Ville',
-            sort: true
-        },
-        {
-            key: 'postalCode',
-            type:'text',
-            translate: 'Code postal',
             sort: true
         },
         {

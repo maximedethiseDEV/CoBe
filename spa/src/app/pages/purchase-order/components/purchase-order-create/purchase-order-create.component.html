@@ -78,7 +78,7 @@
                         <option [ngValue]="''"></option>
                         @for (product of products(); track product.id) {
                             <option [ngValue]="product.id">
-                                {{product.code}} - {{product.name}} ({{product.companyName}})
+                                {{product.codeAS400}} - {{product.nameShort}} ({{product.companyName}})
                             </option>
                         }
                     </select>

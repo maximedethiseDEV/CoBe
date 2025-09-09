@@ -15,7 +15,7 @@ public interface DeliveryOrderNumberMapper {
     @Mapping(source = "city.id", target = "cityId")
     @Mapping(source = "city.cityName", target = "cityName")
     @Mapping(source = "product.id", target = "productId")
-    @Mapping(source = "product.code", target = "code")
+    @Mapping(source = "product.codeAS400", target = "codeAS400")
     DeliveryOrderNumberDto toDto(DeliveryOrderNumber entity);
 
     @Mapping(source = "transportSupplierId", target = "transportSupplier.id")

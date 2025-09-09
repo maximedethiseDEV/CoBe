@@ -27,4 +27,10 @@ public class Company extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Company parent;
+
+    @Column(name = "code_as400")
+    private String codeAS400;
+
+    @Column(name = "code_sap")
+    private String codeSAP;
 }
