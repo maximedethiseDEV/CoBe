@@ -84,9 +84,28 @@
 
                             <div style="clear:both;height:24px;"></div>
 
-                            <p style="margin:0;font-size:12px;color:#6b7280;">
-                                Si vous avez des questions, n'hésitez pas à répondre à cet e-mail.
+                            <p th:if="${contactPhone != null or contactEmail != null}"
+                               style="margin:0;font-size:12px;color:#6b7280;">
+                                <span th:if="${contactPhone != null and contactEmail != null}">
+                                    Si vous avez des questions, n'hésitez pas à me contacter par téléphone au
+                                    <span th:text="${contactPhone}"></span> ou par mail à
+                                    <span th:text="${contactEmail}"></span>.
+                                </span>
+                                <span th:if="${contactPhone != null and contactEmail == null}">
+                                    Si vous avez des questions, n'hésitez pas à me contacter par téléphone au
+                                    <span th:text="${contactPhone}"></span>.
+                                </span>
+                                <span th:if="${contactEmail != null and contactPhone == null}">
+                                    Si vous avez des questions, n'hésitez pas à me contacter par mail à
+                                    <span th:text="${contactEmail}"></span>.
+                                </span>
                             </p>
+
+                            <p th:if="${contactPhone == null and contactEmail == null}"
+                               style="margin:0;font-size:12px;color:#6b7280;">
+                                N'hésitez pas à nous contacter si vous avez des questions.
+                            </p>
+
                         </td>
                     </tr>
 
