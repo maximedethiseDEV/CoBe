@@ -10,7 +10,7 @@ import lombok.Data;
 @Table(name = "city")
 public class City extends AbstractEntity {
 
-    @Column(name = "postal_code", nullable = false, unique = true)
+    @Column(name = "postal_code", nullable = false)
     private String postalCode;
 
     @Column(name = "city_name", nullable = false)

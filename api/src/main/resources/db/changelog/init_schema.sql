@@ -11,7 +11,7 @@ CREATE TABLE "country"
 CREATE TABLE "city"
 (
     "id"       UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    "postal_code"   VARCHAR(6) UNIQUE NOT NULL,
+    "postal_code"   VARCHAR(6) NOT NULL,
     "city_name"     VARCHAR(255)      NOT NULL,
     "country_id"    UUID             NOT NULL REFERENCES "country" ("id") ON DELETE RESTRICT,
     "created_date"    TIMESTAMPTZ DEFAULT NOW(),
