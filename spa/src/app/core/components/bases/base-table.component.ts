@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, inject} from '@angular/core';
+import {Component, OnDestroy, OnInit, inject, HostListener} from '@angular/core';
 import {EntityModel} from '@core/models';
 import {TableColumn} from '@core/types';
 import {SubscriptionCollection} from '@core/classes';
@@ -47,7 +47,7 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
 
     protected itemsPerPage: number = 100;
 
-    // Filtres par colonne (clé de colonne -> valeur de filtre)
+    // Filtres par colonne (clé de colonne = valeur de filtre)
     protected searchTerm: string = '';
     public filters: Record<string, any> = {};
     public sortKey?: string;
@@ -306,6 +306,7 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
         this.router.navigate(['update', (entity as EntityModel).id], { relativeTo: this.route });
     }
 
+
     public deleteEntity(entity: T): void {
         const id = (entity as EntityModel).id;
         this.deleteRequest(id).subscribe({
@@ -373,4 +374,59 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
         });
     }
 
+    @HostListener('window:keydown.n', ['$event'])
+    handleCreateShortCut(event: KeyboardEvent): void {
+            this.createEntity();
+    }
+
+    @HostListener('window:keydown.e', ['$event'])
+    handleUpdateShortcut(event: KeyboardEvent): void {
+        if (this.selectedEntity) {
+            this.updateEntity(this.selectedEntity);
+        }
+    }
+
+    @HostListener('window:keydown.d', ['$event'])
+    handleDeleteShortcut(event: KeyboardEvent): void {
+        if (this.selectedEntity) {
+            this.deleteEntity(this.selectedEntity);
+        }
+    }
+
+    @HostListener('window:keydown.r', ['$event'])
+    handleRefreshShortcut(event: KeyboardEvent): void {
+        this.refreshData()
+    }
+
+    @HostListener('window:keydown.arrowright', ['$event'])
+    handleNextPageShortcut(event: KeyboardEvent): void {
+        this.goToPage(this.currentPage + 1)
+    }
+
+    @HostListener('window:keydown.arrowleft', ['$event'])
+    handlePreviousPageShortcut(event: KeyboardEvent): void {
+        this.goToPage(this.currentPage - 1)
+    }
+
+    @HostListener('window:keydown.arrowdown', ['$event'])
+    handleNextSelection(event: KeyboardEvent): void {
+        if (!this.selectedEntity && this.paginatedData.length > 0) {
+            this.selectedEntity = this.paginatedData[0];
+        } else if (this.selectedEntity) {
+            const index = this.paginatedData.findIndex(e => e.id === this.selectedEntity?.id);
+            if (index >= 0 && index < this.paginatedData.length - 1) {
+                this.selectedEntity = this.paginatedData[index + 1];
+            }
+        }
+    }
+
+    @HostListener('window:keydown.arrowup', ['$event'])
+    handlePreviousSelection(event: KeyboardEvent): void {
+        if (this.selectedEntity) {
+            const index = this.paginatedData.findIndex(e => e.id === this.selectedEntity?.id);
+            if (index > 0) {
+                this.selectedEntity = this.paginatedData[index - 1];
+            }
+        }
+    }
 }

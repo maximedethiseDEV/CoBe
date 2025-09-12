@@ -59,10 +59,6 @@ export class AuthenticationService {
 
     public getFirstName(): string {
         const decodedToken: any = this.decodeToken();
-
-        console.log(decodedToken);
-
-
         return decodedToken?.sub || '';
     }
 

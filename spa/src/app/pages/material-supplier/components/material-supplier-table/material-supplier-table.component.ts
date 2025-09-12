@@ -33,6 +33,12 @@ export class MaterialSupplierTableComponent extends BaseTableComponent<MaterialS
             sort: true
         },
         {
+            key: 'street',
+            type:'text',
+            translate: 'Rue',
+            sort: true
+        },
+        {
             key: 'cityName',
             type:'text',
             translate: 'Ville',

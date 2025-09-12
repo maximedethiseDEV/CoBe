@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, HostListener, inject} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 import {LucideIconsList} from '@core/lists';
@@ -32,5 +32,12 @@ export abstract class BaseCreateComponent {
 
     public back(): void {
         this.router.navigate(['hub', this.featurePath], {queryParams: this.queryParams});
+    }
+
+    @HostListener('window:keydown.control.enter', ['$event'])
+    handleCtrlEnter(event: KeyboardEvent): void {
+        if (this.form.valid) {
+            this.create();
+        }
     }
 }

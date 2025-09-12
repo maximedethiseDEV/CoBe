@@ -14,6 +14,7 @@ public class MaterialSupplierDto extends AbstractDto {
     private UUID contactId;
 
     private UUID addressId;
+        private String street;
         private String cityName;
         private String postalCode;
         private String countryCode;

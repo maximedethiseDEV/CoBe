@@ -49,6 +49,9 @@ export class ProductUpdateComponent extends BaseUpdateComponent {
             codeAS400: ['', Validators.required],
             codeSAP: ['', Validators.required],
             nameShort: ['', Validators.required],
+            nameLong: ['',Validators.required],
+            category: ['', Validators.required],
+            isValid: ['', Validators.required],
             materialSupplierId: ['', Validators.required],
             sharedDetailsId: [],
             sharedDetails: this.formBuilder.group({
@@ -76,7 +79,10 @@ export class ProductUpdateComponent extends BaseUpdateComponent {
                         id: this.form.value.id,
                         codeAS400: this.form.value.codeAS400,
                         codeSAP: this.form.value.codeSAP,
-                        nameShort: this.form.value.name,
+                        nameShort: this.form.value.nameShort,
+                        category: this.form.value.category,
+                        isValid: this.form.value.isValid,
+                        nameLong: this.form.value.nameLong,
                         materialSupplierId: this.form.value.materialSupplierId,
                         sharedDetailsId: shared?.id ?? this.form.value.sharedDetailsId ?? null,
                     };

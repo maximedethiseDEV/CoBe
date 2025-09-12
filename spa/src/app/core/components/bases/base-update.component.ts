@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, HostListener, inject} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {LucideIconsList} from '@core/lists';
@@ -38,5 +38,12 @@ export abstract class BaseUpdateComponent {
 
     public back(): void {
         this.router.navigate(['hub', this.featurePath], {queryParams: this.queryParams});
+    }
+
+    @HostListener('window:keydown.control.enter', ['$event'])
+    handleCtrlEnter(event: KeyboardEvent): void {
+        if (this.form.valid) {
+            this.update();
+        }
     }
 }

@@ -25,15 +25,33 @@ export class ProductTableComponent extends BaseTableComponent<Product> implement
     ];
     public tableColumns: TableColumn[] = [
         {
-            key: 'code',
+            key: 'codeAS400',
             type:'text',
-            translate: 'Code produit',
+            translate: 'Code AS400',
             sort: true
         },
         {
-            key: 'name',
+            key: 'codeSAP',
             type:'text',
-            translate: 'Nom',
+            translate: 'Code SAP',
+            sort: true
+        },
+        {
+            key: 'nameShort',
+            type:'text',
+            translate: 'Nom Raccourci',
+            sort: true
+        },
+        {
+            key: 'nameLong',
+            type:'text',
+            translate: 'Description',
+            sort: true
+        },
+        {
+            key: 'category',
+            type:'text',
+            translate: 'Catégorie',
             sort: true
         },
         {

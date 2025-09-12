@@ -70,13 +70,13 @@ export class PurchaseOrderTableComponent extends BaseTableComponent<PurchaseOrde
             sort: true
         },
         {
-            key: 'code',
+            key: 'codeAS400',
             type:'text',
             translate: 'Code produit',
             sort: true
         },
         {
-            key: 'name',
+            key: 'nameShort',
             type:'text',
             translate: 'Produit',
             sort: true

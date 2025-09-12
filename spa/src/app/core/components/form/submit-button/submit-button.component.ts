@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, HostListener, input} from '@angular/core';
 import {LucideAngularModule, LucideIconData} from 'lucide-angular';
 import {LucideIconsList} from '@core/lists';
 

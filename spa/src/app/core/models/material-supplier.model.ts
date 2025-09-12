@@ -7,6 +7,7 @@ export interface MaterialSupplier extends EntityModel {
 
     companyId: string;
         companyName: string;
+        street: string;
         cityName: string;
         postalCode: string;
         countryCode: string;

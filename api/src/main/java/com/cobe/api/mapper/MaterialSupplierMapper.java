@@ -12,6 +12,7 @@ public interface MaterialSupplierMapper {
     @Mapping(source = "company.companyName", target = "companyName")
     @Mapping(source = "contact.id", target = "contactId")
     @Mapping(source = "address.id", target = "addressId")
+    @Mapping(source = "address.street", target = "street")
     @Mapping(source = "address.city.cityName", target = "cityName")
     @Mapping(source = "address.city.postalCode", target = "postalCode")
     @Mapping(source = "address.city.country.countryCode", target = "countryCode")

@@ -28,7 +28,7 @@ public class OrderDto extends AbstractDto {
         private String codeAS400;
         private String codeSAP;
         private String code;
-        private String name;
+        private String nameShort;
         private String materialSupplierName;
 
     private UUID sharedDetailsId;

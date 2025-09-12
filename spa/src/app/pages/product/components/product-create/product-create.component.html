@@ -6,12 +6,32 @@
             <app-section-fom [sectionForm]="sections.product">
                 <ng-container slot="content">
                     <label for="nameShort" class="block text-sm font-medium text-slate-700">
-                        Nom raccourci <span class="text-indigo-600">*</span>
+                        Nom raccourci*
                     </label>
                     <input
                         id="nameShort"
                         type="text"
                         formControlName="nameShort"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+
+                    <label for="nameLong" class="block text-sm font-medium text-slate-700">
+                        Description*
+                    </label>
+                    <input
+                        id="nameLong"
+                        type="text"
+                        formControlName="nameLong"
+                        class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
+                    >
+
+                    <label for="cateogry" class="block text-sm font-medium text-slate-700">
+                        Catégorie*
+                    </label>
+                    <input
+                        id="cateogry"
+                        type="text"
+                        formControlName="category"
                         class="mt-1 block w-full bg-white px-3 py-2 text-sm text-slate-900 border border-slate-300 outline-none focus:ring-4 focus:ring-indigo-200 focus:border-indigo-400 transition"
                     >
 

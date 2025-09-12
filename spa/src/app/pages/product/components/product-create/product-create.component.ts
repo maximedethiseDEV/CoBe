@@ -46,6 +46,8 @@ export class ProductCreateComponent extends BaseCreateComponent {
     public override generateForm(): FormGroup {
         const form = this.formBuilder.group({
             nameShort: ['', Validators.required],
+            nameLong: ['',Validators.required],
+            category: ['', Validators.required],
             codeAS400: ['', Validators.required],
             codeSAP: ['', Validators.required],
             materialSupplierId: ['', Validators.required],
@@ -74,7 +76,10 @@ export class ProductCreateComponent extends BaseCreateComponent {
                 const payload: Partial<Product> = {
                     codeAS400: this.form.value.codeAS400,
                     codeSAP: this.form.value.codeSAP,
-                    nameShort: this.form.value.name,
+                    nameShort: this.form.value.nameShort,
+                    nameLong: this.form.value.nameLong,
+                    category: this.form.value.category,
+                    isValid: true,
                     materialSupplierId: this.form.value.materialSupplierId,
                     sharedDetailsId: shared?.id ?? this.form.value.sharedDetailsId ?? null,
                 };

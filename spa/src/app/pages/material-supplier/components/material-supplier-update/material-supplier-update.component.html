@@ -35,7 +35,7 @@
                         <option [ngValue]="null"></option>
                         @for (address of addresses(); track address.id) {
                             <option [ngValue]="address.id">
-                                {{ address.cityName }} ({{ address.postalCode }}) - {{ address.countryCode }}
+                                {{ address.street }} {{ address.cityName }} ({{ address.postalCode }}) - {{ address.countryCode }}
                             </option>
                         }
                     </select>

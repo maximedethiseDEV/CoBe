@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, HostListener, inject, OnInit} from '@angular/core';
 import {DeliveryProvider} from '@core/providers';
 import {Delivery, EntityModel} from '@core/models';
 import {TableColumn} from '@core/types';
@@ -109,5 +109,12 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
                 });
             }
         });
+    }
+
+    @HostListener('window:keydown.s', ['$event'])
+    handleSendShortcut(event: KeyboardEvent): void {
+        if (this.selectedEntity) {
+            this.sendEntity(this.selectedEntity);
+        }
     }
 }
