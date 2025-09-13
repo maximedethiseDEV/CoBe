@@ -27,7 +27,7 @@ export class LoginComponent {
 
         this.authenticationService.login(this.username, this.password).subscribe({
             next: () => {
-                this.router.navigate(['hub', 'dashboard']);
+                this.router.navigate(['hub', 'profile']);
             },
             error: (error: any) => {
                 this.errorMessage = error.error?.message || 'Nom d\'utilisateur ou mot de passe incorrect.';

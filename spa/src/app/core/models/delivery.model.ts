@@ -10,6 +10,7 @@ export interface Delivery extends EntityModel {
     orderId: string;
 
     transportSupplierId: string;
+        transportSupplierName: string;
 
     sharedDetailsId: string;
 

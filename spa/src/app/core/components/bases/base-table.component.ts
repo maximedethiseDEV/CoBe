@@ -55,9 +55,6 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
 
     public selectedEntity: T | null = null;
 
-
-    constructor() {}
-
     ngOnInit(): void {
         // Initialiser les filtres pour chaque colonne
         this.tableColumns?.forEach(col => {
@@ -374,26 +371,26 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
         });
     }
 
-    @HostListener('window:keydown.n', ['$event'])
+    @HostListener('window:keydown.control.n', ['$event'])
     handleCreateShortCut(event: KeyboardEvent): void {
             this.createEntity();
     }
 
-    @HostListener('window:keydown.e', ['$event'])
+    @HostListener('window:keydown.control.e', ['$event'])
     handleUpdateShortcut(event: KeyboardEvent): void {
         if (this.selectedEntity) {
             this.updateEntity(this.selectedEntity);
         }
     }
 
-    @HostListener('window:keydown.d', ['$event'])
+    @HostListener('window:keydown.control.d', ['$event'])
     handleDeleteShortcut(event: KeyboardEvent): void {
         if (this.selectedEntity) {
             this.deleteEntity(this.selectedEntity);
         }
     }
 
-    @HostListener('window:keydown.r', ['$event'])
+    @HostListener('window:keydown.control.r', ['$event'])
     handleRefreshShortcut(event: KeyboardEvent): void {
         this.refreshData()
     }
@@ -428,5 +425,10 @@ export abstract class BaseTableComponent<T extends EntityModel = EntityModel> im
                 this.selectedEntity = this.paginatedData[index - 1];
             }
         }
+    }
+
+    @HostListener('window:keydown.escape', ['$event'])
+    handleEscapeSelection(event: KeyboardEvent): void {
+        this.selectedEntity = null;
     }
 }

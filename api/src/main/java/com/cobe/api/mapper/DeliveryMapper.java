@@ -10,6 +10,7 @@ public interface DeliveryMapper {
 
     @Mapping(source = "order.id", target = "orderId")
     @Mapping(source = "transportSupplier.id", target = "transportSupplierId")
+    @Mapping(source = "transportSupplier.company.companyName", target = "transportSupplierName")
     @Mapping(source = "deliveryOrderNumber.id", target = "deliveryOrderNumberId")
     @Mapping(source = "sharedDetails.id", target = "sharedDetailsId")
     @Mapping(source = "status.id", target = "statusId")

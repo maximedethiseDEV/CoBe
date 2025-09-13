@@ -111,7 +111,7 @@ export class DeliveryTableComponent extends BaseTableComponent<Delivery> impleme
         });
     }
 
-    @HostListener('window:keydown.s', ['$event'])
+    @HostListener('window:keydown.control.s', ['$event'])
     handleSendShortcut(event: KeyboardEvent): void {
         if (this.selectedEntity) {
             this.sendEntity(this.selectedEntity);

@@ -11,6 +11,7 @@ public class DeliveryDto extends AbstractDto {
     private UUID orderId;
 
     private UUID transportSupplierId;
+        private String transportSupplierName;
 
     private UUID deliveryOrderNumberId;
 

@@ -40,6 +40,10 @@ export class DeliveryProvider {
         );
     }
 
+    public assignTransportSupplier(id: string, transportSupplierId: string): Observable<void> {
+        return this.http.put<void>(`${environment.url.api}/deliveries/${id}/${transportSupplierId}`, null);
+    }
+
     public delete(id: string): Observable<any> {
         return this.http.delete(`${environment.url.api}/deliveries/${id}`);
     }

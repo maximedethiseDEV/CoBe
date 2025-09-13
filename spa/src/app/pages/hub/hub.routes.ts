@@ -15,7 +15,8 @@ import {deliveryOrderNumberRoutes} from '@pages/delivery-order-number/delivery-o
 import {purchaseOrderRoutes} from '@pages/purchase-order/purchase-order.routes';
 import {deliveryRoutes} from '@pages/delivery/delivery.routes';
 import {dbUserRoutes} from '@pages/db-user/db-user.routes';
-import {ProfileResolver} from '@core/resolvers';
+import {ProfileResolver, DeliveriesNoPageResolver, TransportSuppliersNoPageResolver} from '@core/resolvers';
+import {scheduleRoutes} from '@pages/schedule/schedule.routes';
 
 export const hubRoutes: Routes = [
     {
@@ -28,7 +29,7 @@ export const hubRoutes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'dashboard',
+                redirectTo: 'profile',
                 pathMatch: 'full'
             },
             {
@@ -59,6 +60,7 @@ export const hubRoutes: Routes = [
             ...purchaseOrderRoutes,
             ...deliveryRoutes,
             ...dbUserRoutes,
+            ...scheduleRoutes,
         ]
     }
 ];

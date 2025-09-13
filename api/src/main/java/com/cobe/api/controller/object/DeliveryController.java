@@ -41,4 +41,10 @@ public class DeliveryController extends AbstractCrudController<Delivery, Deliver
         deliveryMailService.sendMailDelivery(id);
         return ResponseEntity.accepted().build();
     }
+
+    @PutMapping("/{id}/{transportSupplierId}")
+    public ResponseEntity<Void> assignTransportSupplier(@PathVariable UUID id, @PathVariable UUID transportSupplierId) {
+        service.assignTransportSupplier(id, transportSupplierId);
+        return ResponseEntity.noContent().build();
+    }
 }

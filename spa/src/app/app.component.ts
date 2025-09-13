@@ -8,8 +8,7 @@ import {Toast} from 'primeng/toast';
         RouterOutlet,
         Toast,
     ],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+    templateUrl: './app.component.html'
 })
 export class AppComponent {
 
